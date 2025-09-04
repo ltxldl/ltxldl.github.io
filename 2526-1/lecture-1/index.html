@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Interactive PDF Slideshow</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --accent:#7c3aed; --muted:#9aa4b2; --glass: rgba(255,255,255,0.03);
+      --radius:14px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#071026 0%, #081426 60%);color:#e6eef6}
+    .app{display:flex;height:100vh;gap:18px;padding:18px;box-sizing:border-box}
+
+    /* sidebar */
+    .sidebar{width:300px;background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:0 6px 20px rgba(2,6,23,0.6);flex-shrink:0;transition:all .3s}
+    .sidebar.hidden{display:none;}
+    .brand{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#0ea5a0);display:flex;align-items:center;justify-content:center;font-weight:700}
+    .brand h1{font-size:16px;margin:0}
+    .list{margin-top:8px;max-height:58vh;overflow:auto;padding-right:8px}
+    .pdf-item{padding:10px;border-radius:10px;cursor:pointer;margin-bottom:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);}
+    .pdf-item.active{background:linear-gradient(90deg, rgba(124,58,237,0.12), rgba(14,165,160,0.06));box-shadow:0 6px 18px rgba(12,18,32,0.6)}
+    .controls{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+    .btn{background:var(--glass);border:none;padding:10px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#06b6d4);color:white}
+    .small{padding:8px}
+
+    /* main view */
+    .main{flex:1;display:flex;flex-direction:column;gap:12px}
+    .stage{flex:1;background:rgba(255,255,255,0.02);border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .slide-canvas{max-width:calc(100% - 120px);max-height:calc(100% - 80px);box-shadow:0 10px 30px rgba(2,6,23,0.6);border-radius:8px;background:white}
+    .nav-left,.nav-right{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.35);width:56px;height:56px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+    .nav-left{left:18px}
+    .nav-right{right:18px}
+    .footer{display:flex;align-items:center;gap:12px;justify-content:space-between}
+
+    /* overlay panels */
+    .panel{position:fixed;right:18px;bottom:18px;width:720px;max-width:calc(100% - 40px);height:56vh;background:var(--card);border-radius:12px;padding:12px;box-shadow:0 12px 40px rgba(2,8,26,0.6);display:flex;flex-direction:column;transform:translateY(20px);transition:all .28s ease;z-index:9999}
+    .panel.hidden{opacity:0;pointer-events:none;transform:translateY(40px) scale(.98)}
+    .panel .header{display:flex;align-items:center;justify-content:space-between}
+    .editor-area{flex:1;display:flex;gap:8px;margin-top:8px}
+    #editor{flex:1;border-radius:8px;overflow:hidden}
+    .output{width:250px;background:#02111a;border-radius:8px;padding:8px;overflow:auto}
+
+    .webview {
+    position:absolute;
+    inset:0;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.05);
+    display:none;
+    z-index:5; /* dưới các nút điều hướng */
+  }
+  .webview iframe {
+    width:100%;
+    height:100%;
+    border:0;
+    border-radius:10px;
+  }
+  .webview.visible{display:block}
+
+  /* popup center cho editor + inference */
+  .panel{
+    position:fixed;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:720px;
+    max-width:90%;
+    max-height:80vh;
+    background:var(--card);
+    border-radius:12px;
+    padding:12px;
+    box-shadow:0 12px 40px rgba(2,8,26,0.6);
+    display:flex;
+    flex-direction:column;
+    z-index:9999;
+    transition:all .28s ease;
+  }
+  .panel.hidden{opacity:0;pointer-events:none;transform:translate(-50%,-40%) scale(.96)}
+
+  /* code output scrollable */
+  .output{
+    width:250px;
+    background:#02111a;
+    border-radius:8px;
+    padding:8px;
+    overflow-y:auto;
+    overflow-x:hidden;
+  }
+
+  /* fullscreen slide lớn hơn nhưng vẫn thấy nút */
+  .stage:fullscreen .slide-canvas {
+    max-width:95%;
+    max-height:95%;
+  }
+  .stage:fullscreen .nav-left,
+  .stage:fullscreen .nav-right {
+    z-index:10;
+  }
+
+    /* responsive */
+    @media (max-width:980px){.sidebar{display:none}.panel{right:12px;left:12px;width:auto}}
+
+    /* small helpers */
+    .muted{color:var(--muted);font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand"><div class="logo">P</div><div><h1>PDF Presenter</h1><div class="muted">Beautiful, modern, GitHub Pages friendly</div></div></div>
+
+      <div class="controls">
+        <button id="toggleSidebar" class="btn small"><i class="fa-solid fa-bars"></i></button>
+        <button id="toggle-webview" class="btn small"><i class="fa-solid fa-arrow-up-right-from-square"></i> Webview</button>
+        <button id="toggle-editor" class="btn small"><i class="fa-solid fa-code"></i> Code</button>
+        <button id="toggle-infer" class="btn small"><i class="fa-solid fa-robot"></i> Inference</button>
+        <button id="fit" class="btn small">Fit</button>
+      </div>
+
+      <h3 style="margin-top:12px;margin-bottom:6px">PDFs</h3>
+      <div class="list" id="pdfListContainer"></div>
+
+      <div style="margin-top:12px;display:flex;gap:8px;align-items:center;justify-content:space-between">
+        <div class="muted">Usage</div>
+        <div class="muted">← → to navigate</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="stage" id="stage">
+        <div id="webview" class="webview"><iframe id="webframe" sandbox="allow-same-origin allow-scripts allow-forms allow-modals"></iframe></div>
+
+        <canvas id="pdf-canvas" class="slide-canvas"></canvas>
+
+        <div class="nav-left" id="prevBtn" title="Previous"><i class="fa-solid fa-chevron-left" style="font-size:18px;color:white"></i></div>
+        <div class="nav-right" id="nextBtn" title="Next"><i class="fa-solid fa-chevron-right" style="font-size:18px;color:white"></i></div>
+      </div>
+
+      <div class="footer">
+        <div class="muted" id="pageIndicator">No PDF loaded</div>
+        <div style="display:flex;gap:8px">
+          <button id="downloadPdf" class="btn">Download</button>
+          <button id="presentBtn" class="btn primary">Open presentation (index.html)</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- overlay panels -->
+  <div id="editorPanel" class="panel hidden">
+    <div class="header"><div><strong>Code Runner (Python)</strong><div class="muted">Powered by Pyodide</div></div><div><button id="closeEditor" class="btn small">Close</button></div></div>
+    <div class="editor-area">
+      <div id="editor"># Write Python code here\nprint("Hello from Pyodide")</div>
+      <div class="output"><strong>Output</strong><pre id="consoleOut" style="white-space:pre-wrap;font-family:monospace;margin-top:6px"></pre></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:8px"><button id="runCode" class="btn primary">Run</button><button id="clearOutput" class="btn">Clear</button></div>
+  </div>
+
+  <div id="inferencePanel" class="panel hidden">
+    <div class="header"><div><strong>AI Inference</strong><div class="muted">Hỏi đáp về bài học</div></div><div><button id="closeInference" class="btn small">Close</button></div></div>
+    <textarea id="inferenceInput" style="flex:1;height:120px;margin-top:8px"></textarea>
+    <button id="askAI" class="btn primary" style="margin-top:8px">Ask</button>
+    <div class="output"><strong>Answer</strong><pre id="aiOut" style="white-space:pre-wrap;font-family:monospace;margin-top:6px"></pre></div>
+  </div>
+
+  <!-- dependencies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js"></script>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+
+  <script>
+    const pdfList = ["01_Python_01.pptx.pdf"];
+
+    const pdfListContainer = document.getElementById('pdfListContainer');
+    const canvas = document.getElementById('pdf-canvas');
+    const ctx = canvas.getContext('2d');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageIndicator = document.getElementById('pageIndicator');
+    const toggleWebviewBtn = document.getElementById('toggle-webview');
+    const webview = document.getElementById('webview');
+    const webframe = document.getElementById('webframe');
+    const toggleEditorBtn = document.getElementById('toggle-editor');
+    const editorPanel = document.getElementById('editorPanel');
+    const runCodeBtn = document.getElementById('runCode');
+    const closeEditorBtn = document.getElementById('closeEditor');
+    const downloadPdfBtn = document.getElementById('downloadPdf');
+    const toggleSidebarBtn = document.getElementById('toggleSidebar');
+    const sidebar = document.querySelector('.sidebar');
+    const fitBtn = document.getElementById('fit');
+    const stage = document.getElementById('stage');
+
+    const toggleInferBtn = document.getElementById('toggle-infer');
+    const inferencePanel = document.getElementById('inferencePanel');
+    const closeInferBtn = document.getElementById('closeInference');
+    const askAIBtn = document.getElementById('askAI');
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+    let currentPdf = null;
+    let currentPage = 1;
+    let totalPages = 0;
+    let scale = 1.2;
+    let currentPdfName = '';
+
+    async function renderPage(pageNum){
+      if(!currentPdf) return;
+      const page = await currentPdf.getPage(pageNum);
+      const viewport = page.getViewport({scale});
+      const maxW = window.innerWidth - 360;
+      const maxH = window.innerHeight - 200;
+      const wScale = maxW / viewport.width;
+      const hScale = maxH / viewport.height;
+      const fitScale = Math.min(wScale, hScale, 1.8);
+      const finalScale = scale * fitScale;
+      const vp = page.getViewport({scale: finalScale});
+      canvas.width = Math.floor(vp.width);
+      canvas.height = Math.floor(vp.height);
+      canvas.style.width = vp.width + 'px';
+      canvas.style.height = vp.height + 'px';
+      const renderCtx = {canvasContext: ctx, viewport: vp};
+      await page.render(renderCtx).promise;
+      pageIndicator.innerText = `${currentPdfName} — ${pageNum}/${totalPages}`;
+    }
+
+    async function loadPdf(url){
+      try{
+        currentPdfName = url.split('/').pop();
+        const loadingTask = pdfjsLib.getDocument(url);
+        currentPdf = await loadingTask.promise;
+        totalPages = currentPdf.numPages;
+        currentPage = 1;
+        await renderPage(currentPage);
+      }catch(err){
+        console.error('Load PDF error',err);
+        alert('Không thể load PDF. Kiểm tra đường dẫn hoặc console.');
+      }
+    }
+
+    prevBtn.addEventListener('click',async()=>{ if(!currentPdf) return; currentPage=Math.max(1,currentPage-1); await renderPage(currentPage); });
+    nextBtn.addEventListener('click',async()=>{ if(!currentPdf) return; currentPage=Math.min(totalPages,currentPage+1); await renderPage(currentPage); });
+    window.addEventListener('keydown',async(e)=>{ if(e.key==='ArrowLeft'){ e.preventDefault(); prevBtn.click(); } if(e.key==='ArrowRight'){ e.preventDefault(); nextBtn.click(); } if(e.key==='Escape'){ hidePanels(); } });
+
+    fitBtn.addEventListener('click',async()=>{ if(stage.requestFullscreen){ await stage.requestFullscreen(); } });
+
+    function renderPdfList(){
+      pdfListContainer.innerHTML='';
+      pdfList.forEach((p,idx)=>{
+        const it = document.createElement('div');
+        it.className='pdf-item';
+        it.innerText = p;
+        it.addEventListener('click',()=>{ document.querySelectorAll('.pdf-item').forEach(el=>el.classList.remove('active')); it.classList.add('active'); loadPdf(p); });
+        pdfListContainer.appendChild(it);
+      });
+      if(pdfList.length===0){ pdfListContainer.innerHTML='<div class="muted">Chưa có pdf nào. Mở file và sửa biến <code>pdfList</code> trong mã.</div>'; }
+    }
+
+    toggleWebviewBtn.addEventListener('click',()=>{
+      if(webview.classList.contains('visible')){
+        webview.classList.remove('visible'); toggleWebviewBtn.classList.remove('primary');
+      }else{
+        webview.classList.add('visible'); toggleWebviewBtn.classList.add('primary'); webframe.src = 'https://google.com';
+      }
+    });
+
+    const aceEditor = ace.edit('editor');
+    aceEditor.setTheme('ace/theme/monokai');
+    aceEditor.session.setMode('ace/mode/python');
+    aceEditor.setOptions({fontSize:'13px',wrap:true});
+
+    toggleEditorBtn.addEventListener('click',()=>{ if(editorPanel.classList.contains('hidden')){ editorPanel.classList.remove('hidden'); toggleEditorBtn.classList.add('primary'); }else{ editorPanel.classList.add('hidden'); toggleEditorBtn.classList.remove('primary'); } });
+    closeEditorBtn.addEventListener('click',()=>{ editorPanel.classList.add('hidden'); toggleEditorBtn.classList.remove('primary'); });
+
+    toggleInferBtn.addEventListener('click',()=>{ if(inferencePanel.classList.contains('hidden')){ inferencePanel.classList.remove('hidden'); toggleInferBtn.classList.add('primary'); }else{ inferencePanel.classList.add('hidden'); toggleInferBtn.classList.remove('primary'); } });
+    closeInferBtn.addEventListener('click',()=>{ inferencePanel.classList.add('hidden'); toggleInferBtn.classList.remove('primary'); });
+
+    toggleSidebarBtn.addEventListener('click',()=>{ sidebar.classList.toggle('hidden'); });
+
+    downloadPdfBtn.addEventListener('click',()=>{ if(!currentPdfName) return; const link = document.createElement('a'); link.href = currentPdfName; link.download = currentPdfName; document.body.appendChild(link); link.click(); link.remove(); });
+
+    renderPdfList();
+    if(pdfList.length===1){ const el = pdfListContainer.querySelector('.pdf-item'); if(el) el.click(); }
+    window.addEventListener('resize',()=>{ if(currentPdf) renderPage(currentPage); });
+
+    document.getElementById('presentBtn').addEventListener('click',()=>{ const w = window.open(location.href, '_blank'); });
+
+    function hidePanels(){ editorPanel.classList.add('hidden'); webview.classList.remove('visible'); inferencePanel.classList.add('hidden'); toggleEditorBtn.classList.remove('primary'); toggleWebviewBtn.classList.remove('primary'); toggleInferBtn.classList.remove('primary'); }
+
+    // Pyodide init
+    let pyodideReady = null;
+    async function initPyodide(){
+      if(!pyodideReady){
+        pyodideReady = await loadPyodide();
+      }
+      return pyodideReady;
+    }
+    async function runPython(code){
+      const out = document.getElementById('consoleOut');
+      out.innerText = '';
+      try{
+        const py = await initPyodide();
+        let result = await py.runPythonAsync(code);
+        if(result !== undefined){
+          out.innerText += result.toString() + '\n';
+        }
+      }catch(e){
+        out.innerText += 'Error: ' + e + '\n';
+      }
+    }
+    runCodeBtn.addEventListener('click',()=>{ const code = aceEditor.getValue(); runPython(code); });
+    document.getElementById('clearOutput').addEventListener('click',()=>{ document.getElementById('consoleOut').innerText=''; });
+
+    // AI inference
+    askAIBtn.addEventListener('click', async()=>{
+      const q = document.getElementById('inferenceInput').value;
+      const out = document.getElementById('aiOut');
+      out.innerText = 'Đang hỏi...';
+      try{
+        const resp = await fetch("https://api.openai.com/v1/chat/completions",{
+          method:"POST",
+          headers:{
+            "Authorization":"Bearer "+(window.OPENAI_API_KEY || "PUT_YOUR_KEY_HERE"),
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({model:"gpt-4o-mini",messages:[{role:"user",content:q}]})
+        });
+        const data = await resp.json();
+        out.innerText = data.choices?.[0]?.message?.content || "No response";
+      }catch(err){
+        out.innerText = "Error: " + err;
+      }
+    });
+  </script>
+</body>
+</html>
