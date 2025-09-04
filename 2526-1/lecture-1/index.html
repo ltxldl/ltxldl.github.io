@@ -38,73 +38,65 @@
     .footer{display:flex;align-items:center;gap:12px;justify-content:space-between}
 
     /* overlay panels */
-    .panel{position:fixed;right:18px;bottom:18px;width:720px;max-width:calc(100% - 40px);height:56vh;background:var(--card);border-radius:12px;padding:12px;box-shadow:0 12px 40px rgba(2,8,26,0.6);display:flex;flex-direction:column;transform:translateY(20px);transition:all .28s ease;z-index:9999}
-    .panel.hidden{opacity:0;pointer-events:none;transform:translateY(40px) scale(.98)}
+    .panel{
+      position:fixed;
+      top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      width:720px;
+      max-width:90%;
+      max-height:80vh;
+      background:var(--card);
+      border-radius:12px;
+      padding:12px;
+      box-shadow:0 12px 40px rgba(2,8,26,0.6);
+      display:flex;
+      flex-direction:column;
+      z-index:9999;
+      transition:all .28s ease;
+    }
+    .panel.hidden{opacity:0;pointer-events:none;transform:translate(-50%,-40%) scale(.96)}
     .panel .header{display:flex;align-items:center;justify-content:space-between}
     .editor-area{flex:1;display:flex;gap:8px;margin-top:8px}
     #editor{flex:1;border-radius:8px;overflow:hidden}
-    .output{width:250px;background:#02111a;border-radius:8px;padding:8px;overflow:auto}
+    .output{width:250px;background:#02111a;border-radius:8px;padding:8px;overflow-y:auto;overflow-x:hidden}
+	button.hidden{display:none}
 
     .webview {
-    position:absolute;
-    inset:0;
-    border-radius:10px;
-    border:1px solid rgba(255,255,255,0.05);
-    display:none;
-    z-index:5; /* dưới các nút điều hướng */
-  }
-  .webview iframe {
-    width:100%;
-    height:100%;
-    border:0;
-    border-radius:10px;
-  }
-  .webview.visible{display:block}
+      position:absolute;
+      inset:0;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.05);
+      display:none;
+      z-index:5;
+    }
+    .webview iframe {
+      width:100%;
+      height:100%;
+      border:0;
+      border-radius:10px;
+    }
+    .webview.visible{display:block}
 
-  /* popup center cho editor + inference */
-  .panel{
-    position:fixed;
-    top:50%; left:50%;
-    transform:translate(-50%,-50%);
-    width:720px;
-    max-width:90%;
-    max-height:80vh;
-    background:var(--card);
-    border-radius:12px;
-    padding:12px;
-    box-shadow:0 12px 40px rgba(2,8,26,0.6);
-    display:flex;
-    flex-direction:column;
-    z-index:9999;
-    transition:all .28s ease;
-  }
-  .panel.hidden{opacity:0;pointer-events:none;transform:translate(-50%,-40%) scale(.96)}
-
-  /* code output scrollable */
-  .output{
-    width:250px;
-    background:#02111a;
-    border-radius:8px;
-    padding:8px;
-    overflow-y:auto;
-    overflow-x:hidden;
-  }
-
-  /* fullscreen slide lớn hơn nhưng vẫn thấy nút */
-  .stage:fullscreen .slide-canvas {
-    max-width:95%;
-    max-height:95%;
-  }
-  .stage:fullscreen .nav-left,
-  .stage:fullscreen .nav-right {
-    z-index:10;
-  }
+    /* fullscreen slide lớn hơn nhưng vẫn thấy nút */
+    .stage:fullscreen .slide-canvas {
+      max-width:95%;
+      max-height:95%;
+    }
+    .stage:fullscreen .nav-left,
+    .stage:fullscreen .nav-right {
+      z-index:10;
+    }
 
     /* responsive */
     @media (max-width:980px){.sidebar{display:none}.panel{right:12px;left:12px;width:auto}}
 
     /* small helpers */
     .muted{color:var(--muted);font-size:13px}
+
+    /* chat messages */
+    .message{margin-bottom:10px;line-height:1.4;font-size:14px}
+    .message.user{color:#38bdf8;text-align:right}
+    .message.ai{color:#e6eef6;text-align:left}
   </style>
 </head>
 <body>
@@ -149,6 +141,12 @@
     </main>
   </div>
 
+  <!-- floating button khi sidebar ẩn -->
+  <button id="openSidebarBtn" class="btn small hidden"
+     style="position:fixed;top:18px;left:18px;z-index:10000">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
   <!-- overlay panels -->
   <div id="editorPanel" class="panel hidden">
     <div class="header"><div><strong>Code Runner (Python)</strong><div class="muted">Powered by Pyodide</div></div><div><button id="closeEditor" class="btn small">Close</button></div></div>
@@ -159,17 +157,29 @@
     <div style="display:flex;gap:8px;margin-top:8px"><button id="runCode" class="btn primary">Run</button><button id="clearOutput" class="btn">Clear</button></div>
   </div>
 
+  <!-- Chat Inference -->
   <div id="inferencePanel" class="panel hidden">
-    <div class="header"><div><strong>AI Inference</strong><div class="muted">Hỏi đáp về bài học</div></div><div><button id="closeInference" class="btn small">Close</button></div></div>
-    <textarea id="inferenceInput" style="flex:1;height:120px;margin-top:8px"></textarea>
-    <button id="askAI" class="btn primary" style="margin-top:8px">Ask</button>
-    <div class="output"><strong>Answer</strong><pre id="aiOut" style="white-space:pre-wrap;font-family:monospace;margin-top:6px"></pre></div>
+    <div class="header"><div><strong>AI Chat</strong><div class="muted">Hỏi đáp về bài học</div></div><div><button id="closeInference" class="btn small">Close</button></div></div>
+
+    <div id="chatMessages"
+          style="flex:1;overflow-y:auto;padding:8px;margin-top:8px;
+                background:#0b1220;border-radius:8px">
+      <!-- chat messages append here -->
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <input id="chatInput" type="text" placeholder="Nhập câu hỏi..."
+              style="flex:1;padding:8px;border-radius:8px;border:none;
+                    background:#02111a;color:white"/>
+      <button id="sendChat" class="btn primary">Send</button>
+    </div>
   </div>
 
   <!-- dependencies -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js"></script>
   <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <script>
     const pdfList = ["2526-1/lecture-1/01_Python_01.pptx.pdf"];
@@ -196,7 +206,8 @@
     const toggleInferBtn = document.getElementById('toggle-infer');
     const inferencePanel = document.getElementById('inferencePanel');
     const closeInferBtn = document.getElementById('closeInference');
-    const askAIBtn = document.getElementById('askAI');
+
+    const openSidebarBtn = document.getElementById('openSidebarBtn');
 
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
@@ -277,62 +288,136 @@
     toggleInferBtn.addEventListener('click',()=>{ if(inferencePanel.classList.contains('hidden')){ inferencePanel.classList.remove('hidden'); toggleInferBtn.classList.add('primary'); }else{ inferencePanel.classList.add('hidden'); toggleInferBtn.classList.remove('primary'); } });
     closeInferBtn.addEventListener('click',()=>{ inferencePanel.classList.add('hidden'); toggleInferBtn.classList.remove('primary'); });
 
-    toggleSidebarBtn.addEventListener('click',()=>{ sidebar.classList.toggle('hidden'); });
+	toggleSidebarBtn.addEventListener('click',()=>{
+	  sidebar.classList.toggle('hidden');
+	  if(sidebar.classList.contains('hidden')){
+		// chỉ mở khi sidebar ẩn
+		openSidebarBtn.classList.remove('hidden');
+	  }else{
+		openSidebarBtn.classList.add('hidden');
+	  }
+	});
 
-    downloadPdfBtn.addEventListener('click',()=>{ if(!currentPdfName) return; const link = document.createElement('a'); link.href = currentPdfName; link.download = currentPdfName; document.body.appendChild(link); link.click(); link.remove(); });
+	openSidebarBtn.addEventListener('click',()=>{
+	  if(sidebar.classList.contains('hidden')){   // chỉ mở nếu đang ẩn
+		sidebar.classList.remove('hidden');
+		openSidebarBtn.classList.add('hidden');
+	  }
+	});
+
+    let pyodide=null;
+    async function initPyodide(){ pyodide = await loadPyodide(); }
+    initPyodide();
+
+    runCodeBtn.addEventListener('click',async()=>{
+      const code=aceEditor.getValue();
+      const consoleOut=document.getElementById('consoleOut');
+      consoleOut.textContent='';
+      try{ let r = await pyodide.runPythonAsync(code); if(r!==undefined) consoleOut.textContent += r+'\n'; }
+      catch(err){ consoleOut.textContent += err+'\n'; }
+    });
+    document.getElementById('clearOutput').addEventListener('click',()=>{ document.getElementById('consoleOut').textContent=''; });
+    downloadPdfBtn.addEventListener('click',()=>{ if(!currentPdfName){alert('No PDF loaded');return;} window.open(currentPdfName,'_blank'); });
 
     renderPdfList();
-    if(pdfList.length===1){ const el = pdfListContainer.querySelector('.pdf-item'); if(el) el.click(); }
-    window.addEventListener('resize',()=>{ if(currentPdf) renderPage(currentPage); });
 
-    document.getElementById('presentBtn').addEventListener('click',()=>{ const w = window.open(location.href, '_blank'); });
+    // --- Chat inference logic with streaming & markdown ---
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendChatBtn = document.getElementById('sendChat');
+    let chatHistory = [];
 
-    function hidePanels(){ editorPanel.classList.add('hidden'); webview.classList.remove('visible'); inferencePanel.classList.add('hidden'); toggleEditorBtn.classList.remove('primary'); toggleWebviewBtn.classList.remove('primary'); toggleInferBtn.classList.remove('primary'); }
-
-    // Pyodide init
-    let pyodideReady = null;
-    async function initPyodide(){
-      if(!pyodideReady){
-        pyodideReady = await loadPyodide();
+    function appendMessage(role, content, isHtml=false){
+      const div = document.createElement('div');
+      div.className = 'message ' + role;
+      if(isHtml){
+        div.innerHTML = content;
+      }else{
+        div.textContent = content;
       }
-      return pyodideReady;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      return div;
     }
-    async function runPython(code){
-      const out = document.getElementById('consoleOut');
-      out.innerText = '';
-      try{
-        const py = await initPyodide();
-        let result = await py.runPythonAsync(code);
-        if(result !== undefined){
-          out.innerText += result.toString() + '\n';
+
+    async function streamChat(){
+  const q = chatInput.value.trim();
+  if(!q) return;
+  appendMessage('user', q);
+  chatHistory.push({role:"user", content:q});
+  chatInput.value='';
+
+  const aiDiv = appendMessage('ai','', true);
+  let aiBuffer = "";   // chứa text liên tục
+
+  try{
+    const resp = await fetch("https://openrouter.ai/api/v1/chat/completions",{
+      method:"POST",
+      headers:{
+        "Authorization":"Bearer "+(window.OPENAI_API_KEY || "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")
+      },
+      body:JSON.stringify({
+        model:"deepseek/deepseek-chat-v3.1:free",
+        messages:chatHistory,
+        stream:true
+      })
+    });
+
+    if(!resp.body) throw new Error("No stream body");
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder("utf-8");
+    let buffer = "";
+
+    while(true){
+      const {done, value} = await reader.read();
+      if(done) break;
+      buffer += decoder.decode(value, {stream:true});
+
+      const lines = buffer.split("\n");
+      buffer = lines.pop();
+
+      for(const line of lines){
+        if(line.startsWith("data: ")){
+          const dataStr = line.replace("data: ","").trim();
+          if(dataStr === "[DONE]") continue;
+          try{
+            const data = JSON.parse(dataStr);
+            const token = data.choices?.[0]?.delta?.content || "";
+            if(token){
+              aiBuffer += token;
+              // luôn render lại toàn bộ markdown text
+              aiDiv.innerHTML = marked.parse(aiBuffer);
+              chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+          }catch(e){
+            console.error("Parse error", e, line);
+          }
         }
-      }catch(e){
-        out.innerText += 'Error: ' + e + '\n';
       }
     }
-    runCodeBtn.addEventListener('click',()=>{ const code = aceEditor.getValue(); runPython(code); });
-    document.getElementById('clearOutput').addEventListener('click',()=>{ document.getElementById('consoleOut').innerText=''; });
 
-    // AI inference
-    askAIBtn.addEventListener('click', async()=>{
-      const q = document.getElementById('inferenceInput').value;
-      const out = document.getElementById('aiOut');
-      out.innerText = 'Đang hỏi...';
-      try{
-        const resp = await fetch("https://openrouter.ai/api/v1/chat/completions",{
-          method:"POST",
-          headers:{
-            "Authorization":"Bearer "+(window.OPENAI_API_KEY || "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"),
-            "Content-Type":"application/json"
-          },
-          body:JSON.stringify({model:"gpt-4o-mini",messages:[{role:"user",content:q}]})
-        });
-        const data = await resp.json();
-        out.innerText = data.choices?.[0]?.message?.content || "No response";
-      }catch(err){
-        out.innerText = "Error: " + err;
+    chatHistory.push({role:"assistant", content:aiBuffer});
+  }catch(err){
+    aiDiv.textContent = "Error: " + err;
+  }
+}
+
+
+    sendChatBtn.addEventListener('click', streamChat);
+    chatInput.addEventListener('keydown',(e)=>{
+      if(e.key==='Enter' && !e.shiftKey){
+        e.preventDefault();
+        streamChat();
       }
     });
+
+    function hidePanels(){
+      editorPanel.classList.add('hidden');
+      inferencePanel.classList.add('hidden');
+      toggleEditorBtn.classList.remove('primary');
+      toggleInferBtn.classList.remove('primary');
+    }
   </script>
 </body>
 </html>
