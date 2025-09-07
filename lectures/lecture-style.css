@@ -1,0 +1,53 @@
+.reveal .slides section {
+    text-align: left;
+}
+
+.reveal ul,
+.reveal ol {
+    padding-left: 1rem;
+    line-height: 1.4em;
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+}
+
+.reveal ul ul,
+.reveal ol ol,
+.reveal ul ol,
+.reveal ol ul {
+    font-size: 0.9em;
+}
+
+.reveal .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: left;
+    font-size: 1rem;
+    color: #888;
+}
+
+/* Hide footer when the first slide is showing */
+.reveal section:first-of-type.present~.footer {
+    display: none;
+}
+
+.reveal .keyword {
+    color: #E62727;
+    font-weight: bold;
+}
+
+.reveal .inline-code {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #f4f4f4;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+.reveal .fragment.blur {
+    filter: blur(5px);
+}
+
+.reveal .fragment.blur.visible {
+    filter: none;
+}
