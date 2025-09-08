@@ -67,7 +67,6 @@
             - **RESEARCH INTERESTS**
               - Knowledge Graphs & LLMs
               - Information Extraction
-            - Open for **thesis supervision**
             - Contact: [tuan-phong.com](https://tuan-phong.com)
           </textarea>
         </section>
@@ -95,24 +94,58 @@
                 <li>Streaming/video activity logs</li>
               </ul>
             </li>
-            <li>Multiply by billions of people → <strong>massive global data</strong></li>
+            <li class="fragment">Multiply by billions of people → <strong>massive global data</strong></li>
           </ul>
-          <!-- <p>Phone → Cloud → Data Center</p> -->
+        </section>
+
+        <!-- Live Question -->
+        <section>
+          <div class="question-box">
+            <div class="question-title">
+              Question
+            </div>
+            <div class="question-content">
+              <p>
+                Can you name some examples of data generated in your daily life, or data you have encountered?
+              </p>
+            </div>
+          </div>
         </section>
 
         <section>
           <h2>From Data to Decisions</h2>
-          <ul>
-            <li>Data-driven decision making
-              <ol>
-                <li><strong>Collection</strong> → sensors, logs, surveys</li>
-                <li><strong>Processing</strong> → clean, organize, enrich</li>
-                <li><strong>Analysis</strong> → stats, ML, visualization</li>
-                <li><strong>Action</strong> → decisions, discoveries, policies</li>
-              </ol>
-            </li>
-            <li>Processing turns raw data into something we can analyze.</li>
-          </ul>
+
+          <div>
+            How do we make sense of all this data?
+          </div>
+
+          <div class="fragment">
+            <div class="pipeline" style="font-size: 0.75em;">
+              <div class="stage" aria-label="Collection">
+                <div class="stage-title">Collection</div>
+                <div class="stage-desc">sensors · logs · surveys</div>
+              </div>
+              <div class="arrow" aria-hidden="true">→</div>
+              <div class="stage" aria-label="Processing">
+                <div class="stage-title">Processing</div>
+                <div class="stage-desc">clean · transform · enrich</div>
+              </div>
+              <div class="arrow" aria-hidden="true">→</div>
+              <div class="stage" aria-label="Analysis">
+                <div class="stage-title">Analysis</div>
+                <div class="stage-desc">stats · ML · visualization</div>
+              </div>
+              <div class="arrow" aria-hidden="true">→</div>
+              <div class="stage" aria-label="Action">
+                <div class="stage-title">Action</div>
+                <div class="stage-desc">decisions · discoveries · policies</div>
+              </div>
+            </div>
+            <p class="caption">Data-driven decision making process</p>
+          </div>
+
+          <p class="fragment">✅ <strong>Processing</strong> turns raw data into usable information.</p>
+
         </section>
 
         <section>
@@ -128,14 +161,14 @@
               </ul>
             </li>
 
-            <li>Good processing makes data reliable for analysis.</li>
+            <li><strong>Good processing</strong> makes data reliable for analysis.</li>
           </ul>
         </section>
 
         <section data-auto-animate>
           <h2>Example: Streaming Services</h2>
 
-          <h6>Raw Data (messy logs)</h6>
+          <p><strong>Raw data (messy logs)</strong></p>
           <pre><code data-trim>
 User123, 2025-09-01 09:14:32, SongID_981, action=skip
 User123, 2025-09-01 09:15:05, SongID_472, action=play
@@ -144,7 +177,7 @@ User789, 2025-09-01 09:17:45, SongID_981, action=play
   </code></pre>
 
           <div>
-            <h6>Processing Steps</h6>
+            <p><strong>Processing steps</strong></p>
             <ul>
               <li>Convert timestamps → detect listening sessions</li>
               <li>Count plays vs skips → measure preferences</li>
@@ -156,7 +189,7 @@ User789, 2025-09-01 09:17:45, SongID_981, action=play
         <section data-auto-animate>
           <h2>Example: Streaming Services</h2>
 
-          <h6>Raw Data (messy logs)</h6>
+          <p><strong>Raw data (messy logs)</strong></p>
           <pre><code data-trim>
 User123, 2025-09-01 09:14:32, SongID_981, action=skip
 User123, 2025-09-01 09:15:05, SongID_472, action=play
@@ -164,10 +197,10 @@ User456, 2025-09-01 09:16:20, SongID_981, action=play
 User789, 2025-09-01 09:17:45, SongID_981, action=play
   </code></pre>
 
-          <h6>Usable Data (features)</h6>
+          <p><strong>Usable data (features)</strong></p>
           <ul>
             <li>User123 prefers <em>SongID_472</em></li>
-            <li><em>SongID_981</em> is popular → “trending”</li>
+            <li><em>SongID_981</em> is popular → &ldquo;trending&rdquo;</li>
             <li><strong>Result:</strong> recommend similar songs + trending chart</li>
           </ul>
         </section>
@@ -178,8 +211,7 @@ User789, 2025-09-01 09:17:45, SongID_981, action=play
           <ul>
             <li><strong>Simple syntax</strong> → easy to read & learn</li>
             <li><strong>Popular</strong> → huge community & support</li>
-            <li><strong>Powerful libraries</strong> → data analysis, visualization, machine
-              learning</li>
+            <li><strong>Powerful libraries</strong> → analysis, visualization, ML</li>
             <li><strong>Versatile</strong> → from quick scripts to large applications</li>
             <li><strong>Career skill</strong> → widely used in industry & research</li>
           </ul>
@@ -201,7 +233,7 @@ User789, 2025-09-01 09:17:45, SongID_981, action=play
             - First half: Python programming basics
             - Second half: Data processing libraries
           - **Lectures**: 3 hours/week
-          - **Labs**: 3 hours/week
+          - **Labs**: 3 hours/week (starting Week 2)
           </textarea>
         </section>
 
@@ -211,7 +243,7 @@ User789, 2025-09-01 09:17:45, SongID_981, action=play
           ## Assessments
           There are **four components** to your final grade:
           1. **Quizzes**: Via LMS
-          1. **Assignments**: TBA
+          1. **Assignments**: Via Github Classroom
           1. **Midterm Exam:** Paper-based (Week 6)
           1. **Final Exam:** Project-based (Weeks 8&ndash;15)
           
@@ -223,7 +255,7 @@ User789, 2025-09-01 09:17:45, SongID_981, action=play
         <section>
           <h2>Weekly Breakdown</h2>
           <div style="display: flex; justify-content: space-between;">
-            <div style="flex: 1; margin-right: 20px;">
+            <div style="flex: 1; margin-right: 20px;" class="fragment">
               <h5>Week 1-5</h5>
               <strong>Python Basics</strong>
               <ul>
@@ -234,7 +266,7 @@ User789, 2025-09-01 09:17:45, SongID_981, action=play
                 <li>OOP & Debugging</li>
               </ul>
             </div>
-            <div style="flex: 1; margin-left: 20px;">
+            <div style="flex: 1; margin-left: 20px;" class="fragment">
               <h5>Week 6-10</h5>
               <strong>Data Processing Libraries</strong>
               <ul>
@@ -253,7 +285,7 @@ User789, 2025-09-01 09:17:45, SongID_981, action=play
             ## Important Dates
               - **Week 6:** Midterm Exam
               - **Week 8:** Project Announcement
-              - **Week 16(?):** Final Exam (Oral Presentation)
+              - **Week 16(?):** Final Exam (Oral)
           </textarea>
         </section>
 
@@ -270,14 +302,37 @@ User789, 2025-09-01 09:17:45, SongID_981, action=play
         </section>
 
         <!-- Resources -->
-        <section data-markdown>
-          <textarea data-template>
-            ## Resources
-            - All course materials will be available on the LMS
-            - **Textbook:** *Python for Data Analysis* (Wes McKinney)
-              - Available at: https://wesmckinney.com/book/
-          </textarea>
+        <section>
+          <h2>Resources</h2>
+          <ul>
+            <li>All course materials will be available on the LMS</li>
+            <li><strong>Textbook:</strong> <em>Python for Data Analysis</em> (Wes McKinney)
+              <ul>
+                <li>Available at: <a href="https://wesmckinney.com/book/">wesmckinney.com/book</a></li>
+              </ul>
+            </li>
+            <li><strong>Supplementary:</strong> <em>Official Python Tutorial</em>
+              <ul>
+                <li>Available at: <a href="https://docs.python.org/3/tutorial/">docs.python.org/3/tutorial/</a></li>
+              </ul>
+            </li>
+          </ul>
+
+          <div style="display: flex; justify-content: center; gap: 3em;">
+            <div style="text-align: center;">
+              <img src="img/lecture-01/book_qr.png" alt="QR code for textbook" width="140" style="margin: 0;">
+              <br>
+              <small>Textbook</small>
+            </div>
+            <div style="text-align: center;">
+              <img src="img/lecture-01/tutorial_qr.png" alt="QR code for Python tutorial" width="140"
+                style="margin: 0;">
+              <br>
+              <small>Python Tutorial</small>
+            </div>
+          </div>
         </section>
+
 
         <!-- Q&A -->
         <section data-markdown>
@@ -319,29 +374,66 @@ print("y = ", y)</code></pre>
                     class="inline-code">y</span>
                 </li>
                 <li class="fragment">
-                  Print <span class="inline-code">y = </span> followed by the value of <span
+                  Print <span class="inline-code">y = </span>&ThinSpace;followed by the value of <span
                     class="inline-code">y</span>
                 </li>
               </ol>
             </li>
-            <li class="fragment">
-              Live demo: Script execution, Shell, Notebook
-            </li>
           </ul>
+        </section>
+
+        <!-- Live Demo -->
+        <section>
+          <div class="question-box">
+            <div class="question-title">
+              Live Demo
+            </div>
+            <div class="question-content">
+              <p>
+                Let's run this code in a Python environment:
+              <ul>
+                <li>Python/IPython Shell (interactive),</li>
+                <li>Script file (.py),</li>
+                <li>Jupyter Notebook.</li>
+              </ul>
+              </p>
+            </div>
+          </div>
         </section>
 
         <!-- Python Programs -->
         <section>
           <h2>PYTHON PROGRAMS</h2>
           <ul>
-            <li>A <span class="keyword">program</span> = definitions + commands</li>
-            <li><span class="keyword">Definitions</span> → create values & names</li>
-            <li><span class="keyword">Commands</span> → tell Python what to do</li>
-            <li>Run code in a <strong>shell</strong> or a <strong>file</strong></li>
+            <li class="fragment">A <span class="keyword">program</span> = definitions + commands</li>
+            <li class="fragment">
+              <span class="keyword">Definitions</span> → create values & variable names
+              <pre><code class="language-python" data-line-numbers="">x = 5  # definition</code></pre>
+            </li>
+            <li class="fragment">
+              <span class="keyword">Commands</span> → tell Python what to do
+              <pre><code class="language-python" data-line-numbers="" data-ln-start-from="2">print(x)  # command</code></pre>
+            </li>
+            <li class="fragment">Run code in a <strong>shell</strong> or a <strong>file</strong> (script/Notebook)</li>
           </ul>
-
-          <pre><code class="language-python" data-line-numbers="">x = 5  # definition
-print(x)  # command</code></pre>
+        </section>
+        <!-- Live Question -->
+        <section>
+          <div class="question-box">
+            <div class="question-title">
+              Question
+            </div>
+            <div class="question-content">
+              <p>
+                When should we use:
+              </p>
+              <ul>
+                <li>Python/IPython Shell (interactive),</li>
+                <li>Script file (.py),</li>
+                <li>Jupyter Notebook?</li>
+              </ul>
+            </div>
+          </div>
         </section>
 
         <!-- Objects -->
@@ -349,11 +441,11 @@ print(x)  # command</code></pre>
           <h2>Objects</h2>
 
           <ul>
-            <li>
+            <li class="fragment">
               Programs manipulate <span class="keyword">data objects</span>
             </li>
 
-            <li>
+            <li class="fragment">
               Objects have a <span class="keyword">type</span> that defines its actions
               <ul>
                 <li>A human can walk, speak, etc.</li>
@@ -361,12 +453,12 @@ print(x)  # command</code></pre>
               </ul>
             </li>
 
-            <li>
+            <li class="fragment">
               Two categories of objects:
               <ul>
-                <li><b>Scalar</b> – cannot be subdivided</li>
+                <li><span class="keyword">Scalar</span> – cannot be subdivided</li>
                 <li>
-                  <b>Non-scalar</b> – have internal structure that is accessible
+                  <span class="keyword">Non-scalar</span> – have internal structure that is accessible
                   <ul>
                     <li>A string can be concatenated, split</li>
                     <li>A list can be appended, sorted</li>
@@ -383,50 +475,54 @@ print(x)  # command</code></pre>
           <h2>Scalar Objects</h2>
 
           <ul>
-            <li><span class="inline-code">int</span> – represent <span class="keyword">integers</span>, e.g. <span
-                class="inline-code">5</span></li>
-            <li><span class="inline-code">float</span> – represent <span class="keyword">real numbers</span>, e.g. <span
-                class="inline-code">3.27</span></li>
-            <li><span class="inline-code">bool</span> – represent <span class="keyword">Boolean</span> values <span
-                class="inline-code">True</span> /
+            <li class="fragment"><span class="inline-code">int</span> – represent <span class="keyword">integers</span>,
+              e.g. <span class="inline-code">5</span></li>
+            <li class="fragment"><span class="inline-code">float</span> – represent <span class="keyword">real
+                numbers</span>, e.g.
+              <span class="inline-code">3.27</span>
+            </li>
+            <li class="fragment"><span class="inline-code">bool</span> – represent <span class="keyword">Boolean</span>
+              values <span class="inline-code">True</span> /
               <span class="inline-code">False</span>
             </li>
-            <li><span class="inline-code">NoneType</span> – <span class="keyword">special</span>, has one value <span
-                class="inline-code">None</span></li>
-            <li>Use <span class="inline-code">type()</span> to see the type of an object</li>
+            <li class="fragment"><span class="inline-code">NoneType</span> – <span class="keyword">special</span>, has
+              one value <span class="inline-code">None</span></li>
           </ul>
 
-          <pre><code class="language-python">>>> type(5)
+
+          <div class="fragment">
+            <p>
+              💡 Use <span class="inline-code">type()</span> to see the type of an object
+            </p>
+            <pre><code class="language-python">>>> type(5)
 int
 >>> type(3.0)
 float</code></pre>
+            </li>
         </section>
 
         <!-- Type Conversions -->
         <section>
           <h2>Type Conversions (Cast)</h2>
 
+          <p class="fragment">Converts object of <span class="keyword">one type to another</span></p>
+
           <ul>
-            <li>
-              <span class="keyword">Converts object of one type to another</span>
-              <ul>
-                <li>
-                  <span class="inline-code">float(3)</span> → converts integer <span class="inline-code">3</span> to
-                  float
-                  <span class="inline-code">3.0</span>
-                </li>
-                <li>
-                  <span class="inline-code">int(3.9)</span> → truncates float <span class="inline-code">3.9</span> to
-                  integer <span class="inline-code">3</span>
-                </li>
-              </ul>
+            <li class="fragment">
+              <span class="inline-code">float(3)</span> → converts integer <span class="inline-code">3</span> to
+              float
+              <span class="inline-code">3.0</span>
+              <pre><code class="language-python">>>> float(3)
+3.0</code></pre>
+            </li>
+            <li class="fragment">
+              <span class="inline-code">int(3.9)</span> → truncates float <span class="inline-code">3.9</span> to
+              integer <span class="inline-code">3</span>
+
+              <pre><code class="language-python">>>> int(3.9)
+3</code></pre>
             </li>
           </ul>
-
-          <pre><code class="language-python">>>> float(3)
-3.0
->>> int(3.9)
-3</code></pre>
         </section>
 
         <!-- Printing to Console -->
@@ -434,22 +530,22 @@ float</code></pre>
           <h2>Printing to Console</h2>
 
           <ul>
-            <li>
-              Use <span class="inline-code">print</span> to show output
+            <li class="fragment">
+              Use <span class="inline-code">print()</span> to show output
             </li>
 
-            <li>
-              In Notebook, results appear below the code cell:
+            <li class="fragment">
+              In IPython/Notebook, results appear below the code cell:
               <ul>
-                <li>
+                <li class="fragment">
                   "Out" = result of expression (not printed)
-                  <pre><code>In [11]: 3+2
+                  <pre><code class="language-python">In [11]: 3+2
 Out[11]: 5</code></pre>
                 </li>
 
-                <li>
-                  <span class="inline-code">print</span> = explicit program output
-                  <pre><code>In [12]: print(3+2)
+                <li class="fragment">
+                  <span class="inline-code">print()</span> = explicit program output
+                  <pre><code class="language-python">In [12]: print(3+2)
 5</code></pre>
                 </li>
               </ul>
@@ -473,11 +569,11 @@ Out[11]: 5</code></pre>
               <br>
               <span class="inline-code">&lt;object&gt; &lt;operator&gt; &lt;object&gt;</span>
             </li>
-            <li>
+            <li class="fragment">
               Example:
               <ul>
                 <li>
-                  the expression <span class="inline-code">3 + 5</span> has value <span class="inline-code">8</span>
+                  The expression <span class="inline-code">3 + 5</span> has value <span class="inline-code">8</span>
                   of type <span class="inline-code">int</span>
                 </li>
               </ul>
@@ -522,7 +618,8 @@ int</code></pre>
               <tr>
                 <td><span class="inline-code">i % j</span></td>
                 <td><span class="keyword">remainder</span></td>
-                <td style="vertical-align: middle; text-align: center;">same as <span class="inline-code">i</span></td>
+                <td style="vertical-align: middle; text-align: center;">?</span>
+                </td>
               </tr>
               <tr>
                 <td><span class="inline-code">i ** j</span></td>
@@ -552,32 +649,32 @@ int</code></pre>
                 </li>
               </ul>
             </li>
+          </ul>
+          <div class="fragment">
             <pre><code class="language-python">>>> 2 + 3 * 4
 14
 >>> (2 + 3) * 4
 20</code></pre>
-          </ul>
+          </div>
         </section>
 
         <!-- Binding Variables and Values -->
         <section>
           <h2>BINDING VARIABLES AND VALUES</h2>
 
-          <ul>
-            <li>
-              The equal sign (<span class="inline-code">=</span>) is an <span class="keyword">assignment</span> of a
-              value to a variable name
-            </li>
-          </ul>
+          <p>
+            The equal sign (<span class="inline-code">=</span>) is an <span class="keyword">assignment</span> of a
+            value to a variable name.
+          </p>
 
           <pre><code class="language-python" data-line-numbers="">pi = 3.14159  # pi is a name, 3.14159 is a value
 pi_approx = 22/7  # pi_approx is a name, 22/7 is a value</code></pre>
 
-          <ul>
-            <li>Value is stored in memory</li>
-            <li>Assignment binds name to value</li>
-            <li>Retrieve a value by typing its name: <span class="inline-code">pi</span></li>
-          </ul>
+          <ol>
+            <li class="fragment">Value is stored in memory</li>
+            <li class="fragment">Assignment binds name to value</li>
+            <li class="fragment">Retrieve a value by typing its name</li>
+          </ol>
         </section>
 
         <!-- Abstracting Expressions -->
@@ -587,17 +684,22 @@ pi_approx = 22/7  # pi_approx is a name, 22/7 is a value</code></pre>
           <p>
             Why <span class="keyword">give names</span> to values of expressions?
           </p>
+
+          <div>
+            <pre><code class="language-python" data-line-numbers="">pi = 3.14159
+radius = 2.2
+length = 2 * pi * radius
+area = pi * (radius ** 2)</code></pre>
+          </div>
+
           <ul>
-            <li>
+            <li class="fragment">
               To <span class="keyword">reuse names</span> instead of values
             </li>
-            <li>
-              Easier to change code later
+            <li class="fragment">
+              Easier to <span class="keyword">change code later</span>
             </li>
           </ul>
-          <pre><code class="language-python" data-line-numbers="">pi = 3.14159
-radius = 2.2
-area = pi * (radius ** 2)</code></pre>
         </section>
 
         <!-- Programming vs. Math -->
@@ -606,7 +708,7 @@ area = pi * (radius ** 2)</code></pre>
 
           <ul>
             <li>
-              In programming, you do not "solve for x"
+              In programming, you do not &ldquo;solve for x&rdquo;
             </li>
           </ul>
 
@@ -640,27 +742,29 @@ radius = radius + 1</code></pre>
 
           <div style="display: flex; justify-content: space-between;">
             <div style="flex: 1; margin-right: 20px;">
-              <pre><code class="language-python" data-line-numbers="">pi = 3.14
+              <div class="fragment" data-fragment-index="0">
+                <pre><code class="language-python" data-line-numbers="">pi = 3.14
 radius = 2.2
 area = pi * (radius ** 2)
 radius = radius + 1</code></pre>
+              </div>
             </div>
             <div style="flex: 1; margin-left: 20px; font-size: .7em;">
-              <ul class="fragment" data-fragment-index="0">
+              <ul class="fragment" data-fragment-index="1">
                 <li>Values of variables at each step:
                   <ol>
-                    <li class="fragment" data-fragment-index="1"><span class="inline-code">pi</span> → <span
+                    <li class="fragment" data-fragment-index="2"><span class="inline-code">pi</span> → <span
                         class="inline-code">3.14</span>
                     </li>
-                    <li class="fragment" data-fragment-index="2">
-                      <div class="fragment strike" data-fragment-index="4">
+                    <li class="fragment" data-fragment-index="3">
+                      <div class="fragment strike" data-fragment-index="5">
                         <span class="inline-code">radius</span> → <span class="inline-code">2.2</span>
                       </div>
                     </li>
-                    <li class="fragment" data-fragment-index="3"><span class="inline-code">area</span> → <span
+                    <li class="fragment" data-fragment-index="4"><span class="inline-code">area</span> → <span
                         class="inline-code">15.1976</span>
                     </li>
-                    <li class="fragment" data-fragment-index="4"><span class="inline-code">radius</span> → <span
+                    <li class="fragment" data-fragment-index="5"><span class="inline-code">radius</span> → <span
                         class="inline-code">3.2</span>
                     </li>
                   </ol>

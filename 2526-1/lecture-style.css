@@ -2,6 +2,18 @@
     text-align: left;
 }
 
+.reveal .controls .controls-arrow {
+    color: #1E93AB;
+}
+
+.reveal .progress span {
+    background: #1E93AB;
+}
+
+.reveal .text-blue {
+    color: #1E93AB !important;
+}
+
 .reveal ul,
 .reveal ol {
     padding-left: 1rem;
@@ -50,4 +62,102 @@
 
 .reveal .fragment.blur.visible {
     filter: none;
+}
+
+.reveal .question-box {
+    border: 3px solid #1E93AB;
+    border-radius: 16px;
+    padding: 1em;
+    /* max-width: 700px; */
+    margin: auto;
+    background: #F3F2EC;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.reveal .question-title {
+    /* font-size: 1.2em; */
+    font-weight: bold;
+    color: #1E93AB;
+    margin-bottom: 0.5em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.reveal .question-content {
+    /* font-size: 1.4em; */
+    line-height: 1.4;
+    color: #333;
+}
+
+/* Pipeline diagram */
+
+.reveal .pipeline {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 0.5em;
+    margin-top: 1em;
+    flex-wrap: wrap;
+}
+
+.reveal .pipeline .stage {
+    background: #F3F2EC;
+    border: 2px solid #1E93AB;
+    border-radius: 10px;
+    padding: 0.5em;
+    width: 140px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.reveal .pipeline .stage-title {
+    font-weight: bold;
+    color: #1E93AB;
+    margin-bottom: 0.5em;
+}
+
+.reveal .pipeline .stage-desc {
+    font-size: 0.8em;
+    color: #333;
+}
+
+.reveal .pipeline .arrow {
+    display: flex;
+    align-items: center;
+    font-size: 1.5em;
+    color: #1E93AB;
+}
+
+.reveal .caption {
+    text-align: center;
+    margin-top: 0.8em;
+    font-size: 0.8em;
+    font-style: italic;
+    color: #666;
+}
+
+/* Responsive: stack nicely on narrow displays */
+@media (max-width: 900px) {
+    .reveal .pipeline {
+        font-size: 0.8em;
+    }
+
+    .reveal .stage {
+        width: 160px;
+    }
+}
+
+@media (max-width: 680px) {
+    .reveal .pipeline {
+        gap: 0.6em;
+    }
+
+    .reveal .arrow {
+        display: none;
+    }
+
+    .reveal .stage {
+        width: 100%;
+        max-width: 420px;
+    }
 }
