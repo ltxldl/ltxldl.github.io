@@ -533,7 +533,7 @@ float</code></pre>
         </section>
 
         <!-- Printing to Console -->
-        <section>
+        <section data-visibility="hidden">
           <h2>Printing to Console</h2>
 
           <ul>
@@ -778,6 +778,213 @@ radius = radius + 1</code></pre>
                 </li>
               </ul>
             </div>
+        </section>
+
+        <!-- String Objects -->
+        <section>
+          <h2>STRINGS</h2>
+
+          <div>
+            <ul>
+              <li>
+                Strings are enclosed in <span class="keyword">single or double quotes</span>
+                <pre><code data-trim>
+>>> hi = "hello there"
+>>> name = 'ana'
+              </code></pre>
+              </li>
+
+              <li class="fragment">
+                <span class="keyword">Concatenate</span> strings
+                <pre><code data-trim>
+>>> hi + name
+hello thereana
+>>> hi + " " + name
+hello there ana
+              </code></pre>
+              </li>
+
+              <li class="fragment">
+                Do some <span class="keyword">operations</span> on a string
+                <pre><code data-trim>
+>>> hi + " " + name * 3
+hello there anaanaana
+              </code></pre>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Input/Output -->
+        <section>
+          <h2>Output to console</h2>
+
+          <p>
+            Use <span class="inline-code">print()</span> to <span class="keyword">output</span> stuff to console
+          </p>
+
+          <pre><code data-trim>
+>>> x = 1
+>>> print(x)
+1
+>>> x_str = str(x)
+>>> print("my fav num is", x, ".", "x =", x)
+my fav num is 1 . x = 1
+>>> print("my fav num is " + x_str + ". " + "x = " + x_str)
+my fav num is 1. x = 1
+  </code></pre>
+        </section>
+        <section>
+          <h2>Input from console</h2>
+
+          <div style="font-size: 0.8em;">
+            <ul>
+              <li>Use <span class="inline-code">input()</span> to <span class="keyword">get</span> user input</li>
+              <ol>
+                <li>Prints whatever is in the quotes</li>
+                <li>User types something and presses Enter</li>
+                <li>Binds that value to a variable</li>
+              </ol>
+              <li>
+                <span class="inline-code">input()</span> <span class="keyword">returns a string</span> → must cast if
+                working with numbers
+              </li>
+              <pre><code class="no-line-numbers" data-trim data-line-numbers="1-4|5-8|9-12">
+>>> text = input("Type anything... ")
+Type anything... hello
+>>> print(5 * text)
+hellohellohellohellohello
+>>> text = input("Type anything... ")
+Type anything... 7
+>>> print(5 * text)
+77777
+>>> num = int(input("Type a number... "))
+Type a number... 7
+>>> print(5 * num)
+35
+  </code></pre>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Comparison Operators -->
+        <section>
+          <h2>Comparison operators</h2>
+          <ul>
+            <li>
+              <span class="inline-code">i</span>
+              and <span class="inline-code">j</span>
+              are variable names (<span class="inline-code">int</span>, <span class="inline-code">float</span>, or
+              <span class="inline-code">str</span>)
+            </li>
+            <li>Comparisons below evaluate to a <span class="keyword">Boolean</span></li>
+            <ul>
+              <li><span class="inline-code">i > j</span></li>
+              <li><span class="inline-code">i >= j</span></li>
+              <li><span class="inline-code">i < j</span>
+              </li>
+              <li><span class="inline-code">i <= j</span>
+              </li>
+              <li><span class="inline-code">i == j</span> → <span class="keyword">equality</span> test, <span
+                  class="inline-code">True</span> if <span class="inline-code">i</span> is equal <span
+                  class="inline-code">j</span></li>
+              <li><span class="inline-code">i != j</span> → <span class="keyword">inequality</span> test <span
+                  class="inline-code">True</span> if <span class="inline-code">i</span> is not equal <span
+                  class="inline-code">j</span></li>
+            </ul>
+          </ul>
+        </section>
+
+        <section>
+          <h2>LOGIC OPERATORS ON bools</h2>
+
+          <ul>
+            <li><span class="inline-code">a</span> and <span class="inline-code">b</span> are variable names (with
+              Boolean values)</li>
+            <ul>
+              <li><span class="inline-code"><strong>not</strong> a</span>
+                <ul>
+                  <li><span class="inline-code">True</span> if <span class="inline-code">a</span> is <span
+                      class="inline-code">False</span></li>
+                  <li>
+                    <span class="inline-code">False</span> if <span class="inline-code">a</span> is <span
+                      class="inline-code">True</span>
+                  </li>
+                </ul>
+              </li>
+              <li><span class="inline-code">a <strong>and</strong> b</span>
+                <ul>
+                  <li>
+                    <span class="inline-code">True</span> if both are <span class="inline-code">True</span>
+                  </li>
+                </ul>
+              </li>
+              <li><span class="inline-code">a <strong>or</strong> b</span>
+                <ul>
+                  <li>
+                    <span class="inline-code">True</span> if either or both are
+                    <span class="inline-code">True</span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Logic operators on bools (cont.)</h2>
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th><span class="inline-code">a</span></th>
+                  <th><span class="inline-code">b</span></th>
+                  <th><span class="inline-code">a and b</span></th>
+                  <th><span class="inline-code">a or b</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="inline-code">True</span></td>
+                  <td><span class="inline-code">True</span></td>
+                  <td><span class="inline-code">True</span></td>
+                  <td><span class="inline-code">True</span></td>
+                </tr>
+                <tr>
+                  <td><span class="inline-code">True</span></td>
+                  <td><span class="inline-code">False</span></td>
+                  <td><span class="inline-code">False</span></td>
+                  <td><span class="inline-code">True</span></td>
+                </tr>
+                <tr>
+                  <td><span class="inline-code">False</span></td>
+                  <td><span class="inline-code">True</span></td>
+                  <td><span class="inline-code">False</span></td>
+                  <td><span class="inline-code">True</span></td>
+                </tr>
+                <tr>
+                  <td><span class="inline-code">False</span></td>
+                  <td><span class="inline-code">False</span></td>
+                  <td><span class="inline-code">False</span></td>
+                  <td><span class="inline-code">False</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="caption">Truth table for logic operators</p>
+          </div>
+        </section>
+
+        <section>
+          <h2>Comparison example</h2>
+          <pre><code class="language-python">>>> pset_time = 15
+>>> sleep_time = 8
+>>> print(sleep_time > pset_time)
+False
+>>> drive = True
+>>> drink = False
+>>> both = drink and drive
+>>> print(both)
+False</code></pre>
         </section>
 
       </section>
