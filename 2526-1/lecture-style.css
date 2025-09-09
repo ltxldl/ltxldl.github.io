@@ -63,6 +63,7 @@
     padding: 2px 4px;
     border-radius: 4px;
     /* font-weight: bold; */
+    text-transform: none !important;
 }
 
 .reveal .fragment.blur {
