@@ -1,0 +1,1785 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Lecture 2: Data Structures</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Title slide -->
+      <section>
+        <h1>Programming for Data Processing</h1>
+        <div>
+          <p>
+            <strong>Lectures:</strong> Nguyễn Tuấn Phong, Đào Việt Anh
+          </p>
+          <p>
+            <strong>Labs:</strong> Trịnh Ngọc Huỳnh, Phạm Tiến Du
+          </p>
+          <p>
+            <strong>Semester:</strong> 2025-2026-1
+          </p>
+          <p>
+            <strong>Slide Credits:</strong> Nguyễn Văn Phi, MIT OCW 6.0001
+          </p>
+          <p>Institute for AI, VNU-UET</p>
+        </div>
+      </section>
+
+      <!-- Lecture title -->
+      <section>
+        <h1>Lecture 2: Control Flow & Data Structures</h1>
+      </section>
+
+      <!-- Last time -->
+      <section data-markdown>
+        <textarea data-template>
+          ## Last time
+          1. Python basics
+          2. Variables and types
+          3. Expressions and statements
+        </textarea>
+      </section>
+
+      <!-- Today -->
+      <section data-markdown>
+        <textarea data-template>
+          ## Today
+          1. Branching and Iteration	
+          2. Strings
+          3. Tuples
+          5. Lists
+          4. Sets
+          6. Dictionaries
+        </textarea>
+      </section>
+
+      <!-- Branching and Iteration -->
+      <section>
+        <section>
+          <h1><span class="text-light">1.</span> Branching and Iteration</h1>
+        </section>
+
+        <section>
+          <h2>Branching</h2>
+
+          <div style="display:grid; grid-template-columns: repeat(2, minmax(260px, 1fr)); gap: 6px; align-items:start;">
+            <div>
+              <pre style="margin:0"><code class="language-python" data-trim>
+if &lt;condition&gt;:
+    &lt;expression&gt;
+    ...
+    </code></pre>
+              <pre style="margin:18px 0 0 0"><code class="language-python" data-trim>
+if &lt;condition&gt;:
+    &lt;expression&gt;
+    &lt;expression&gt;
+    ...
+else:
+    &lt;expression&gt;
+    &lt;expression&gt;
+    ...
+    </code></pre>
+            </div>
+
+            <pre style="margin:0"><code class="language-python" data-trim>
+if &lt;condition&gt;:
+    &lt;expression&gt;
+    &lt;expression&gt;
+    ...
+elif &lt;condition&gt;:
+    &lt;expression&gt;
+    &lt;expression&gt;
+    ...
+else:
+    &lt;expression&gt;
+    &lt;expression&gt;
+    ...
+    </code></pre>
+          </div>
+
+          <ul>
+            <li><span class="inline-code">&lt;condition&gt;</span> has value <span class="inline-code">True</span> or
+              <span class="inline-code">False</span>
+            </li>
+            <li>Block runs if <span class="inline-code">&lt;condition&gt;</span> is <span
+                class="inline-code">True</span></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>INDENTATION</h2>
+
+          <ul>
+            <li>Unlike C/C++, indentation <span class="keyword">matters</span> in Python</li>
+            <li>It’s how you denote <span class="keyword">blocks of code</span></li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+x = float(input("Enter a number for x: "))
+y = float(input("Enter a number for y: "))
+
+if x == y:
+    print("x and y are equal")
+    if y != 0:
+        print("therefore, x / y is", x / y)
+elif x < y:
+    print("x is smaller")
+else:
+    print("y is smaller")
+
+print("thanks!")
+  </code></pre>
+        </section>
+
+        <section>
+          <h2><span class="inline-code">==</span> versus <span class="inline-code">=</span></h2>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+x = float(input("Enter a number for x: "))
+y = float(input("Enter a number for y: "))
+
+if x == y:
+    print("x and y are equal")
+    if y != 0:
+        print("therefore, x / y is", x / y)
+elif x < y:
+    print("x is smaller")
+else:
+    print("y is smaller")
+
+print("thanks!")
+  </code></pre>
+
+          <p>
+            What if using <strong class="inline-code">x = y</strong> in Line #4?
+          </p>
+          <p class="fragment">
+            → Get <strong class="text-red">SyntaxError</strong>
+          </p>
+        </section>
+
+        <section>
+          <h2>Interation: <span class="inline-code">while</span> loops</h2>
+
+          <pre><code class="language-python" data-trim>
+while &lt;condition&gt;:
+    &lt;expression&gt;
+    &lt;expression&gt;
+    ...
+  </code></pre>
+
+          <div style="font-size: 0.9em;">
+            <ol>
+              <li><span class="inline-code">&lt;condition&gt;</span> evaluates to a Boolean</li>
+              <li>If <span class="inline-code">&lt;condition&gt;</span> is <span class="inline-code">True</span>, do all
+                steps inside the <span class="inline-code">while</span> block</li>
+              <li>Check <span class="inline-code">&lt;condition&gt;</span> again</li>
+              <li>Repeat until <span class="inline-code">&lt;condition&gt;</span> is <span
+                  class="inline-code">False</span></li>
+            </ol>
+        </section>
+
+        <section>
+          <h2><span class="inline-code">while</span> LOOP EXAMPLE</h2>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+password = ""
+while password != "python":
+    password = input("Enter the password: ")
+
+print("Access granted!")
+  </code></pre>
+        </section>
+
+        <section>
+          <h2>Iteration: <span class="inline-code">for</span> LOOPS</h2>
+
+          <pre><code class="language-python" data-trim>
+for &lt;variable&gt; in range(&lt;some_num&gt;):
+    &lt;expression&gt;
+    &lt;expression&gt;
+    ...
+  </code></pre>
+
+          <div style="font-size: 0.9em;">
+            <ol>
+              <li>Each time through the loop, <span class="inline-code">&lt;variable&gt;</span> takes a value</li>
+              <li>First time, <span class="inline-code">&lt;variable&gt;</span> starts at the smallest value</li>
+              <li>Next time, <span class="inline-code">&lt;variable&gt;</span> gets the previous value + 1</li>
+              <li>Etc.</li>
+            </ol>
+          </div>
+        </section>
+
+        <section>
+          <h2><span class="inline-code">for</span> LOOP EXAMPLE</h2>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+fruits = ["apple", "banana", "cherry"]
+
+for fruit in fruits:
+    print("I like", fruit)
+  </code></pre>
+        </section>
+
+
+        <section>
+          <h2><br><span class="inline-code">while</span> versus <span class="inline-code">for</span> LOOPS
+          </h2>
+
+          <p>Iterate through numbers in a sequence:</p>
+          <ul>
+            <li>More complicated with <span class="inline-code">while</span> loop
+              <pre><code class="language-python" data-trim data-line-numbers="">
+n = 0
+while n < 5:
+    print(n)
+    n = n + 1
+  </code></pre>
+            </li>
+            <li>
+              Shortcut with <span class="inline-code">for</span> loop
+              <pre><code class="language-python" data-trim data-line-numbers="">
+for n in range(5):
+    print(n)
+  </code></pre>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3><span class="inline-code">range(start, stop, step)</span></h3>
+
+          <ul>
+            <li>Default values:
+              <ul>
+                <li>
+                  <span class="inline-code">start = 0</span> and <span class="inline-code">step = 1</span>
+                  (both optional)
+                </li>
+              </ul>
+            </li>
+            <li>Loop runs until value reaches <span class="inline-code">stop - 1</span></li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+mysum = 0
+for i in range(7, 10):
+    mysum += i
+print(mysum)
+  </code></pre>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+mysum = 0
+for i in range(5, 11, 2):
+    mysum += i
+print(mysum)
+  </code></pre>
+        </section>
+
+        <section>
+          <h2><span class="inline-code">break</span> STATEMENT</h2>
+
+          <ul>
+            <li>Immediately exits whatever loop it is in</li>
+            <li>Skips remaining expressions in the code block</li>
+            <li>Exits only the <strong>innermost</strong> loop</li>
+          </ul>
+
+          <div class="fragment">
+            <p><strong>Question:</strong> What happens in the following code?</p>
+            <pre><code class="language-python" data-trim>
+while &lt;condition_1&gt;:
+    while &lt;condition_2&gt;:
+        &lt;expression_a&gt;
+        break
+        &lt;expression_b&gt;
+    &lt;expression_c&gt;
+  </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2><span class="inline-code">break</span> STATEMENT</h2>
+
+
+          <p><strong>Question:</strong> what happens in this program?</p>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+mysum = 0
+
+for i in range(5, 11, 2):
+    mysum += i
+    if mysum == 5:
+        break
+    mysum += 1
+
+print(mysum)
+  </code></pre>
+        </section>
+
+        <section>
+          <h2><span class="inline-code">for</span> vs <span class="inline-code">while</span> loops</h2>
+
+          <div style="font-size: .6em">
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th><span class="inline-code">for</span> loops</th>
+                  <th><span class="inline-code">while</span> loops</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Iterations</strong></td>
+                  <td><span class="keyword">known</span> number of iterations</td>
+                  <td><span class="keyword">unbounded</span> number of iterations</td>
+                </tr>
+                <tr>
+                  <td><strong>Early exit</strong></td>
+                  <td>can <span class="keyword">end early</span> via <span class="inline-code">break</span></td>
+                  <td>can <span class="keyword">end early</span> via <span class="inline-code">break</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Counters</strong></td>
+                  <td>uses a <span class="keyword">counter</span></td>
+                  <td>can use a <span class="keyword">counter</span>, but <span class="keyword">must initialize</span>
+                    before loop and increment inside loop</td>
+                </tr>
+                <tr>
+                  <td><strong>Rewriting</strong></td>
+                  <td><span class="keyword">can rewrite</span> a <span class="inline-code">for</span> loop using a <span
+                      class="inline-code">while</span> loop</td>
+                  <td><span class="keyword">may not be able to rewrite</span> a <span class="inline-code">while</span>
+                    loop using a <span class="inline-code">for</span> loop</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <div class="question-box">
+            <div class="question-title">
+              Question
+            </div>
+            <div class="question-content">
+              Can you think of an example where a <span class="inline-code">while</span> loop
+              <strong>cannot</strong> be rewritten as a <span class="inline-code">for</span> loop?
+            </div>
+          </div>
+        </section>
+
+      </section>
+
+      <!-- Strings -->
+      <section>
+        <section>
+          <h1><span class="text-light">2.</span> Strings</h1>
+        </section>
+
+        <section data-auto-animate>
+          <h2>STRINGS</h2>
+
+          <ul>
+            <li>Think of as a <span class="keyword">sequence</span> of case-sensitive characters</li>
+            <li>Can compare strings with <span class="inline-code">==</span>, <span class="inline-code">&gt;</span>,
+              <span class="inline-code">&lt;</span>, etc.
+            </li>
+            <li><span class="inline-code">len()</span> is used to retrieve the <span class="keyword">length</span> of
+              the string</li>
+          </ul>
+
+          <pre><code data-trim>
+>>> s = "abc"
+>>> len(s)
+3
+  </code></pre>
+        </section>
+
+
+        <section data-auto-animate>
+          <h2>STRINGS</h2>
+
+          <ul>
+            <li>Square brackets are used for <span class="keyword">indexing</span> to access characters at a position
+            </li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+s = "abc"
+
+# indexes:   0   1   2
+# indexes:  -3  -2  -1
+
+s[0]   # "a"
+s[1]   # "b"
+s[2]   # "c"
+s[3]   # error (out of bounds)
+s[-1]  # "c"
+s[-2]  # "b"
+s[-3]  # "a"
+  </code></pre>
+        </section>
+
+
+        <section data-auto-animate>
+          <h2>STRINGS</h2>
+
+          <ul>
+            <li>Can <span class="keyword">slice</span> strings using <span class="inline-code">[start:stop:step]</span>
+            </li>
+            <li>If given two numbers, <span class="inline-code">[start:stop]</span>
+              <ul>
+                <li><span class="inline-code">step = 1</span> by default</li>
+              </ul>
+            </li>
+            <li>You can omit numbers and leave just colons</li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+s = "abcdefgh"
+
+s[3:6]     # "def", same as s[3:6:1]
+s[3:6:2]   # "df"
+s[::]      # "abcdefgh", same as s[0:len(s):1]
+s[::-1]    # "hgfedcba", same as s[-1:-(len(s)+1):-1]
+s[4:1:-2]  # "ec"
+  </code></pre>
+        </section>
+
+        <section data-auto-animate>
+          <h2>STRINGS</h2>
+
+          <div style="font-size: 0.85em;">
+            <ul>
+              <li>Strings are <span class="keyword">immutable</span> → cannot be modified in place</li>
+
+              <pre><code data-trim>
+>>> s = "hello"
+</code></pre>
+
+              <li>Attempting to change a character directly raises an error</li>
+              <pre><code data-trim>
+>>> s[0] = 'y'  # ❌ error
+</code></pre>
+              <li>Reassigning with concatenation creates a <strong>new string</strong> object</li>
+              <pre><code data-trim>
+>>> s = 'y' + s[1:len(s)]  # ✅ allowed, new object assigned to s
+  </code></pre>
+            </ul>
+          </div>
+        </section>
+
+        <section>
+          <h2>STRINGS AND LOOPS</h2>
+
+          <ul style="font-size: 0.9em;">
+            <li>A <span class="inline-code">for</span> loop can iterate over the characters in a string</li>
+            <li>These two code snippets do the same thing</li>
+            <li>The bottom one is more &ldquo;pythonic&rdquo;</li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+s = "abcdefgh"
+
+for index in range(len(s)):
+    if s[index] == 'i' or s[index] == 'u':
+        print("There is an i or u")
+  </code></pre>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+for char in s:
+    if char == 'i' or char == 'u':
+        print("There is an i or u")
+  </code></pre>
+        </section>
+      </section>
+
+
+      <!-- Tuples -->
+      <section>
+        <section>
+          <h1><span class="text-light">3.</span> Tuples</h1>
+        </section>
+        <section>
+          <h2>TUPLES</h2>
+
+          <div style="font-size: 0.8em;">
+            <ul>
+              <li>An ordered sequence of elements, can mix element types</li>
+              <li>Cannot change element values → <span class="keyword">immutable</span></li>
+              <li>Represented with parentheses</li>
+            </ul>
+
+            <pre><code class="language-python" data-trim data-line-numbers="1|2|3|4|5|6|7|8">
+te = ()                # empty tuple
+t = (2, "uet", 3)      # tuple with 3 elements
+t[0]                   # 2 # first element
+(2, "uet", 3) + (5, 6) # (2, "uet", 3, 5, 6)
+t[1:2]                 # ("uet",)   # extra comma → tuple with one element
+t[1:3]                 # ("uet", 3)
+len(t)                 # 3
+t[1] = 4               # ❌ error, cannot modify tuple elements
+  </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>TUPLES</h2>
+
+          <ul>
+            <li>Conveniently used to <span class="keyword">swap</span> variable values</li>
+          </ul>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; text-align:center;">
+            <div>
+              <p>❌ Incorrect</p>
+              <pre><code class="language-python" data-trim>
+x = y
+y = x
+      </code></pre>
+            </div>
+
+            <div>
+              <p>✅ Temp var</p>
+              <pre><code class="language-python" data-trim>
+temp = x
+x = y
+y = temp
+      </code></pre>
+            </div>
+
+            <div>
+              <p>✅ Pythonic swap</p>
+              <pre><code class="language-python" data-trim>
+(x, y) = (y, x)
+      </code></pre>
+            </div>
+          </div>
+
+          <ul>
+            <li>Used to <span class="keyword">return multiple values</span> from a function
+              (next week)</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- Lists -->
+      <section>
+        <section>
+          <h1><span class="text-light">4.</span> Lists</h1>
+        </section>
+
+        <section>
+          <h2>LISTS</h2>
+
+          <ul>
+            <li><span class="keyword">Ordered sequence</span> of information</li>
+            <li>Accessible by index</li>
+            <li>Denoted by <span class="keyword">square brackets</span> <span class="inline-code">[ ]</span></li>
+            <li>Contains <span class="keyword">elements</span>
+              <ul>
+                <li>Usually homogeneous (e.g., all integers)</li>
+                <li>Can contain mixed types (not common)</li>
+              </ul>
+            </li>
+            <li>List elements can be changed → <span class="inline-code">list</span> is <span
+                class="keyword">mutable</span></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>INDICES AND ORDERING</h2>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+a_list = []         # empty list
+L = [2, 'a', 4, [1, 2]]
+
+len(L)              # 4
+L[0]                # 2
+L[2] + 1            # 5
+L[3]                # [1, 2], another list!
+L[4]                # ❌ error (index out of range)
+
+i = 2
+L[i-1]              # 'a' since L[1] = 'a'
+  </code></pre>
+        </section>
+
+        <section>
+          <h2>CHANGING ELEMENTS</h2>
+
+          <ul>
+            <li>Lists are <span class="keyword">mutable</span>!</li>
+            <li>Assigning to an element changes its value</li>
+          </ul>
+
+          <pre><code data-trim>
+>>> L = [2, 1, 3]
+>>> L[1] = 5
+>>> L
+[2, 5, 3]
+  </code></pre>
+
+          <p>&rarr; It&rsquo;s the <span class="keyword">same object</span> <span class="inline-code">L</span>, only
+            modified in
+            place.</p>
+        </section>
+
+        <section>
+          <h2>Iterating Over a List</h2>
+
+          <ul>
+            <li>Compute the <span class="keyword">sum of elements</span> in a list</li>
+            <li>Two common patterns</li>
+          </ul>
+
+          <div style="display:flex; gap: 2rem; align-items:flex-start; flex-wrap:wrap;">
+            <div style="flex:1 1 260px;">
+              <h5 style="margin:.2em 0;">Index-based</h5>
+              <pre><code class="language-python" data-trim data-line-numbers="">
+total = 0
+for i in range(len(L)):
+    total += L[i]
+print(total)
+      </code></pre>
+            </div>
+            <div style="flex:1 1 260px;">
+              <h5 style="margin:.2em 0;">Direct iteration</h5>
+              <pre><code class="language-python" data-trim data-line-numbers="">
+total = 0
+for x in L:
+    total += x
+print(total)
+      </code></pre>
+            </div>
+          </div>
+
+          <ul>
+            <li>List indices run from <span class="inline-code">0</span> to <span class="inline-code">len(L)-1</span>
+            </li>
+            <li><span class="inline-code">range(n)</span> yields <span class="inline-code">0</span> to <span
+                class="inline-code">n-1</span></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Operations on Lists — Add</h2>
+
+          <div style="font-size: 0.8em;">
+            <ul>
+              <li><span class="keyword">Add</span> an element to the end with <span
+                  class="inline-code">L.append(elem)</span></li>
+              <li><span class="keyword">Mutates</span> the list</li>
+            </ul>
+
+            <pre><code data-trim>
+>>> L = [2, 1, 3]
+>>> L.append(5)
+>>> L
+[2, 1, 3, 5]
+  </code></pre>
+
+            <ul>
+              <li>What’s the dot?
+                <ul>
+                  <li>Lists are <span class="keyword">objects</span> (like everything else in Python)</li>
+                  <li>Objects have <span class="keyword">data</span> and <span class="keyword">methods</span></li>
+                  <li>Call methods with <span class="inline-code">object_name.do_something()</span></li>
+                  <li>Will be introduced later</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section style="font-size: 0.9em;">
+          <h2>Operations on Lists — Combine</h2>
+
+          <ul>
+            <li><span class="keyword">Concatenate</span> with <span class="inline-code">+</span> to make a new list</li>
+            <li>Extend in place with <span class="inline-code">L.extend(some_list)</span> (<span
+                class="keyword">mutates</span>)</li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+L1 = [2, 1, 3]
+L2 = [4, 5, 6]
+L3 = L1 + L2  # L3 == [2, 1, 3, 4, 5, 6]; L1, L2 unchanged
+  </code></pre>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+L1 = [2, 1, 3]
+L1.extend([0, 6])  # L1 == [2, 1, 3, 0, 6]  (mutated)
+  </code></pre>
+        </section>
+
+        <section style="font-size: 0.9em;">
+          <h2>Operations on Lists — Remove</h2>
+
+          <ul>
+            <li>Delete at a <span class="keyword">specific index</span> with <span class="inline-code">del L[i]</span>
+            </li>
+            <li>Remove last element with <span class="inline-code">L.pop()</span> (returns it)</li>
+            <li>Remove a <span class="keyword">specific element</span> with <span class="inline-code">L.remove(x)</span>
+              <ul>
+                <li>Removes first occurrence</li>
+                <li>Gives error if not found</li>
+              </ul>
+            </li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+L = [2, 1, 3, 6, 3, 7, 0]
+
+L.remove(2)   # L == [1, 3, 6, 3, 7, 0]
+L.remove(3)   # L == [1, 6, 3, 7, 0]
+del L[1]      # L == [1, 3, 7, 0]
+L.pop()       # returns 0, L == [1, 3, 7]
+  </code></pre>
+        </section>
+
+        <section style="font-size: 0.8em;">
+          <h2>Convert Lists &harr; Strings</h2>
+
+          <ul>
+            <li><span class="inline-code">list(s)</span> → string to list of chars
+
+              <pre><code class="language-python" data-trim>
+>>> s = "I<3 cs"
+>>> list(s)
+['I', '<', '3', ' ', 'c', 's']
+</code></pre>
+            </li>
+            <li><span class="inline-code">s.split(sep)</span> → string to list on separator (defaults to space)
+              <pre><code class="language-python" data-trim>
+>>> s.split('<')
+['I', '3 cs']
+</code></pre>
+            </li>
+            <li><span class="inline-code">''.join(L)</span> → list of strings to string
+              <pre><code class="language-python" data-trim>
+>>> L = ['a', 'b', 'cde']
+>>> ''.join(L)
+'abcde'
+>>> '_'.join(L)
+'a_b_cde'
+</code></pre>
+            </li>
+          </ul>
+
+        </section>
+
+        <section>
+          <h2>Other List Operations</h2>
+
+          <ul>
+            <li><span class="inline-code">sorted(L)</span> → returns sorted list, does <span class="keyword">not</span>
+              mutate</li>
+            <li><span class="inline-code">L.sort()</span> → sorts in place, <span class="keyword">mutates</span></li>
+            <li><span class="inline-code">L.reverse()</span> → reverses in place, <span class="keyword">mutates</span>
+            </li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+L = [9, 6, 0, 3]
+
+sorted(L)   # [0, 3, 6, 9], L unchanged
+L.sort()    # L == [0, 3, 6, 9]
+L.reverse() # L == [9, 6, 3, 0]
+  </code></pre>
+          <p>&rarr; Check <a href="https://docs.python.org/3/tutorial/datastructures.html#more-on-lists">Official Python
+              Tutorial</a> for many more!</p>
+        </section>
+
+        <section>
+          <h1>Mutation<br>Aliasing<br>Cloning</h1>
+        </section>
+
+        <section>
+          <h2>Lists in Memory</h2>
+
+          <ul>
+            <li>Lists are <span class="keyword">mutable</span></li>
+            <li>Behave differently from immutable types</li>
+            <li>Each list is an <span class="keyword">object in memory</span></li>
+            <li>Variable name points to that object</li>
+            <li>Any variable pointing to the same object is affected</li>
+            <li>Key phrase: <span class="keyword">side effects</span></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>An Analogy</h2>
+
+          <ul style="font-size: 0.9em;">
+            <li>A person has attributes
+              <ul>
+                <li><strong class="text-blue">Albert Einstein</strong>
+                  &rarr; scientist, genius</li>
+              </ul>
+            </li>
+            <li>He is known by many names:
+              <strong class="text-blue">Dr. Einstein</strong>,
+              <strong class="text-blue">Professor Einstein</strong>
+            </li>
+            <li>All nicknames point to the <strong>same person</strong></li>
+            <ul>
+              <li>Add a new attribute to <strong>one nickname</strong>
+                <ul>
+                  <li><strong class="text-blue">Albert Einstein</strong>
+                    &rarr; scientist, genius, curious</li>
+              </li>
+            </ul>
+            </li>
+            <li><strong>All nicknames</strong> refer to old AND new attributes
+              <ul>
+                <li><strong class="text-blue">Dr. Einstein</strong>
+                  &rarr; scientist, genius, curious</li>
+                <li><strong class="text-blue">Professor Einstein</strong>
+                  &rarr; scientist, genius, curious</li>
+              </ul>
+            </li>
+          </ul>
+          </ul>
+
+        </section>
+
+        <section style="font-size: 0.7em;">
+          <h2>Aliases</h2>
+
+          <ul>
+            <li><span class="inline-code">hot</span> is an <span class="keyword">alias</span> for <span
+                class="inline-code">warm</span> → changing one changes the other</li>
+            <li><span class="inline-code">append()</span> has a side effect</li>
+          </ul>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 6px; text-align:center;">
+            <div>
+              <pre><code data-trim>
+>>> a = 1
+>>> b = a
+>>> print(a)
+1
+>>> print(b)
+1
+>>> warm = ['red', 'yellow', 'orange']
+>>> hot = warm
+>>> hot.append('pink')
+>>> print(hot)
+['red', 'yellow', 'orange', 'pink']
+>>> print(warm)
+['red', 'yellow', 'orange', 'pink']
+  </code></pre>
+            </div>
+            <div>
+              <svg width="520" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400"
+                font-family="monospace, system-ui, sans-serif" font-size="16px">
+                <!-- Define arrow head marker -->
+                <defs>
+                  <marker id="arrowhead4" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" />
+                  </marker>
+                </defs>
+
+                <!-- Main Titles -->
+                <text x="120" y="50" font-size="20px" font-weight="bold" text-anchor="middle">Frames</text>
+                <text x="505" y="50" font-size="20px" font-weight="bold" text-anchor="middle">Objects</text>
+
+                <!-- Global Frame Box -->
+                <g id="global-frame">
+                  <rect x="50" y="80" width="180" height="220" fill="#f0f9ff" stroke="#9ca3af" stroke-width="1" rx="8"
+                    ry="8" />
+                  <text x="65" y="110" font-weight="bold">Global frame</text>
+
+                  <!-- Variables -->
+                  <text x="75" y="150">a</text>
+                  <rect x="130" y="134" width="35" height="22" fill="white" stroke="#9ca3af" stroke-width="1" />
+                  <text x="160" y="150" text-anchor="end">1</text>
+
+                  <text x="75" y="180">b</text>
+                  <rect x="130" y="164" width="35" height="22" fill="white" stroke="#9ca3af" stroke-width="1" />
+                  <text x="160" y="180" text-anchor="end">1</text>
+
+                  <text x="75" y="220">warm</text>
+                  <rect x="130" y="204" width="35" height="22" fill="white" stroke="#9ca3af" stroke-width="1" />
+                  <circle id="warm-dot" cx="150" cy="215" r="4" fill="#3b82f6" />
+
+                  <text x="75" y="250">hot</text>
+                  <rect x="130" y="234" width="35" height="22" fill="white" stroke="#9ca3af" stroke-width="1" />
+                  <circle id="hot-dot" cx="150" cy="245" r="4" fill="#3b82f6" />
+                </g>
+
+                <!-- Objects Section -->
+                <g id="objects">
+                  <text x="300" y="100">list</text>
+
+                  <!-- List Container -->
+                  <g id="list-object">
+                    <!-- Item 0: "red" -->
+                    <rect x="300" y="120" width="100" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="308" y="140" fill="#6b7280" font-size="12px">0</text>
+                    <text x="350" y="165" text-anchor="middle">"red"</text>
+
+                    <!-- Item 1: "yellow" -->
+                    <rect x="400" y="120" width="100" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="408" y="140" fill="#6b7280" font-size="12px">1</text>
+                    <text x="450" y="165" text-anchor="middle">"yellow"</text>
+
+                    <!-- Item 2: "orange" -->
+                    <rect x="500" y="120" width="100" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="508" y="140" fill="#6b7280" font-size="12px">2</text>
+                    <text x="550" y="165" text-anchor="middle">"orange"</text>
+
+                    <!-- Item 3: "pink" -->
+                    <rect x="600" y="120" width="100" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="608" y="140" fill="#6b7280" font-size="12px">3</text>
+                    <text x="650" y="165" text-anchor="middle">"pink"</text>
+                  </g>
+                </g>
+
+                <!-- Pointer Arrows -->
+                <path d="M 150 215 Q 240 160 295 160" stroke="#3b82f6" stroke-width="2" fill="none"
+                  marker-end="url(#arrowhead4)" />
+                <path d="M 150 245 Q 240 280 295 170" stroke="#3b82f6" stroke-width="2" fill="none"
+                  marker-end="url(#arrowhead4)" />
+
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <section style="font-size: 0.7em;">
+          <h2>Cloning a List</h2>
+
+          <ul>
+            <li>Create a new list and <span class="keyword">copy every element</span> with slicing</li>
+          </ul>
+
+          <div style="display:grid; grid-template-columns: 0.8fr 1fr; gap: 6px; text-align:center;">
+            <div>
+              <pre><code class="language-python" data-trim>
+>>> cool = ['blue', 'green', 'grey']
+>>> chill = cool[:]          # clone
+>>> chill.append('black')
+>>> print(chill)
+['blue', 'green', 'grey', 'black']
+>>> print(cool)
+['blue', 'green', 'grey']
+  </code></pre>
+            </div>
+            <div>
+              <svg width="520" xmlns="http://www.w3.org/2000/svg" font-family="monospace, system-ui, sans-serif"
+                font-size="16px" viewBox="0 0 800 500">
+                <!-- Define arrow head marker -->
+                <defs>
+                  <marker id="arrowhead3" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" />
+                  </marker>
+                </defs>
+
+                <!-- Main Titles -->
+                <text x="140" y="50" font-size="20px" font-weight="bold" text-anchor="middle">Frames</text>
+                <text x="505" y="50" font-size="20px" font-weight="bold" text-anchor="middle">Objects</text>
+
+                <!-- Global Frame Box -->
+                <g id="global-frame">
+                  <rect x="50" y="80" width="180" height="150" fill="#f0f9ff" stroke="#9ca3af" stroke-width="1" rx="8"
+                    ry="8" />
+                  <text x="65" y="110" font-weight="bold">Global frame</text>
+
+                  <!-- Variables -->
+                  <text x="75" y="150">cool</text>
+                  <rect x="130" y="134" width="70" height="22" fill="white" stroke="#9ca3af" stroke-width="1" />
+                  <circle id="cool-dot" cx="180" cy="145" r="4" fill="#3b82f6" />
+
+                  <text x="75" y="200">chill</text>
+                  <rect x="130" y="184" width="70" height="22" fill="white" stroke="#9ca3af" stroke-width="1" />
+                  <circle id="chill-dot" cx="180" cy="195" r="4" fill="#3b82f6" />
+                </g>
+
+                <!-- Objects Section -->
+                <g id="objects">
+                  <!-- List 1 (cool) -->
+                  <g id="list-cool">
+                    <text x="300" y="100">list</text>
+                    <!-- Item 0: "blue" -->
+                    <rect x="300" y="110" width="100" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="308" y="130" fill="#6b7280" font-size="12px">0</text>
+                    <text x="350" y="155" text-anchor="middle">"blue"</text>
+
+                    <!-- Item 1: "green" -->
+                    <rect x="400" y="110" width="100" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="408" y="130" fill="#6b7280" font-size="12px">1</text>
+                    <text x="450" y="155" text-anchor="middle">"green"</text>
+
+                    <!-- Item 2: "grey" -->
+                    <rect x="500" y="110" width="100" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="508" y="130" fill="#6b7280" font-size="12px">2</text>
+                    <text x="550" y="155" text-anchor="middle">"grey"</text>
+                  </g>
+
+                  <!-- List 2 (chill) -->
+                  <g id="list-chill">
+                    <text x="300" y="260">list</text>
+                    <!-- Item 0: "blue" -->
+                    <rect x="300" y="270" width="100" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="308" y="290" fill="#6b7280" font-size="12px">0</text>
+                    <text x="350" y="315" text-anchor="middle">"blue"</text>
+
+                    <!-- Item 1: "green" -->
+                    <rect x="400" y="270" width="100" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="408" y="290" fill="#6b7280" font-size="12px">1</text>
+                    <text x="450" y="315" text-anchor="middle">"green"</text>
+
+                    <!-- Item 2: "grey" -->
+                    <rect x="500" y="270" width="100" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="508" y="290" fill="#6b7280" font-size="12px">2</text>
+                    <text x="550" y="315" text-anchor="middle">"grey"</text>
+
+                    <!-- Item 3: "black" -->
+                    <rect x="600" y="270" width="100" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="608" y="290" fill="#6b7280" font-size="12px">3</text>
+                    <text x="650" y="315" text-anchor="middle">"black"</text>
+                  </g>
+                </g>
+
+                <!-- Pointer Arrows -->
+                <path d="M 184 145 Q 240 145 295 150" stroke="#3b82f6" stroke-width="2" fill="none"
+                  marker-end="url(#arrowhead3)" />
+                <path d="M 184 195 Q 240 280 295 310" stroke="#3b82f6" stroke-width="2" fill="none"
+                  marker-end="url(#arrowhead3)" />
+
+              </svg>
+
+            </div>
+          </div>
+        </section>
+
+        <section style="font-size: 0.7em;">
+          <h2>Sorting Lists</h2>
+
+          <ul>
+            <li><span class="inline-code">L.sort()</span> → <span class="keyword">mutates</span> the list, returns <span
+                class="inline-code">None</span></li>
+            <li><span class="inline-code">sorted(L)</span> → <span class="keyword">does not mutate</span>, returns a new
+              sorted list</li>
+          </ul>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 6px; text-align:center;">
+            <div>
+              <pre><code class="language-python" data-trim>
+>>> warm = ['red', 'yellow', 'orange']
+>>> sortedwarm = warm.sort()
+>>> print(warm)
+['orange', 'red', 'yellow']
+>>> print(sortedwarm)
+None
+>>> cool = ['grey', 'green', 'blue']
+>>> sortedcool = sorted(cool)
+>>> print(cool)
+['grey', 'green', 'blue']
+>>> print(sortedcool)
+['blue', 'green', 'grey']
+  </code></pre>
+            </div>
+            <div>
+              <svg width="520" xmlns="http://www.w3.org/2000/svg" font-family="monospace, system-ui, sans-serif"
+                font-size="16px" viewBox="0 0 800 600">
+                <!-- Define arrow head marker -->
+                <defs>
+                  <marker id="arrowhead1" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" />
+                  </marker>
+                </defs>
+
+                <!-- Main Titles -->
+                <text x="140" y="50" font-size="20px" font-weight="bold" text-anchor="middle">Frames</text>
+                <text x="505" y="50" font-size="20px" font-weight="bold" text-anchor="middle">Objects</text>
+
+                <!-- Global Frame Box -->
+                <g id="global-frame">
+                  <rect x="50" y="80" width="220" height="280" fill="#f0f9ff" stroke="#9ca3af" stroke-width="1" rx="8"
+                    ry="8" />
+                  <text x="65" y="110" font-weight="bold">Global frame</text>
+
+                  <!-- Variables -->
+                  <text x="75" y="150">warm</text>
+                  <rect x="175" y="134" width="80" height="25" fill="white" stroke="#9ca3af" stroke-width="0.5" />
+                  <circle id="warm-dot" cx="210" cy="146.5" r="4" fill="#3b82f6" />
+
+                  <text x="75" y="190">sortedwarm</text>
+                  <rect x="175" y="174" width="80" height="25" fill="white" stroke="#9ca3af" stroke-width="0.5" />
+                  <text x="180" y="190">None</text>
+
+                  <text x="75" y="230">cool</text>
+                  <rect x="175" y="214" width="80" height="25" fill="white" stroke="#9ca3af" stroke-width="0.5" />
+                  <circle id="cool-dot" cx="210" cy="226.5" r="4" fill="#3b82f6" />
+
+                  <text x="75" y="270">sortedcool</text>
+                  <rect x="175" y="254" width="80" height="25" fill="white" stroke="#9ca3af" stroke-width="0.5" />
+                  <circle id="sortedcool-dot" cx="210" cy="266.5" r="4" fill="#3b82f6" />
+                </g>
+
+                <!-- Objects Section -->
+                <g id="objects">
+                  <!-- List 1 -->
+                  <g id="list-warm">
+                    <text x="320" y="100">list</text>
+                    <rect x="320" y="110" width="120" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="328" y="130" fill="#6b7280" font-size="12px">0</text>
+                    <text x="380" y="155" text-anchor="middle">"orange"</text>
+
+                    <rect x="440" y="110" width="120" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="448" y="130" fill="#6b7280" font-size="12px">1</text>
+                    <text x="500" y="155" text-anchor="middle">"red"</text>
+
+                    <rect x="560" y="110" width="120" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="568" y="130" fill="#6b7280" font-size="12px">2</text>
+                    <text x="620" y="155" text-anchor="middle">"yellow"</text>
+                  </g>
+
+                  <!-- List 2 -->
+                  <g id="list-cool">
+                    <text x="320" y="240">list</text>
+                    <rect x="320" y="250" width="120" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="328" y="270" fill="#6b7280" font-size="12px">0</text>
+                    <text x="380" y="295" text-anchor="middle">"grey"</text>
+
+                    <rect x="440" y="250" width="120" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="448" y="270" fill="#6b7280" font-size="12px">1</text>
+                    <text x="500" y="295" text-anchor="middle">"green"</text>
+
+                    <rect x="560" y="250" width="120" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="568" y="270" fill="#6b7280" font-size="12px">2</text>
+                    <text x="620" y="295" text-anchor="middle">"blue"</text>
+                  </g>
+
+                  <!-- List 3 -->
+                  <g id="list-sortedcool">
+                    <text x="320" y="380">list</text>
+                    <rect x="320" y="390" width="120" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="328" y="410" fill="#6b7280" font-size="12px">0</text>
+                    <text x="380" y="435" text-anchor="middle">"blue"</text>
+
+                    <rect x="440" y="390" width="120" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="448" y="410" fill="#6b7280" font-size="12px">1</text>
+                    <text x="500" y="435" text-anchor="middle">"green"</text>
+
+                    <rect x="560" y="390" width="120" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="568" y="410" fill="#6b7280" font-size="12px">2</text>
+                    <text x="620" y="435" text-anchor="middle">"grey"</text>
+                  </g>
+                </g>
+
+                <!-- Pointer Arrows -->
+                <path d="M 214 146.5 Q 260 146.5 315 150" stroke="#3b82f6" stroke-width="2" fill="none"
+                  marker-end="url(#arrowhead1)" />
+                <path d="M 214 226.5 Q 260 226.5 315 290" stroke="#3b82f6" stroke-width="2" fill="none"
+                  marker-end="url(#arrowhead1)" />
+                <path d="M 214 266.5 Q 260 350 315 430" stroke="#3b82f6" stroke-width="2" fill="none"
+                  marker-end="url(#arrowhead1)" />
+
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <section style="font-size: 0.7em;">
+          <h2>Lists of Lists of Lists of ...</h2>
+
+          <ul>
+            <li>Lists can be <span class="keyword">nested</span></li>
+            <li>Mutations can still cause <span class="keyword">side effects</span></li>
+          </ul>
+
+          <div style="display:grid; grid-template-columns: 0.9fr 1fr; gap: 6px; text-align:center;">
+            <div>
+              <pre><code class="language-python" data-trim>
+>>> warm = ['yellow', 'orange']
+>>> hot = ['red']
+>>> brightcolors = [warm]
+>>> brightcolors.append(hot)
+>>> print(brightcolors)
+[['yellow', 'orange'], ['red']]
+>>> hot.append('pink')
+>>> print(hot)
+['red', 'pink']
+>>> print(brightcolors)
+[['yellow', 'orange'], ['red', 'pink']]
+  </code></pre>
+            </div>
+            <div>
+              <svg width="500" xmlns="http://www.w3.org/2000/svg" font-family="monospace, system-ui, sans-serif"
+                font-size="16px" viewBox="0 0 950 700">
+                <!-- Define arrow head marker -->
+                <defs>
+                  <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"
+                    overflow="visible">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" />
+                  </marker>
+                </defs>
+
+                <!-- Main Titles -->
+                <text x="140" y="50" font-size="20px" font-weight="bold" text-anchor="middle">Frames</text>
+                <text x="505" y="50" font-size="20px" font-weight="bold" text-anchor="middle">Objects</text>
+
+                <!-- Global Frame Box -->
+                <g id="global-frame">
+                  <rect x="50" y="80" width="200" height="180" fill="#f0f9ff" stroke="#9ca3af" stroke-width="1" rx="8"
+                    ry="8" />
+                  <text x="65" y="110" font-weight="bold">Global frame</text>
+
+                  <!-- Variables -->
+                  <text x="75" y="150">warm</text>
+                  <rect x="190" y="134" width="30" height="22" fill="white" stroke="#9ca3af" stroke-width="1" />
+                  <circle id="warm-dot" cx="200" cy="145" r="4" fill="#3b82f6" />
+
+                  <text x="75" y="190">hot</text>
+                  <rect x="190" y="174" width="30" height="22" fill="white" stroke="#9ca3af" stroke-width="1" />
+                  <circle id="hot-dot" cx="200" cy="185" r="4" fill="#3b82f6" />
+
+                  <text x="75" y="230">brightcolors</text>
+                  <rect x="190" y="214" width="30" height="22" fill="white" stroke="#9ca3af" stroke-width="1" />
+                  <circle id="brightcolors-dot" cx="200" cy="225" r="4" fill="#3b82f6" />
+                </g>
+
+                <!-- Objects Section -->
+                <g id="objects">
+                  <!-- List 1 (warm) -->
+                  <g id="list-warm">
+                    <text x="350" y="100">list</text>
+                    <rect x="350" y="110" width="120" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="358" y="130" fill="#6b7280" font-size="12px">0</text>
+                    <text x="410" y="155" text-anchor="middle">"yellow"</text>
+
+                    <rect x="470" y="110" width="120" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="478" y="130" fill="#6b7280" font-size="12px">1</text>
+                    <text x="530" y="155" text-anchor="middle">"orange"</text>
+                  </g>
+
+                  <!-- List 2 (hot) -->
+                  <g id="list-hot">
+                    <text x="550" y="280">list</text>
+                    <rect x="550" y="290" width="120" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="558" y="310" fill="#6b7280" font-size="12px">0</text>
+                    <text x="610" y="335" text-anchor="middle">"red"</text>
+
+                    <rect x="670" y="290" width="120" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="678" y="310" fill="#6b7280" font-size="12px">1</text>
+                    <text x="730" y="335" text-anchor="middle">"pink"</text>
+                  </g>
+
+                  <!-- List 3 (brightcolors) -->
+                  <g id="list-brightcolors">
+                    <text x="350" y="460">list</text>
+                    <rect x="350" y="470" width="80" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="358" y="490" fill="#6b7280" font-size="12px">0</text>
+                    <circle id="list3-dot0" cx="390" cy="510" r="4" fill="#3b82f6" />
+
+                    <rect x="430" y="470" width="80" height="80" fill="#fefce8" stroke="#9ca3af" stroke-width="1" />
+                    <text x="438" y="490" fill="#6b7280" font-size="12px">1</text>
+                    <circle id="list3-dot1" cx="470" cy="510" r="4" fill="#3b82f6" />
+                  </g>
+                </g>
+
+                <!-- Pointer Arrows -->
+                <path d="M 204 145 Q 270 120 345 130" stroke="#3b82f6" stroke-width="2" fill="none"
+                  marker-end="url(#arrowhead2)" />
+                <path d="M 204 185 Q 400 220 545 310" stroke="#3b82f6" stroke-width="2" fill="none"
+                  marker-end="url(#arrowhead2)" />
+                <path d="M 204 225 Q 280 350 345 490" stroke="#3b82f6" stroke-width="2" fill="none"
+                  marker-end="url(#arrowhead2)" />
+
+                <!-- Pointers from List 3 -->
+                <path d="M 390 506 C 380 400, 300 250, 345 130" stroke="#3b82f6" stroke-width="2" fill="none"
+                  marker-end="url(#arrowhead2)" />
+                <path d="M 470 506 C 490 450, 470 380, 545 310" stroke="#3b82f6" stroke-width="2" fill="none"
+                  marker-end="url(#arrowhead2)" />
+              </svg>
+
+            </div>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Mutation and Iteration</h2>
+          <p><strong>⚠️ Avoid</strong> mutating a list while iterating over it!</p>
+          <ul>
+            <li>Python uses an internal counter for iteration</li>
+            <li>Mutating changes list length but not the counter</li>
+          </ul>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Mutation and Iteration</h2>
+          <div style="font-size: 0.8em;">
+            <p>
+              <strong>Question:</strong> Which code is correct?
+            </p>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 6px; text-align:center;">
+              <div>
+                <p><strong>Code #1</strong></p>
+                <pre><code class="language-python" data-trim data-line-numbers="">
+def remove_dups(L1, L2):
+    for e in L1:
+        if e in L2:
+            L1.remove(e)
+      </code></pre>
+              </div>
+
+              <div>
+                <p><strong>Code #2</strong></p>
+                <pre><code class="language-python" data-trim data-line-numbers="">
+def remove_dups(L1, L2):
+    L1_copy = L1[:] # clone first
+    for e in L1_copy:
+        if e in L2:
+            L1.remove(e)
+      </code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </section>
+
+      <!-- Sets -->
+      <section>
+        <section>
+          <h1><span class="text-light">5.</span> Sets</h1>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Sets</h2>
+
+          <div style="font-size: 0.75em;">
+            <ul>
+              <li><span class="keyword">Unordered</span> collection, unique elements, written within braces
+                <pre><code data-trim>
+>>> numbers = {1, 2, 3, 4, 1, 5}
+>>> print(numbers)
+{1, 2, 3, 4, 5}
+>>> numbers[0]
+TypeError: 'set' object is not subscriptable
+  </code></pre>
+              </li>
+              <li>Don&rsquo;t be confused with <span class="inline-code">dict</span> (presented later)
+                <pre><code class="language-python" data-trim>
+>>> var_a = {}
+>>> type(var_a)
+&lt;class 'dict'&gt;
+>>> var_b = set()
+>>> type(var_b)
+&lt;class 'set'&gt;
+  </code></pre>
+              </li>
+              <li>Elements are <span class="keyword">immutable</span>, set is <span class="keyword">mutable</span>
+                <pre>
+                <code data-trim>
+>>> numbers.add(6)
+>>> numbers
+{1, 2, 3, 4, 5, 6}
+                </code>
+              </pre>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Sets</h2>
+
+          <ul>
+            <li>Support mixed types
+              <pre><code class="language-python" data-trim>
+>>> numbers = {1, 2, "hello", 4}
+>>> numbers
+{1, 2, 4, 'hello'}
+      </code></pre>
+            </li>
+
+            <li><span class="inline-code">list</span> not allowed
+              <pre><code class="language-python" data-trim>
+>>> empty_set = {[1, 2, 4]}
+TypeError: unhashable type: 'list'
+      </code></pre>
+            </li>
+
+            <li>Convert <span class="inline-code">list</span> → <span class="inline-code">set</span> (removes
+              duplicates)
+              <pre><code class="language-python" data-trim>
+>>> set([1, 1, 2, 3])
+{1, 2, 3}
+      </code></pre>
+            </li>
+          </ul>
+        </section>
+
+      </section>
+
+      <!-- Dictionaries -->
+      <section>
+        <section>
+          <h1><span class="text-light">6.</span> Dictionaries</h1>
+        </section>
+
+        <section>
+          <h2>HOW TO STORE STUDENT INFO</h2>
+
+          <ul>
+            <li>So far, can store using <span class="keyword">separate lists</span> for every info (<span
+                class="inline-code">names</span>, <span class="inline-code">grade</span>, <span
+                class="inline-code">course</span>)
+              <ul>
+                <li>a <span class="keyword">separate list</span> for each item</li>
+                <li>each list must have the <span class="keyword">same length</span></li>
+                <li>info stored across lists at <span class="keyword">same index</span> — each index refers to info for
+                  a
+                  different person</li>
+              </ul>
+              <pre><code class="language-python" data-trim data-line-numbers="">
+names  = ['Ana', 'John', 'Denise', 'Katy']
+grade  = ['B', 'A+', 'A', 'A']
+course = [2.00, 6.0001, 20.002, 9.01]
+  </code></pre>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>How to Update/Retrieve Student Info</h2>
+
+          <div style="font-size: 0.9em;">
+            <pre><code class="language-python" data-trim data-line-numbers="">
+def get_grade(student, name_list, grade_list, course_list):
+    i = name_list.index(student)
+    grade = grade_list[i]
+    course = course_list[i]
+    return (course, grade)
+  </code></pre>
+
+            <ul>
+              <li><span class="keyword">Messy</span> if there is a lot of different info to keep track of</li>
+              <li>Must maintain <span class="keyword">many lists</span> and pass them as arguments</li>
+              <li>Must <span class="keyword">always index</span> using integers</li>
+              <li>Must remember to <span class="keyword">update multiple lists</span> consistently</li>
+            </ul>
+          </div>
+        </section>
+
+        <section>
+          <h2>A Better, Cleaner Way —<br>A Dictionary</h2>
+          <div style="font-size: 0.8em;">
+            <ul>
+              <li>Index items <span class="keyword">directly</span> (keys aren’t limited to ints).</li>
+              <li>Keep related info in <span class="keyword">one structure</span>—no parallel lists.</li>
+            </ul>
+
+            <div style="display:flex; gap:1rem; align-items:flex-start; font-size:0.8em; ">
+              <div style="flex:1; text-align: center;">
+                <p><strong>A list</strong></p>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Index</th>
+                      <th>Element</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>0</td>
+                      <td>Elem 1</td>
+                    </tr>
+                    <tr>
+                      <td>1</td>
+                      <td>Elem 2</td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>Elem 3</td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>Elem 4</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div style="margin-top:.4em; font-style:italic;">indexed by position</div>
+              </div>
+
+              <div style="flex:1; text-align: center;">
+                <p><strong>A dictionary</strong></p>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Key</th>
+                      <th>Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Key 1</td>
+                      <td>Val 1</td>
+                    </tr>
+                    <tr>
+                      <td>Key 2</td>
+                      <td>Val 2</td>
+                    </tr>
+                    <tr>
+                      <td>Key 3</td>
+                      <td>Val 3</td>
+                    </tr>
+                    <tr>
+                      <td>Key 4</td>
+                      <td>Val 4</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div style="margin-top:.4em; font-style:italic;">indexed by meaningful label</div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>A Python Dictionary</h2>
+          <ul>
+            <li>Stores pairs of data: <span class="keyword">key</span> → <span class="keyword">value</span>.</li>
+          </ul>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 6px; text-align:center; align-items:start;">
+            <div>
+              <pre><code class="language-python" data-trim data-line-numbers="">
+# empty dict
+my_dict = {}
+
+# a simple grade book
+grades = {
+  'Ana': 'B',
+  'John': 'A+',
+  'Denise': 'A',
+  'Katy': 'A'
+}
+    </code></pre>
+            </div>
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>'Ana'</td>
+                    <td>'B'</td>
+                  </tr>
+                  <tr>
+                    <td>'John'</td>
+                    <td>'A+'</td>
+                  </tr>
+                  <tr>
+                    <td>'Denise'</td>
+                    <td>'A'</td>
+                  </tr>
+                  <tr>
+                    <td>'Katy'</td>
+                    <td>'A'</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Dictionary Lookup</h2>
+          <ul>
+            <li>Similar to indexing into a list</li>
+            <li><span class="keyword">Looks up the key</span></li>
+            <li><span class="keyword">Returns the value</span> associated with the key</li>
+            <li>If key isn’t found → <span class="keyword">KeyError</span></li>
+          </ul>
+
+          <pre><code data-trim>
+>>> grades = {'Ana':'B', 'John':'A+', 'Denise':'A', 'Katy':'A'}
+>>> grades['John']
+'A+'
+>>> grades['Sylvan']
+KeyError: 'Sylvan'
+  </code></pre>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Dictionary Operations</h2>
+          <div style="font-size: 0.8em;">
+            <pre><code data-trim>
+>>> grades = {'Ana':'B', 'John':'A+', 'Denise':'A', 'Katy':'A'}
+  </code></pre>
+            <span class="keyword">Add</span> an entry
+            <pre><code data-trim>
+>>> grades['Sylvan'] = 'A'
+  </code></pre>
+            <span class="keyword">Test</span> if a key is in the dictionary
+            <pre><code data-trim>
+>>> 'John' in grades
+True
+>>> 'Daniel' in grades
+False
+  </code></pre>
+            <span class="keyword">Delete</span> an entry
+            <pre><code data-trim>
+>>> del(grades['Ana'])
+  </code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Dictionary Operations</h2>
+
+          <div style="font-size: 0.8em;">
+            <pre><code data-trim>
+>>> grades = {'Ana':'B', 'John':'A+', 'Denise':'A', 'Katy':'A'}
+</code></pre>
+
+            Iterate over <span class="keyword">keys</span>
+            <pre><code data-trim>
+>>> grades.keys()    
+dict_keys(['Ana', 'John', 'Denise', 'Katy'])
+</code></pre>
+
+            Iterate over <span class="keyword">values</span>
+            <pre><code data-trim>
+>>> grades.values()
+dict_values(['B', 'A+', 'A', 'A'])
+  </code></pre>
+
+            <p>🆕 <strong>Python3.7+:</strong> Iteration order matches insertion order</p>
+          </div>
+        </section>
+
+        <section>
+          <h2>Dictionary Keys and Values</h2>
+
+          <ul style="font-size: 0.9em;">
+            <li><strong>Values</strong>
+              <ul>
+                <li>Can be <span class="keyword">any type</span> (immutable or mutable)</li>
+                <li>Values can be <span class="keyword">duplicates</span></li>
+                <li>Values can even be lists or other dictionaries</li>
+              </ul>
+            </li>
+            <li><strong>Keys</strong>
+              <ul>
+                <li>Must be <span class="keyword">unique</span></li>
+                <li>Must be an <span class="keyword">immutable</span> type: <span class="inline-code">int</span>, <span
+                    class="inline-code">float</span>, <span class="inline-code">string</span>, <span
+                    class="inline-code">tuple</span>, <span class="inline-code">bool</span>
+                  <ul>
+                    <li>Prescisely, the key must be <span class="keyword">hashable</span></li>
+                  </ul>
+                </li>
+                <li>Be careful when using <span class="inline-code">float</span> as a key</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2><span class="inline-code">list</span> vs <span class="inline-code">dict</span></h2>
+
+          <table style="font-size: 0.7em;">
+            <thead>
+              <tr>
+                <th><strong>Aspect</strong></th>
+                <th><span class="inline-code">list</span></th>
+                <th><span class="inline-code">dict</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Structure</strong></td>
+                <td><span class="keyword">ordered</span> sequence of elements</td>
+                <td><span class="keyword">matches</span> “keys” to “values”</td>
+              </tr>
+              <tr>
+                <td><strong>Lookup</strong></td>
+                <td>Look up elements by an integer index</td>
+                <td>Look up one item by another item</td>
+              </tr>
+              <tr>
+                <td><strong>Order</strong></td>
+                <td>Indices have an <span class="keyword">order</span></td>
+                <td>Python 3.7+: <span class="keyword">insertion order preserved</span></td>
+              </tr>
+              <tr>
+                <td><strong>Index/Key</strong></td>
+                <td>Index is an <span class="keyword">integer</span></td>
+                <td>Key can be any <span class="keyword">immutable</span> type</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+      </section>
+
+      <!-- Wrap-up -->
+      <section data-markdown>
+        <textarea data-template>
+          ## Wrap-up
+          - <strong>Control flow:</strong> branching and iteration
+          - <strong>Strings:</strong> indexing, slicing, immutability
+          - <strong>Tuples:</strong> immutable sequences
+          - <strong>Lists:</strong> ordered, mutable sequences
+          - <strong>Sets:</strong> unordered collections of unique elements
+          - <strong>Dictionaries:</strong> key-value pairs for flexible data storage
+          - Next: Functions, Modules, and Files
+        </textarea>
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        Prog. Data Proc. (2526-1) §2: Data Structures
+      </div>
+      <!-- End of footer -->
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>
