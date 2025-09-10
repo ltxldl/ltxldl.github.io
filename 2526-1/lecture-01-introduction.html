@@ -761,36 +761,107 @@ radius = radius + 1</code></pre>
             <li>Computed values don't update automatically </li>
           </ul>
 
-          <div style="display: flex; justify-content: space-between;">
-            <div style="flex: 1; margin-right: 20px;">
-              <div class="fragment" data-fragment-index="0">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 6px; text-align:center;">
+            <div>
+              <div>
                 <pre><code class="language-python" data-line-numbers="">pi = 3.14
 radius = 2.2
 area = pi * (radius ** 2)
 radius = radius + 1</code></pre>
               </div>
             </div>
-            <div style="flex: 1; margin-left: 20px; font-size: .7em;">
-              <ul class="fragment" data-fragment-index="1">
-                <li>Values of variables at each step:
-                  <ol>
-                    <li class="fragment" data-fragment-index="2"><span class="inline-code">pi</span> → <span
-                        class="inline-code">3.14</span>
-                    </li>
-                    <li class="fragment" data-fragment-index="3">
-                      <div class="fragment strike" data-fragment-index="5">
-                        <span class="inline-code">radius</span> → <span class="inline-code">2.2</span>
-                      </div>
-                    </li>
-                    <li class="fragment" data-fragment-index="4"><span class="inline-code">area</span> → <span
-                        class="inline-code">15.1976</span>
-                    </li>
-                    <li class="fragment" data-fragment-index="5"><span class="inline-code">radius</span> → <span
-                        class="inline-code">3.2</span>
-                    </li>
-                  </ol>
-                </li>
-              </ul>
+            <div>
+              <svg width="450" viewBox="0 0 580 370" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <marker id="arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5"
+                    orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="black" />
+                  </marker>
+                </defs>
+
+                <style>
+                  .label-box {
+                    stroke: #333;
+                    stroke-width: 1.5;
+                  }
+
+                  .label-text {
+                    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+                    font-size: 20px;
+                    fill: white;
+                    text-anchor: middle;
+                    dominant-baseline: middle;
+                  }
+
+                  .connector {
+                    fill: none;
+                    stroke: black;
+                    stroke-width: 2.5;
+                  }
+
+                  .arrow-connector {
+                    fill: none;
+                    stroke: black;
+                    stroke-width: 2.5;
+                    marker-end: url(#arrowhead);
+                  }
+                </style>
+
+                <g>
+                  <rect x="380" y="20" width="180" height="260" rx="10" fill="#BDBDBD" />
+                </g>
+
+                <g>
+                  <rect x="30" y="40" width="120" height="45" rx="10" fill="#5A5A5A" class="label-box" />
+                  <text x="90" y="62.5" class="label-text">pi</text>
+
+                  <rect x="30" y="140" width="120" height="45" rx="10" fill="#5A5A5A" class="label-box" />
+                  <text x="90" y="162.5" class="label-text">radius</text>
+
+                  <rect x="30" y="220" width="120" height="45" rx="10" fill="#5A5A5A" class="label-box" />
+                  <text x="90" y="242.5" class="label-text">area</text>
+                </g>
+
+                <g>
+                  <rect x="400" y="40" width="140" height="45" rx="10" fill="#9B3E3E" class="label-box" />
+                  <text x="470" y="62.5" class="label-text">3.14</text>
+
+                  <rect x="400" y="100" width="140" height="45" rx="10" fill="#9B3E3E" class="label-box" />
+                  <text x="470" y="122.5" class="label-text">2.2</text>
+
+                  <rect x="400" y="160" width="140" height="45" rx="10" fill="#9B3E3E" class="label-box" />
+                  <text x="470" y="182.5" class="label-text">3.2</text>
+
+                  <rect x="400" y="220" width="140" height="45" rx="10" fill="#9B3E3E" class="label-box" />
+                  <text x="470" y="242.5" class="label-text">15.1976</text>
+                </g>
+
+                <g>
+                  <line x1="150" y1="62.5" x2="400" y2="62.5" class="arrow-connector" />
+
+                  <line x1="150" y1="162.5" x2="400" y2="122.5" class="arrow-connector" />
+                  <line x1="150" y1="162.5" x2="400" y2="182.5" class="arrow-connector" />
+
+                  <line x1="150" y1="242.5" x2="400" y2="242.5" class="arrow-connector" />
+                </g>
+
+                <g stroke="#E53935" stroke-width="7" stroke-linecap="round">
+                  <line x1="335" y1="122" x2="355" y2="142" />
+                  <line x1="355" y1="122" x2="335" y2="142" />
+                </g>
+
+                <g>
+                  <text x="90" y="320" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#333"
+                    text-anchor="middle">
+                    Variable names
+                  </text>
+
+                  <text x="470" y="320" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#333"
+                    text-anchor="middle">
+                    Values in memory
+                  </text>
+                </g>
+              </svg>
             </div>
         </section>
 
