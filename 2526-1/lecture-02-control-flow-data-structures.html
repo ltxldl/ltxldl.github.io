@@ -43,7 +43,13 @@
 
       <!-- Lecture title -->
       <section>
-        <h1>Lecture 2: Control Flow & Data Structures</h1>
+        <h1>
+          <span class="text-light">Lecture 2:</span>
+          <br>
+          Control Flow
+          <br>
+          Data Structures
+        </h1>
       </section>
 
       <!-- Last time -->
@@ -125,12 +131,13 @@ else:
         <section>
           <h2>INDENTATION</h2>
 
-          <ul>
-            <li>Unlike C/C++, indentation <span class="keyword">matters</span> in Python</li>
-            <li>It’s how you denote <span class="keyword">blocks of code</span></li>
-          </ul>
+          <div style="font-size: 0.8em;">
+            <ul>
+              <li>Unlike C/C++, indentation <span class="keyword">matters</span> in Python</li>
+              <li>It’s how you denote <span class="keyword">blocks of code</span></li>
+            </ul>
 
-          <pre><code class="language-python" data-trim data-line-numbers="">
+            <pre><code class="language-python" data-trim data-line-numbers="">
 x = float(input("Enter a number for x: "))
 y = float(input("Enter a number for y: "))
 
@@ -145,6 +152,9 @@ else:
 
 print("thanks!")
   </code></pre>
+
+            <p class="fragment">❓<strong>Question:</strong> Can we use spaces instead of tabs for indentation?</p>
+          </div>
         </section>
 
         <section>
@@ -198,6 +208,8 @@ while &lt;condition&gt;:
         <section>
           <h2><span class="inline-code">while</span> LOOP EXAMPLE</h2>
 
+          <p><strong>Question:</strong> What does this program do?</p>
+
           <pre><code class="language-python" data-trim data-line-numbers="">
 password = ""
 while password != "python":
@@ -229,6 +241,8 @@ for &lt;variable&gt; in range(&lt;some_num&gt;):
 
         <section>
           <h2><span class="inline-code">for</span> LOOP EXAMPLE</h2>
+
+          <p><strong>Question:</strong> What does this program do?</p>
 
           <pre><code class="language-python" data-trim data-line-numbers="">
 fruits = ["apple", "banana", "cherry"]
@@ -355,7 +369,7 @@ for i in range(5):
         <section>
           <h2><span class="inline-code">for</span> vs <span class="inline-code">while</span> loops</h2>
 
-          <div style="font-size: .6em">
+          <div style="font-size: .65em">
             <table>
               <thead>
                 <tr>
@@ -374,6 +388,13 @@ for i in range(5):
                   <td><strong>Early exit</strong></td>
                   <td>can <span class="keyword">end early</span> via <span class="inline-code">break</span></td>
                   <td>can <span class="keyword">end early</span> via <span class="inline-code">break</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Skipping</strong></td>
+                  <td>can <span class="keyword">skip</span> to next iteration via <span
+                      class="inline-code">continue</span></td>
+                  <td>can <span class="keyword">skip</span> to next iteration via <span
+                      class="inline-code">continue</span></td>
                 </tr>
                 <tr>
                   <td><strong>Counters</strong></td>
@@ -417,7 +438,7 @@ for i in range(5):
           <h2>STRINGS</h2>
 
           <ul>
-            <li>Think of as a <span class="keyword">sequence</span> of case-sensitive characters</li>
+            <li>Think of string as a <span class="keyword">sequence</span> of case-sensitive characters</li>
             <li>Can compare strings with <span class="inline-code">==</span>, <span class="inline-code">&gt;</span>,
               <span class="inline-code">&lt;</span>, etc.
             </li>
@@ -496,11 +517,15 @@ s[4:1:-2]  # "ec"
 
               <li>Attempting to change a character directly raises an error</li>
               <pre><code data-trim>
->>> s[0] = 'y'  # ❌ error
+>>> s[0] = 'y'
+...
+TypeError: 'str' object does not support item assignment
 </code></pre>
               <li>Reassigning with concatenation creates a <strong>new string</strong> object</li>
               <pre><code data-trim>
->>> s = 'y' + s[1:len(s)]  # ✅ allowed, new object assigned to s
+>>> s = 'y' + s[1:len(s)]
+>>> s
+'yello'
   </code></pre>
             </ul>
           </div>
@@ -537,17 +562,17 @@ for char in s:
         <section>
           <h1><span class="text-light">3.</span> Tuples</h1>
         </section>
-        <section>
+        <section data-auto-animate>
           <h2>TUPLES</h2>
 
           <div style="font-size: 0.8em;">
             <ul>
-              <li>An ordered sequence of elements, can mix element types</li>
+              <li>An <span class="keyword">ordered</span> sequence of elements, can mix element types</li>
               <li>Cannot change element values → <span class="keyword">immutable</span></li>
               <li>Represented with parentheses</li>
             </ul>
 
-            <pre><code class="language-python" data-trim data-line-numbers="1|2|3|4|5|6|7|8">
+            <pre><code class="language-python" data-trim data-line-numbers="">
 te = ()                # empty tuple
 t = (2, "uet", 3)      # tuple with 3 elements
 t[0]                   # 2 # first element
@@ -560,7 +585,7 @@ t[1] = 4               # ❌ error, cannot modify tuple elements
           </div>
         </section>
 
-        <section>
+        <section data-auto-animate>
           <h2>TUPLES</h2>
 
           <ul>
@@ -595,7 +620,7 @@ y = temp
 
           <ul>
             <li>Used to <span class="keyword">return multiple values</span> from a function
-              (next week)</li>
+              (presented next week)</li>
           </ul>
         </section>
       </section>
@@ -895,15 +920,9 @@ L.reverse() # L == [9, 6, 3, 0]
               <pre><code data-trim>
 >>> a = 1
 >>> b = a
->>> print(a)
-1
->>> print(b)
-1
 >>> warm = ['red', 'yellow', 'orange']
 >>> hot = warm
 >>> hot.append('pink')
->>> print(hot)
-['red', 'yellow', 'orange', 'pink']
 >>> print(warm)
 ['red', 'yellow', 'orange', 'pink']
   </code></pre>
@@ -1351,7 +1370,8 @@ None
           <h2>Mutation and Iteration</h2>
           <div style="font-size: 0.8em;">
             <p>
-              <strong>Question:</strong> Which code is correct?
+              <strong>Question:</strong> Removing all elements from one list (L1) that are present in another list (L2).
+              Which code is correct?
             </p>
 
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 6px; text-align:center;">
@@ -1369,7 +1389,7 @@ def remove_dups(L1, L2):
                 <p><strong>Code #2</strong></p>
                 <pre><code class="language-python" data-trim data-line-numbers="">
 def remove_dups(L1, L2):
-    L1_copy = L1[:] # clone first
+    L1_copy = L1[:]
     for e in L1_copy:
         if e in L2:
             L1.remove(e)
@@ -1427,30 +1447,35 @@ TypeError: 'set' object is not subscriptable
         <section data-auto-animate>
           <h2>Sets</h2>
 
-          <ul>
-            <li>Support mixed types
-              <pre><code class="language-python" data-trim>
+          <div style="font-size: 0.8em;">
+            <ul>
+              <li>Support mixed types
+                <pre><code class="language-python" data-trim>
 >>> numbers = {1, 2, "hello", 4}
 >>> numbers
 {1, 2, 4, 'hello'}
       </code></pre>
-            </li>
+              </li>
 
-            <li><span class="inline-code">list</span> not allowed
-              <pre><code class="language-python" data-trim>
+              <li><span class="inline-code">list</span> not allowed
+                <pre><code class="language-python" data-trim>
 >>> empty_set = {[1, 2, 4]}
 TypeError: unhashable type: 'list'
       </code></pre>
-            </li>
+                <ul>
+                  <li>Prescisely, set items must be <span class="keyword">hashable</span></li>
+                </ul>
+              </li>
 
-            <li>Convert <span class="inline-code">list</span> → <span class="inline-code">set</span> (removes
-              duplicates)
-              <pre><code class="language-python" data-trim>
+              <li>Convert <span class="inline-code">list</span> → <span class="inline-code">set</span> (removes
+                duplicates)
+                <pre><code class="language-python" data-trim>
 >>> set([1, 1, 2, 3])
 {1, 2, 3}
       </code></pre>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
         </section>
 
       </section>
@@ -1476,9 +1501,9 @@ TypeError: unhashable type: 'list'
                   different person</li>
               </ul>
               <pre><code class="language-python" data-trim data-line-numbers="">
-names  = ['Ana', 'John', 'Denise', 'Katy']
-grade  = ['B', 'A+', 'A', 'A']
-course = [2.00, 6.0001, 20.002, 9.01]
+names  = ['Phong', 'Việt Anh', 'Huỳnh', 'Du']
+grade  = [3.5, 3.8, 3.2, 3.9]
+course = ['DSE2049', 'AI3054', 'AI3056', 'DSE3154']
   </code></pre>
             </li>
           </ul>
@@ -1594,10 +1619,10 @@ my_dict = {}
 
 # a simple grade book
 grades = {
-  'Ana': 'B',
-  'John': 'A+',
-  'Denise': 'A',
-  'Katy': 'A'
+  'Phong': 3.5,
+  'Việt Anh': 3.8,
+  'Huỳnh': 3.2,
+  'Du': 3.9
 }
     </code></pre>
             </div>
@@ -1611,20 +1636,20 @@ grades = {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>'Ana'</td>
-                    <td>'B'</td>
+                    <td>'Phong'</td>
+                    <td>3.5</td>
                   </tr>
                   <tr>
-                    <td>'John'</td>
-                    <td>'A+'</td>
+                    <td>'Việt Anh'</td>
+                    <td>3.8</td>
                   </tr>
                   <tr>
-                    <td>'Denise'</td>
-                    <td>'A'</td>
+                    <td>'Huỳnh'</td>
+                    <td>3.2</td>
                   </tr>
                   <tr>
-                    <td>'Katy'</td>
-                    <td>'A'</td>
+                    <td>'Du'</td>
+                    <td>3.9</td>
                   </tr>
                 </tbody>
               </table>
@@ -1634,42 +1659,44 @@ grades = {
 
         <section>
           <h2>Dictionary Lookup</h2>
-          <ul>
-            <li>Similar to indexing into a list</li>
-            <li><span class="keyword">Looks up the key</span></li>
-            <li><span class="keyword">Returns the value</span> associated with the key</li>
-            <li>If key isn’t found → <span class="keyword">KeyError</span></li>
-          </ul>
+          <div style="font-size: 0.85em;">
+            <ul>
+              <li>Similar to indexing into a list</li>
+              <li><span class="keyword">Looks up the key</span></li>
+              <li><span class="keyword">Returns the value</span> associated with the key</li>
+              <li>If key isn’t found → <span class="keyword">KeyError</span></li>
+            </ul>
 
-          <pre><code data-trim>
->>> grades = {'Ana':'B', 'John':'A+', 'Denise':'A', 'Katy':'A'}
->>> grades['John']
-'A+'
->>> grades['Sylvan']
-KeyError: 'Sylvan'
+            <pre><code data-trim>
+>>> grades = {'Phong': 3.5, 'Việt Anh': 3.8, 'Huỳnh': 3.2, 'Du': 3.9}
+>>> grades['Phong']
+3.5
+>>> grades['An']
+KeyError: 'An'
   </code></pre>
+          </div>
         </section>
 
         <section data-auto-animate>
           <h2>Dictionary Operations</h2>
           <div style="font-size: 0.8em;">
             <pre><code data-trim>
->>> grades = {'Ana':'B', 'John':'A+', 'Denise':'A', 'Katy':'A'}
+>>> grades = {'Phong': 3.5, 'Việt Anh': 3.8, 'Huỳnh': 3.2, 'Du': 3.9}
   </code></pre>
             <span class="keyword">Add</span> an entry
             <pre><code data-trim>
->>> grades['Sylvan'] = 'A'
+>>> grades['An'] = 4.0
   </code></pre>
             <span class="keyword">Test</span> if a key is in the dictionary
             <pre><code data-trim>
->>> 'John' in grades
+>>> 'Phong' in grades
 True
->>> 'Daniel' in grades
+>>> 'Long' in grades
 False
   </code></pre>
             <span class="keyword">Delete</span> an entry
             <pre><code data-trim>
->>> del(grades['Ana'])
+>>> del(grades['Du'])
   </code></pre>
           </div>
         </section>
@@ -1679,19 +1706,19 @@ False
 
           <div style="font-size: 0.8em;">
             <pre><code data-trim>
->>> grades = {'Ana':'B', 'John':'A+', 'Denise':'A', 'Katy':'A'}
+>>> grades = {'Phong': 3.5, 'Việt Anh': 3.8, 'Huỳnh': 3.2, 'Du': 3.9}
 </code></pre>
 
             Iterate over <span class="keyword">keys</span>
             <pre><code data-trim>
 >>> grades.keys()    
-dict_keys(['Ana', 'John', 'Denise', 'Katy'])
+dict_keys(['Phong', 'Việt Anh', 'Huỳnh', 'Du'])
 </code></pre>
 
             Iterate over <span class="keyword">values</span>
             <pre><code data-trim>
 >>> grades.values()
-dict_values(['B', 'A+', 'A', 'A'])
+dict_values([3.5, 3.8, 3.2, 3.9])
   </code></pre>
 
             <p>🆕 <strong>Python3.7+:</strong> Iteration order matches insertion order</p>
@@ -1779,7 +1806,7 @@ dict_values(['B', 'A+', 'A', 'A'])
 
       <!-- Footer -->
       <div class="footer">
-        Prog. Data Proc. (2526-1) §2: Data Structures
+        Prog. Data Proc. (2526-1) §2: Control Flow & Data Structures
       </div>
       <!-- End of footer -->
     </div>
