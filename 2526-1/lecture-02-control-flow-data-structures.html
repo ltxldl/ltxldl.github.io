@@ -319,7 +319,7 @@ while &lt;condition_1&gt;:
           <h2><span class="inline-code">break</span> STATEMENT</h2>
 
 
-          <p><strong>Question:</strong> what happens in this program?</p>
+          <p><strong>Question:</strong> What happens in this program?</p>
 
           <pre><code class="language-python" data-trim data-line-numbers="">
 mysum = 0
@@ -333,6 +333,24 @@ for i in range(5, 11, 2):
 print(mysum)
   </code></pre>
         </section>
+
+        <section>
+          <h2><span class="inline-code">continue</span> Statement</h2>
+
+          <ul>
+            <li>Skip rest of current iteration</li>
+            <li>Jump to next loop cycle</li>
+            <li>Works in <span class="inline-code">for</span> & <span class="inline-code">while</span></li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+for i in range(5):
+    if i == 2:            
+        continue
+    print(i)
+  </code></pre>
+        </section>
+
 
         <section>
           <h2><span class="inline-code">for</span> vs <span class="inline-code">while</span> loops</h2>
