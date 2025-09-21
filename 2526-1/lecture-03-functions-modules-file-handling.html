@@ -1353,6 +1353,58 @@ World
             </li>
           </ul>
         </section>
+
+        <section>
+          <h2>CSV: Tabular Data</h2>
+          <ul>
+            <li><span class="keyword">CSV</span> = Comma-Separated Values, common for tabular data</li>
+            <li>Python has built-in <span class="inline-code">csv</span> module</li>
+            <li>Supports <span class="keyword">reading</span> and <span class="keyword">writing</span> CSV files easily
+            </li>
+          </ul>
+        </section>
+
+        <section style="font-size: 0.85em;">
+          <h2>Working with CSV — Writing</h2>
+          <ul>
+            <li>Use <span class="inline-code">csv.writer</span> for lists</li>
+            <li>Use <span class="inline-code">csv.DictWriter</span> for dicts (recommended)</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> import csv
+>>> rows = [{"name": "Alice", "age": 30}, {"name": "Bob", "age": 25}]
+>>> with open("data.csv", "w", encoding="utf-8") as f:
+...     writer = csv.DictWriter(f, fieldnames=rows[0].keys())
+...     writer.writeheader()
+...     writer.writerows(rows)
+  </code></pre>
+
+          <p>The created <span class="inline-code">data.csv</span> file contains:</p>
+          <pre><code data-trim class="language-text">
+name,age
+Alice,30
+Bob,25
+  </code></pre>
+        </section>
+
+        <section style="font-size: 0.85em;">
+          <h2>Working with CSV — Reading</h2>
+          <ul>
+            <li>Use the <span class="inline-code">csv.DictReader</span> to read rows into dicts (recommended)</li>
+            <li>Alternatively, use <span class="inline-code">csv.reader</span> to read rows as lists of values</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> import csv
+>>> with open("data.csv", encoding="utf-8") as f:
+...     reader = csv.DictReader(f)
+...     for row in reader:
+...         print(row)
+...
+{'name': 'Alice', 'age': '30'}
+{'name': 'Bob', 'age': '25'}
+  </code></pre>
+        </section>
+
       </section>
 
       <!-- Bonus: Fancier Output Formatting -->
