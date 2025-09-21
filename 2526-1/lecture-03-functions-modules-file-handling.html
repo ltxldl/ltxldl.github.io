@@ -117,14 +117,17 @@ def calculator():
           </ul>
         </section>
 
-        <section style="font-size: 0.85em;">
+        <section style="font-size: 0.7em;">
           <h2>How to Write and Call a Function</h2>
 
           <pre><code class="language-python" data-trim data-line-numbers="">
 def is_even(i):
-    """
-    Input: i, a positive int
-    Returns True if i is even, otherwise False
+    """Check if an integer is even.
+
+    Args:
+        i (int): integer to check
+    Returns:
+        bool: True if even, False if odd
     """
     print("inside is_even")
     return i % 2 == 0
@@ -134,12 +137,13 @@ is_even(3)
   </code></pre>
 
           <ul>
-            <li><span class="inline-code">def</span>: keyword to define a function</li>
+            <li><span class="inline-code">def</span>: keyword to define a function in Python</li>
             <li><span class="inline-code">is_even</span>: function name</li>
             <li><span class="inline-code">i</span>: function parameter</li>
             <li><strong>docstring</strong>: describes function</li>
             <li><strong>body</strong>: code inside function</li>
-            <li><strong>call</strong>: use function name + arguments, <span class="inline-code">is_even(3)</span>
+            <li><strong>How to call?</strong> Use function name and argument values, <span
+                class="inline-code">is_even(3)</span>
             </li>
           </ul>
         </section>
@@ -147,27 +151,31 @@ is_even(3)
           <h2>Variable Scope</h2>
 
           <ul>
-            <li><span class="keyword">Scope</span>: where a variable can be accessed</li>
-            <li><span class="keyword">Local</span>: defined inside a function</li>
-            <li><span class="keyword">Global</span>: defined outside functions</li>
+            <li><span class="keyword">Scope</span>: where a variable can be accessed
+              <ul>
+                <li><span class="keyword">Local</span>: defined inside a function</li>
+                <li><span class="keyword">Global</span>: defined outside functions</li>
+              </ul>
+            </li>
           </ul>
 
           <pre><code class="language-python" data-trim data-line-numbers="">
-x = 10   # global
+x = 10           # global
 
 def show():
-    y = 5   # local
+    y = 5        # local
     print(x, y)
 
-show()     # works: 10 5
-print(x)   # works: 10
-print(y)   # error (not in scope)
+show()           # works: 10 5
+print(x)         # works: 10
+print(y)         # error (not in scope)
   </code></pre>
         </section>
 
         <section>
           <h2>Scope: Local vs Global</h2>
 
+          <p>A more sophisticated example of scope:</p>
           <pre><code class="language-python" data-trim data-line-numbers="">
 a = 5                    # global
 
@@ -182,6 +190,8 @@ def g(x):                # global function g, parameter x (local to g)
 x = 3                    # global
 z = g(x)                 # global
   </code></pre>
+
+          <p class="text-light" style="font-size: 0.5em;">&rarr; Run in Notebook</p>
         </section>
 
         <section>
@@ -192,19 +202,21 @@ z = g(x)                 # global
             <li>Executes code but doesn’t send back a value</li>
           </ul>
 
-          <pre><code class="language-python" data-trim data-line-numbers="">
-def is_even(i):
-    print(i % 2 == 0)   # only prints result
-
-result = is_even(3)
-print(result)   # None
-  </code></pre>
+          <pre><code class="language-pycon" data-trim>
+>>> def is_even(i):
+...     print(i % 2 == 0)  # prints result
+...
+>>> result = is_even(3)
+False
+>>> print(result)
+None
+        </code></pre>
         </section>
 
         <section>
           <h2><span class="inline-code">return</span> vs. <span class="inline-code">print</span></h2>
 
-          <table style="width: 100%; font-size: 0.85em;">
+          <table style="width: 100%; font-size: 0.7em;">
             <thead>
               <tr>
                 <th></th>
@@ -267,49 +279,35 @@ print(func_c(func_a)) # call func_c, parameter is another function
           <h2>More on Defining Functions</h2>
           <ul>
             <li>Functions can accept a <span class="keyword">variable number</span> of arguments</li>
-            <li>Three forms (can be combined): defaults, keywords, arbitrary args</li>
+            <li>Three forms of arguments (can be combined):
+              <ul>
+                <li>defaults</li>
+                <li>keyword arguments</li>
+                <li>arbitrary argument lists</li>
+              </ul>
+            </li>
           </ul>
         </section>
 
         <!-- 4.9.1. Default Argument Values -->
-        <section style="font-size: 0.65em;">
+        <section style="font-size: 0.9em;">
           <h2>Default Argument Values</h2>
           <p>Provide default values so callers can omit some arguments</p>
-          <!-- <li>Use <span class="keyword">in</span> to test membership</li> -->
+
           <pre><code data-trim class="language-python" data-line-numbers="">
-def ask_ok(prompt, retries=4, reminder='Please try again!'):
-    while True:
-        reply = input(prompt)
-        if reply in {'y', 'ye', 'yes'}:
-            return True
-        if reply in {'n', 'no', 'nop', 'nope'}:
-            return False
-        retries = retries - 1
-        if retries &lt; 0:
-            raise ValueError('invalid user response')
-        print(reminder)
-    </code></pre>
+def greet(name, msg="Hello"):
+    print(msg, name)
+  </code></pre>
+
           <ul>
-            <li>giving only the mandatory argument:
+            <li>Only the required argument:
               <ul>
-                <li>
-                  <span class="inline-code">ask_ok('Do you really want to quit?')</span>
-                </li>
+                <li><span class="inline-code">greet("Alice")</span> → <span class="inline-code">Hello Alice</span></li>
               </ul>
             </li>
-            <li>giving one of the optional arguments:
+            <li>Override the optional argument:
               <ul>
-                <li>
-                  <span class="inline-code">ask_ok('OK to overwrite the file?', 2)</span>
-                </li>
-              </ul>
-            </li>
-            <li>giving all arguments:
-              <ul>
-                <li>
-                  <span class="inline-code">ask_ok('OK to overwrite the file?', 2, 'Only
-                    yes or no!')</span>
-                </li>
+                <li><span class="inline-code">greet("Bob", "Hi")</span> → <span class="inline-code">Hi Bob</span></li>
               </ul>
             </li>
           </ul>
@@ -320,37 +318,40 @@ def ask_ok(prompt, retries=4, reminder='Please try again!'):
           <ul>
             <li>Defaults are evaluated at <span class="keyword">definition</span> time</li>
           </ul>
-          <pre><code data-trim class="language-python" data-line-numbers="">
-i = 5
-
-def f(arg=i):
-    print(arg)
-
-i = 6
-f()  # prints 5
+          <pre><code data-trim class="language-pycon">
+>>> i = 5
+>>> def f(arg=i):
+...     print(arg)
+... 
+>>> i = 6
+>>> f()
+5
     </code></pre>
         </section>
 
-        <section>
+        <section style="font-size: 0.9em;">
           <h2>⚠️ Mutable Defaults</h2>
           <ul>
             <li>Default values are evaluated <span class="keyword">once</span> → shared across calls</li>
           </ul>
-          <pre><code data-trim class="language-python" data-line-numbers="">
-def f(a, L=[]):
-    L.append(a)
-    return L
-
-print(f(1)) # [1]
-print(f(2)) # [1, 2]
-print(f(3)) # [1, 2, 3]
+          <pre><code data-trim class="language-pycon">
+>>> def f(a, L=[]):
+...     L.append(a)
+...     return L
+... 
+>>> print(f(1))
+[1]
+>>> print(f(2))
+[1, 2]
+>>> print(f(3))
+[1, 2, 3]
     </code></pre>
         </section>
 
-        <section>
+        <section style="font-size: 0.8em;">
           <h2>Safe Pattern for Mutable Defaults</h2>
           <ul>
-            <li>Use <span class="inline-code">None</span> sentinel and create inside</li>
+            <li>Use <span class="inline-code">None</span> sentinel and create object inside</li>
           </ul>
           <pre><code data-trim class="language-python" data-line-numbers="">
 def f(a, L=None):
@@ -362,116 +363,93 @@ def f(a, L=None):
         </section>
 
         <!-- 4.9.2. Keyword Arguments -->
-        <section style="font-size: 0.8em;">
+        <section style="font-size: 0.9em;">
           <h2>Keyword Arguments</h2>
           <ul>
             <li>Call with <span class="inline-code">kwarg=value</span>; order doesn’t matter</li>
           </ul>
-          <div>
-            <pre><code class="language-python" data-trim data-line-numbers="">
-def parrot(voltage, state='a stiff', action='voom', type='Norwegian Blue'):
-    print("-- This parrot wouldn't", action, end=' ')
-    print("if you put", voltage, "volts through it.")
-    print("-- Lovely plumage, the", type)
-    print("-- It's", state, "!")
-    </code></pre>
-          </div>
+
+          <pre><code class="language-pycon" data-trim>
+>>> def greet(name, msg="Hello", punctuation="!"):
+...     print(msg, name + punctuation)
+  </code></pre>
+
           <ul>
-            <li>This function accepts:
-              <ul>
-                <li>one required argument: <span class="inline-code">voltage</span></li>
-                <li>three optional arguments: <span class="inline-code">state</span>, <span
-                    class="inline-code">action</span>, and <span class="inline-code">type</span></li>
-              </ul>
-            </li>
+            <li>One required argument: <span class="inline-code">name</span></li>
+            <li>Two optional arguments: <span class="inline-code">msg</span>, <span
+                class="inline-code">punctuation</span></li>
           </ul>
+
+          <pre><code class="language-pycon" data-trim>
+>>> greet("Alice")
+Hello Alice!
+>>> greet("Bob", msg="Hi")
+Hi Bob!
+>>> greet("Carol", punctuation=".")
+Hello Carol.
+>>> greet("Dave", punctuation=".", msg="Goodbye")
+Goodbye Dave.
+</code></pre>
         </section>
 
-        <section>
+        <section style="font-size: 0.9em;">
           <h2>Example: Valid Calls</h2>
-          <div style="font-size: 0.8em;">
-            <pre><code class="language-python" data-trim data-line-numbers="">
-def parrot(voltage, state='a stiff', action='voom', type='Norwegian Blue'):
-    pass
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def greet(name, msg="Hello", punctuation="!"):
+    print(msg, name + punctuation)
 
-parrot(1000)                                          # 1 positional
-parrot(voltage=1000)                                  # 1 keyword
-parrot(voltage=1000000, action='VOOOOOM')             # 2 keywords
-parrot(action='VOOOOOM', voltage=1000000)             # 2 keywords
-parrot('a million', 'bereft of life', 'jump')         # 3 positional
-parrot('a thousand', state='pushing up the daisies')  # 1 positional, 1 keyword
+greet("Alice")                       # 1 positional
+greet(name="Bob")                    # 1 keyword
+greet(name="Carol", msg="Hi")        # 2 keywords
+greet(msg="Hey", name="Dan")         # order doesn’t matter
+greet("Eve", "Welcome")              # 2 positional
+greet("Frank", punctuation=".")      # mix positional + keyword
     </code></pre>
-          </div>
         </section>
 
-        <section>
+        <section style="font-size: 0.9em;">
           <h2>Example: Invalid Calls</h2>
-          <div style="font-size: 0.8em;">
-            <pre><code class="language-python" data-trim data-line-numbers="">
-def parrot(voltage, state='a stiff', action='voom', type='Norwegian Blue'):
-    pass
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def greet(name, msg="Hello", punctuation="!"):
+    print(msg, name + punctuation)
 
-parrot()                     # required argument missing
-parrot(voltage=5.0, 'dead')  # non-keyword after a keyword
-parrot(110, voltage=220)     # duplicate value for same arg
-parrot(actor='John Cleese')  # unknown keyword argument
+greet()                        # missing required arg 'name'
+greet(name="Alice", "Hi")      # positional after keyword
+greet("Bob", name="Bob")       # duplicate value for 'name'
+greet(person="Eve")            # unknown keyword 'person'
     </code></pre>
-          </div>
+
           <ul>
-            <li>Positional args must come <span class="keyword">before</span> keyword args</li>
-            <li>No argument may receive a value more than once</li>
+            <li><span class="keyword">Positional</span> args must come before <span class="keyword">keyword</span> args
+            </li>
+            <li>No argument may get a value more than once</li>
           </ul>
         </section>
 
         <section>
           <h2><span class="inline-code">*args</span> and <span class="inline-code">**kwargs</span></h2>
           <ul>
-            <li><span class="inline-code">*args</span>: collects extra positional args as a <span
+            <li><span class="inline-code">*args</span>: extra positional args → as a <span
                 class="inline-code">tuple</span></li>
-            <li><span class="inline-code">**kwargs</span>: collects extra keyword args as a <span
+            <li><span class="inline-code">**kwargs</span>: extra keyword args → as a <span
                 class="inline-code">dict</span></li>
-            <li>Can be used together:
-              <ul>
-                <li>
-                  <span class="inline-code">*args</span> must come before <span class="inline-code">**kwargs</span>,
-                  which must come last
-                </li>
-              </ul>
-            </li>
-            <li>Keyword iteration preserves the <span class="keyword">provided order</span></li>
+            <li>Order: <span class="inline-code">*args</span> before <span class="inline-code">**kwargs</span></li>
           </ul>
         </section>
 
-        <section style="font-size: 0.75em;">
-          <h2>Example: <span class="inline-code">*args</span>, <span class="inline-code">**kwargs</span></h2>
-          <pre><code data-trim class="language-python" data-line-numbers="">
-def cheeseshop(kind, *arguments, **keywords):
-    print("-- Do you have any", kind, "?")
-    print("-- I'm sorry, we're all out of", kind)
-    for arg in arguments:
-        print(arg)
-    print("-" * 40)
-    for kw in keywords:
-        print(kw, ":", keywords[kw])
-
-cheeseshop("Limburger", "It's very runny, sir.",
-           "It's really very, VERY runny, sir.",
-           shopkeeper="Michael Palin",
-           client="John Cleese",
-           sketch="Cheese Shop Sketch")
-    </code></pre>
-          <pre>
-            <code data-trim class="language-text">
--- Do you have any Limburger ?
--- I'm sorry, we're all out of Limburger
-It's very runny, sir.
-It's really very, VERY runny, sir.
-----------------------------------------
-shopkeeper : Michael Palin
-client : John Cleese
-sketch : Cheese Shop Sketch
-            </code>
-          </pre>
+        <section style="font-size: 0.9em;">
+          <h2>Example: <span class="inline-code">*args</span> and <span class="inline-code">**kwargs</span></h2>
+          <pre><code class="language-pycon" data-trim>
+>>> def demo(x, *args, **kwargs):
+...     print("x:", x)
+...     print("args:", args)
+...     print("kwargs:", kwargs)
+... 
+>>> demo(1, 2, 3, a=10, b=20)
+x: 1
+args: (2, 3)
+kwargs: {'a': 10, 'b': 20}
+  </code></pre>
         </section>
 
         <!-- 4.9.3. Special Parameters -->
@@ -496,7 +474,7 @@ def f(pos1, pos2, /, pos_or_kwd, *, kwd1, kwd2):
     </code></pre>
         </section>
 
-        <section>
+        <section style="font-size: 0.9em;">
           <h2>Argument Types</h2>
 
           <pre><code data-trim>
@@ -509,14 +487,12 @@ def f(pos1, pos2, /, pos_or_kwd, *, kwd1, kwd2):
     </code></pre>
 
           <ul>
-            <li><span class="keyword">Positional-or-Keyword</span>: if neither <span class="inline-code">/</span> nor
-              <span class="inline-code">*</span> present, args can be passed by position or keyword
+            <li><span class="keyword">Positional-only</span> (<span class="inline-code">/</span>): order matters, names
+              not allowed</li>
+            <li><span class="keyword">Positional-or-Keyword</span>: default if no <span class="inline-code">/</span> or
+              <span class="inline-code">*</span>
             </li>
-            <li><span class="keyword">Positional-Only</span> (before <span class="inline-code">/</span>): caller cannot
-              use
-              names, only order matters</li>
-            <li><span class="keyword">Keyword-Only</span> (after <span class="inline-code">*</span>): must be passed by
-              keyword</li>
+            <li><span class="keyword">Keyword-only</span> (<span class="inline-code">*</span>): must use names</li>
           </ul>
         </section>
 
@@ -557,6 +533,9 @@ combined_example(pos_only=1, standard=2, kwd_only=3)  # TypeError
           <p>
             Positional-only names can appear in <span class="inline-code">**kwds</span> keys
           </p>
+          <p>
+            <strong>Question:</strong> Explain the difference:
+          </p>
           <pre><code data-trim>
 >>> def foo(name, **kwds):
 ...     return 'name' in kwds
@@ -571,22 +550,7 @@ TypeError: foo() got multiple values for argument 'name'
 >>> foo(1, **{'name': 2})
 True
     </code></pre>
-          <!-- <ul>
-            <li>Positional-only names can also appear in <span class="inline-code">**kwds</span> keys</li>
-          </ul> -->
         </section>
-
-        <!-- <section>
-          <h2>Arguments: Recap</h2>
-          <pre><code data-trim class="language-python" data-line-numbers="">
-def f(pos1, pos2, /, pos_or_kwd, *, kwd1, kwd2):
-  pass
-    </code></pre>
-          <ul>
-            <li>Use <span class="keyword">positional-only</span> to hide names / enforce order / keep API stable</li>
-            <li>Use <span class="keyword">keyword-only</span> for clarity and to prevent reliance on position</li>
-          </ul>
-        </section> -->
 
         <!-- 4.9.4. Arbitrary Argument Lists -->
         <section>
@@ -613,78 +577,80 @@ def write_multiple_items(file, separator, *args):
         </section>
 
         <!-- 4.9.5. Unpacking Argument Lists -->
-        <section style="font-size: 0.75em;">
+        <section style="font-size: 0.9em;">
           <h2>Unpacking Argument Lists</h2>
+
           <ul>
-            <li>Use <span class="inline-code">*</span> to unpack sequences into positional args</li>
+            <li><span class="inline-code">*</span> unpacks a list/tuple into positional args</li>
           </ul>
-          <pre><code data-trim>
->>> list(range(3, 6))  # normal call with separate arguments
-[3, 4, 5]
->>> args = [3, 6]
->>> list(range(*args)) # call with arguments unpacked from a list
-[3, 4, 5]
-    </code></pre>
+          <pre><code class="language-pycon" data-trim>
+>>> def add(a, b, c):
+...     print(a + b + c)
+
+>>> nums = [1, 2, 3]
+>>> add(*nums)
+6
+  </code></pre>
+
           <ul>
-            <li>Use <span class="inline-code">**</span> to unpack dict into keyword args</li>
+            <li><span class="inline-code">**</span> unpacks a dict into keyword args</li>
           </ul>
-          <pre><code data-trim>
->>> def parrot(voltage, state='a stiff', action='voom'):
-...     print("-- This parrot wouldn't", action, end=' ')
-...     print("if you put", voltage, "volts through it.", end=' ')
-...     print("E's", state, "!")
-...
->>> d = {"voltage": "four million", "state": "bleedin' demised", "action": "VOOM"}
->>> parrot(**d)
--- This parrot wouldn't VOOM if you put four million volts through it. E's bleedin' demised !
-    </code></pre>
+          <pre><code class="language-pycon" data-trim>
+>>> def greet(name, msg="Hi"):
+...     print(msg, name)
+
+>>> opts = {"name": "Alice", "msg": "Hello"}
+>>> greet(**opts)
+Hello Alice
+  </code></pre>
         </section>
+
 
         <!-- 4.9.6. Lambda Expressions -->
-        <section style="font-size: 0.9em;" data-auto-animate>
+        <section>
           <h2>Lambda Expressions</h2>
           <ul>
-            <li>Small anonymous functions can be created via <span class="inline-code">lambda</span>
-            <li>This function returns sum of its two arguments:
-              <ul>
-                <li><span class="inline-code">lambda x, y: x + y</span></li>
-              </ul>
-            </li>
-            </li>
-            <li>Just syntactic sugar for <span class="inline-code">def</span>: As a single expression</li>
+            <li><span class="inline-code">lambda</span>: defines a small anonymous function</li>
+            <li>Example: <span class="inline-code">lambda x, y: x + y</span></li>
+            <li>Same as <span class="inline-code">def</span>, but only one expression</li>
           </ul>
-          <pre><code data-trim>
->>> def make_incrementor(n):
-...     return lambda x: x + n
-...
->>> f = make_incrementor(42)
->>> f(0)
-42
->>> f(1)
-43
-    </code></pre>
+
+          <pre><code class="language-pycon" data-trim>
+>>> f = lambda x, y: x + y
+>>> f(1, 2)
+3
+>>> make_inc = lambda n: (lambda x: x + n)
+>>> f = make_inc(10)
+>>> f(5)
+15
+  </code></pre>
         </section>
 
-        <section style="font-size: 0.9em;" data-auto-animate>
-          <h2>Lambda Expressions</h2>
-          <p><strong>Popular use case:</strong> Used as an <strong>argument</strong> to higher-order functions</p>
-          <pre><code data-trim>
->>> pairs = [(1, 'one'), (2, 'two'), (3, 'three'), (4, 'four')]
->>> pairs.sort(key=lambda pair: pair[1])
->>> pairs
-[(4, 'four'), (1, 'one'), (3, 'three'), (2, 'two')]
-    </code></pre>
-          <p><strong>In this example:</strong> The lambda function is used to extract the second element of each tuple
-            for sorting.</p>
+        <section>
+          <h2>Lambda in Practice</h2>
+          <ul>
+            <li>Often used as a quick <span class="keyword">key function</span> of <span
+                class="inline-code">sorted()</span></li>
+          </ul>
+
+          <pre><code class="language-pycon" data-trim>
+>>> nums = [5, 2, 9, 1]
+>>> sorted(nums, key=lambda x: -x)
+[9, 5, 2, 1]
+>>> words = ["apple", "banana", "kiwi"]
+>>> sorted(words, key=lambda w: len(w))
+['kiwi', 'apple', 'banana']
+  </code></pre>
         </section>
+
 
         <!-- 4.9.7. Documentation Strings -->
         <section style="font-size: 0.85em;">
           <h2>Documentation Strings</h2>
           <ul>
             <li>Documentation is <strong>important</strong> to understand code</li>
-            <li>First line: concise summary, capitalized, ending with a period</li>
-            <li>Second line blank; then details</li>
+            <li><strong>First line:</strong> concise summary, capitalized, ending with period</li>
+            <li><strong>Second line:</strong> blank; then details</li>
           </ul>
           <pre><code data-trim>
 >>> def my_function():
@@ -722,7 +688,7 @@ Arguments: spam eggs
     </code></pre>
         </section> -->
 
-        <section>
+        <!-- <section>
           <h2>Summary: Functions</h2>
           <ul>
             <li><span class="keyword">Decomposition</span> + <span class="keyword">Abstraction</span>:
@@ -736,7 +702,7 @@ Arguments: spam eggs
             <li><span class="keyword">Return</span> values enable further computation</li>
             <li><span class="keyword">Scope</span> controls variable visibility</li>
           </ul>
-        </section>
+        </section> -->
 
       </section>
 
@@ -810,9 +776,9 @@ Hello from demo
   </code></pre>
         </section>
 
-        <section style="font-size: 0.6em;">
+        <section style="font-size: 0.9em;" data-auto-animate>
           <h2><span class="inline-code">import</span> Variants</h2>
-          <pre><code class="language-python" data-trim data-line-numbers>
+          <pre><code class="language-python" data-trim data-line-numbers="">
 # fibo.py
 def fib(n):
     pass
@@ -821,30 +787,34 @@ def fib2(n):
     pass
   </code></pre>
 
-          <p>Import specific function names:</p>
+          <p>Import specific functions:</p>
           <pre><code class="language-pycon" data-trim>
 >>> from fibo import fib, fib2
 >>> fib(500)
-    </code></pre>
-          <p>Import everything except the names starting with <span class="inline-code">_</span> (⚠️ <b>not
-              recommended</b>):</p>
+  </code></pre>
+
+          <p>Import everything (⚠️ <b>not recommended</b>):</p>
           <pre><code class="language-pycon" data-trim>
 >>> from fibo import *
 >>> fib(500)
-    </code></pre>
+  </code></pre>
+        </section>
 
+        <section style="font-size: 0.9em;" data-auto-animate>
+          <h2><span class="inline-code">import</span> Variants</h2>
           <p>Import module under an alias:</p>
           <pre><code class="language-pycon" data-trim>
 >>> import fibo as fib
 >>> fib.fib(500)
-    </code></pre>
+  </code></pre>
 
           <p>Import function under an alias:</p>
           <pre><code class="language-pycon" data-trim>
 >>> from fibo import fib as fibonacci
 >>> fibonacci(500)
-    </code></pre>
+  </code></pre>
         </section>
+
 
         <!-- <section>
           <h2>Reloading Modules</h2>
@@ -859,19 +829,16 @@ def fib2(n):
         <section style="font-size: 0.9em;">
           <h2>Executing Modules as Scripts</h2>
           <ul>
-            <li>Run a module directly:
-              <pre><code class="language-shell" data-trim>
-                $ python module.py args
-              </code></pre>
-            </li>
             <li>Use <span class="inline-code">if __name__ == "__main__":</span> to add script behavior to a module
               <ul>
                 <li>Allows file to be both <span class="keyword">script</span> and <span class="keyword">importable
                     module</span></li>
-                <li>
-                  <span class="text-light">See example in next slide</span>
-                </li>
               </ul>
+            </li>
+            <li>Run a module directly:
+              <pre><code class="language-shell" data-trim>
+                $ python module.py args
+              </code></pre>
             </li>
           </ul>
         </section>
@@ -983,89 +950,94 @@ Yuck!
         </section>
 
         <!-- 6.4. Packages -->
-        <section style="font-size: 0.9em;">
+        <section>
           <h2>Packages</h2>
           <ul>
-            <li>Packages structure modules using <span class="keyword">dotted names</span></li>
-            <li>Each package has <span class="inline-code">__init__.py</span></li>
+            <li>Package is a <span class="keyword">folder</span> containing related modules</li>
+            <li>Each package folder contains <span class="inline-code">__init__.py</span></li>
+            <li>Can contain subpackages</li>
+            <li>Helps organize large module collections</li>
           </ul>
-          <pre><code data-trim class="language-text">
-sound/                   Top-level package      
-    __init__.py          Initialize the sound package
-    formats/             Subpackage for file format conversions
-        __init__.py
-        wavread.py
-        ...
-    effects/             Subpackage for sound effects
-        __init__.py
-        echo.py
-        surround.py
-        ...
-    filters/             Subpackage for filters
-        __init__.py
-        equalizer.py
-        ...
-    </code></pre>
-        </section>
 
-        <section style="font-size: 0.8em;">
-          <h2>Importing from Packages</h2>
-          <p>Import <strong>full path</strong>: Must use its <strong>full name</strong> to call</p>
-          <pre><code class="language-python" data-trim data-line-numbers>
-import sound.effects.echo
-sound.effects.echo.echofilter(...)
-</code></pre>
-          <p>Use <span class="inline-code">from ... import ...</span>: Called with just the module name</p>
-          <pre><code class="language-python" data-trim data-line-numbers>
-from sound.effects import echo
-echo.echofilter(...)
-</code></pre>
-          <p><strong>Direct import:</strong> Loads module and make functions/variables directly available</p>
-          <pre><code class="language-python" data-trim data-line-numbers>
-from sound.effects.echo import echofilter
-echofilter(...)
-    </code></pre>
-        </section>
-
-        <section style="font-size: 0.9em;">
-          <h2>Importing * From a Package</h2>
-          <ul>
-            <li><span class="inline-code">__all__</span> in <span class="inline-code">__init__.py</span> controls what
-              gets imported with <span class="inline-code">from package import *</span></li>
-            <pre><code class="language-python" data-trim data-line-numbers>
-# sound/effects/__init__.py
-__all__ = ["echo", "surround", "reverse"]
-    </code></pre>
-            </li>
-            <li> Then, the following will import <span class="inline-code">echo</span>, <span
-                class="inline-code">surround</span>, and <span class="inline-code">reverse</span> modules:
-              <pre><code class="language-python" data-trim data-line-numbers>
-# main.py
-from sound.effects import *
-    </code></pre>
-            </li>
-          </ul>
-          <p>‼️ <strong>Best practice:</strong> avoid <span class="inline-code">import *</span> in production code</p>
-          <!-- <p><strong>Reason:</strong> Can lead to unclear code and potential name clashes</p> -->
+          <pre><code class="language-text" data-trim>
+shapes/              Top-level package
+    __init__.py
+    utils.py
+    geometry/        Subpackage
+        __init__.py
+        circle.py
+        square.py
+  </code></pre>
         </section>
 
         <section>
-          <h2>Intra-package References</h2>
-          <ul>
-            <li>Absolute import:
-              <pre><code class="language-python" data-trim data-line-numbers>
-from sound.effects import echo
-              </code></pre>
-            </li>
-            <li>Relative import: use leading dots
-              <pre><code class="language-python" data-trim data-line-numbers>
-from . import echo               # . = current (sub)package
-from .. import formats           # .. = parent package
-from ..filters import equalizer  # filters module from parent package
-    </code></pre>
-            </li>
-          </ul>
+          <h2>Importing from Packages</h2>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+# Full path
+import shapes.geometry.circle
+shapes.geometry.circle.area(5)
+
+# From subpackage
+from shapes.geometry import square
+square.perimeter(4)
+
+# Direct function
+from shapes.geometry.circle import area
+area(5)
+  </code></pre>
         </section>
+
+        <section>
+          <h2>Importing * From a Package</h2>
+          <ul>
+            <li><span class="inline-code">__all__</span> in <span class="inline-code">__init__.py</span> controls what
+              gets imported</li>
+          </ul>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+# shapes/geometry/__init__.py
+__all__ = ["circle", "square"]
+  </code></pre>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+# main.py
+from shapes.geometry import *
+print(circle.area(5))
+print(square.perimeter(4))
+  </code></pre>
+
+          <p>‼️ <strong>Best practice:</strong> avoid <span class="inline-code">import *</span> in production code</p>
+        </section>
+
+        <section style="font-size: 0.9em;">
+          <h2>Intra-package References</h2>
+
+          <pre><code class="language-text" data-trim>
+shapes/              
+    __init__.py
+    utils.py
+    geometry/        
+        __init__.py
+        circle.py
+        square.py
+  </code></pre>
+
+          <p>Absolute import (full path):
+          <pre><code class="language-python" data-trim>
+from shapes.geometry import circle
+      </code></pre>
+          </p>
+
+          <p>Relative import (use leading dots):
+          <pre><code class="language-python" data-trim>
+from . import circle           # current package
+from .. import utils           # parent package
+from ..geometry import square  # module from parent package
+      </code></pre>
+          </p>
+        </section>
+
 
         <!-- <section>
           <h2>Packages in Multiple Directories</h2>
@@ -1083,53 +1055,38 @@ from ..filters import equalizer  # filters module from parent package
         </section>
 
         <!-- 7.2. Reading and Writing Files -->
-        <section style="font-size: 0.8em;">
+        <section style="font-size: 0.85em;">
           <h2>Reading and Writing Files</h2>
           <ul>
-            <li><span class="inline-code">open(filename, mode='r', encoding=None)</span> returns a <span
-                class="keyword">file object</span>
-              <table style="font-size: 0.8em;">
-                <thead>
-                  <tr>
-                    <th>Mode</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><span class="inline-code">'r'</span></td>
-                    <td>read (default)</td>
-                  </tr>
-                  <tr>
-                    <td><span class="inline-code">'w'</span></td>
-                    <td>write (overwrite)</td>
-                  </tr>
-                  <tr>
-                    <td><span class="inline-code">'a'</span></td>
-                    <td>append</td>
-                  </tr>
-                  <tr>
-                    <td><span class="inline-code">'r+'</span></td>
-                    <td>read + write</td>
-                  </tr>
-                </tbody>
-              </table>
-            <li>Appending <span class="inline-code">'b'</span> to a mode: <span class="keyword">binary</span>
-              mode</li>
-            <li><span class="inline-code">encoding="utf-8"</span> recommended for text</li>
+            <li><span class="inline-code">open(filename, mode, encoding)</span> → <span class="keyword">file
+                object</span></li>
+            <li>Common <span class="keyword">modes</span>:
+              <ul>
+                <li><span class="inline-code">'r'</span>: read (default)</li>
+                <li><span class="inline-code">'w'</span>: write (overwrite)</li>
+                <li><span class="inline-code">'a'</span>: append</li>
+                <li><span class="inline-code">'r+'</span>: read + write</li>
+              </ul>
+            </li>
+            <li>Append <span class="inline-code">'b'</span> → binary mode, e.g., <span class="inline-code">'rb'</span>,
+              <span class="inline-code">'wb'</span>
+            </li>
+            <li><strong>Recommended:</strong> Use <span class="inline-code">encoding="utf-8"</span> for text files</li>
           </ul>
         </section>
 
         <section>
-          <h2>Example: Write and Read Text Files</h2>
+          <h2>Example: Text Files</h2>
 
           <p></p>
           <pre><code class="language-pycon" data-trim>
 >>> with open("workfile", "w", encoding="utf-8") as f:
 ...     f.write("This is a test.\n")
+... 
 16
 >>> with open("workfile", encoding="utf-8") as f:
 ...     read_data = f.read()
+... 
 >>> read_data
 'This is a test.\n'
           </code></pre>
@@ -1151,7 +1108,7 @@ from ..filters import equalizer  # filters module from parent package
         </section>
 
         <section>
-          <h2>Best Practice: <span class="inline-code">with</span></h2>
+          <h2>✅ Best Practice: <span class="inline-code">with</span></h2>
           <ul>
             <li>Use <span class="inline-code">with</span> to auto-close files</li>
             <li>Safer and shorter than <span class="inline-code">try</span> / <span class="inline-code">finally</span>
@@ -1160,6 +1117,7 @@ from ..filters import equalizer  # filters module from parent package
           <pre><code class="language-pycon" data-trim>
 >>> with open("workfile", encoding="utf-8") as f:
 ...     read_data = f.read()
+... 
 >>> # Check that the file has been automatically closed.
 >>> f.closed
 True
@@ -1169,7 +1127,8 @@ True
         <section>
           <h2>Closing Files</h2>
           <ul>
-            <li>Call <span class="inline-code">f.close()</span> if not using <span class="keyword">with</span></li>
+            <li>Must call <span class="inline-code">f.close()</span> if not using <span class="inline-code">with</span>
+            </li>
             <li>Otherwise, writes may not be flushed to disk</li>
           </ul>
           <pre><code class="language-pycon" data-trim>
@@ -1192,11 +1151,14 @@ ValueError: I/O operation on closed file.
           <pre><code class="language-pycon" data-trim>
 >>> with open("workfile", "w", encoding="utf-8") as f: 
 ...     _ = f.write("Hello\nWorld\n")
+... 
 >>> with open("workfile", "r", encoding="utf-8") as f:
 ...     f.read()
+... 
 'Hello\nWorld\n'
 >>> with open("workfile", "r", encoding="utf-8") as f:
 ...     f.read(5)
+... 
 'Hello'
   </code></pre>
         </section>
@@ -1204,15 +1166,18 @@ ValueError: I/O operation on closed file.
         <section>
           <h2>File Methods: <span class="inline-code">f.readline()</span></h2>
           <ul>
-            <li>Read a single line (keeps trailing <span class="inline-code">\n</span> if present)</li>
-            <li>Last line of the file: Only returns an empty string</li>
+            <li>Read a <span class="keyword">single line</span> (keeps trailing <span class="inline-code">\n</span> if
+              present)</li>
+            <li><strong>Last line</strong> in file: Returns an <strong>empty string</strong></li>
           </ul>
           <pre><code class="language-pycon" data-trim>
 >>> with open("workfile", "r", encoding="utf-8") as f:
 ...     f.readline()
+... 
 'Hello\n'
 >>> with open("workfile", "r", encoding="utf-8") as f:
 ...     f.readline(); f.readline(); f.readline()
+... 
 'Hello\n'
 'World\n'
 ''
@@ -1221,10 +1186,7 @@ ValueError: I/O operation on closed file.
 
         <section style="font-size: 0.9em;">
           <h2>File Methods: Iterate over Lines</h2>
-          <ul>
-            <li>Iterate lines efficiently; minimal memory</li>
-            <li>Each <span class="keyword">line</span> includes trailing <span class="inline-code">\n</span></li>
-          </ul>
+          <p>Use a <span class="inline-code">for</span> loop to read lines one by one:</p>
           <pre><code class="language-pycon" data-trim>
 >>> with open("workfile", "r", encoding="utf-8") as f:
 ...     for line in f:
@@ -1233,7 +1195,9 @@ Hello
 World
   </code></pre>
           <ul>
-            <li>Bonus: <span class="inline-code">s.strip()</span> removes whitespace from string <span
+            <li>Iterate lines <span class="keyword">efficiently</span>; <span class="keyword">minimal memory</span></li>
+            <li>Each line includes trailing <span class="inline-code">\n</span></li>
+            <li><strong>Bonus:</strong> <span class="inline-code">s.strip()</span> removes whitespace from string <span
                 class="inline-code">s</span></li>
           </ul>
         </section>
@@ -1241,13 +1205,15 @@ World
         <section>
           <h2>File Methods: <span class="inline-code">f.write()</span></h2>
           <ul>
-            <li>Write text/bytes; returns <span class="keyword">count</span> written</li>
+            <li>Writes text/bytes to file</li>
+            <li>Returns <span class="keyword">number of characters/bytes</span> written</li>
             <li><b>Note:</b> Only <span class="inline-code">str</span> is allowed in text mode</li>
             <!-- <li>Use <span class="inline-code">with</span> or must flush/close to ensure data hits disk</li> -->
           </ul>
           <pre><code class="language-pycon" data-trim>
 >>> with open("log.txt", "w", encoding="utf-8") as f:
 ...     n = f.write("This is a test.\n")
+... 
 >>> n
 16
   </code></pre>
@@ -1368,7 +1334,7 @@ World
           <h2>Working with CSV — Writing</h2>
           <ul>
             <li>Use <span class="inline-code">csv.writer</span> for lists</li>
-            <li>Use <span class="inline-code">csv.DictWriter</span> for dicts (recommended)</li>
+            <li>Use <span class="inline-code">csv.DictWriter</span> for dicts</li>
           </ul>
           <pre><code class="language-pycon" data-trim>
 >>> import csv
@@ -1390,8 +1356,8 @@ Bob,25
         <section style="font-size: 0.85em;">
           <h2>Working with CSV — Reading</h2>
           <ul>
-            <li>Use the <span class="inline-code">csv.DictReader</span> to read rows into dicts (recommended)</li>
-            <li>Alternatively, use <span class="inline-code">csv.reader</span> to read rows as lists of values</li>
+            <li>Use <span class="inline-code">csv.reader</span> to read rows as lists of values</li>
+            <li>Use <span class="inline-code">csv.DictReader</span> to read rows into dicts</li>
           </ul>
           <pre><code class="language-pycon" data-trim>
 >>> import csv
@@ -1425,19 +1391,19 @@ Bob,25
         </section>
 
         <section>
-          <h2>Formatted String Literals — Basics</h2>
+          <h2><span class="text-light">Formatted String Literals —</span> Basics</h2>
           <ul>
             <li>Prefix with <span class="inline-code">f</span>, embed <span class="keyword">{expressions}</span></li>
           </ul>
           <pre><code class="language-pycon" data-trim>
->>> year, event = 2016, "Referendum"
->>> f"Results of the {year} {event}"
-'Results of the 2016 Referendum'
+>>> year, event = 2025, "IAI Connect"
+>>> f"Summary of the {year} {event}"
+'Summary of the 2025 IAI Connect'
   </code></pre>
         </section>
 
         <section>
-          <h2>Formatted String Literals — Precision & Width</h2>
+          <h2><span class="text-light">Formatted String Literals —</span> Precision & Width</h2>
           <ul>
             <li>Use <span class="inline-code">:</span> for <span class="keyword">format specifiers</span> (precision)
             </li>
@@ -1450,7 +1416,7 @@ Bob,25
         </section>
 
         <section>
-          <h2>Formatted String Literals — Alignment</h2>
+          <h2><span class="text-light">Formatted String Literals —</span> Alignment</h2>
           <ul>
             <li>Set <span class="keyword">field width</span> to align columns</li>
           </ul>
@@ -1464,7 +1430,7 @@ Jack       =>     4098
         </section>
 
         <section>
-          <h2>Formatted String Literals — Conversions</h2>
+          <h2><span class="text-light">Formatted String Literals —</span> Conversions</h2>
           <ul>
             <li><span class="inline-code">!r</span> uses <span class="inline-code">repr()</span> (unambiguous)</li>
             <li><span class="inline-code">!s</span> uses <span class="inline-code">str()</span> (user-friendly)</li>
@@ -1479,7 +1445,7 @@ Jack       =>     4098
         </section>
 
         <section>
-          <h2>Formatted String Literals — Self-Documenting (3.8+)</h2>
+          <h2><span class="text-light">Formatted String Literals —</span> Self-Documenting (3.8+)</h2>
           <ul>
             <li><span class="inline-code">=</span> shows <span class="keyword">name=value</span></li>
           </ul>
@@ -1601,7 +1567,7 @@ Jack       =>     4098
     - <span class="keyword">Standard libraries</span>: save time  
     - <span class="keyword">Files</span>: enable data processing  
     - <span class="keyword">Formatting</span>: improves readability  
-    - <strong>Next:</strong> Error Handling, Object-Oriented Programming
+    - <strong>Next:</strong> Error Handling & OOP
   </textarea>
       </section>
 
