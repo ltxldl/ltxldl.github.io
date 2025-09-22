@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Lecture 4: Error Handling & Object-Oriented Programming</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Title slide -->
+      <section>
+        <h1>Programming for Data Processing</h1>
+        <div>
+          <p>
+            <strong>Lectures:</strong> Nguyễn Tuấn Phong, Đào Việt Anh
+          </p>
+          <p>
+            <strong>Labs:</strong> Trịnh Ngọc Huỳnh, Phạm Tiến Du
+          </p>
+          <p>
+            <strong>Semester:</strong> 2025-2026-1
+          </p>
+          <p>Institute for AI, VNU-UET</p>
+        </div>
+      </section>
+
+      <!-- Lecture title -->
+      <section>
+        <h1>
+          <span class="text-light">Lecture 4:</span>
+          <br>
+          Error Handling
+          <br>
+          OOP
+        </h1>
+      </section>
+
+      <!-- Last time -->
+      <section data-markdown>
+        <textarea data-template>
+          ## Last time
+          1. Functions
+          1. Modules & Packages
+          1. File Handling
+          1. Fancier Output Formatting
+        </textarea>
+      </section>
+
+      <!-- Today -->
+      <section data-markdown>
+        <textarea data-template>
+          ## Today
+          1. Debugging
+          1. Handling Exceptions
+          1. Assertions
+          1. Object-Oriented Programming
+          1. Classes & Instances
+        </textarea>
+      </section>
+
+      <!-- Debugging -->
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">1.</span>
+            Debugging
+          </h1>
+        </section>
+
+        <section style="font-size: 0.9em;">
+          <h2>Debugging</h2>
+          <ul>
+            <li><span class="keyword">Challenging</span>: debugging has a steep learning curve</li>
+            <li><span class="keyword">Goal</span>: produce reliable, bug-free programs</li>
+            <li><span class="keyword">Tools & Strategies</span>:
+              <ul>
+                <li><span class="keyword">Built-in debuggers</span> (IDLE, Anaconda)</li>
+                <li><span class="inline-code">print()</span> statements — quick checks & tracing</li>
+                <li><span class="keyword">Systematic thinking</span> — reason through code logically</li>
+                <li><span class="keyword">AI</span> — leverage AI tools as debugging assistants</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2><span class="inline-code">print()</span> Statements</h2>
+          <ul>
+            <li>Good way to <span class="keyword">test hypotheses</span></li>
+            <li><strong>When to print</strong>:
+              <ul>
+                <li>On <span class="keyword">function entry</span></li>
+                <li>Check <span class="keyword">parameters</span></li>
+                <li>Show <span class="keyword">function results</span></li>
+              </ul>
+            </li>
+            <li><strong>Bisection method</strong>:
+              <ul>
+                <li>Insert <span class="inline-code">print()</span> halfway in the code</li>
+                <li>Narrow down where the <span class="keyword">bug</span> occurs</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section style="font-size: 0.9em;">
+          <h2>Debugging Steps</h2>
+          <ul>
+            <li><strong>Study program code</strong>:
+              <ul>
+                <li>Don’t just ask <span class="keyword">what is wrong</span></li>
+                <li>Ask: <span class="keyword">how did I get</span> this unexpected result?</li>
+                <li>Check if it’s part of a <span class="keyword">pattern/family</span></li>
+              </ul>
+            </li>
+            <li><strong>Scientific method</strong>:
+              <ul>
+                <li>Study available <span class="keyword">data</span></li>
+                <li>Form a <span class="keyword">hypothesis</span></li>
+                <li>Run <span class="keyword">repeatable experiments</span></li>
+                <li>Test with the <span class="keyword">simplest input</span></li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Two types of errors</h2>
+          <ul>
+            <li><span class="keyword">Explicit errors</span>: <strong>easily identified</strong> by error messages</li>
+            <li><span class="keyword">Logic errors</span>: <strong>harder to find</strong>, no error messages, but wrong
+              results
+              <ul>
+                <li><strong>Think</strong> before writing code</li>
+                <li><strong>Test</strong> code with simple inputs</li>
+                <li>Use <span class="inline-code">print()</span> to trace code execution</li>
+                <li><strong>Rubber duck debugging</strong>: explain code to a rubber duck (or a friend)</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">2.</span>
+            Handling Exceptions
+          </h1>
+        </section>
+
+        <!-- Slide: Errors & Exceptions (Overview) -->
+        <section style="font-size: 0.9em;">
+          <h2>Errors in Python: Overview</h2>
+          <ul>
+            <li>At least two distinguishable kinds of errors:
+              <ul>
+                <li><span class="keyword">Syntax errors</span> (parsing)</li>
+                <li><span class="keyword">Exceptions</span> (runtime)</li>
+              </ul>
+            </li>
+            <li>Syntax errors must be fixed <span class="keyword">before execution</span></li>
+            <li>Exceptions occur at runtime and can be <span class="keyword">handled</span>
+              <ul>
+                <li>Tools: <span class="inline-code">try</span>, <span class="inline-code">except</span>, <span
+                    class="inline-code">else</span>, <span class="inline-code">finally</span>, <span
+                    class="inline-code">raise</span></li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Slide: Syntax Errors -->
+        <section>
+          <h2>Syntax Errors</h2>
+          <ul>
+            <li>Detected by the parser (<span class="keyword">before execution</span>)</li>
+            <li>Point to where parsing failed</li>
+            <li>Must be fixed to run the program</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> while True print('Hello world')
+  File "&lt;stdin&gt;", line 1
+    while True print('Hello world')
+               ^^^^^
+SyntaxError: invalid syntax
+</code></pre>
+        </section>
+
+        <!-- Slide: Exceptions -->
+        <section style="font-size: 0.9em;">
+          <h2>Exceptions</h2>
+          <ul>
+            <li>Raised <span class="keyword">during execution</span></li>
+            <li>
+              Message indicates the <span class="keyword">error type</span>, <span class="keyword">location</span>,
+              etc.
+            </li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> 10 * (1/0)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+          ~^~
+ZeroDivisionError: division by zero
+</code></pre>
+          <pre><code class="language-pycon" data-trim>
+>>> 4 + spam*3
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+        ^^^^
+NameError: name 'spam' is not defined
+</code></pre>
+        </section>
+
+        <!-- Slide: Handling Exceptions: Example -->
+        <section style="font-size: 0.8em;">
+          <h2>Handling Exceptions: <span class="inline-code">try/except</span></h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+while True:
+    try:
+        x = int(input("Please enter a number: "))
+        break
+    except ValueError:
+        print("Oops! That was no valid number. Try again...")
+</code></pre>
+          <ul>
+            <li><span class="inline-code">try</span> runs first</li>
+            <li><span class="inline-code">except</span> runs if exception matches</li>
+            <li>If no match, the <span class="inline-code">except</span> clauses are skipped</li>
+          </ul>
+        </section>
+
+        <!-- Slide: Multiple Excepts -->
+        <section style="font-size: 0.85em;">
+          <h2>Multiple Excepts in <span class="inline-code">tuple</span></h2>
+          <ul>
+            <li>Multiple <span class="inline-code">except</span> clauses allowed</li>
+            <li>Only <span class="keyword">first</span> matching clause runs</li>
+            <li>Use <span class="inline-code">tuple</span> to catch multiple exceptions in one clause</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+... except (RuntimeError, TypeError, NameError):
+...     pass
+</code></pre>
+        </section>
+
+        <!-- Slide: Except Clause Order -->
+        <section style="font-size: 0.85em;">
+          <h2>Multiple Excepts: Order</h2>
+          <ul>
+            <li><span class="keyword">Order matters</span>: first match runs</li>
+            <li>Put <span class="keyword">subclasses</span> before their <span class="keyword">base classes</span>
+              <ul>
+                <li>Prevents base from catching all too early</li>
+              </ul>
+            </li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class B(Exception): pass
+class C(B): pass
+class D(C): pass
+
+for cls in [B, C, D]:
+    try:
+        raise cls()
+    except D:  # subclass first
+        print("D")
+    except C:
+        print("C")
+    except B:  # base last
+        print("B")
+# Prints: B, C, D
+</code></pre>
+        </section>
+
+        <section>
+
+          <p><strong>Question:</strong>
+            What if we put <span class="inline-code">except B</span> first?
+          </p>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class B(Exception): pass
+class C(B): pass
+class D(C): pass
+
+for cls in [B, C, D]:
+    try:
+        raise cls()
+    except B:
+        print("B")
+    except C:
+        print("C")
+    except D:
+        print("D")
+</code></pre>
+        </section>
+
+        <!-- Slide: Exception Instance & args -->
+        <section style="font-size: 0.8em;">
+          <h2>Exception Instance & <span class="inline-code">.args</span></h2>
+          <ul>
+            <li>Exceptions may <span class="keyword">carry data</span></li>
+            <li>Accessible via <span class="inline-code">except ... as ...</span> and <span
+                class="inline-code">.args</span>
+            </li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> try:
+...     raise Exception('spam', 'eggs')
+... except Exception as inst:
+...     print(type(inst))    # the exception type
+...     print(inst.args)     # arguments stored in .args
+...     print(inst)          # __str__ allows args to be printed directly,
+...                          # but may be overridden in exception subclasses
+...     x, y = inst.args     # unpack args
+...     print('x =', x)
+...     print('y =', y)
+... 
+&lt;class 'Exception'&gt;
+('spam', 'eggs')
+('spam', 'eggs')
+x = spam
+y = eggs
+</code></pre>
+        </section>
+
+        <!-- Slide: Exception Hierarchy -->
+        <section>
+          <h2>Exception Hierarchy</h2>
+          <ul>
+            <li><span class="inline-code">BaseException</span> → <span class="keyword">root</span> of all exception
+              classes</li>
+            <li><span class="inline-code">Exception</span> → base class for <span class="keyword">non-fatal
+                errors</span>
+              <ul>
+                <li>
+                  Can be used to catch <span class="keyword">most exceptions</span>
+                </li>
+                <li><strong>Good practice:</strong> Be specific about exceptions you catch <span class="text-light">(see
+                    next slide)</span></li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+
+        <!-- Slide: Log & Re-raise Pattern -->
+        <section style="font-size: 0.9em;">
+          <h2>Log & Re-raise Pattern</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+import sys
+
+try:
+    f = open('myfile.txt')
+    s = f.readline()
+    i = int(s.strip())
+except OSError as err:
+    print("OS error:", err)
+except ValueError:
+    print("Could not convert data to an integer.")
+except Exception as err:
+    print(f"Unexpected {err=}, {type(err)=}")
+    raise
+</code></pre>
+
+          <p>&rarr; Errors not caught with <span class="inline-code">OSError</span> and <span
+              class="inline-code">ValueError</span> will be caught by the generic <span
+              class="inline-code">Exception</span> handler.</p>
+        </section>
+
+        <!-- Slide: else Clause -->
+        <section>
+          <h2><span class="inline-code">else</span> Clause</h2>
+          <ul>
+            <li>Runs only if <span class="keyword">no exception</span> under the <span class="inline-code">try</span>
+              clause</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+for arg in sys.argv[1:]:
+    try:
+        f = open(arg, 'r')
+    except OSError:
+        print('cannot open', arg)
+    else:
+        print(arg, 'has', len(f.readlines()), 'lines')
+        f.close()
+</code></pre>
+        </section>
+
+        <!-- Slide: Raising Exceptions -->
+        <section style="font-size: 0.85em;">
+          <h2>Raising Exceptions</h2>
+          <ul>
+            <li>Use <span class="inline-code">raise</span> to signal an error
+              <ul>
+                <li>Can raise an <span class="keyword">exception instance</span> or an <span class="keyword">exception
+                    class</span></li>
+                <li>If a class is raised, Python calls its <span class="inline-code">__init__()</span> with no args
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> raise NameError('HiThere')
+NameError: HiThere
+>>> raise ValueError  # same as ValueError()
+>>> def square_root(x):
+...     if x < 0:
+...         raise ValueError("Cannot compute square root of negative number")
+...     return x ** 0.5
+...
+>>> square_root(-1)
+ValueError: Cannot compute square root of negative number
+</code></pre>
+        </section>
+
+        <section style="font-size: 0.85em;">
+          <h2>User-defined Exceptions</h2>
+          <ul>
+            <li>Create custom exceptions by <span class="keyword">subclassing</span> <span
+                class="inline-code">Exception</span></li>
+            <li>Use meaningful names (often ending with <span class="keyword">Error</span>)</li>
+            <li>Provide <span class="keyword">context</span> through attributes or messages</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class NegativeNumberError(Exception):
+    """Raised when a negative number is not allowed."""
+    pass
+
+def square_root(x):
+    if x &lt; 0:
+        raise NegativeNumberError(f"Invalid input: {x}")
+    return x ** 0.5
+
+print(square_root(-9))
+# Raises: NegativeNumberError: Invalid input: -9
+</code></pre>
+        </section>
+
+        <!-- Slide: finally Clause -->
+        <section style="font-size: 0.8em;">
+          <h2>Defining Cleanup: <span class="inline-code">finally</span></h2>
+          <ul>
+            <li>Code in <span class="inline-code">finally</span> <span class="keyword">always runs</span></li>
+            <li>Used for <span class="keyword">cleanup</span> (closing files, releasing resources, etc.)</li>
+            <!-- <li><span class="keyword">return/break/continue</span> in <span class="inline-code">finally</span> override
+              pending results</li> -->
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> try:
+...     raise KeyboardInterrupt
+... finally:
+...     print('Goodbye, world!')
+...
+Goodbye, world!
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 2, in &lt;module&gt;
+    raise KeyboardInterrupt
+KeyboardInterrupt
+</code></pre>
+        </section>
+
+        <section style="font-size: 0.8em;">
+          <h2>Example: Combining all Clauses</h2>
+          <pre><code class="language-pycon" data-trim>
+>>> def divide(x, y):
+...     try:
+...         result = x / y
+...     except ZeroDivisionError:
+...         print("division by zero!")
+...     else:
+...         print("result is", result)
+...     finally:
+...         print("executing finally clause")
+... 
+>>> divide(2, 1)
+result is 2.0
+executing finally clause
+>>> divide(2, 0)
+division by zero!
+executing finally clause
+>>> divide("2", "1")
+executing finally clause
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+    divide("2", "1")
+    ~~~~~~^^^^^^^^^^
+  File "&lt;stdin&gt;", line 3, in divide
+    result = x / y
+             ~~^~~
+TypeError: unsupported operand type(s) for /: 'str' and 'str'
+            </code></pre>
+        </section>
+
+        <!-- Slide: ExceptionGroup — What & Why -->
+        <section style="font-size: 0.9em;">
+          <h2>Raising Multiple Exceptions</h2>
+          <ul>
+            <li>Use <span class="inline-code">ExceptionGroup</span> to bundle <span class="keyword">multiple
+                exceptions</span></li>
+            <li>Useful in <span class="keyword">concurrency</span> / batch tasks where several operations fail</li>
+            <li>Is itself an <span class="keyword">exception</span>; can be <span class="keyword">caught</span> like
+              others</li>
+          </ul>
+        </section>
+
+        <section style="font-size: 0.8em;">
+          <h2><span class="inline-code">ExceptionGroup</span> Example</h2>
+          <pre><code class="language-pycon" data-trim>
+>>> def f():
+...     excs = [OSError('error 1'), SystemError('error 2')]
+...     raise ExceptionGroup('there were problems', excs)
+... 
+>>> f()
+  + Exception Group Traceback (most recent call last):
+  |   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+  |     f()
+  |     ~^^
+  |   File "&lt;stdin&gt;", line 3, in f
+  |     raise ExceptionGroup('there were problems', excs)
+  | ExceptionGroup: there were problems (2 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | OSError: error 1
+    +---------------- 2 ----------------
+    | SystemError: error 2
+    +------------------------------------
+>>> try:
+...     f()
+... except Exception as e:
+...     print(f'caught {type(e)}: e')
+... 
+caught &lt;class 'ExceptionGroup'&gt;: e
+</code></pre>
+
+        </section>
+
+        <!-- Slide: Instances, Not Types + Collection Pattern -->
+        <section style="font-size: 0.9em;">
+          <h2>Instances, Not Types</h2>
+          <ul>
+            <li>Groups hold <span class="keyword">exception instances</span>, not classes</li>
+            <li><strong>Typical pattern:</strong>
+              <ul>
+                <li>
+                  <span class="keyword">run</span> tasks, <span class="keyword">collect</span> failures,
+                  then <span class="keyword">raise</span> one group
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+excs = []
+for test in tests:
+    try:
+        test.run()
+    except Exception as e:
+        excs.append(e)
+
+if excs:
+    raise ExceptionGroup("Test Failures", excs)
+</code></pre>
+        </section>
+
+        <!-- Slide: Adding Notes to Exceptions -->
+        <section style="font-size: 0.85em;">
+          <h2>Adding Notes to Exceptions</h2>
+          <ul>
+            <li>Use <span class="inline-code">e.add_note()</span> to attach extra <span class="keyword">context</span>
+            </li>
+            <li>Notes appear in the traceback after the exception</li>
+            <li>Helps debugging in <span class="keyword">multi-step</span> processes</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> try:
+...   raise TypeError('bad type')
+... except Exception as e:
+...   e.add_note('Extra info 1')
+...   e.add_note('Extra info 2')
+...   raise
+...
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 2, in &lt;module&gt;
+    raise TypeError('bad type')
+TypeError: bad type
+Add some information
+Add some more information
+>>>
+</code></pre>
+        </section>
+
+        <!-- Slide: Notes within ExceptionGroup -->
+        <section style="font-size: 0.9em;">
+          <h2>Notes in <span class="inline-code">ExceptionGroup</span></h2>
+          <ul>
+            <li>Each exception in a group can carry its own <span class="keyword">notes</span></li>
+            <li>Useful for reporting <span class="keyword">context per error</span></li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> def f():
+...     raise OSError('operation failed')
+... 
+>>> excs = []
+>>> for i in range(3):
+...     try:
+...         f()
+...     except Exception as e:
+...         e.add_note(f'Happened in Iteration {i+1}')
+...         excs.append(e)
+... 
+>>> raise ExceptionGroup('We have some problems', excs)
+
+  + Exception Group Traceback (most recent call last):
+  |   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+  |     raise ExceptionGroup('We have some problems', excs)
+  | ExceptionGroup: We have some problems (3 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "&lt;stdin&gt;", line 3, in &lt;module&gt;
+    |     f()
+    |     ~^^
+    |   File "&lt;stdin&gt;", line 2, in f
+    |     raise OSError('operation failed')
+    | OSError: operation failed
+    | Happened in Iteration 1
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "&lt;stdin&gt;", line 3, in &lt;module&gt;
+    |     f()
+    |     ~^^
+    |   File "&lt;stdin&gt;", line 2, in f
+    |     raise OSError('operation failed')
+    | OSError: operation failed
+    | Happened in Iteration 2
+    +---------------- 3 ----------------
+    | Traceback (most recent call last):
+    |   File "&lt;stdin&gt;", line 3, in &lt;module&gt;
+    |     f()
+    |     ~^^
+    |   File "&lt;stdin&gt;", line 2, in f
+    |     raise OSError('operation failed')
+    | OSError: operation failed
+    | Happened in Iteration 3
+    +------------------------------------
+</code></pre>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">3.</span>
+            Assertions
+          </h1>
+        </section>
+
+        <!-- Slide: Assert Basics -->
+        <section style="font-size: 0.9em;">
+          <h2>Assertions in Python</h2>
+          <ul>
+            <li>Use <span class="inline-code">assert</span> to <span class="keyword">check conditions</span> during
+              runtime
+              <ul>
+                <li>If condition is <span class="keyword">True</span> → program continues</li>
+                <li>If condition is <span class="keyword">False</span> → raises <span
+                    class="inline-code">AssertionError</span></li>
+              </ul>
+            </li>
+            <li>Good for <span class="keyword">debugging</span> and validating assumptions</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> x = 5
+>>> assert x &gt; 0        # passes, no output
+>>> assert x &lt; 0        # AssertionError
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+AssertionError
+      </code></pre>
+        </section>
+
+        <!-- Slide: Assert with Messages -->
+        <section style="font-size: 0.9em;">
+          <h2><span class="inline-code">assert</span> with Messages</h2>
+          <ul>
+            <li>Optional second argument adds a <span class="keyword">message</span></li>
+            <li>Helps explain the <span class="keyword">failed condition</span></li>
+            <li>Use for <span class="keyword">clearer debugging</span></li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> def divide(a, b):
+...     assert b != 0, "Denominator must not be zero"
+...     return a / b
+... 
+>>> print(divide(10, 2))
+5.0
+>>> print(divide(10, 0))
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+  File "&lt;stdin&gt;", line 2, in divide
+AssertionError: Denominator must not be zero
+      </code></pre>
+        </section>
+
+        <!-- Slide: When NOT to Use assert -->
+        <section style="font-size: 0.85em;">
+          <h2>When <span class="keyword">NOT</span> to Use <span class="inline-code">assert</span></h2>
+          <ul>
+            <li><span class="keyword">Assertions</span> can be disabled with <span class="inline-code">python -O</span>
+            </li>
+            <li>Don’t use for <span class="keyword">data validation</span> in production</li>
+            <li>Better to raise <span class="inline-code">ValueError</span>, <span class="inline-code">TypeError</span>
+              for user input</li>
+            <li>Best for <span class="keyword">internal checks</span> during development and debugging</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+# ❌ Bad: input validation
+assert user_age > 0, "Age must be positive"
+
+# ✅ Better
+if user_age <= 0:
+    raise ValueError("Age must be positive")
+</code></pre>
+        </section>
+
+
+      </section>
+
+      <!-- OOP -->
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">4.</span>
+            Object-Oriented Programming
+          </h1>
+        </section>
+        <section></section>
+      </section>
+
+      <!-- Classes & Instances -->
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">5.</span>
+            Classes & Instances
+          </h1>
+        </section>
+        <section></section>
+      </section>
+
+      <!-- Wrap-up -->
+      <section data-markdown>
+        <textarea data-template>
+          ## Wrap-up
+          - <span class="keyword">Error Handling</span>: 
+          - <span class="keyword">OOP</span>: 
+          - <strong>Next:</strong> Numpy
+        </textarea>
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        Prog. Data Proc. (2526-1) §4: Error Handling & OOP
+      </div>
+      <!-- End of footer -->
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>
