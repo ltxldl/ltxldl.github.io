@@ -67,8 +67,9 @@
           1. Debugging
           1. Handling Exceptions
           1. Assertions
-          1. Object-Oriented Programming
-          1. Classes & Instances
+          1. Object-Oriented Programming (Recap)
+          1. Python Classes & Inheritance
+          1. Iterators & Generators
         </textarea>
       </section>
 
@@ -163,9 +164,16 @@
           </h1>
         </section>
 
+        <section>
+          <h1>
+            <span class="text-light">2.1.</span>
+            Overview
+          </h1>
+        </section>
+
         <!-- Slide: Errors & Exceptions (Overview) -->
         <section style="font-size: 0.9em;">
-          <h2>Errors in Python: Overview</h2>
+          <h2>Errors in Python</h2>
           <ul>
             <li>At least two distinguishable kinds of errors:
               <ul>
@@ -225,6 +233,13 @@ Traceback (most recent call last):
         ^^^^
 NameError: name 'spam' is not defined
 </code></pre>
+        </section>
+
+        <section>
+          <h1>
+            <span class="text-light">2.2.</span>
+            Handling and Raising Exceptions
+          </h1>
         </section>
 
         <!-- Slide: Handling Exceptions: Example -->
@@ -718,7 +733,7 @@ AssertionError: Denominator must not be zero
 
         <!-- Slide: When NOT to Use assert -->
         <section style="font-size: 0.85em;">
-          <h2>When <span class="keyword">NOT</span> to Use <span class="inline-code">assert</span></h2>
+          <h2>⚠️ When <span class="keyword">NOT</span> to Use <span class="inline-code">assert</span></h2>
           <ul>
             <li><span class="keyword">Assertions</span> can be disabled with <span class="inline-code">python -O</span>
             </li>
@@ -746,29 +761,1100 @@ if user_age <= 0:
           <h1>
             <span class="text-light">4.</span>
             Object-Oriented Programming
+            <span class="text-light">
+              (Recap)
+            </span>
           </h1>
         </section>
-        <section></section>
+
+        <section style="font-size: 0.9em;">
+          <h2>OOP Principles</h2>
+          <ul>
+            <li><span class="keyword">Objects</span> = data + behavior</li>
+            <li><span class="keyword">Classes</span> define blueprints; <span class="keyword">instances</span> bring
+              them to life</li>
+            <li><span class="keyword">Abstraction</span>: focus on what an object does, not how</li>
+            <li><span class="keyword">Encapsulation</span>: hide details, expose clean interfaces</li>
+            <li><span class="keyword">Inheritance</span>: reuse and extend existing classes</li>
+            <li><span class="keyword">Polymorphism</span>: same method name, different behavior</li>
+            <li>Goal: <span class="keyword">modularity</span>, <span class="keyword">reuse</span>, and <span
+                class="keyword">clarity</span> in design</li>
+          </ul>
+        </section>
+
+        <section style="font-size: 0.9em;">
+          <h2>Objects</h2>
+          <ul>
+            <li>In Python, <span class="keyword">everything is an object</span>:
+              <ul>
+                <li>
+                  <span class="inline-code">42</span>, <span class="inline-code">3.14</span>, <span
+                    class="inline-code">"hi"</span>, <span class="inline-code">[1, 2,
+                    3]</span>, <span class="inline-code">{"CA": "California"}</span>
+                </li>
+              </ul>
+            </li>
+            <li>Each object has:
+              <ul>
+                <li><span class="keyword">Type</span> — e.g., <span class="inline-code">type([1,2]) == list</span></li>
+                <li><span class="keyword">Data</span> (internal state) — e.g., list holds items <span
+                    class="inline-code">[1,2]</span></li>
+                <li><span class="keyword">Methods</span> — e.g., <span class="inline-code">[1,2].append(3)</span> →
+                  <span class="inline-code">[1,2,3]</span>
+                </li>
+              </ul>
+            </li>
+            <li>An object is an <span class="keyword">instance</span> of its type — e.g., <span
+                class="inline-code">42</span> is an <span class="inline-code">int</span></li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>OOP in Python</h2>
+          <ul>
+            <li><span class="keyword">Everything</span> in Python is an object</li>
+            <li>You can <span class="keyword">create</span>, <span class="keyword">manipulate</span>, and <span
+                class="keyword">destroy</span> objects</li>
+            <li>Python reclaims inaccessible objects automatically (<span class="keyword">garbage collection</span>)
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>What are Objects?</h2>
+          <ul>
+            <li>Objects are <span class="keyword">abstractions</span> that capture:
+              <ul>
+                <li><span class="keyword">Data attributes</span> (internal representation)</li>
+                <li><span class="keyword">Methods</span> (procedures for interaction)
+                  <ul>
+                    <li>Define behavior but hide implementation</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section style="font-size: 0.8em;">
+          <h2>Example: <span class="inline-code">list</span></h2>
+
+          <div style="text-align: center; margin-bottom: .5em;">
+            <svg width="600" viewBox="0 0 570 90" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                  <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+                </marker>
+              </defs>
+
+              <text x="10" y="55" font-family="monospace, sans-serif" font-size="30" font-weight="bold" fill="black">
+                L =
+              </text>
+
+              <g id="node1">
+                <rect x="80" y="20" width="90" height="50" fill="#6D6D6D" rx="3" />
+                <line x1="125" y1="20" x2="125" y2="70" stroke="white" stroke-width="2" />
+                <text x="102.5" y="45" font-family="sans-serif" font-size="24" font-weight="bold" fill="white"
+                  text-anchor="middle" dominant-baseline="middle">1</text>
+                <text x="147.5" y="45" font-family="sans-serif" font-size="24" font-weight="bold" fill="white"
+                  text-anchor="middle" dominant-baseline="middle">-></text>
+              </g>
+
+              <g id="connector1-2">
+                <line x1="178" y1="45" x2="210" y2="45" stroke="black" stroke-width="2.5"
+                  marker-end="url(#arrowhead)" />
+                <circle cx="174" cy="45" r="4" fill="black" />
+              </g>
+
+              <g id="node2">
+                <rect x="210" y="20" width="90" height="50" fill="#6D6D6D" rx="3" />
+                <line x1="255" y1="20" x2="255" y2="70" stroke="white" stroke-width="2" />
+                <text x="232.5" y="45" font-family="sans-serif" font-size="24" font-weight="bold" fill="white"
+                  text-anchor="middle" dominant-baseline="middle">2</text>
+                <text x="277.5" y="45" font-family="sans-serif" font-size="24" font-weight="bold" fill="white"
+                  text-anchor="middle" dominant-baseline="middle">-></text>
+              </g>
+
+              <g id="connector2-3">
+                <line x1="308" y1="45" x2="340" y2="45" stroke="black" stroke-width="2.5"
+                  marker-end="url(#arrowhead)" />
+                <circle cx="304" cy="45" r="4" fill="black" />
+              </g>
+
+              <g id="node3">
+                <rect x="340" y="20" width="90" height="50" fill="#6D6D6D" rx="3" />
+                <line x1="385" y1="20" x2="385" y2="70" stroke="white" stroke-width="2" />
+                <text x="362.5" y="45" font-family="sans-serif" font-size="24" font-weight="bold" fill="white"
+                  text-anchor="middle" dominant-baseline="middle">3</text>
+                <text x="407.5" y="45" font-family="sans-serif" font-size="24" font-weight="bold" fill="white"
+                  text-anchor="middle" dominant-baseline="middle">-></text>
+              </g>
+
+              <g id="connector3-4">
+                <line x1="438" y1="45" x2="470" y2="45" stroke="black" stroke-width="2.5"
+                  marker-end="url(#arrowhead)" />
+                <circle cx="434" cy="45" r="4" fill="black" />
+              </g>
+
+              <g id="node4">
+                <rect x="470" y="20" width="90" height="50" fill="#6D6D6D" rx="3" />
+                <line x1="515" y1="20" x2="515" y2="70" stroke="white" stroke-width="2" />
+                <text x="492.5" y="45" font-family="sans-serif" font-size="24" font-weight="bold" fill="white"
+                  text-anchor="middle" dominant-baseline="middle">4</text>
+                <text x="537.5" y="45" font-family="sans-serif" font-size="24" font-weight="bold" fill="white"
+                  text-anchor="middle" dominant-baseline="middle">-></text>
+              </g>
+            </svg>
+          </div>
+
+          <ul>
+            <li><span class="inline-code">list</span> in Python is represented internally as <span
+                class="keyword">linked list of
+                cells</span></li>
+            <li>How to <span class="keyword">manipulate</span> lists?
+              <ul>
+                <li>Index / slice / concat: <span class="inline-code">L[i]</span>, <span
+                    class="inline-code">L[i:j]</span>, <span class="inline-code">+</span></li>
+                <li>Built-ins: <span class="inline-code">len(L)</span>, <span class="inline-code">min(L)</span>, <span
+                    class="inline-code">max(L)</span>, <span class="inline-code">del L[i]</span></li>
+                <li>Methods: <span class="inline-code">L.append()</span>,
+                  <span class="inline-code">L.insert()</span>,
+                  <span class="inline-code">L.remove()</span>,
+                  <span class="inline-code">L.sort()</span>, etc.
+                </li>
+              </ul>
+            </li>
+            <li><span class="keyword">Internals should be private</span> — use the public interface</li>
+            <li>Directly manipulating internals can break <span class="keyword">correct behavior</span></li>
+          </ul>
+        </section>
       </section>
 
-      <!-- Classes & Instances -->
+      <!-- Python Classes & Inheritance -->
       <section>
         <section>
           <h1>
             <span class="text-light">5.</span>
-            Classes & Instances
+            Python Classes & Inheritance
           </h1>
         </section>
-        <section></section>
+
+        <section>
+          <h2>Classes vs Instances</h2>
+          <ul>
+            <li><span class="keyword">Defining a class</span> → specify name, attributes, behavior</li>
+            <li><span class="keyword">Using a class</span> → create instances, call operations</li>
+          </ul>
+        </section>
+
+        <!-- Slide: A First Look at Classes -->
+        <section>
+          <h1>
+            <span class="text-light">5.1.</span>
+            A First Look at Classes
+          </h1>
+        </section>
+
+        <!-- <section>
+          <h2>Overview</h2>
+          <p>Classes add new syntax, new object types, and new semantics.</p>
+          <p><span class="keyword">Focus</span>: <span class="inline-code">class</span>, <span
+              class="inline-code">instance</span>, <span class="inline-code">method</span>, <span
+              class="inline-code">__init__</span></p>
+        </section> -->
+
+        <!-- Slide: Class Definition Syntax -->
+        <section>
+          <h2>Class Definition Syntax</h2>
+          <p>Simplest form of a class:</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class ClassName:
+    &lt;statement-1&gt;
+    .
+    .
+    .
+    &lt;statement-N&gt;
+  </code></pre>
+          <p><span class="keyword">Note</span>: Definitions must be executed before use; can appear inside <span
+              class="inline-code">if</span> or functions.</p>
+        </section>
+
+        <!-- Slide: Class Body & Namespace -->
+        <section style="font-size: 0.8em;">
+          <h2>Class Body &amp; Namespace</h2>
+          <ul>
+            <li>Class body mostly <span class="inline-code">def</span> methods; other statements allowed.</li>
+            <li>Entering creates a <span class="keyword">new namespace</span> (local to the class body).</li>
+            <li>Exiting creates a <span class="inline-code">class object</span> bound to the class name.</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Greeter:
+    msg = "Hello!"
+
+# class object bound to Greeter
+print(Greeter.msg)   # access attribute directly from the class
+  </code></pre>
+        </section>
+
+        <!-- Slide: Class Objects -->
+        <section>
+          <h2>Class Objects</h2>
+          <p>Support: <span class="keyword">attribute reference</span> and <span class="keyword">instantiation</span>.
+          </p>
+          <p>Attributes are accessed with <span class="inline-code">obj.name</span>.</p>
+        </section>
+
+        <!-- Slide: Class Attributes Example -->
+        <section style="font-size: 0.9em;">
+          <h2>Class Attributes Example</h2>
+          <pre><code class="language-pycon" data-trim>
+>>> class MyClass:
+...     """A simple example class"""
+...     i = 12345
+... 
+...     def f(self):
+...         return 'hello world'
+... 
+>>> MyClass.i
+12345
+>>> MyClass.f
+&lt;function MyClass.f at 0x7f9b8c2d1&gt;
+>>> MyClass.f()  # missing instance argument
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: f() missing 1 required positional argument: 'self'
+  </code></pre>
+        </section>
+
+        <!-- Slide: Instantiation -->
+        <section>
+          <h2>Instantiation</h2>
+          <p>Call the class like a function to create an <span class="keyword">instance</span>:</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+x = MyClass()
+  </code></pre>
+        </section>
+
+        <!-- Slide: Initializing with __init__ -->
+        <section>
+          <h2>Initializing with <span class="inline-code">__init__</span></h2>
+          <p>Customize initial state via <span class="inline-code">__init__()</span>:</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def __init__(self):
+    self.data = []
+  </code></pre>
+          <ul>
+            <li>Called automatically at instantiation: <span class="inline-code">x = MyClass()</span></li>
+            <li>Use <span class="inline-code">self</span> to refer to current instance</li>
+          </ul>
+        </section>
+
+        <!-- Slide: __init__ with Arguments -->
+        <section>
+          <h2><span class="inline-code">__init__</span> with Arguments</h2>
+          <pre><code class="language-pycon" data-trim>
+>>> class Complex:
+...     def __init__(self, realpart, imagpart):
+...         self.r = realpart
+...         self.i = imagpart
+...
+>>> x = Complex(3.0, -4.5)
+>>> x.r, x.i
+(3.0, -4.5)
+  </code></pre>
+          <p><span class="keyword">Rule</span>: Args passed to class are forwarded to <span
+              class="inline-code">__init__</span>.</p>
+        </section>
+
+        <!-- Slide: Instance Objects -->
+        <section>
+          <h2>Instance Objects</h2>
+          <p>Instances support <span class="keyword">attribute references</span> only:</p>
+          <ul>
+            <li><span class="keyword">data attributes</span> (instance variables)</li>
+            <li><span class="keyword">methods</span> (functions bound to instances)</li>
+          </ul>
+        </section>
+
+        <!-- Slide: Data Attributes Example -->
+        <section style="font-size: 0.8em;">
+          <h2>Data Attributes Example</h2>
+          <ul>
+            <li><span class="keyword">Data attributes</span> need not be declared in advance</li>
+            <li><span class="keyword">Method names</span> are looked up in the instance's class</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> class MyClass:
+...     """A simple example class"""
+...     i = 12345
+... 
+...     def f(self):
+...         return 'hello world'
+... 
+>>> x = MyClass()
+>>> x.counter = 1
+>>> while x.counter &lt; 10:
+...     x.counter = x.counter * 2
+... 
+>>> print(x.counter)
+16
+>>> del x.counter
+>>> x.f()
+'hello world'
+  </code></pre>
+        </section>
+
+        <!-- Slide: Methods vs Functions -->
+        <section>
+          <h2>Methods vs Functions</h2>
+          <ul>
+            <li>If <span class="inline-code">MyClass.f</span> is a function, then <span class="inline-code">x.f</span>
+              is a
+              <span class="keyword">method object</span>.
+            </li>
+            <li><span class="inline-code">x.f</span> is valid; <span class="inline-code">x.i</span> is not (since <span
+                class="inline-code">i</span> isn’t a function).</li>
+          </ul>
+        </section>
+
+        <!-- Slide: Method Objects -->
+        <section>
+          <h2>Method Objects</h2>
+          <p>Methods are like functions, but <span class="keyword">bound</span> to an instance:</p>
+          <pre><code class="language-pycon" data-trim>
+>>> x = MyClass()
+>>> x.f()
+'hello world'
+  </code></pre>
+          <p>Methods can be <span class="keyword">stored</span> and <span class="keyword">called</span> later:</p>
+          <pre><code class="language-pycon" data-trim>
+>>> xf = x.f
+>>> while True:
+...     print(xf())
+...
+  </code></pre>
+        </section>
+
+        <!-- Slide: How Method Calls Work -->
+        <section>
+          <h2>How Method Calls Work</h2>
+          <ul>
+            <li>Instance is passed as first arg (<span class="inline-code">self</span>).</li>
+            <li><span class="inline-code">x.f()</span> is equivalent to <span class="inline-code">MyClass.f(x)</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Slide: Class & Instance Variables -->
+        <section>
+          <h2>Class &amp; Instance Variables</h2>
+          <ul>
+            <li><span class="keyword">Class vars</span>: shared by all instances.</li>
+            <li><span class="keyword">Instance vars</span>: unique per instance.</li>
+          </ul>
+        </section>
+
+        <!-- Slide: Dog Example (Class vs Instance Vars) -->
+        <section style="font-size: 0.9em;">
+          <h2>Dog Example: Shared vs Unique</h2>
+          <pre><code class="language-pycon" data-trim>
+>>> class Dog:
+...     kind = 'canine'         # class variable shared by all instances
+...     def __init__(self, name):
+...         self.name = name    # instance variable unique to each instance
+... 
+>>> d = Dog('Fido')
+>>> e = Dog('Buddy')
+>>> d.kind                  # shared by all dogs
+'canine'
+>>> e.kind                  # shared by all dogs
+'canine'
+>>> d.name                  # unique to d
+'Fido'
+>>> e.name                  # unique to e
+'Buddy'
+  </code></pre>
+        </section>
+
+        <!-- Slide: Mutable Class Vars Pitfall -->
+        <section style="font-size: 0.9em;">
+          <h2>Mutable Class Vars Pitfall</h2>
+          <p><span class="keyword">Avoid</span> mutable class variables (e.g., lists) unless truly shared:</p>
+          <pre><code class="language-pycon" data-trim>
+>>> class Dog:
+...     tricks = []               # mistaken use of a class variable
+...     def __init__(self, name):
+...         self.name = name
+...     def add_trick(self, trick):
+...         self.tricks.append(trick)
+... 
+>>> d = Dog('Fido')
+>>> e = Dog('Buddy')
+>>> d.add_trick('roll over')
+>>> e.add_trick('play dead')
+>>> d.tricks                      # unexpectedly shared by all dogs
+['roll over', 'play dead']
+  </code></pre>
+        </section>
+
+        <!-- Slide: Correct: Use Instance Variable -->
+        <section style="font-size: 0.9em;">
+          <h2>Correct: Use Instance Variable</h2>
+          <pre><code class="language-pycon" data-trim>
+>>> class Dog:
+...     def __init__(self, name):
+...         self.name = name
+...         self.tricks = [] # creates a new empty list for each dog
+...     def add_trick(self, trick):
+...         self.tricks.append(trick)
+... 
+>>> d = Dog('Fido')
+>>> e = Dog('Buddy')
+>>> d.add_trick('roll over')
+>>> e.add_trick('play dead')
+>>> d.tricks
+['roll over']
+>>> e.tricks
+['play dead']
+  </code></pre>
+        </section>
+
+        <!-- Slide: Random Remarks -->
+        <section>
+          <h1>
+            <span class="text-light">5.2.</span>
+            Random Remarks
+          </h1>
+        </section>
+
+        <!-- Slide: Attribute Lookup Priority -->
+        <section>
+          <h2>Attribute Lookup Priority</h2>
+          <p>Same name on instance &amp; class → <span class="keyword">instance wins</span>.</p>
+          <pre><code class="language-pycon" data-trim>
+>>> class Warehouse:
+...    purpose = 'storage'
+...    region = 'west'
+...
+>>> w1 = Warehouse()
+>>> print(w1.purpose, w1.region)
+storage west
+>>> w2 = Warehouse()
+>>> w2.region = 'east'
+>>> print(w2.purpose, w2.region)
+storage east
+  </code></pre>
+        </section>
+
+        <!-- Slide: Data Attributes & Conventions -->
+        <section style="font-size: 0.9em;">
+          <h2>Data Attributes &amp; Conventions</h2>
+          <ul>
+            <li>No enforced <span class="keyword">data hiding</span> in Python.</li>
+            <li>Use <span class="inline-code">_name</span> to mark "internal use".</li>
+            <li>Clients can add attributes, but risk breaking logic.</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Account:
+    def __init__(self, balance):
+        self._balance = balance   # convention: internal
+
+a = Account(100)
+a._balance = -50   # possible, but breaks invariant
+a.owner = "Alice"  # allowed, adds new attribute
+  </code></pre>
+        </section>
+
+        <!-- Slide: No Shorthand & self -->
+        <section>
+          <h2>No Shorthand &amp; <span class="inline-code">self</span></h2>
+          <ul>
+            <li>Always use <span class="inline-code">self.attr</span> inside methods.</li>
+            <li><span class="inline-code">self</span> is just a <span class="keyword">convention</span>, not a keyword.
+            </li>
+            <li>Conventions make code clear and consistent.</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Person:
+    def __init__(self, name):
+        self.name = name   # must use self
+
+    def greet(self):
+        return "Hi, I'm " + self.name
+
+p = Person("Bob")
+print(p.greet())   # Hi, I'm Bob
+  </code></pre>
+        </section>
+
+        <!-- Slide: Functions as Methods -->
+        <section style="font-size: 0.9em;">
+          <h2>Functions as Methods</h2>
+          <p>Any function stored on a class becomes a <span class="keyword">method</span>.</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+# Function defined outside the class
+def f1(self, x, y):
+    return min(x, x+y)
+
+class C:
+    f = f1
+
+    def g(self):
+        return 'hello world'
+
+    h = g
+  </code></pre>
+          <ul>
+            <li><span class="inline-code">f</span>, <span class="inline-code">g</span>, <span
+                class="inline-code">h</span>
+              are all methods; <span class="inline-code">h</span> ≡ <span class="inline-code">g</span>.</li>
+            <li>⚠️ <strong>This is not a good practice.</strong></li>
+          </ul>
+        </section>
+
+        <!-- Slide: Methods Calling Methods -->
+        <section>
+          <h2>Methods Calling Methods</h2>
+          <p>Call via <span class="inline-code">self.method(...)</span>.</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Bag:
+    def __init__(self):
+        self.data = []
+
+    def add(self, x):
+        self.data.append(x)
+
+    def addtwice(self, x):
+        self.add(x)
+        self.add(x)
+  </code></pre>
+        </section>
+
+        <!-- Slide: Global Scope for Methods -->
+        <section style="font-size: 0.9em;">
+          <h2>Global Scope for Methods</h2>
+          <ul>
+            <li>Methods use the <span class="keyword">module’s globals</span>.
+              <ul>
+                <li>Classes are never used as globals.</li>
+              </ul>
+            </li>
+            <li>Methods can access imports or top-level variables.</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+PI = 3.14   # module-level name
+
+class Circle:
+    def __init__(self, r):
+        self.r = r
+
+    def area(self):
+        return PI * self.r * self.r   # uses global PI
+
+c = Circle(2)
+print(c.area())   # 12.56
+  </code></pre>
+        </section>
+
+        <!-- Slide: Everything Has a Class -->
+        <section style="font-size: 0.9em;">
+          <h2>Everything Has a Class</h2>
+          <ul>
+            <li>Each value is an <span class="keyword">object</span> with a <span class="keyword">class</span> (type).
+            </li>
+            <li>Access via <span class="inline-code">object.__class__</span>.</li>
+          </ul>
+
+          <pre><code class="language-pycon" data-trim>
+>>> 3 .__class__
+&lt;class 'int'&gt;
+>>> 'hi'.__class__
+&lt;class 'str'&gt;
+>>> [].__class__
+&lt;class 'list'&gt;
+>>> {}.__class__
+&lt;class 'dict'&gt;
+>>> ().__class__
+&lt;class 'tuple'&gt;
+>>> (x for x in range(3)).__class__
+&lt;class 'generator'&gt;
+>>> def f(): pass
+>>> f.__class__
+&lt;class 'function'&gt;
+  </code></pre>
+
+        </section>
+
+        <!-- Slide: 9.5. Inheritance -->
+        <!-- <section id="inheritance">
+  <h2>9.5. Inheritance</h2>
+  <ul>
+    <li>Classes can <span class="keyword">inherit</span> from other classes.</li>
+    <li>Derived classes reuse and customize base behavior.</li>
+    <li>Method lookup follows the <span class="keyword">inheritance chain</span>.</li>
+  </ul>
+</section> -->
+
+        <section>
+          <h1>
+            <span class="text-light">5.3.</span>
+            Inheritance
+          </h1>
+        </section>
+
+        <!-- Slide: Derived Class Syntax -->
+        <section>
+          <h2>Derived Class Syntax</h2>
+          <p>Define a subclass by listing its base:</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class DerivedClassName(BaseClassName):
+    &lt;statement-1&gt;
+    .
+    .
+    .
+    &lt;statement-N&gt;
+  </code></pre>
+          <p><strong>Note</strong>: Base must be accessible <span class="keyword">in scope</span> (e.g., imported, or
+            defined in the same
+            module).</p>
+          <!-- </section> -->
+
+          <!-- Slide: Base from Another Module -->
+          <!-- <section>
+          <h2>Base from Another Module</h2>
+          <p>Use any expression that evaluates to a class (e.g., module attribute):</p> -->
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class DerivedClassName(modname.BaseClassName):
+  </code></pre>
+          <!-- <p><span class="keyword">Tip</span>: Qualify with <span class="inline-code">module.Class</span> when imported
+            that way.</p> -->
+        </section>
+
+        <!-- Slide: Lookup & Instantiation -->
+        <section style="font-size: 0.9em;">
+          <h2>Lookup &amp; Instantiation</h2>
+          <ul>
+            <li>Create instance with <span class="inline-code">DerivedClass()</span>.</li>
+            <li>Looks for attributes in the class first, then its <span class="keyword">base(s)</span>.</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> class Animal:
+...     def sound(self):
+...         return "generic sound"
+...
+>>> class Dog(Animal):
+...     def bark(self):
+...         return "woof"
+...
+>>> d = Dog()
+>>> d.bark()      # from Dog
+'woof'
+>>> d.sound()     # inherited from Animal
+'generic sound'
+  </code></pre>
+        </section>
+
+        <!-- Slide: Overriding & Base Calls -->
+        <section style="font-size: 0.9em;">
+          <h2>Overriding &amp; Base Calls</h2>
+          <ul>
+            <li>Subclasses can <span class="keyword">override</span> base methods.</li>
+            <li>Use base method directly if needed.</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> class Animal:
+...     def speak(self):
+...         return "generic sound"
+...
+>>> class Dog(Animal):
+...     def speak(self):
+...         return "woof"
+...
+>>> d = Dog()
+>>> d.speak()                    # override
+'woof'
+>>> Animal.speak(d)              # call base directly
+'generic sound'
+  </code></pre>
+        </section>
+
+
+        <!-- Slide: Type & Inheritance Checks -->
+        <section style="font-size: 0.9em;">
+          <h2>Type &amp; Inheritance Checks</h2>
+          <ul>
+            <li><span class="inline-code">isinstance()</span> → check if object is instance of a class (or subclass).
+            </li>
+            <li><span class="inline-code">issubclass()</span> → check if a class is derived from another.</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> isinstance(5, int)
+True
+>>> isinstance(True, int)    # bool is a subclass of int
+True
+>>> issubclass(bool, int)
+True
+>>> issubclass(float, int)
+False
+  </code></pre>
+        </section>
+
+        <!-- Slide: Multiple Inheritance -->
+        <section id="multiple-inheritance">
+          <h2>Multiple Inheritance</h2>
+          <p>Subclass from multiple bases:</p>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class DerivedClassName(Base1, Base2, Base3):
+    &lt;statement-1&gt;
+    .
+    .
+    .
+    &lt;statement-N&gt;
+  </code></pre>
+          <p><span class="keyword">Use case</span>: combine behaviors from several parents.</p>
+        </section>
+
+        <section style="font-size: 0.9em;">
+          <h2>Multiple Inheritance Example</h2>
+          <pre><code class="language-pycon" data-trim>
+>>> class Flyer:
+...     def fly(self):
+...         return "I can fly"
+...
+>>> class Swimmer:
+...     def swim(self):
+...         return "I can swim"
+...
+>>> class Duck(Flyer, Swimmer):
+...     pass
+...
+>>> d = Duck()
+>>> d.fly()
+'I can fly'
+>>> d.swim()
+'I can swim'
+  </code></pre>
+        </section>
+
+        <!-- Slide: Method Resolution Order (MRO) -->
+        <section style="font-size: 0.9em;">
+          <h2>Method Resolution Order (MRO)</h2>
+          <ul>
+            <li>Defines the order Python searches classes for attributes.</li>
+            <li>Important when using <span class="keyword">multiple inheritance</span>.</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> class A: pass
+>>> class B(A): pass
+>>> class C(B): pass
+>>> C.mro()
+[&lt;class '__main__.C'&gt;, &lt;class '__main__.B'&gt;, 
+  &lt;class '__main__.A'&gt;, &lt;class 'object'&gt;]
+  </code></pre>
+        </section>
+
+        <!-- Slide: Diamond Problem -->
+        <section style="font-size: 0.9em;">
+          <h2>Diamond Problem</h2>
+          <ul>
+            <li>Occurs when a class is inherited through multiple paths.</li>
+            <li>Python ensures each parent is called <span class="keyword">once</span>.</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> class A:
+...     def greet(self): return "Hello from A"
+...
+>>> class B(A): pass
+>>> class C(A): pass
+>>> class D(B, C): pass
+>>> D.mro()
+[&lt;class '__main__.D'&gt;, &lt;class '__main__.B'&gt;,
+ &lt;class '__main__.C'&gt;, &lt;class '__main__.A'&gt;, &lt;class 'object'&gt;]
+  </code></pre>
+        </section>
+
+        <!-- Slide: Using super() -->
+        <section style="font-size: 0.75em;">
+          <h2>Using <span class="inline-code">super()</span></h2>
+          <ul>
+            <li><span class="inline-code">super()</span> follows MRO order.</li>
+            <li>Allows cooperative method calls across classes.</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> class A:
+...     def greet(self):
+...         return "Hello from A"
+...
+>>> class B(A):
+...     def greet(self):
+...         return super().greet() + " & B"
+...
+>>> class C(A):
+...     def greet(self):
+...         return super().greet() + " & C"
+...
+>>> class D(B, C):
+...     def greet(self):
+...         return super().greet() + " & D"
+...
+>>> d = D()
+>>> d.greet()
+'Hello from A & C & B & D'
+  </code></pre>
+        </section>
+
+        <!-- Slide: Why Dynamic MRO Matters -->
+        <section>
+          <h2>Why Dynamic MRO Matters</h2>
+          <ul>
+            <li>Each base is called <span class="keyword">once</span> → avoids <span class="keyword">duplication</span>.
+            </li>
+            <li>Order is <span class="keyword">predictable</span> (<span class="keyword">left-to-right</span>).</li>
+            <li>Supports <span class="keyword">reliable</span>, <span class="keyword">extensible</span> class designs.
+            </li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h1>
+            <span class="text-light">5.4.</span>
+            Private Variables
+          </h1>
+        </section>
+
+        <section>
+          <h2>Private Variables: Overview</h2>
+          <ul>
+            <li>No true <span class="keyword">private</span> variables in Python.</li>
+            <li><span class="inline-code">_name</span> → convention: non-public API.</li>
+            <li>Use <span class="keyword">name mangling</span> (<span class="inline-code">__name</span>) to avoid
+              clashes in subclasses.</li>
+          </ul>
+        </section>
+
+        <!-- Slide: Name Mangling -->
+        <section>
+          <h2>Name Mangling</h2>
+          <ul>
+            <li><span class="inline-code">__var</span> becomes <span class="inline-code">_ClassName__var</span>.</li>
+            <li>Prevents accidental clashes in subclasses.</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> class A:
+...     def __init__(self):
+...         self.__hidden = 42
+...
+>>> a = A()
+>>> a.__hidden      # direct access fails
+Traceback (most recent call last):
+  File "&lt;python-input-44&gt;", line 1, in &lt;module&gt;
+    a.__hidden
+AttributeError: 'A' object has no attribute '__hidden'. Did you mean: '_A__hidden'?
+>>> a._A__hidden    # can still access
+42
+  </code></pre>
+        </section>
+
+        <!-- Slide: Example with Subclass -->
+        <section>
+          <h2>Subclass Example</h2>
+          <pre><code class="language-pycon" data-trim>
+>>> class Base:
+...     def __init__(self):
+...         self.__secret = "base"
+...
+>>> class Child(Base):
+...     def __init__(self):
+...         super().__init__()
+...         self.__secret = "child"
+...
+>>> c = Child()
+>>> c._Base__secret     # from Base
+'base'
+>>> c._Child__secret    # from Child
+'child'
+  </code></pre>
+          <p><span class="keyword">Note</span>: mangling keeps names separate.</p>
+        </section>
+
+        <!-- Slide: Practical Use -->
+        <section>
+          <h2>Practical Use</h2>
+          <ul>
+            <li>Use <span class="inline-code">_name</span> for “internal” attributes.</li>
+            <li>Use <span class="inline-code">__name</span> to avoid subclass conflicts.</li>
+            <li>Still accessible if really needed.</li>
+          </ul>
+        </section>
+
+        <!-- Slide: Dataclasses -->
+        <section>
+          <h1>
+            <span class="text-light">5.5.</span>
+            Dataclasses
+          </h1>
+        </section>
+
+        <section style="font-size: 0.9em;">
+          <h2>Dataclasses</h2>
+          <ul>
+            <li>Use <span class="keyword">dataclasses</span> to group related data (like structs in C).</li>
+            <li>Saves boilerplate, auto-generates <span class="inline-code">__init__</span>, <span
+                class="inline-code">__repr__</span>, etc.</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+from dataclasses import dataclass
+
+@dataclass
+class Employee:
+    name: str
+    dept: str
+    salary: int
+  </code></pre>
+          <pre><code class="language-pycon" data-trim>
+>>> john = Employee('john', 'computer lab', 1000)
+>>> john.dept
+'computer lab'
+>>> john.salary
+1000
+  </code></pre>
+        </section>
+
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">6.</span>
+            Iterators & Generators
+          </h1>
+        </section>
+
+        <!-- Slide: 6.1. Iterators -->
+        <section>
+          <h2>Iterators</h2>
+          <p>Most container objects can be looped over using a <span class="inline-code">for</span> statement.</p>
+
+          <pre><code class="language-python" data-trim data-line-numbers="">
+for element in [1, 2, 3]:
+    print(element)
+for element in (1, 2, 3):
+    print(element)
+for key in {'one':1, 'two':2}:
+    print(key)
+for char in "123":
+    print(char)
+for line in open("myfile.txt"):
+    print(line, end='')</code></pre>
+        </section>
+
+        <!-- Slide: Iterator Mechanics -->
+        <section style="font-size: 0.9em;">
+          <h2>Iterator Mechanics</h2>
+          <ul>
+            <li><span class="keyword">Iterators</span>: Objects that implement the <span class="keyword">iterator
+                protocol.</span></li>
+            <li><strong>Protocol:</strong> methods <span class="inline-code">__iter__()</span> and <span
+                class="inline-code">__next__()</span>.</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> s = 'abc'
+>>> it = iter(s)
+>>> next(it)
+'a'
+>>> next(it)
+'b'
+>>> next(it)
+'c'
+>>> next(it)
+StopIteration
+  </code></pre>
+        </section>
+
+        <!-- Slide: Custom Iterator -->
+        <section style="font-size: 0.85em;">
+          <h2>Custom Iterator</h2>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+class Reverse:
+    """Iterate over a sequence backwards."""
+    def __init__(self, data):
+        self.data = data
+        self.index = len(data)
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index == 0:
+            raise StopIteration
+        self.index -= 1
+        return self.data[self.index]
+  </code></pre>
+          <pre><code class="language-pycon" data-trim>
+>>> for char in Reverse("spam"):
+...     print(char)
+... 
+m
+a
+p
+s
+  </code></pre>
+        </section>
+
+        <!-- Slide: 9.9. Generators -->
+        <section>
+          <h2>Generators</h2>
+          <ul>
+            <li>Functions with <span class="keyword">yield</span> create iterators.</li>
+            <li>State is saved between calls.</li>
+            <li>Auto-raises <span class="keyword">StopIteration</span> when done.</li>
+          </ul>
+          <pre><code class="language-python" data-trim data-line-numbers="">
+def reverse(data):
+    for i in range(len(data)-1, -1, -1):
+        yield data[i]
+  </code></pre>
+          <pre><code class="language-pycon" data-trim>
+>>> for char in reverse("golf"):
+...     print(char)
+f
+l
+o
+g
+  </code></pre>
+        </section>
+
+        <!-- Slide: 9.10. Generator Expressions -->
+        <section>
+          <h2>Generator Expressions</h2>
+          <ul>
+            <li>Like list comprehensions, but use <span class="inline-code">()</span>.</li>
+            <li>Compact and memory-friendly.</li>
+          </ul>
+          <pre><code class="language-pycon" data-trim>
+>>> sum(i*i for i in range(10))       # sum of squares
+285
+>>> xvec = [10, 20, 30]
+>>> yvec = [7, 5, 3]
+>>> sum(x*y for x, y in zip(xvec, yvec))  # dot product
+260
+>>> list(data[i] for i in range(len("golf")-1, -1, -1))
+['f', 'l', 'o', 'g']
+  </code></pre>
+        </section>
+
       </section>
 
       <!-- Wrap-up -->
       <section data-markdown>
         <textarea data-template>
           ## Wrap-up
-          - <span class="keyword">Error Handling</span>: 
-          - <span class="keyword">OOP</span>: 
-          - <strong>Next:</strong> Numpy
+          - <span class="keyword">Error Handling</span>: try/except blocks, raising exceptions
+          - <span class="keyword">OOP</span>: classes, objects, inheritance
+          - <span class="keyword">Iterators & Generators</span>: iterator protocol, custom iterators, generators
+          - <strong>Next:</strong> Numpy: Vectorized Computation
         </textarea>
       </section>
 
