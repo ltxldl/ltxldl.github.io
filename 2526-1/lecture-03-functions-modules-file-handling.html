@@ -540,14 +540,14 @@ combined_example(pos_only=1, standard=2, kwd_only=3)  # TypeError
 >>> def foo(name, **kwds):
 ...     return 'name' in kwds
 ...
->>> foo(1, **{'name': 2})
+>>> foo(1, name=2)
 TypeError: foo() got multiple values for argument 'name'
     </code></pre>
           <pre><code data-trim>
 >>> def foo(name, /, **kwds):
 ...     return 'name' in kwds
 ...
->>> foo(1, **{'name': 2})
+>>> foo(1, name=2)
 True
     </code></pre>
         </section>
