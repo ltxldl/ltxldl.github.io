@@ -426,32 +426,6 @@ greet(person="Eve")            # unknown keyword 'person'
           </ul>
         </section>
 
-        <section>
-          <h2><span class="inline-code">*args</span> and <span class="inline-code">**kwargs</span></h2>
-          <ul>
-            <li><span class="inline-code">*args</span>: extra positional args → as a <span
-                class="inline-code">tuple</span></li>
-            <li><span class="inline-code">**kwargs</span>: extra keyword args → as a <span
-                class="inline-code">dict</span></li>
-            <li>Order: <span class="inline-code">*args</span> before <span class="inline-code">**kwargs</span></li>
-          </ul>
-        </section>
-
-        <section style="font-size: 0.9em;">
-          <h2>Example: <span class="inline-code">*args</span> and <span class="inline-code">**kwargs</span></h2>
-          <pre><code class="language-pycon" data-trim>
->>> def demo(x, *args, **kwargs):
-...     print("x:", x)
-...     print("args:", args)
-...     print("kwargs:", kwargs)
-... 
->>> demo(1, 2, 3, a=10, b=20)
-x: 1
-args: (2, 3)
-kwargs: {'a': 10, 'b': 20}
-  </code></pre>
-        </section>
-
         <!-- 4.9.3. Special Parameters -->
         <section>
           <h2>Special Parameters</h2>
@@ -529,6 +503,85 @@ combined_example(pos_only=1, standard=2, kwd_only=3)  # TypeError
         </section>
 
         <section>
+          <h2><span class="inline-code">*args</span> and <span class="inline-code">**kwargs</span></h2>
+          <ul>
+            <li><span class="inline-code">*args</span>: extra positional args → as a <span
+                class="inline-code">tuple</span></li>
+            <li><span class="inline-code">**kwargs</span>: extra keyword args → as a <span
+                class="inline-code">dict</span></li>
+            <li><strong>Order:</strong> <span class="inline-code">*args</span> before <span
+                class="inline-code">**kwargs</span></li>
+          </ul>
+        </section>
+
+        <section style="font-size: 0.7em;">
+          <h2>Example: <span class="inline-code">*args</span> and <span class="inline-code">**kwargs</span></h2>
+          <pre><code class="language-pycon" data-trim>
+>>> def demo(x, *args, **kwargs):
+...     print("x:", x)
+...     print("args:", args)
+...     print("kwargs:", kwargs)
+... 
+>>> demo(1, 2, 3, a=10, b=20)
+x: 1
+args: (2, 3)
+kwargs: {'a': 10, 'b': 20}
+>>> demo(1)
+x: 1
+args: ()
+kwargs: {}
+>>> demo(1, 2, 3)
+x: 1
+args: (2, 3)
+kwargs: {}
+>>> demo(1, a=10)
+x: 1
+args: ()
+kwargs: {'a': 10}
+  </code></pre>
+
+          <p><strong>Note:</strong> Both <span class="inline-code">*args</span> and <span
+              class="inline-code">**kwargs</span> can be used to pass a <span class="keyword">variable number of
+              arguments</span> (0 or more) to a function.</p>
+        </section>
+
+        <!-- 4.9.4. Arbitrary Argument Lists -->
+        <section>
+          <h2>More on <span class="inline-code">*args</span></h2>
+          <p>Params after <span class="inline-code">*args</span> are <span class="keyword">keyword-only</span></p>
+          <pre><code data-trim class="language-pycon">
+>>> def concat(*args, sep="/"):
+...     return sep.join(args)
+...
+>>> concat("earth", "mars", "venus")
+'earth/mars/venus'
+>>> concat("earth", "mars", "venus", sep=".")
+'earth.mars.venus'
+    </code></pre>
+        </section>
+
+        <section>
+          <pre><code class="language-pycon" data-trim>
+>>> def f(*args, x):
+...     print(args, x)
+... 
+    </code></pre>
+
+          <p><strong>Question:</strong> Given the function definition above, are the following function calls valid?</p>
+          <ol>
+            <li>
+              <span class="inline-code">f(1, 2, 3, x=4)</span>
+            </li>
+            <li>
+              <span class="inline-code">f(x=4)</span>
+            </li>
+            <li>
+              <span class="inline-code">f(1, 2, 3)</span>
+            </li>
+          </ol>
+        </section>
+
+        <section>
           <h2>Avoiding Name Collisions</h2>
           <p>
             Positional-only names can appear in <span class="inline-code">**kwds</span> keys
@@ -549,30 +602,6 @@ TypeError: foo() got multiple values for argument 'name'
 ...
 >>> foo(1, name=2)
 True
-    </code></pre>
-        </section>
-
-        <!-- 4.9.4. Arbitrary Argument Lists -->
-        <section>
-          <h2>Arbitrary Argument Lists</h2>
-          <ul>
-            <li>Collect extra positional args with <span class="inline-code">*args</span> (tuple)</li>
-          </ul>
-          <pre><code data-trim class="language-python" data-line-numbers="">
-def write_multiple_items(file, separator, *args):
-    file.write(separator.join(args))
-    </code></pre>
-          <ul>
-            <li>Params after <span class="inline-code">*args</span> are <span class="keyword">keyword-only</span></li>
-          </ul>
-          <pre><code data-trim>
->>> def concat(*args, sep="/"):
-...     return sep.join(args)
-...
->>> concat("earth", "mars", "venus")
-'earth/mars/venus'
->>> concat("earth", "mars", "venus", sep=".")
-'earth.mars.venus'
     </code></pre>
         </section>
 
