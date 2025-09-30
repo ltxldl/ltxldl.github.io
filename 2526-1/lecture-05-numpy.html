@@ -1,0 +1,2805 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Lecture 5: NumPy: Arrays and Vectorized Computation</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="plugin/highlight/zenburn.css">
+
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Title slide -->
+      <section>
+        <h1>Programming for Data Processing</h1>
+        <div>
+          <p>
+            <strong>Lectures:</strong> Nguyễn Tuấn Phong, Đào Việt Anh
+          </p>
+          <p>
+            <strong>Labs:</strong> Trịnh Ngọc Huỳnh, Phạm Tiến Du
+          </p>
+          <p>
+            <strong>Semester:</strong> 2025-2026-1
+          </p>
+          <p>Institute for AI, VNU-UET</p>
+        </div>
+      </section>
+
+      <!-- Lecture title -->
+      <section>
+        <h1>
+          <span class="text-light">Lecture 5</span>
+          <br>
+          Numpy: Arrays & 
+          <br> Vectorized Computation
+        </h1>
+      </section>
+
+      <!-- Last time -->
+      <section data-markdown>
+        <textarea data-template>
+          ## Last time
+          1. Handling Errors & Exceptions
+          1. Python Classes & Inheritance
+        </textarea>
+      </section>
+
+      <!-- Today -->
+      <section data-markdown>
+        <textarea data-template>
+          ## Today
+          1. NumPy Overview
+          1. The NumPy <span class="inline-code">ndarray</span>
+          1. Pseudorandom Number Generation
+          1. Universal Functions
+          1. Array-Oriented Programming
+          1. Linear Algebra Operations
+        </textarea>
+      </section>
+
+      <!-- Part 1: NumPy Overview -->
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">1.</span>
+            <br>
+            NumPy Overview
+          </h1>
+        </section>
+
+        <!-- Why NumPy -->
+        <section>
+          <h2>Why NumPy?</h2>
+          <ul>
+            <li><span class="keyword">Numerical Python</span>: core of scientific computing</li>
+            <li><span class="keyword">ndarray</span>: standard array interface in Python ecosystem</li>
+            <li>Foundation for tools like <span class="keyword">pandas</span>, SciPy, scikit-learn</li>
+          </ul>
+        </section>
+
+        <!-- Historical Note -->
+        <section>
+          <h2>Historical Note</h2>
+          <ul>
+            <li>1995: Numeric library (Jim Hugunin)</li>
+            <li>2000s: fragmented array libraries</li>
+            <li>2005: <span class="keyword">NumPy</span> unified Numeric + Numarray (Travis Oliphant)</li>
+          </ul>
+        </section>
+
+        <!-- What NumPy Provides -->
+        <section>
+          <h2>What NumPy Provides</h2>
+          <ul>
+            <li><span class="inline-code">ndarray</span>: fast multidimensional arrays with <span
+                class="keyword">broadcasting</span></li>
+            <li><span class="keyword">Vectorized</span> math functions (no loops needed)</li>
+            <li><span class="keyword">I/O tools</span>: read/write arrays, memory-mapped files</li>
+            <li><span class="keyword">Linear algebra</span>, random number generation, Fourier transforms</li>
+            <li><span class="keyword">C API</span> for integration with C/C++/FORTRAN</li>
+          </ul>
+        </section>
+
+        <!-- Why It Matters -->
+        <section>
+          <h2>Why It Matters</h2>
+          <ul>
+            <li>Interoperability with compiled libraries via <span class="keyword">C API</span></li>
+            <li>Wrap legacy C/C++/FORTRAN code with Python interfaces</li>
+            <li>Understanding <span class="keyword">array semantics</span> makes pandas & SciPy easier</li>
+          </ul>
+        </section>
+
+        <!-- Why NumPy is Fast -->
+        <section>
+          <h2>Why NumPy is Fast</h2>
+          <ul>
+            <li><span class="keyword">Contiguous memory</span> layout → efficient storage</li>
+            <li><span class="keyword">C-level algorithms</span> → less interpreter overhead</li>
+            <li><span class="keyword">Vectorized operations</span> → avoid slow Python loops</li>
+          </ul>
+        </section>
+
+        <!-- Performance Demo -->
+        <section style="font-size: 0.8em;" data-jp-reset>
+          <h2>Performance Demo: NumPy vs List</h2>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import numpy as np
+my_arr = np.arange(1_000_000)
+my_list = list(range(1_000_000))
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+%timeit my_arr * 2
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+366 μs ± 1.94 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+%timeit [x * 2 for x in my_list]
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+43.9 ms ± 260 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+      </code></pre>
+          </div>
+
+          <p>💡 <strong>NumPy</strong> is &gt;100× faster than lists in this operation!</p>
+        </section>
+
+      </section>
+
+      <!-- Part 2: The NumPy ndarray -->
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">2.</span>
+            <br>
+            The NumPy <span class="inline-code">ndarray</span>
+          </h1>
+        </section>
+
+        <!-- Intro to ndarray -->
+        <section style="font-size: 0.9em;">
+          <h2>The <span class="inline-code">ndarray</span> Object</h2>
+          <ul>
+            <li>
+              <span class="inline-code">ndarray</span> = N-dimensional array
+            </li>
+            <li>
+              Multidimensional, <span class="keyword">homogeneous</span> array of fixed-size items
+            </li>
+            <li>Fast, flexible container for large datasets</li>
+            <li>Supports <span class="keyword">vectorized</span> math on entire arrays <span class="keyword">(no
+                loops!)</span></li>
+            <li>Syntax similar to scalar operations in Python</li>
+          </ul>
+        </section>
+
+        <!-- Data layout & performance intuition -->
+        <section style="font-size: 0.8em;">
+          <h2>How NumPy Stores Data</h2>
+          <ul>
+            <li><span class="keyword">Homogeneous</span> data type →
+              fixed-size elements</li>
+            <li>Single <span class="keyword">contiguous</span> (or strided) memory buffer</li>
+            <li><span class="inline-code">ndarray</span> = metadata (<span class="inline-code">shape</span>, <span
+                class="inline-code">strides</span>,
+              <span class="inline-code">dtype</span>) + data buffer → efficient access
+            </li>
+            <li>Python list = <span class="keyword">pointers</span> to separate objects → scattered in memory</li>
+          </ul>
+
+          <!-- Minimal inline figures -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px;">
+            <!-- NumPy buffer -->
+            <div class="text-center">
+              <figure style="margin:0;">
+                <svg width="360" viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="20" width="338" height="32" fill="#e8f1ff" stroke="#6aa0ff" />
+                  <!-- cells -->
+                  <g>
+                    <rect x="12" y="22" width="40" height="28" fill="white" stroke="#6aa0ff" />
+                    <rect x="54" y="22" width="40" height="28" fill="white" stroke="#6aa0ff" />
+                    <rect x="96" y="22" width="40" height="28" fill="white" stroke="#6aa0ff" />
+                    <rect x="138" y="22" width="40" height="28" fill="white" stroke="#6aa0ff" />
+                    <rect x="180" y="22" width="40" height="28" fill="white" stroke="#6aa0ff" />
+                    <rect x="222" y="22" width="40" height="28" fill="white" stroke="#6aa0ff" />
+                    <rect x="264" y="22" width="40" height="28" fill="white" stroke="#6aa0ff" />
+                    <rect x="306" y="22" width="40" height="28" fill="white" stroke="#6aa0ff" />
+                  </g>
+                  <text x="10" y="80" font-size="18" fill="#333">Contiguous buffer (fixed-size elements)</text>
+                </svg>
+                <figcaption style="font-size:0.8em;">NumPy ndarray</figcaption>
+              </figure>
+            </div>
+
+            <!-- Python list of pointers -->
+            <div class="text-center">
+              <figure style="margin:0;">
+                <svg width="360" viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+                  <!-- list slots -->
+                  <g>
+                    <rect x="10" y="20" width="45" height="24" fill="#fff8e6" stroke="#f0b34e" />
+                    <rect x="60" y="20" width="45" height="24" fill="#fff8e6" stroke="#f0b34e" />
+                    <rect x="110" y="20" width="45" height="24" fill="#fff8e6" stroke="#f0b34e" />
+                    <rect x="160" y="20" width="45" height="24" fill="#fff8e6" stroke="#f0b34e" />
+                    <rect x="210" y="20" width="45" height="24" fill="#fff8e6" stroke="#f0b34e" />
+                    <rect x="260" y="20" width="45" height="24" fill="#fff8e6" stroke="#f0b34e" />
+                    <rect x="310" y="20" width="45" height="24" fill="#fff8e6" stroke="#f0b34e" />
+                  </g>
+                  <!-- object boxes -->
+                  <g>
+                    <rect x="30" y="70" width="50" height="24" fill="#ffffff" stroke="#bdbdbd" />
+                    <rect x="140" y="70" width="50" height="24" fill="#ffffff" stroke="#bdbdbd" />
+                    <rect x="250" y="70" width="50" height="24" fill="#ffffff" stroke="#bdbdbd" />
+                  </g>
+                  <!-- arrows -->
+                  <g stroke="#888" fill="none" marker-end="url(#arrow)">
+                    <defs>
+                      <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6"
+                        orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#888"></path>
+                      </marker>
+                    </defs>
+                    <path d="M 32 44 C 32 55, 40 55, 55 70" />
+                    <path d="M 82 44 C 82 55, 150 55, 165 70" />
+                    <path d="M 132 44 C 132 55, 260 55, 275 70" />
+                  </g>
+                  <text x="10" y="120" font-size="18" fill="#333">List of pointers → scattered objects</text>
+                </svg>
+                <figcaption style="font-size:0.8em;">Python list</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <section style="font-size: 0.78em;" data-jp-reset>
+          <h2><span class="inline-code">ndarray</span>: Create → Operate → Inspect</h2>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import numpy as np
+data = np.array([[1.5, -0.1, 3], [0, -3, 6.5]])
+data
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 1.5, -0.1,  3. ],
+       [ 0. , -3. ,  6.5]])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data * 10
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 15.,  -1.,  30.],
+       [  0., -30.,  65.]])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data + data
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 3. , -0.2,  6. ],
+       [ 0. , -6. , 13. ]])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data.shape, data.dtype
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+((2, 3), dtype('float64'))
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Convention -->
+        <section>
+          <h2>Convention</h2>
+          <ul>
+            <li>Always use <span class="inline-code">import numpy as np</span></li>
+            <li>Avoid <span class="inline-code">from numpy import *</span>
+              <ul>
+                <li>Namespace conflicts with Python's built-in functions (<span class="inline-code">min</span>, <span
+                    class="inline-code">max</span>)</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Creating ndarrays -->
+        <section>
+          <h1>
+            <span class="text-light">2.1.</span>
+            <br>
+            Creating <span class="inline-code">ndarray</span>
+          </h1>
+        </section>
+
+        <section>
+          <h2>Creating <span class="inline-code">ndarray</span></h2>
+          <ul>
+            <li><span class="inline-code">np.array</span>: from lists or sequences</li>
+            <li>Nested sequences → multidimensional arrays</li>
+            <li>Shape and <span>dtype</span> inferred automatically</li>
+          </ul>
+        </section>
+
+        <!-- Example: 1D and 2D arrays -->
+        <section style="font-size: 0.85em;" data-jp-reset>
+          <h2>Examples</h2>
+
+          <p>Simple list &rarr; 1D array:</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr1 = np.array([6, 7.5, 8, 0, 1])
+arr1
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([6. , 7.5, 8. , 0. , 1. ])
+      </code></pre>
+          </div>
+
+          <p>Nested list &rarr; 2D array:</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr2 = np.array([[1, 2, 3, 4], [5, 6, 7, 8]])
+arr2.shape, arr2.ndim
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+((2, 4), 2)
+      </code></pre>
+          </div>
+
+          <p>NumPy tries to infer data types automatically:</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr1.dtype, arr2.dtype
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+(dtype('float64'), dtype('int64'))
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- Special Constructors -->
+        <section data-auto-animate data-jp-reset>
+          <h2>Array Constructors</h2>
+          <ul>
+            <li><span class="inline-code">np.zeros</span>, <span class="inline-code">np.ones</span></li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+np.zeros((2,6))
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0.]])
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+np.ones((3,4), dtype=np.int32)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[1, 1, 1, 1],
+        [1, 1, 1, 1],
+        [1, 1, 1, 1]], dtype=int32)
+      </code></pre>
+          </div>
+
+        </section>
+
+        <!-- Special Constructors -->
+        <section data-auto-animate>
+          <h2>Array Constructors</h2>
+          <ul>
+            <li><span class="inline-code">np.empty</span> (uninitialized values)</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+empty_array = np.empty((2,3,2))
+empty_array
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[[1.5e-323, 0.0e+000],
+        [0.0e+000, 0.0e+000],
+        [0.0e+000, 0.0e+000]],
+        [[0.0e+000, 0.0e+000],
+          [0.0e+000, 0.0e+000],
+          [0.0e+000, 0.0e+000]]])
+      </code></pre>
+          </div>
+
+          <ul>
+            <li>Use only when filling values immediately: <span class="inline-code">empty_array[:] = 42</span></li>
+          </ul>
+
+        </section>
+
+        <section data-auto-animate>
+          <h2>Array Constructors</h2>
+          <ul>
+            <li><span class="inline-code">np.arange</span> (like built-in <span class="inline-code">range</span>)</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+np.arange(10)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9])
+      </code></pre>
+          </div>
+          <ul>
+            <li>Supports non-integer steps</li>
+            <li>More flexible than built-in <span class="inline-code">range</span></li>
+          </ul>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Array Constructors</h2>
+          <p>
+            For more special constructors, see:
+            <br>
+            <a href="https://wesmckinney.com/book/numpy-basics#tbl-table_array_ctor">Table: NumPy array creation
+              functions</a>
+          </p>
+        </section>
+
+        <!-- Data Types (dtype) -->
+        <section>
+          <h1>
+            <span class="text-light">2.2.</span>
+            <br>
+            Data Types
+          </h1>
+        </section>
+
+        <section data-jp-reset>
+          <h2>Data Types</h2>
+          <ul>
+            <li><span class="keyword">dtype</span> tells NumPy how to interpret memory</li>
+            <li>Common: <span class="inline-code">float64</span>, <span class="inline-code">int32</span>, <span
+                class="inline-code">bool</span>, <span class="inline-code">object</span></li>
+            <li>Controls memory, I/O, interoperability, speed</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Specifying & Inspecting dtypes</h2>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr1 = np.array([1, 2, 3], dtype=np.float64)
+arr2 = np.array([1, 2, 3], dtype=np.int32)
+arr1.dtype, arr2.dtype
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+(dtype('float64'), dtype('int32'))
+      </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Casting with <span class="inline-code">astype</span></h2>
+          <p>Integers to floats</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr = np.array([1, 2, 3, 4, 5])
+arr.astype(np.float64)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([1., 2., 3., 4., 5.])
+      </code></pre>
+          </div>
+          <p>Strings to numeric</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+np.array(["1.25", "-9.6", "42"]).astype(float)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 1.25, -9.6 , 42.  ])
+      </code></pre>
+          </div>
+          <div>
+            <ul>
+              <li><span class="inline-code">astype</span> <em>always</em> makes a copy</li>
+              <li>⚠️ Fixed-size <span class="inline-code">np.string_</span> may truncate input</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Arithmetic with Arrays -->
+        <section data-jp-reset>
+          <h1>
+            <span class="text-light">2.3.</span>
+            <br>
+            Arithmetic with Arrays
+          </h1>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Element-wise Ops</h2>
+          <p>Arithmetic operations on arrays apply
+            <span class="keyword">element-wise</span>
+          </p>
+
+          <p>
+            Between <strong>arrays of the same size</strong>:
+          </p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr = np.array([[1., 2., 3.],[4., 5., 6.]])
+arr * arr
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 1.,  4.,  9.],
+       [16., 25., 36.]])
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr - arr
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[0., 0., 0.],
+       [0., 0., 0.]])
+      </code></pre>
+          </div>
+
+        </section>
+
+        <section data-auto-animate>
+          <h2>Element-wise Ops</h2>
+          <p>Arithmetic operations on arrays apply
+            <span class="keyword">element-wise</span>
+          </p>
+
+          <p>
+            Between <strong>arrays and scalars</strong>:
+          </p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+1 / arr
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[1.        , 0.5       , 0.33333333],
+       [0.25      , 0.2       , 0.16666667]])
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr ** 2
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 1.,  4.,  9.],
+       [16., 25., 36.]])
+      </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Comparisons</h2>
+          <p>Comparisons between arrays of the same size yield <span class="keyword">Boolean arrays</span>:</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr2 = np.array([[0.,4.,1.],[7.,2.,12.]])
+arr2 > arr
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[False,  True, False],
+       [ True, False,  True]])
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- Basic Indexing & Slicing -->
+        <section>
+          <h1>
+            <span class="text-light">2.4.</span>
+            <br>
+            Indexing & Slicing: Basics
+          </h1>
+        </section>
+
+        <section data-jp-reset>
+          <h2>1D Indexing</h2>
+          <ul>
+            <li><strong>Syntax similar</strong> to Python lists/tuples</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr = np.arange(10)
+arr[5], arr[5:8]
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+(5, array([5, 6, 7]))
+      </code></pre>
+          </div>
+
+          <div class="fragment">
+            <ul>
+              <li>But: <span class="keyword">Slice = view</span>, not copy
+                <ul>
+                  <li>💡 Assign to slice modifies original array</li>
+                </ul>
+              </li>
+            </ul>
+
+            <div class="jp-cell">
+              <pre class="jp-input"><code class="language-python" data-trim>
+arr[5:8] = 12
+arr
+      </code></pre>
+              <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 0,  1,  2,  3,  4, 12, 12, 12,  8,  9])
+      </code></pre>
+            </div>
+          </div>
+
+        </section>
+
+        <section style="font-size: 0.9em;">
+          <h2>More on: Slice = view</h2>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr_slice = arr[5:8]
+arr_slice
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([12, 12, 12])
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr_slice[1] = 12345
+arr
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([    0,     1,     2,     3,     4,    12, 12345,    
+       12,     8,     9])
+      </code></pre>
+          </div>
+
+
+          <p>
+            Use <span class="inline-code">:</span> to modify the entire array:
+          </p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr_slice[:] = 64
+arr
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 0,  1,  2,  3,  4, 64, 64, 64,  8,  9])
+    </code></pre>
+          </div>
+
+        </section>
+
+        <section>
+          <h2>Copy a Slice</h2>
+          <p>Use <span class="inline-code">.copy()</span> to make a copy of a slice</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr_copy = arr[5:8].copy()
+arr_copy
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([64, 64, 64])
+      </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr_copy[1] = 12345
+arr
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 0,  1,  2,  3,  4, 64, 64, 64,  8,  9])
+      </code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate data-jp-reset>
+          <h2>2D Indexing</h2>
+
+          <p>Elements at each index are <span class="keyword">one-dimensional arrays</span></p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr2d = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+arr2d
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[1, 2, 3],
+       [4, 5, 6],
+       [7, 8, 9]])
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr2d[2]
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([7, 8, 9])
+      </code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>2D Indexing</h2>
+
+          <p>
+            Individual elements can be accessed recursively:
+          </p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr2d[0][2]
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+np.int64(3)
+      </code></pre>
+          </div>
+
+          <p>
+            Or using a <span class="keyword">comma-separated</span> tuple of indices:
+          </p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr2d[0, 2]
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+np.int64(3)
+      </code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>2D Indexing</h2>
+
+          <p>Think of axis 0 as the rows and axis 1 as the columns.</p>
+
+          <div class="text-center">
+            <svg width="450" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+              <style>
+                .grid-cell {
+                  fill: #D0E3F4;
+                  stroke: black;
+                  stroke-width: 2;
+                  rx: 10;
+                  ry: 10;
+                }
+
+                .text-label {
+                  font-size: 24px;
+                  text-anchor: middle;
+                  dominant-baseline: middle;
+                  fill: black;
+                }
+
+                .axis-label {
+                  font-size: 28px;
+                  font-weight: bold;
+                  text-anchor: middle;
+                  dominant-baseline: middle;
+                  fill: black;
+                }
+              </style>
+
+              <text class="axis-label" x="280" y="30">Axis 1</text>
+              <text class="text-label" x="175" y="80">0</text>
+              <text class="text-label" x="275" y="80">1</text>
+              <text class="text-label" x="375" y="80">2</text>
+
+              <text class="axis-label" x="30" y="230" transform="rotate(-90 50 250)">Axis 0</text>
+              <text class="text-label" x="75" y="175">0</text>
+              <text class="text-label" x="75" y="275">1</text>
+              <text class="text-label" x="75" y="375">2</text>
+
+              <rect class="grid-cell" x="120" y="120" width="100" height="100" />
+              <text class="text-label" x="170" y="170">0,0</text>
+
+              <rect class="grid-cell" x="220" y="120" width="100" height="100" />
+              <text class="text-label" x="270" y="170">0,1</text>
+
+              <rect class="grid-cell" x="320" y="120" width="100" height="100" />
+              <text class="text-label" x="370" y="170">0,2</text>
+
+              <rect class="grid-cell" x="120" y="220" width="100" height="100" />
+              <text class="text-label" x="170" y="270">1,0</text>
+
+              <rect class="grid-cell" x="220" y="220" width="100" height="100" />
+              <text class="text-label" x="270" y="270">1,1</text>
+
+              <rect class="grid-cell" x="320" y="220" width="100" height="100" />
+              <text class="text-label" x="370" y="270">1,2</text>
+
+              <rect class="grid-cell" x="120" y="320" width="100" height="100" />
+              <text class="text-label" x="170" y="370">2,0</text>
+
+              <rect class="grid-cell" x="220" y="320" width="100" height="100" />
+              <text class="text-label" x="270" y="370">2,1</text>
+
+              <rect class="grid-cell" x="320" y="320" width="100" height="100" />
+              <text class="text-label" x="370" y="370">2,2</text>
+            </svg>
+          </div>
+        </section>
+
+        <section data-jp-reset data-auto-animate>
+          <h2>3D Indexing</h2>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr3d = np.array([[[ 1,  2,  3], [ 4,  5,  6]],
+                  [[ 7,  8,  9], [10, 11, 12]]])
+arr3d
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[[ 1,  2,  3],
+        [ 4,  5,  6]],
+
+       [[ 7,  8,  9],
+        [10, 11, 12]]])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr3d.shape
+</code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+(2, 2, 3)
+</code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>3D Indexing</h2>
+          <p>Omitting later indices &rarr; return a lower dimensional <span class="inline-code">ndarray</span></p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr3d[0]  # a 2x3 array
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[1, 2, 3],
+       [4, 5, 6]])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr3d[1, 0]  # returns 1D array
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([7, 8, 9])
+    </code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate style="font-size: 0.88em;">
+          <h2>Broadcast Assignment to a Slice</h2>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+old_values = arr3d[0].copy()
+    </code></pre>
+          </div>
+
+          <p>Assign a scalar value:</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr3d[0] = 42
+arr3d
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[[42, 42, 42],
+        [42, 42, 42]],
+
+       [[ 7,  8,  9],
+        [10, 11, 12]]])
+    </code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate style="font-size: 0.88em;">
+          <h2>Broadcast Assignment to a Slice</h2>
+
+          <p>From another array:</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr3d[0] = old_values
+arr3d
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[[ 1,  2,  3],
+        [ 4,  5,  6]],
+
+       [[ 7,  8,  9],
+        [10, 11, 12]]])
+    </code></pre>
+          </div>
+        </section>
+
+        <section data-jp-reset data-auto-animate>
+          <h2>Indexing with Slices</h2>
+          <h4>1D Arrays</h4>
+
+          <p>
+            1D arrays can be sliced with the <span class="inline-code">:</span>
+            operator.
+          </p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr = np.array([0, 1, 2, 3, 4, 64, 64, 64, 8, 9])
+arr
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 0,  1,  2,  3,  4, 64, 64, 64,  8,  9])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr[1:6]
+</code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 1,  2,  3,  4, 64])
+</code></pre>
+          </div>
+
+        </section>
+
+        <section data-auto-animate data-jp-reset>
+          <h2>Indexing with Slices</h2>
+          <h4>2D Arrays</h4>
+
+          <p>2D arrays can be sliced along both axes.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr2d = np.arange(1, 10).reshape(3, 3)
+arr2d
+arr2d[:2]           # first two rows (slice along axis 0)
+arr2d[:2, 1:]       # rows 0-1, cols 1-end
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[1, 2, 3],
+       [4, 5, 6],
+       [7, 8, 9]])
+array([[1, 2, 3],
+       [4, 5, 6]])
+array([[2, 3],
+       [5, 6]])
+    </code></pre>
+          </div>
+
+        </section>
+
+        <section data-auto-animate>
+          <h2>Indexing with Slices</h2>
+          <h4>2D Arrays</h4>
+
+          <p>Can mix integer indices and slices.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+lower_dim_slice = arr2d[1, :2] # 2nd row, first 2 columns
+lower_dim_slice.shape
+arr2d[:2, 2]                   # 3rd column of first 2 rows
+arr2d[:, :1]                   # first column, all rows
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+(2,)
+array([3, 6])
+array([[1],
+       [4],
+       [7]])
+    </code></pre>
+          </div>
+
+        </section>
+
+        <section data-auto-animate>
+          <h2>Indexing with Slices</h2>
+          <h4>Assignments to Slices</h4>
+
+          <p>
+            Assignments to slices propagate to the <span class="keyword">entire selection</span>.
+          </p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr2d[:2, 1:] = 0
+arr2d
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[1, 0, 0],
+       [4, 0, 0],
+       [7, 8, 9]])
+    </code></pre>
+          </div>
+
+        </section>
+
+        <section>
+          <h2>2D Slicing: Illustration</h2>
+
+          <div class="text-center">
+            <svg height="300" viewBox="0 0 1300 440" xmlns="http://www.w3.org/2000/svg" font-family="monospace">
+              <style>
+                .grid-bg {
+                  fill: white;
+                }
+
+                .grid-cell-border {
+                  fill: none;
+                  stroke: black;
+                  stroke-width: 1;
+                  rx: 5;
+                  ry: 5;
+                }
+
+                .highlight-cell {
+                  fill: #ADD8E6;
+                }
+
+                /* Light blue */
+                .text-expression {
+                  font-size: 24px;
+                  fill: black;
+                  text-anchor: start;
+                  dominant-baseline: middle;
+                }
+
+                .text-shape {
+                  font-size: 24px;
+                  fill: black;
+                  text-anchor: start;
+                  dominant-baseline: middle;
+                }
+
+                .header-text {
+                  font-size: 28px;
+                  font-weight: bold;
+                  fill: black;
+                  text-anchor: start;
+                  dominant-baseline: middle;
+                }
+              </style>
+
+              <!-- First column -->
+
+              <text class="header-text" x="250" y="50">Expression</text>
+              <text class="header-text" x="480" y="50">Shape</text>
+
+              <rect class="grid-bg" x="50" y="100" width="120" height="120" />
+              <rect class="grid-cell-border" x="50" y="100" width="40" height="40" />
+              <rect class="grid-cell-border highlight-cell" x="90" y="100" width="40" height="40" />
+              <rect class="grid-cell-border highlight-cell" x="130" y="100" width="40" height="40" />
+
+              <rect class="grid-cell-border" x="50" y="140" width="40" height="40" />
+              <rect class="grid-cell-border highlight-cell" x="90" y="140" width="40" height="40" />
+              <rect class="grid-cell-border highlight-cell" x="130" y="140" width="40" height="40" />
+
+              <rect class="grid-cell-border" x="50" y="180" width="40" height="40" />
+              <rect class="grid-cell-border" x="90" y="180" width="40" height="40" />
+              <rect class="grid-cell-border" x="130" y="180" width="40" height="40" />
+              <text class="text-expression" x="250" y="150">arr[:2,1:]</text>
+              <text class="text-shape" x="480" y="150">(2,2)</text>
+
+              <rect class="grid-bg" x="50" y="270" width="120" height="120" />
+              <rect class="grid-cell-border" x="50" y="270" width="40" height="40" />
+              <rect class="grid-cell-border" x="90" y="270" width="40" height="40" />
+              <rect class="grid-cell-border" x="130" y="270" width="40" height="40" />
+
+              <rect class="grid-cell-border" x="50" y="310" width="40" height="40" />
+              <rect class="grid-cell-border" x="90" y="310" width="40" height="40" />
+              <rect class="grid-cell-border" x="130" y="310" width="40" height="40" />
+
+              <rect class="grid-cell-border highlight-cell" x="50" y="350" width="40" height="40" />
+              <rect class="grid-cell-border highlight-cell" x="90" y="350" width="40" height="40" />
+              <rect class="grid-cell-border highlight-cell" x="130" y="350" width="40" height="40" />
+              <text class="text-expression" x="250" y="300">arr[2]</text>
+              <text class="text-shape" x="480" y="300">(3,)</text>
+              <text class="text-expression" x="250" y="330">arr[2, :]</text>
+              <text class="text-shape" x="480" y="330">(3,)</text>
+              <text class="text-expression" x="250" y="360">arr[2:, :]</text>
+              <text class="text-shape" x="480" y="360">(1,3)</text>
+
+              <!-- A vertical line -->
+              <line x1="650" y1="20" x2="650" y2="440" stroke="black" stroke-width="1" />
+
+              <!-- Second column -->
+
+              <text class="header-text" x="950" y="50">Expression</text>
+              <text class="header-text" x="1180" y="50">Shape</text>
+
+              <rect class="grid-bg" x="750" y="100" width="120" height="120" />
+              <rect class="grid-cell-border highlight-cell" x="750" y="100" width="40" height="40" />
+              <rect class="grid-cell-border highlight-cell" x="790" y="100" width="40" height="40" />
+              <rect class="grid-cell-border" x="830" y="100" width="40" height="40" />
+
+              <rect class="grid-cell-border highlight-cell" x="750" y="140" width="40" height="40" />
+              <rect class="grid-cell-border highlight-cell" x="790" y="140" width="40" height="40" />
+              <rect class="grid-cell-border" x="830" y="140" width="40" height="40" />
+
+              <rect class="grid-cell-border highlight-cell" x="750" y="180" width="40" height="40" />
+              <rect class="grid-cell-border highlight-cell" x="790" y="180" width="40" height="40" />
+              <rect class="grid-cell-border" x="830" y="180" width="40" height="40" />
+              <text class="text-expression" x="950" y="150">arr[:, :2]</text>
+              <text class="text-shape" x="1180" y="150">(3,2)</text>
+
+              <rect class="grid-bg" x="750" y="270" width="120" height="120" />
+              <rect class="grid-cell-border" x="750" y="270" width="40" height="40" />
+              <rect class="grid-cell-border" x="790" y="270" width="40" height="40" />
+              <rect class="grid-cell-border" x="830" y="270" width="40" height="40" />
+
+              <rect class="grid-cell-border highlight-cell" x="750" y="310" width="40" height="40" />
+              <rect class="grid-cell-border highlight-cell" x="790" y="310" width="40" height="40" />
+              <rect class="grid-cell-border" x="830" y="310" width="40" height="40" />
+
+              <rect class="grid-cell-border" x="750" y="350" width="40" height="40" />
+              <rect class="grid-cell-border" x="790" y="350" width="40" height="40" />
+              <rect class="grid-cell-border" x="830" y="350" width="40" height="40" />
+              <text class="text-expression" x="950" y="300">arr[1, :2]</text>
+              <text class="text-shape" x="1180" y="300">(2,)</text>
+              <text class="text-expression" x="950" y="330">arr[1:2, :2]</text>
+              <text class="text-shape" x="1180" y="330">(1,2)</text>
+
+            </svg>
+          </div>
+        </section>
+
+        <!-- Part 2.5: Boolean Indexing -->
+        <section>
+          <h1>
+            <span class="text-light">2.5.</span>
+            <br>
+            Boolean Indexing
+          </h1>
+        </section>
+
+        <section data-jp-reset>
+          <h2>Setup: Names &amp; Data</h2>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+names = np.array(["Bob", "Joe", "Will", "Bob", "Will", 
+                  "Joe", "Joe"])
+names
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array(['Bob', 'Joe', 'Will', 'Bob', 'Will', 'Joe', 'Joe'], dtype='&lt;U4')
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data = np.array([[4, 7], [0, 2], [-5, 6], [0, 0], [1, 2],
+                 [-12, -4], [3, 4]])
+data
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[  4,   7],
+       [  0,   2],
+       [ -5,   6],
+       [  0,   0],
+       [  1,   2],
+       [-12,  -4],
+       [  3,   4]])
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Building a Boolean Mask</h2>
+          <p>Comparisons are <span class="keyword">vectorized</span>:</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+names == "Bob"
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ True, False, False, True, False, False, False])
+    </code></pre>
+          </div>
+          <p>
+            &rarr; This array of Boolean values is called a <span class="keyword">mask</span>.
+          </p>
+        </section>
+
+        <section>
+          <h2>Indexing with a Mask</h2>
+          <p>
+            <span class="keyword">Mask length</span> must match the axis being indexed
+          </p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data[names == "Bob"]       # rows where name is Bob
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[4, 7],
+       [0, 0]])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data[names == "Bob", 1:]   # from the 2nd column onward
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[7],
+       [0]])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data[names == "Bob", 1]    # only the  2nd column
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([7, 0])
+    </code></pre>
+          </div>
+
+        </section>
+
+        <section>
+          <h2>Negation</h2>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+names != "Bob"
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([False,  True,  True, False,  True,  True,  True])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+~(names == "Bob")
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([False,  True,  True, False,  True,  True,  True])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data[~(names == "Bob")]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[  0,   2],
+       [ -5,   6],
+       [  1,   2],
+       [-12,  -4],
+       [  3,   4]])
+    </code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Combine Conditions</h2>
+          <p>Use Boolean arithmetic operators: <span class="inline-code">&amp;</span> (and), <span
+              class="inline-code">|</span> (or).</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+mask = (names == "Bob") | (names == "Will")
+mask
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ True, False,  True,  True,  True, False, False])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data[mask]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 4,  7],
+       [-5,  6],
+       [ 0,  0],
+       [ 1,  2]])
+    </code></pre>
+          </div>
+
+          <p><strong>Note:</strong> Boolean selection returns a <em>copy</em> of the data.</p>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Set Values with Masks</h2>
+          <p>Right-hand values broadcast into <span class="keyword">True</span> positions.</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data[data &lt; 0] = 0
+data
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[4, 7],
+       [0, 2],
+       [0, 6],
+       [0, 0],
+       [1, 2],
+       [0, 0],
+       [3, 4]])
+    </code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Set Values with Masks</h2>
+          <p>Right-hand values broadcast into <span class="keyword">True</span> positions.</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data[names != "Joe"] = 7
+data
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[7, 7],
+       [0, 2],
+       [7, 7],
+       [7, 7],
+       [7, 7],
+       [0, 0],
+       [3, 4]])
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Part 2.6: Fancy Indexing -->
+        <section>
+          <h1>
+            <span class="text-light">2.6.</span>
+            <br>
+            Fancy Indexing
+          </h1>
+        </section>
+
+        <section>
+          <h2>Fancy Indexing</h2>
+          <p>
+            <span class="keyword">Fancy indexing</span> = indexing with <span class="keyword">integer arrays</span>.
+          </p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>Setup: 8×4 Array</h2>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr = np.arange(8).reshape(-1, 1) * np.ones((1, 4))
+arr
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[0., 0., 0., 0.],
+       [1., 1., 1., 1.],
+       [2., 2., 2., 2.],
+       [3., 3., 3., 3.],
+       [4., 4., 4., 4.],
+       [5., 5., 5., 5.],
+       [6., 6., 6., 6.],
+       [7., 7., 7., 7.]])
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Pick Rows in Any Order</h2>
+          <p>Pass a list/array of row indices:</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr[[4, 3, 0, 6]]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[4., 4., 4., 4.],
+       [3., 3., 3., 3.],
+       [0., 0., 0., 0.],
+       [6., 6., 6., 6.]])
+    </code></pre>
+          </div>
+
+          <p class="small">Negative indices count from the end:</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr[[-3, -5, -7]]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[5., 5., 5., 5.],
+       [3., 3., 3., 3.],
+       [1., 1., 1., 1.]])
+    </code></pre>
+          </div>
+        </section>
+
+        <section data-jp-reset style="font-size: 0.8em;">
+          <h2>Index with Multiple Integer Arrays</h2>
+          <p>Pair of index arrays → pick specific <span class="keyword">tuples</span> (row, col) → <strong>1D</strong>
+            result.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr = np.arange(32).reshape((8, 4))
+arr
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 0,  1,  2,  3],
+       [ 4,  5,  6,  7],
+       [ 8,  9, 10, 11],
+       [12, 13, 14, 15],
+       [16, 17, 18, 19],
+       [20, 21, 22, 23],
+       [24, 25, 26, 27],
+       [28, 29, 30, 31]])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr[[1, 5, 7, 2], [0, 3, 1, 2]]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 4, 23, 29, 10])
+    </code></pre>
+          </div>
+
+          <p class="small">Selected <span class="inline-code">(1,0)</span>, <span class="inline-code">(5,3)</span>,
+            <span class="inline-code">(7,1)</span>, <span class="inline-code">(2,2)</span>. Arrays must have the same
+            shape.
+          </p>
+        </section>
+
+        <section>
+          <h2>Select Rectangular Region</h2>
+          <p>To get a row-subset × column-subset rectangle, index <em>rows</em> then index <em>columns</em>:</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr[[1, 5, 7, 2]][:, [0, 3, 1, 2]]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 4,  7,  5,  6],
+       [20, 23, 21, 22],
+       [28, 31, 29, 30],
+       [ 8, 11,  9, 10]])
+    </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size: 0.8em;">
+          <h2>Copy vs View; Assignment</h2>
+          <ul>
+            <li>Fancy indexing <strong>returns a copy</strong> (unlike slicing).</li>
+            <li>But using it on the <em>left-hand side</em> assigns into the original array.</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr[[1, 5, 7, 2], [0, 3, 1, 2]]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 4, 23, 29, 10])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr[[1, 5, 7, 2], [0, 3, 1, 2]] = 0
+arr
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 0,  1,  2,  3],
+       [ 0,  5,  6,  7],
+       [ 8,  9,  0, 11],
+       [12, 13, 14, 15],
+       [16, 17, 18, 19],
+       [20, 21, 22,  0],
+       [24, 25, 26, 27],
+       [28,  0, 30, 31]])
+    </code></pre>
+          </div>
+
+        </section>
+
+        <!-- Part 2.7: Transposing & Swapping Axes -->
+        <section>
+          <h1>
+            <span class="text-light">2.7.</span>
+            <br>
+            Transposing Arrays & Swapping Axes
+          </h1>
+        </section>
+
+        <section data-jp-reset>
+          <h2>Transpose Basics</h2>
+          <p>Transposing is a reshape that returns a <strong>view</strong> (no copy).</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr = np.arange(15).reshape((3, 5))
+arr
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 0,  1,  2,  3,  4],
+       [ 5,  6,  7,  8,  9],
+       [10, 11, 12, 13, 14]])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr.T        # same as arr.transpose()
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 0,  5, 10],
+       [ 1,  6, 11],
+       [ 2,  7, 12],
+       [ 3,  8, 13],
+       [ 4,  9, 14]])
+    </code></pre>
+          </div>
+        </section>
+
+        <section data-jp-reset data-auto-animate>
+          <h2>Transpose in Matrix Math</h2>
+          <p>Common in inner products / Gram matrices.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr = np.array([[ 0,  1,  0],
+                [ 1,  2, -2],
+                [ 6,  3,  2],
+                [-1,  0, -1],
+                [ 1,  0,  1]])
+    </code></pre>
+            </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+np.dot(arr.T, arr)     # same as arr.T @ arr
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[39, 20, 12],
+       [20, 14,  2],
+       [12,  2, 10]])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr.T @ arr
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[39, 20, 12],
+       [20, 14,  2],
+       [12,  2, 10]])
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>More on <span class="inline-code">reshape</span></h2>
+          <p>See <a href="https://wesmckinney.com/book/advanced-numpy" target="_blank" rel="noopener noreferrer">
+              Appendix A: Advanced NumPy</a> for details on <span class="inline-code">reshape</span>.</p>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Swapping Axes</h2>
+          <p><span class="inline-code">swapaxes(axis1, axis2)</span> generalizes transpose; returns a
+            <strong>view</strong>.
+          </p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 0,  1,  0],
+       [ 1,  2, -2],
+       [ 6,  3,  2],
+       [-1,  0, -1],
+       [ 1,  0,  1]])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr.swapaxes(0, 1)   # swap rows & columns
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 0,  1,  6, -1,  1],
+       [ 1,  2,  3,  0,  0],
+       [ 0, -2,  2, -1,  1]])
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <div class="question-box">
+            <div class="question-title">Swapping axes of a 3D array</div>
+            <div class="question-content">
+              Given a 3D array with shape (2, 3, 4), what will be the shape of the array after applying
+              <span class="inline-code">swapaxes(0, 2)</span>, <span class="inline-code">swapaxes(1, 2)</span>, and
+              <span class="inline-code">swapaxes(0, 1)</span>?
+            </div>
+          </div>
+
+          <div class="text-light" style="margin-top: 1.5em;">
+            &rarr; Try it out in Jupyter Notebook!
+          </div>
+        </section>
+
+      </section>
+
+      <!-- Part 3: Random Numbers -->
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">3.</span>
+            <br>
+            Pseudorandom Number Generation
+          </h1>
+        </section>
+
+        <!-- 3.1 Intro -->
+        <section>
+          <h2>Why <span class="inline-code">numpy.random</span>?</h2>
+          <ul>
+            <li>Generate whole <strong>arrays</strong> of samples efficiently</li>
+            <li>Many distributions: normal, uniform, binomial, beta, …</li>
+            <li><span class="keyword">Vectorized</span> &amp; fast vs Python’s <span class="inline-code">random</span>
+              (one value at a time)</li>
+          </ul>
+        </section>
+
+        <!-- 3.1 Standard normal samples -->
+        <section data-jp-reset>
+          <h2>Draw Samples</h2>
+          <p>4×4 from standard normal distribution with <span class="inline-code">np.random.standard_normal</span>:
+          </p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+np.random.standard_normal(size=(4, 4))
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[-0.2047,  0.4789, -0.5194, -0.5557],
+       [ 1.9658,  1.3934,  0.0929,  0.2817],
+       [ 0.769 ,  1.2464,  1.0072, -1.2962],
+       [ 0.275 ,  0.2289,  1.3529,  0.8864]])
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- 3.1 Benchmark -->
+        <section data-auto-animate style="font-size: 0.9em;">
+          <h2>Speed: Python <span class="inline-code">random</span> vs NumPy</h2>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+from random import normalvariate
+N = 1_000_000
+</code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+%timeit samples = [normalvariate(0, 1) for _ in range(N)]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+740 ms ± 27 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+%timeit samples = np.random.standard_normal(N)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+32.4 ms ± 96 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+    </code></pre>
+          </div>
+
+          <p>💡 <strong>NumPy</strong> is &gt;20× faster for this large draw.</p>
+        </section>
+
+        <!-- 3.2 Generators & seeding -->
+        <section data-auto-animate style="font-size: 0.9em;">
+          <h2>Modern API: <span class="inline-code">Generator</span></h2>
+          <ul>
+            <li>Create an <strong>isolated random number generator (RNG)</strong> with <span
+                class="inline-code">np.random.default_rng</span></li>
+            <li>Pass an explicit <span class="inline-code">seed</span> for reproducibility</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+rng = np.random.default_rng(seed=12345)
+rng.standard_normal((2, 3))
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[-1.42382504,  1.26372846, -0.87066174],
+       [-0.25917323, -0.07534331, -0.74088465]])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+rng = np.random.default_rng(seed=12345)
+rng.standard_normal((2, 3))
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[-1.42382504,  1.26372846, -0.87066174],
+       [-0.25917323, -0.07534331, -0.74088465]])
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- 3.2 Matrix products example kept minimal (not needed here) -->
+
+        <!-- 3.3 Common methods (table) -->
+        <section style="font-size: 0.65em;">
+          <h2>Common <span class="inline-code">Generator</span> Methods</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="text-align:left;">Method</th>
+                <th style="text-align:left;">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">integers(low, high, size)</span></td>
+                <td>random integers</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">standard_normal(size)</span></td>
+                <td>N(0,1)</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">normal(loc, scale, size)</span></td>
+                <td>Gaussian</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">uniform(low, high, size)</span></td>
+                <td>continuous uniform</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">binomial(n, p, size)</span></td>
+                <td>binomial distribution</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">beta(a, b, size)</span></td>
+                <td>beta distribution</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">gamma(shape, scale, size)</span></td>
+                <td>gamma distribution</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">chisquare(df, size)</span></td>
+                <td>chi-square distribution</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">permutation(x)</span></td>
+                <td>return a permuted copy</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">shuffle(x)</span></td>
+                <td>permute in place</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 3.4 Quick demos of methods -->
+        <section data-jp-reset data-auto-animate style="font-size: 0.9em;">
+          <h2>Quick Demos</h2>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+rng = np.random.default_rng(0)
+rng.integers(0, 10, size=6)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([5, 6, 9, 2, 6, 7])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+rng.uniform(-1, 1, size=(2,3))
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 0.2739239 ,  0.4605797 ,  0.21999016],
+       [ 0.21918573, -0.49757134,  0.22181696]])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+x = np.arange(5)
+rng.permutation(x), x  # permutation returns a permuted copy
+    </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+(array([2, 1, 4, 3, 0]), array([0, 1, 2, 3, 4]))
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- 3.5 Best practices -->
+        <section data-auto-animate>
+          <h2>Best Practices</h2>
+          <ul>
+            <li>Prefer <span class="inline-code">rng = np.random.default_rng(seed)</span> over legacy <span
+                class="inline-code">np.random.seed</span></li>
+            <li>Pass <span class="inline-code">rng</span> down into functions for reproducibility</li>
+            <li>Draw arrays directly (avoid Python loops)</li>
+          </ul>
+
+          <p>
+            More methods:
+            <a href="https://wesmckinney.com/book/numpy-basics#tbl-table_numpy_random" target="_blank"
+              rel="noopener noreferrer">
+              NumPy RNG method table
+            </a>
+          </p>
+        </section>
+
+      </section>
+
+      <!-- Part 4: Universal Functions (ufuncs) -->
+      <section id="numpy_ufuncs" class="level2" data-number="4.3">
+        <section>
+          <h1>
+            <span class="text-light">4.</span>
+            <br>
+            Universal Functions
+          </h1>
+        </section>
+
+        <section>
+          <h2>Universal Functions (Ufunc)</h2>
+          <ul>
+            <li><span class="keyword">Ufunc</span> = fast, vectorized, <em>element-wise</em> ops on <span
+                class="inline-code">ndarray</span>s</li>
+            <li>Types: <strong>Unary</strong> (e.g., <span class="inline-code">np.sqrt</span>) and
+              <strong>Binary</strong> (e.g., <span class="inline-code">np.add</span>)
+            </li>
+            <li>Implemented in C → much faster than Python loops</li>
+          </ul>
+        </section>
+
+
+        <!-- Unary ufuncs -->
+        <section data-jp-reset style="font-size: 0.95em;">
+          <h2>Unary ufuncs</h2>
+          <p>
+            Take a <strong>single array</strong> argument and return a <strong>single array</strong>.
+          </p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr = np.arange(10)
+arr
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+np.sqrt(arr)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([0.    , 1.    , 1.4142, 1.7321, 2.    , 2.2361, 2.4495, 2.6458,
+       2.8284, 3.    ])
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+np.exp(arr)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([   1.    ,    2.7183,    7.3891,   20.0855,   54.5982,  148.4132,
+        403.4288, 1096.6332, 2980.958 , 8103.0839])
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- Binary ufuncs -->
+        <section data-jp-reset>
+          <h2>Binary ufuncs</h2>
+          <p>Take <strong>two arrays</strong> and return a <strong>single array</strong>.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+rng = np.random.default_rng(12345)
+x = rng.standard_normal(8)
+y = rng.standard_normal(8)
+x, y
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+(array([-1.3678,  0.6489,  0.3611, -1.9529,  2.3474,  0.9685, -0.7594,
+        0.9022]),
+ array([-0.467 , -0.0607,  0.7888, -1.2567,  0.5759,  1.399 ,  1.3223,
+       -0.2997]))
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+np.maximum(x, y)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([-0.467 ,  0.6489,  0.7888, -1.2567,  2.3474,  1.399 ,  1.3223,
+        0.9022])
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- Multi-output ufunc -->
+        <section data-jp-reset style="font-size: 0.9em;">
+          <h2>Multi-Output ufunc</h2>
+          <ul>
+            <li>
+              Some ufuncs return <strong>multiple arrays</strong>.
+            </li>
+            <li>E.g., <span class="inline-code">np.modf</span> returns fractional and integral parts.</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr = rng.standard_normal(7) * 5
+arr
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 4.5146, -8.1079, -0.7909,  2.2474, -6.718 , -0.4084,  8.6237])
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+remainder, whole_part = np.modf(arr)
+remainder
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 0.5146, -0.1079, -0.7909,  0.2474, -0.718 , -0.4084,  0.6237])
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+whole_part
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 4., -8., -0.,  2., -6., -0.,  8.])
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- out= argument -->
+        <section data-jp-reset style="font-size: 0.8em;">
+          <h2>Writing Results In-Place</h2>
+
+          <ul>
+            <li>
+              Use <span class="inline-code">out=</span> argument to write results into a pre-allocated array.
+            </li>
+            <li>
+              Reduces temporary allocations, helpful in memory-sensitive or performance-critical loops.
+            </li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 4.5146, -8.1079, -0.7909,  2.2474, -6.718 , -0.4084,  8.6237])
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+out = np.zeros_like(arr)        # pre-allocate output array
+np.add(arr, 1)                  # allocates a new array
+np.add(arr, 1, out=out)         # writes into 'out'
+out
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 5.5146, -7.1079,  0.2091,  3.2474, -5.718 ,  0.5916,  9.6237])
+      </code></pre>
+          </div>
+
+
+        </section>
+
+        <!-- Tables: unary -->
+        <section style="font-size: 0.6em;">
+          <h2>Some <span>Unary</span> Ufuncs</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="text-align:left;">Function</th>
+                <th style="text-align:left;">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">abs</span>, <span class="inline-code">fabs</span></td>
+                <td>Element-wise absolute value</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">sqrt</span></td>
+                <td>Square root (≈ <span class="inline-code">arr ** 0.5</span>)</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">square</span></td>
+                <td>Square (≈ <span class="inline-code">arr ** 2</span>)</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">exp</span></td>
+                <td><em>e</em><sup>x</sup> element-wise</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">log</span>, <span class="inline-code">log10</span>, <span
+                    class="inline-code">log2</span>, <span class="inline-code">log1p</span></td>
+                <td>Natural / base-10 / base-2 / log(1+x)</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">sign</span></td>
+                <td>Sign of each element (−1, 0, 1)</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">ceil</span>, <span class="inline-code">floor</span>, <span
+                    class="inline-code">rint</span></td>
+                <td>Round up / down / to nearest (preserves <span class="inline-code">dtype</span>)</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">modf</span></td>
+                <td>Fractional and integral parts (returns two arrays)</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">isnan</span>, <span class="inline-code">isfinite</span>, <span
+                    class="inline-code">isinf</span></td>
+                <td>NaN / finite / infinite checks (Boolean arrays)</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">cos</span>, <span class="inline-code">sin</span>, <span
+                    class="inline-code">tan</span>, …</td>
+                <td>Trig and hyperbolic trig; inverses: <span class="inline-code">arccos</span>, …</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">logical_not</span></td>
+                <td>Element-wise NOT (≈ <span class="inline-code">~arr</span>)</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="small">See <a href="https://numpy.org/doc/stable/reference/ufuncs.html#available-ufuncs">NumPy
+              docs</a> for a full, up-to-date list.</p>
+        </section>
+
+        <!-- Tables: binary -->
+        <section style="font-size: 0.6em;">
+          <h2>Some <span>Binary</span> Ufuncs</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="text-align:left;">Function</th>
+                <th style="text-align:left;">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">add</span>, <span class="inline-code">subtract</span>, <span
+                    class="inline-code">multiply</span></td>
+                <td>Element-wise arithmetic</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">divide</span>, <span class="inline-code">floor_divide</span></td>
+                <td>True division / floor division</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">power</span></td>
+                <td><span class="inline-code">a ** b</span> element-wise</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">maximum</span>, <span class="inline-code">fmax</span></td>
+                <td>Element-wise max; <span class="inline-code">fmax</span> ignores <span class="inline-code">NaN</span>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">minimum</span>, <span class="inline-code">fmin</span></td>
+                <td>Element-wise min; <span class="inline-code">fmin</span> ignores <span class="inline-code">NaN</span>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">mod</span></td>
+                <td>Remainder</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">copysign</span></td>
+                <td>Copy sign from second arg to first</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">greater</span>, <span class="inline-code">>=</span>, <span
+                    class="inline-code">&lt;</span>, <span class="inline-code">&lt;=</span>, <span
+                    class="inline-code">==</span>, <span class="inline-code">!=</span></td>
+                <td>Comparisons → Boolean arrays</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">logical_and</span>, <span class="inline-code">logical_or</span>, <span
+                    class="inline-code">logical_xor</span></td>
+                <td>Element-wise logical ops (<span class="inline-code">&amp;</span>, <span
+                    class="inline-code">|</span>, <span class="inline-code">^</span>)</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="small">Matrix multiplication uses <span class="inline-code">@</span> or <span
+              class="inline-code">np.dot</span> (not a ufunc).</p>
+        </section>
+
+      </section>
+
+      <!-- Part 5: Array-Oriented Programming with Arrays -->
+      <section>
+
+        <!-- Title -->
+        <section>
+          <h1><span class="text-light">5.</span><br>Array-Oriented Programming</h1>
+        </section>
+
+        <!-- Vectorization overview -->
+        <section>
+          <h2>Vectorization</h2>
+          <ul>
+            <li>Express data processing as <span class="keyword">array expressions</span> (avoid Python loops)</li>
+            <li>Broadcasting enables operations on different-shaped arrays</li>
+            <li>Typically <span class="keyword">much faster</span> than pure Python</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Vectorization: Example</h2>
+          <p>Compute $\sqrt{x^2 + y^2}$ with NumPy <span class="keyword">(‼️ no loops)</span>:</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+xs = np.array([3, 4, 5, 6])
+ys = np.array([4, 5, 12, 8])
+hypotenuses = np.sqrt(xs**2 + ys**2)
+hypotenuses
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 5.        ,  6.40312424, 13.        , 10.        ])
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- where: conditional logic -->
+        <section data-jp-reset>
+          <h2>Conditional Logic</h2>
+          <ul>
+            <li>Vectorized ternary: <span class="inline-code">np.where(cond, x, y)</span></li>
+            <li><span class="inline-code">x</span>/<span class="inline-code">y</span> can be arrays or scalars</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+xarr = np.array([1.1, 1.2, 1.3, 1.4, 1.5])
+yarr = np.array([2.1, 2.2, 2.3, 2.4, 2.5])
+cond = np.array([True, False, True, True, False])
+</code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+np.where(cond, xarr, yarr)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([1.1, 2.2, 1.3, 1.4, 2.5])
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+np.where(xarr > 1.3, 2, xarr)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([1.1, 1.2, 1.3, 2. , 2. ])
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- Statistical methods -->
+        <section data-jp-reset data-auto-animate>
+          <h2>Math &amp; Stats: Aggregations</h2>
+          <ul>
+            <li>
+              Reduce an array to a <span class="keyword">single value (or smaller array)</span>
+            </li>
+            <li>E.g.,: <span class="inline-code">mean</span>, <span class="inline-code">sum</span>, <span
+                class="inline-code">std</span>, …</li>
+            <li>Use <span class="inline-code">axis=</span> to reduce across rows/cols</li>
+          </ul>
+        </section>
+
+        <section data-auto-animate style="font-size: 0.8em;">
+          <h2>Math &amp; Stats: Aggregations</h2>
+          <h4>Example</h4>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr = np.arange(8).reshape((2, 4))
+arr
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[0, 1, 2, 3],
+       [4, 5, 6, 7]])
+      </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr.mean()
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+3.5
+      </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr.sum()
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+28
+      </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr.mean(axis=1)   # across columns
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim> 
+array([1.5, 5.5])
+      </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr.sum(axis=0)    # down rows
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([4, 6, 8, 10])
+      </code></pre>
+          </div>
+
+        </section>
+
+        <!-- Accumulations -->
+        <section data-jp-reset data-auto-animate>
+          <h2>Math &amp; Stats: Accumulations</h2>
+
+          <ul>
+            <li>Compute intermediate results along an axis</li>
+            <li>Returns an array of the same size</li>
+            <li>E.g., <span class="inline-code">cumsum</span>, <span class="inline-code">cumprod</span></li>
+          </ul>
+        </section>
+
+        <section data-auto-animate style="font-size: 0.8em;">
+          <h2>Math &amp; Stats: Accumulations</h2>
+          <h4>Example</h4>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+a = np.arange(8)
+a
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([0, 1, 2, 3, 4, 5, 6, 7])
+      </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+a.cumsum()
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 0,  1,  3,  6, 10, 15, 21, 28])
+      </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+b = np.array([[0, 1, 2], [3, 4, 5], [6, 7, 8]])
+      </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+b.cumsum(axis=0)   # down rows
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 0,  1,  2],
+       [ 3,  5,  7],
+       [ 9, 12, 15]])
+      </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+b.cumsum(axis=1)   # across columns
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 0,  1,  2],
+       [ 3,  7, 12],
+       [ 6, 13, 21]])
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- Tables: stats -->
+        <section style="font-size:0.8em;">
+          <h2>Basic Statistical Methods</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="text-align:left;">Method</th>
+                <th style="text-align:left;">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">sum</span></td>
+                <td>Total (0 for zero-length)</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">mean</span></td>
+                <td>Arithmetic mean (<span class="inline-code">NaN</span> for zero-length)</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">std</span>, <span class="inline-code">var</span></td>
+                <td>Std. dev. / variance</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">min</span>, <span class="inline-code">max</span></td>
+                <td>Minimum / maximum</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">argmin</span>, <span class="inline-code">argmax</span></td>
+                <td>Index of min / max</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">cumsum</span></td>
+                <td>Cumulative sum</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">cumprod</span></td>
+                <td>Cumulative product</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Boolean arrays -->
+        <section data-jp-reset data-auto-animate>
+          <h2>Boolean Arrays</h2>
+          <ul>
+            <li>Booleans behave like 1/0 in reductions</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+arr = rng.standard_normal(100)
+</code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+(arr > 0).sum()   # number of positive values
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+54
+      </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+(arr <= 0).sum()  # number of non-positive values
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+46
+      </code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Boolean Arrays</h2>
+          <ul>
+            <li><span class="inline-code">any</span> → any True, <span class="inline-code">all</span> → all True</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+bools = np.array([False, False, True, False])
+</pre></code>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+bools.any()
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+True
+      </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+bools.all()
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+False
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- Sorting -->
+        <section data-jp-reset data-auto-animate>
+          <h2>Sorting</h2>
+          <h4>Example</h4>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+a = rng.standard_normal(6)
+a
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([-0.95898831, -1.20938829, -1.41229201,  0.54154683,  0.7519394 ,
+       -0.65876032])</code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+a.sort()
+a
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([-1.34360107, -0.08168759,  0.77736134,  0.8286332 ,  1.72473993,
+        2.61815943])
+      </code></pre>
+          </div>
+        </section>
+
+        <section data-jp-reset data-auto-animate>
+          <h2>Sorting</h2>
+          <h4>Example</h4>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+b = rng.standard_normal((3, 4))
+b
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 0.43365454,  0.27748366,  0.53025239,  0.53672097],
+       [ 0.61835001, -0.79501746,  0.30003095, -1.60270159],
+       [ 0.26679883, -1.26162378, -0.07127081,  0.47404973]])
+      </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+b.sort(axis=1)   # sort each row
+b
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 0.27748366,  0.43365454,  0.53025239,  0.53672097],
+       [-1.60270159, -0.79501746,  0.30003095,  0.61835001],
+       [-1.26162378, -0.07127081,  0.26679883,  0.47404973]])
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- Set operations -->
+        <section data-jp-reset data-auto-animate>
+          <h2>Unique &amp; Set Logic</h2>
+          <ul>
+            <li>Find unique values, common values, set differences, etc.</li>
+            <li>E.g., <span class="inline-code">np.unique</span>, <span class="inline-code">np.in1d</span></li>
+          </ul>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Unique &amp; Set Logic</h2>
+          <h4>Example</h4>
+
+          <p>
+            Find and sort unique values in an array
+          </p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+names = np.array(["Bob", "Will", "Joe", "Bob", "Will", "Joe", "Joe"])
+np.unique(names)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array(['Bob', 'Joe', 'Will'], dtype='&lt;U4')
+      </code></pre>
+          </div>
+
+          <p>
+            Find which values in one array are present in another
+          </p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+vals = np.array([6, 0, 0, 3, 2, 5, 6])
+np.in1d(vals, [2, 3, 6])
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ True, False, False,  True,  True, False,  True])
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- Tables: set ops -->
+        <section style="font-size:0.8em;">
+          <h2>Array Set Operations</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="text-align:left;">Function</th>
+                <th style="text-align:left;">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">unique(x)</span></td>
+                <td>Sorted unique elements</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">intersect1d(x, y)</span></td>
+                <td>Sorted common elements</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">union1d(x, y)</span></td>
+                <td>Sorted union</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">in1d(x, y)</span></td>
+                <td>Membership test (Boolean mask)</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">setdiff1d(x, y)</span></td>
+                <td>Elements in <span class="inline-code">x</span> not in <span class="inline-code">y</span></td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">setxor1d(x, y)</span></td>
+                <td>Symmetric difference</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+      </section>
+
+      <!-- Part 6: Linear Algebra Operations -->
+      <section>
+
+        <!-- Title -->
+        <section>
+          <h1><span class="text-light">6.</span><br>Linear Algebra Operations</h1>
+        </section>
+
+        <!-- Matrix multiply -->
+        <section data-jp-reset>
+          <h2>Matrix Multiplication</h2>
+
+          <p>
+            Use <span class="inline-code">@</span> operator (Python 3.5+) or <span class="inline-code">np.dot</span>
+            function.
+          </p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+x = np.array([[1., 2., 3.],
+              [4., 5., 6.]])      # 2×3
+y = np.array([[ 6., 23.],
+              [-1.,  7.],
+              [ 8.,  9.]])        # 3×2
+x @ y
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 28.,  64.],
+       [ 67., 181.]])
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- Matrix–vector -->
+        <section>
+          <h2>Matrix–Vector Multiplication</h2>
+
+          <p>
+            Matrix–vector products are also done with <span class="inline-code">@</span> or <span
+              class="inline-code">np.dot</span>.
+          </p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+x @ np.ones(3)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([ 6., 15.])
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- Inverse -->
+        <section data-jp-reset>
+          <h2>Inverse</h2>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+from numpy.linalg import inv
+X = rng.standard_normal((5, 5))
+mat = X.T @ X
+inv(mat)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[  3.4993,   2.8444,   3.5956, -16.5538,   4.4733],
+       [  2.8444,   2.5667,   2.9002, -13.5774,   3.7678],
+       [  3.5956,   2.9002,   4.4823, -18.3453,   4.7066],
+       [-16.5538, -13.5774, -18.3453,  84.0102, -22.0484],
+       [  4.4733,   3.7678,   4.7066, -22.0484,   6.0525]])
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+mat @ inv(mat)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text jp-stdout" data-trim>
+array([[ 1.,  0.,  0.,  0.,  0.],
+       [ 0.,  1.,  0.,  0.,  0.],
+       [ 0.,  0.,  1., -0.,  0.],
+       [ 0.,  0.,  0.,  1.,  0.],
+       [-0.,  0.,  0.,  0.,  1.]])
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- Common functions table -->
+        <section style="font-size:0.8em;">
+          <h2>Common <span class="inline-code">numpy.linalg</span> Functions</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="text-align:left;">Function</th>
+                <th style="text-align:left;">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">dot</span> / <span class="inline-code">@</span></td>
+                <td>Matrix multiplication</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">diag</span>, <span class="inline-code">trace</span></td>
+                <td>Diagonal / sum of diagonal</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">det</span></td>
+                <td>Determinant</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">eig</span></td>
+                <td>Eigenvalues &amp; eigenvectors</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">inv</span>, <span class="inline-code">pinv</span></td>
+                <td>Inverse / pseudoinverse</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">qr</span>, <span class="inline-code">svd</span></td>
+                <td>QR / singular value decomposition</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">solve</span>, <span class="inline-code">lstsq</span></td>
+                <td>Solve <span class="inline-code">Ax=b</span> (square / least squares)</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+      </section>
+
+      <!-- Wrap-up -->
+      <section>
+        <h2>Wrap-up</h2>
+        <ul>
+          <li>
+            NumPy is the <span class="keyword">foundation of data science</span> in Python
+          </li>
+          <li>Key features: N-dimensional arrays, vectorized operations</li>
+          <li>More advanced NumPy topics: See
+            <a href="https://wesmckinney.com/book/advanced-numpy">1</a>,
+            <a href="https://numpy.org/doc/stable/user/index.html">2</a>
+          </li>
+          <li>Next: Pandas</li>
+        </ul>
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        Prog. Data Proc. (2526-1) §5: NumPy
+      </div>
+      <!-- End of footer -->
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+
+  <script>
+    (function () {
+      function renumberJupyterCells() {
+        let n = 0;
+        // Traverse slides in DOM order; allow per-slide reset via data-jp-reset
+        document.querySelectorAll('.slides section').forEach(sec => {
+          if (sec.hasAttribute('data-jp-reset')) n = 0;
+          sec.querySelectorAll('.jp-input').forEach(input => {
+            input.dataset.jpN = ++n;                 // set number on input
+            const cell = input.closest('.jp-cell');  // copy same number to any outputs in the cell
+            if (cell) cell.querySelectorAll('.jp-output').forEach(out => out.dataset.jpN = n);
+          });
+        });
+      }
+
+      // Run at load and whenever Reveal changes slides/layout
+      if (window.Reveal && Reveal.on) {
+        Reveal.on('ready', renumberJupyterCells);
+        Reveal.on('slidechanged', renumberJupyterCells);
+        Reveal.on('resize', renumberJupyterCells);
+      } else {
+        document.addEventListener('DOMContentLoaded', renumberJupyterCells);
+      }
+    })();
+  </script>
+
+</body>
+
+</html>

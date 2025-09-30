@@ -41,6 +41,10 @@
     font-size: 0.9em;
 }
 
+.reveal .text-center {
+    text-align: center;
+}
+
 .reveal .footer {
     position: absolute;
     bottom: 0;
@@ -179,4 +183,120 @@
 /* Hide line numbers ONLY for code blocks with class 'no-line-numbers' */
 .reveal pre code.no-line-numbers .hljs-ln-numbers {
     display: none !important;
+}
+
+/* ===== Jupyter-like dark cells for Reveal.js ===== */
+:root {
+    --jp-bg: #1e1f24;
+    --jp-bg-2: #23252b;
+    --jp-fg: #e8e8e8;
+    --jp-muted: #b6b6b6;
+    --jp-border: #2c2f36;
+    --jp-accent: #f1c76a;
+    --jp-radius: 0px;
+    --jp-shadow: 0 2px 10px rgba(0, 0, 0, .35);
+    --jp-padY: 8px;
+    --jp-padX: 10px;
+    --jp-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Source Code Pro", monospace;
+    --jp-stdout: #c6e1a7;
+    --jp-stderr: #ffb3b3;
+    --jp-gutter-width: 10ch;
+    /* width of the prompt gutter */
+}
+
+/* cell wrapper */
+.reveal .jp-cell {
+    margin: 1.2rem 0;
+    background: var(--jp-bg);
+    border: 1px solid var(--jp-border);
+    border-radius: var(--jp-radius);
+    box-shadow: var(--jp-shadow);
+    overflow: hidden;
+}
+
+/* rows: fixed gutter + content */
+.reveal .jp-input,
+.reveal .jp-output {
+    display: grid;
+    grid-template-columns: var(--jp-gutter-width) 1fr;
+    /* gutter | code */
+    align-items: start;
+    /* top-align reliably */
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.reveal .jp-input {
+    border-bottom: 1px solid var(--jp-border)
+}
+
+.reveal .jp-output {
+    background: var(--jp-bg-2)
+}
+
+/* prompts (in gutter) */
+.reveal .jp-input::before,
+.reveal .jp-output::before {
+    grid-column: 1;
+    justify-self: end;
+    /* right-align inside gutter */
+    padding-top: var(--jp-padY);
+    /* ⬅ match code's top padding */
+    padding-left: 1rem;
+    /* inset from left cell edge */
+    margin-right: .5rem;
+    /* gap before code */
+    font: 600 1em var(--jp-font);
+    /* ⬅ match line-height */
+    white-space: nowrap;
+}
+
+.reveal .jp-input::before {
+    content: "In  [" attr(data-jp-n) "]:";
+    color: var(--jp-accent);
+}
+
+.reveal .jp-output::before {
+    content: "Out [" attr(data-jp-n) "]:";
+    color: var(--jp-muted);
+}
+
+
+/* code/output column */
+.reveal .jp-input>code,
+.reveal .jp-output>code,
+.reveal .jp-stdout,
+.reveal .jp-stderr {
+    grid-column: 2;
+    padding: var(--jp-padY) var(--jp-padX) var(--jp-padY) 0;
+    font: 1em var(--jp-font);
+    color: var(--jp-fg);
+    background: transparent !important;
+    overflow-x: auto;
+}
+
+.reveal .jp-cell pre {
+    margin: 0;
+    border: 0
+}
+
+/* selection */
+.reveal .jp-cell ::selection {
+    background: rgba(255, 255, 255, .14)
+}
+
+/* stdout/stderr tint */
+.reveal .jp-stdout {
+    color: var(--jp-stdout)
+}
+
+.reveal .jp-stderr {
+    color: var(--jp-stderr)
+}
+
+/* compact single-line output */
+.reveal .jp-output.jp-compact>code {
+    padding-top: .25rem;
+    padding-bottom: .25rem
 }
