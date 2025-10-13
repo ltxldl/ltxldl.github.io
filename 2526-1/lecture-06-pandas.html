@@ -21,50 +21,52 @@
   <div class="reveal">
     <div class="slides">
 
-      <!-- Title slide -->
       <section>
-        <h1>Programming for Data Processing</h1>
-        <div>
-          <p>
-            <strong>Lectures:</strong> Nguyễn Tuấn Phong, Đào Việt Anh
-          </p>
-          <p>
-            <strong>Labs:</strong> Trịnh Ngọc Huỳnh, Phạm Tiến Du
-          </p>
-          <p>
-            <strong>Semester:</strong> 2025-2026-1
-          </p>
-          <p>Institute for AI, VNU-UET</p>
-        </div>
-      </section>
+        <!-- Title slide -->
+        <section>
+          <h1>Programming for Data Processing</h1>
+          <div>
+            <p>
+              <strong>Lectures:</strong> Nguyễn Tuấn Phong, Đào Việt Anh
+            </p>
+            <p>
+              <strong>Labs:</strong> Trịnh Ngọc Huỳnh, Phạm Tiến Du
+            </p>
+            <p>
+              <strong>Semester:</strong> 2025-2026-1
+            </p>
+            <p>Institute for AI, VNU-UET</p>
+          </div>
+        </section>
 
-      <!-- Lecture title -->
-      <section>
-        <h1>
-          <span class="text-light">Lecture 6</span>
-          <br>
-          Getting Started with
-          Pandas
-        </h1>
-      </section>
+        <!-- Lecture title -->
+        <section>
+          <h1>
+            <span class="text-light">Lecture 6</span>
+            <br>
+            Getting Started with
+            Pandas
+          </h1>
+        </section>
 
-      <!-- Last time -->
-      <section data-markdown>
-        <textarea data-template>
+        <!-- Last time -->
+        <section data-markdown>
+          <textarea data-template>
           ## Last time
           1. NumPy
         </textarea>
-      </section>
+        </section>
 
-      <!-- Today -->
-      <section data-markdown>
-        <textarea data-template>
+        <!-- Today -->
+        <section data-markdown>
+          <textarea data-template>
           ## Today
           1. Overview
           2. Pandas Data Structures
           3. Essential Functionality
           4. Summarizing and Computing Descriptive Statistics
         </textarea>
+        </section>
       </section>
 
       <!-- Part 1: Pandas Overview -->
@@ -135,16 +137,25 @@ from pandas import Series, DataFrame
         <!-- Outline -->
         <section>
           <h2>Outline</h2>
-          <ul>
-            <li>Series</li>
-            <li>DataFrame</li>
-            <li>Index Objects</li>
-          </ul>
+          <ol style="list-style-type: decimal;">
+            <li>
+              Series
+              <a href="#section-series">&rarr;</a>
+            </li>
+            <li>
+              DataFrame
+              <a href="#section-dataframe">&rarr;</a>
+            </li>
+            <li>
+              Index Objects
+              <a href="#section-index-objects">&rarr;</a>
+            </li>
+          </ol>
         </section>
 
         <!-- Part 2.1: Data Structures — Series -->
         <!-- Title -->
-        <section>
+        <section id="section-series">
           <h1><span class="text-light">2.1.</span><br>Series</h1>
         </section>
 
@@ -485,7 +496,7 @@ dtype: int64
         </section>
 
         <!-- Part 2.2: Data Structures — DataFrame -->
-        <section>
+        <section id="section-dataframe">
           <h1><span class="text-light">2.2.</span><br>DataFrame</h1>
         </section>
 
@@ -909,7 +920,7 @@ year
 
         <!-- Part 2.3: Data Structures — Index Objects -->
         <!-- Title -->
-        <section>
+        <section id="section-index-objects">
           <h1><span class="text-light">2.3.</span><br>Index Objects</h1>
         </section>
 
@@ -1114,22 +1125,48 @@ Index(['foo', 'foo', 'bar', 'bar'], dtype='object')
         <!-- Outline -->
         <section>
           <h2>Outline</h2>
-          <ul>
-            <li><span class="keyword">Reindexing</span> (new labels / order)</li>
-            <li>Dropping entries (rows/cols)</li>
-            <li>Indexing, selection, filtering (<span class="inline-code">loc</span>, <span
-                class="inline-code">iloc</span>, boolean)</li>
-            <li>Arithmetic & <span class="keyword">alignment</span> (auto label-wise)</li>
-            <li>Function application & mapping (<span class="inline-code">apply</span>, <span
-                class="inline-code">map</span>)</li>
-            <li>Sorting & ranking</li>
-            <li>Axis indexes with <span class="keyword">duplicate labels</span></li>
-          </ul>
+          <ol>
+            <li><span>Reindexing</span>
+              <a href="#section-reindexing">
+                &rarr;
+              </a>
+            </li>
+            <li>Dropping entries (rows/cols)
+              <a href="#section-dropping-entries">
+                &rarr;
+              </a>
+            </li>
+            <li>Indexing, selection, filtering
+              <a href="#section-indexing-selection-filtering">
+                &rarr;
+              </a>
+            </li>
+            <li>Arithmetic & <span>alignment</span>
+              <a href="#section-arithmetic-data-alignment">
+                &rarr;
+              </a>
+            </li>
+            <li>Function application & mapping
+              <a href="#section-function-application-mapping">
+                &rarr;
+              </a>
+            </li>
+            <li>Sorting & ranking
+              <a href="#section-sorting-ranking">
+                &rarr;
+              </a>
+            </li>
+            <li>Axis indexes with <span>duplicate labels</span>
+              <a href="#section-duplicate-labels">
+                &rarr;
+              </a>
+            </li>
+          </ol>
         </section>
 
         <!-- Part 3.1: Reindexing -->
         <!-- Title -->
-        <section>
+        <section id="section-reindexing">
           <h1><span class="text-light">3.1.</span><br>Reindexing</h1>
         </section>
 
@@ -1334,7 +1371,7 @@ c           5      4</code></pre>
 
         <!-- Part 3.2: Dropping Entries from an Axis -->
         <!-- Title -->
-        <section>
+        <section id="section-dropping-entries">
           <h1><span class="text-light">3.2.</span><br>Dropping Entries from an Axis</h1>
         </section>
 
@@ -1467,7 +1504,7 @@ New York   12     14</code></pre>
 
         <!-- Part 3.3: Indexing, Selection, and Filtering -->
         <!-- Title -->
-        <section>
+        <section id="section-indexing-selection-filtering">
           <h1><span class="text-light">3.3.</span><br>Indexing, Selection, and Filtering</h1>
         </section>
 
@@ -2126,7 +2163,7 @@ data.loc[data.three == 5, "three"] = 6
         </section>
 
         <!-- 3.4. Arithmetic & Data Alignment -->
-        <section>
+        <section id="section-arithmetic-data-alignment">
           <h1>
             <span class="text-light">3.4.</span><br>
             Arithmetic &amp; <br>
@@ -2521,7 +2558,7 @@ Oregon -1.0  0.0  1.0
         </section>
 
         <!-- 3.5. Function Application & Mapping -->
-        <section>
+        <section id="section-function-application-mapping">
           <h1>
             <span class="text-light">3.5.</span><br>
             Function Application<br>&amp; Mapping
@@ -2671,7 +2708,7 @@ Name: e, dtype: object
         </section>
 
         <!-- 3.6. Sorting & Ranking -->
-        <section>
+        <section id="section-sorting-ranking">
           <h1>
             <span class="text-light">3.6.</span><br>
             Sorting &amp;<br>
@@ -3144,7 +3181,7 @@ Dan      4.0  4.0  4.0
         </section>
 
         <!-- 3.7. Axis Indexes with Duplicate Labels -->
-        <section>
+        <section id="section-duplicate-labels">
           <h1>
             <span class="text-light">3.7.</span><br>
             Axis Indexes with <br>Duplicate Labels
