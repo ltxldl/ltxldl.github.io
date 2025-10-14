@@ -15,6 +15,38 @@
   <link rel="stylesheet" href="plugin/highlight/zenburn.css">
 
   <link rel="stylesheet" href="lecture-style.css">
+
+  <!-- in <head> -->
+  <style>
+    .panda-sticker {
+      position: absolute;
+      bottom: -2rem;
+      right: 0rem;
+      width: clamp(96px, 12vw, 160px);
+      height: auto;
+      transform: rotate(-2deg);
+      /* filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .15)); */
+      /* opacity: .95; */
+      z-index: -5;
+      pointer-events: none;
+      /* never blocks clicks */
+    }
+
+    /* If you ever need a dark theme tweak, slightly lighten */
+    .reveal.has-dark-background .panda-sticker {
+      opacity: .9;
+    }
+
+    /* Stack on small screens so it doesn't crowd the title */
+    @media (max-width: 700px) {
+      .panda-sticker {
+        top: .75rem;
+        right: .75rem;
+        width: 22vw;
+      }
+    }
+  </style>
+
 </head>
 
 <body>
@@ -41,6 +73,8 @@
 
         <!-- Lecture title -->
         <section>
+          <img class="panda-sticker" src="img/lecture-06/panda-sticker.png" alt="Cute panda illustration"
+            loading="lazy">
           <h1>
             <span class="text-light">Lecture 6</span>
             <br>
