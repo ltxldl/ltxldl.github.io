@@ -192,7 +192,7 @@ from pandas import Series, DataFrame
         <!-- Part 2.1: Data Structures — Series -->
         <!-- Title -->
         <section id="section-series">
-          <h1><span class="text-light">2.1.</span><br>Series</h1>
+          <h1><span class="text-light">2.1.</span><br>Series ⭐</h1>
         </section>
 
         <!-- What is a Series -->
@@ -533,7 +533,7 @@ dtype: int64
 
         <!-- Part 2.2: Data Structures — DataFrame -->
         <section id="section-dataframe">
-          <h1><span class="text-light">2.2.</span><br>DataFrame</h1>
+          <h1><span class="text-light">2.2.</span><br>DataFrame ⭐</h1>
         </section>
 
         <section>
@@ -696,6 +696,7 @@ Name: 2, dtype: object</code></pre>
         <!-- Assign columns: scalar/array -->
         <section data-auto-animate>
           <h2>Assign Columns</h2>
+          <h4>From Scalars</h4>
           <p>Scalar fills column</p>
           <div class="jp-cell">
             <pre class="jp-input"><code class="language-python" data-trim>
@@ -714,6 +715,7 @@ frame2
 
         <section data-auto-animate>
           <h2>Assign Columns</h2>
+          <h4>From Arrays</h4>
           <p>Array must match length of DataFrame</p>
           <div class="jp-cell">
             <pre class="jp-input"><code class="language-python" data-trim>
@@ -732,10 +734,9 @@ frame2
 
         <!-- Assign columns: Series align -->
         <section data-auto-animate>
-          <h2>Assign Series (Aligns)</h2>
-          <ul>
-            <li>Aligns by <span class="keyword">index</span>; others → <span class="keyword">NaN</span></li>
-          </ul>
+          <h2>Assign Columns</h2>
+          <h4>From Series</h4>
+          <p>Aligns by <span class="keyword">index</span>; others → <span class="keyword">NaN</span></p>
           <div class="jp-cell">
             <pre class="jp-input"><code class="language-python" data-trim>
 val = pd.Series([-1.2, -1.5, -1.7], index=[2, 4, 5])
@@ -813,7 +814,10 @@ frame3
         <!-- Overriding Index -->
         <section data-auto-animate>
           <h2>Overriding Index</h2>
-          <p>Use <span class="inline-code">index=</span> to override inner keys</p>
+          <ul>
+            <li>Use <span class="inline-code">index=</span> to override inner keys</li>
+            <li>Missing values → <span class="keyword">NaN</span></li>
+          </ul>
 
           <div class="jp-cell">
             <pre class="jp-input"><code class="language-python" data-trim>
@@ -833,13 +837,16 @@ pd.DataFrame(populations, index=[2001, 2002, 2003])
 
           <div class="jp-cell">
             <pre class="jp-input"><code class="language-python" data-trim>
-pdata = {"Ohio": frame3["Ohio"][:-1],
-         "Nevada": frame3["Nevada"][:2]}
+pdata = {
+    "Ohio": frame3["Ohio"][:-1],
+    "Nevada": frame3["Nevada"][1:]
+}
 pd.DataFrame(pdata)
     </code></pre>
             <pre class="jp-output"><code class="language-text" data-trim>      Ohio  Nevada
 2000   1.5     NaN
-2001   1.7     2.4</code></pre>
+2001   1.7     2.4
+2002   3.6     2.9</code></pre>
           </div>
         </section>
 
@@ -913,7 +920,7 @@ Nevada   NaN   2.4   2.9</code></pre>
         <section>
           <h2>Names</h2>
 
-          <p>Use <span class="inline-code">.index.name</span> and <span class="inline-code">.columns.name</span> to set
+          <p>Use <span class="inline-code">.index.name</span>/<span class="inline-code">.columns.name</span> to set
             names</p>
 
           <div class="jp-cell">
@@ -928,6 +935,10 @@ year
 2001    1.7     2.4
 2002    3.6     2.9</code></pre>
           </div>
+
+          <p>
+            &rarr; Useful in multi-indexed DataFrames
+          </p>
         </section>
 
         <!-- To NumPy -->
@@ -1545,7 +1556,7 @@ New York   12     14</code></pre>
         <!-- Part 3.3: Indexing, Selection, and Filtering -->
         <!-- Title -->
         <section id="section-indexing-selection-filtering">
-          <h1><span class="text-light">3.3.</span><br>Indexing, Selection, and Filtering</h1>
+          <h1><span class="text-light">3.3.</span><br>Indexing, Selection, and Filtering ⭐</h1>
         </section>
 
         <!-- Series: construct & basic indexing -->
@@ -2130,7 +2141,7 @@ data.loc[data["four"] > 5] = 3
           <div class="jp-cell">
             <pre class="jp-input"><code class="language-python" data-trim>
 # Bad: chained assignment
-data.loc[data.three == 5]["three"] = 6
+data[data.three == 5]["three"] = 6
 </code></pre>
             <pre class="jp-output"><code class="language-text" data-trim>
 SettingWithCopyWarning:
@@ -2207,7 +2218,7 @@ data.loc[data.three == 5, "three"] = 6
           <h1>
             <span class="text-light">3.4.</span><br>
             Arithmetic &amp; <br>
-            Data Alignment
+            Data Alignment ⭐
           </h1>
         </section>
 
@@ -2280,8 +2291,8 @@ dtype: float64
         </section>
 
         <!-- DataFrame ⊕ DataFrame -->
-        <section style="font-size:0.8em;" data-auto-animate>
-          <h2>DataFrame + DataFrame: align on rows &amp; columns</h2>
+        <section style="font-size:1em;" data-auto-animate>
+          <h2>DF + DF: align on rows &amp; cols</h2>
           <div class="jp-cell">
             <pre class="jp-input"><code class="language-python" data-trim>
 df1 = pd.DataFrame(np.arange(9.).reshape(3,3),
@@ -2294,8 +2305,8 @@ df2 = pd.DataFrame(np.arange(12.).reshape(4,3),
           </div>
         </section>
 
-        <section style="font-size:0.8em;" data-auto-animate>
-          <h2>DataFrame + DataFrame: align on rows &amp; columns</h2>
+        <section style="font-size:0.9em;" data-auto-animate>
+          <h2>DF + DF: align on rows &amp; cols</h2>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
             <div class="jp-cell">
@@ -2320,7 +2331,7 @@ Oregon    9.0  10.0  11.0
             </div>
           </div>
 
-          <p class="footnote">Only overlapping (row, col) labels produce numbers; else
+          <p class="footnote">Only overlapping (row, col)'s produce numbers; else
             <span class="inline-code">NaN</span>.
           </p>
 
@@ -2601,7 +2612,7 @@ Oregon -1.0  0.0  1.0
         <section id="section-function-application-mapping">
           <h1>
             <span class="text-light">3.5.</span><br>
-            Function Application<br>&amp; Mapping
+            Function Application<br>&amp; Mapping ⭐
           </h1>
         </section>
 
@@ -2752,7 +2763,7 @@ Name: e, dtype: object
           <h1>
             <span class="text-light">3.6.</span><br>
             Sorting &amp;<br>
-            Ranking
+            Ranking ⭐
           </h1>
         </section>
 
@@ -2983,7 +2994,8 @@ dtype: int64
         </section>
 
         <section>
-          <h2>Leaderboard view (sort by score)</h2>
+          <h2>Leaderboard view</h2>
+          <h4>sort by score</h4>
           <p>Just sorting first helps see the order.</p>
 
           <div class="jp-cell">
@@ -3417,7 +3429,7 @@ df_grouped = df.groupby(level=0).mean(numeric_only=True)
         <section id="section-reductions">
           <h1>
             <span class="text-light">4.1.</span><br>
-            Reductions
+            Reductions ⭐
           </h1>
         </section>
 
@@ -3543,7 +3555,7 @@ dtype: float64
         <section id="section-indirect-stats">
           <h1>
             <span class="text-light">4.2.</span><br>
-            Indirect Statistics
+            Indirect Statistics ⭐
           </h1>
         </section>
 
