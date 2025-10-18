@@ -1,0 +1,3580 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Lecture 7: Data Loading, Storage, Cleaning, and Preparation</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="plugin/highlight/zenburn.css">
+
+  <link rel="stylesheet" href="lecture-style.css">
+
+  <!-- in <head> -->
+  <style>
+    .panda-sticker {
+      position: absolute;
+      bottom: -2rem;
+      right: 0rem;
+      width: clamp(96px, 12vw, 160px);
+      height: auto;
+      transform: rotate(-2deg);
+      /* filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .15)); */
+      /* opacity: .95; */
+      z-index: -5;
+      pointer-events: none;
+      /* never blocks clicks */
+    }
+
+    /* If you ever need a dark theme tweak, slightly lighten */
+    .reveal.has-dark-background .panda-sticker {
+      opacity: .9;
+    }
+
+    /* Stack on small screens so it doesn't crowd the title */
+    @media (max-width: 700px) {
+      .panda-sticker {
+        top: .75rem;
+        right: .75rem;
+        width: 22vw;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <!-- Title slide -->
+        <section>
+          <h1>Programming for Data Processing</h1>
+          <div>
+            <p>
+              <strong>Lectures:</strong> Nguyễn Tuấn Phong, Đào Việt Anh
+            </p>
+            <p>
+              <strong>Labs:</strong> Trịnh Ngọc Huỳnh, Phạm Tiến Du
+            </p>
+            <p>
+              <strong>Semester:</strong> 2025-2026-1
+            </p>
+            <p>Institute for AI, VNU-UET</p>
+          </div>
+        </section>
+
+        <!-- Lecture title -->
+        <section>
+          <img class="panda-sticker" src="img/lecture-06/panda-sticker.png" alt="Cute panda illustration"
+            loading="lazy">
+          <h1>
+            <span class="text-light">Lecture 7</span>
+            <br>
+            Advanced Topics in
+            Pandas
+          </h1>
+        </section>
+
+        <!-- Last time -->
+        <section data-markdown>
+          <textarea data-template>
+          ## Last time
+          1. Pandas Data Structures
+          1. Essential Functionality
+          1. Summarizing and Computing Descriptive Statistics
+        </textarea>
+        </section>
+
+        <!-- Today -->
+        <section data-markdown>
+          <textarea data-template>
+          ## Today
+          1. Data Loading and Storage
+          1. Data Cleaning and Preparation
+              + Handling Missing Data
+              + Data Transformation
+              + Extension Data Types
+              + String Manipulation
+              + Categorical Data
+        </textarea>
+        </section>
+      </section>
+
+      <section>
+        <!-- Part 1: Data Loading (Most Common Formats) -->
+
+        <!-- Title -->
+        <section id="section-data-loading-common-formats">
+          <h1><span class="text-light">1.</span><br>Data Loading and Storage</h1>
+        </section>
+
+        <!-- What you'll use most -->
+        <section>
+          <h2>What You'll Use Most</h2>
+          <ul>
+            <li><span>CSV/TSV</span> — delimited text tables</li>
+            <li><span>JSON</span> — web/APIs; can be nested</li>
+            <li><span>Excel (.xlsx)</span> — spreadsheets</li>
+          </ul>
+        </section>
+
+        <!-- CSV: basic -->
+        <section data-jp-reset style="font-size: 0.9em;">
+          <h2>CSV — The Workhorse</h2>
+          <p>Read delimited text into a <span class="inline-code">DataFrame</span></p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+!cat examples/ex1.csv
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>a,b,c
+1,2,3
+4,5,6</code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import pandas as pd
+pd.read_csv("examples/ex1.csv")
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>   a  b  c
+0  1  2  3
+1  4  5  6</code></pre>
+          </div>
+        </section>
+
+        <!-- CSV: header/index/usecols/dtype/parse_dates/na -->
+        <section style="font-size: 0.75em;">
+          <h2>CSV — Common Options</h2>
+          <ul>
+            <li><span class="inline-code">names=</span>/<span class="inline-code">header=</span> for column labels</li>
+            <li><span class="inline-code">index_col=</span> sets the row index</li>
+            <li><span class="inline-code">usecols=</span> selects columns early</li>
+            <li><span class="inline-code">dtype=</span>, <span class="inline-code">parse_dates=</span>, <span
+                class="inline-code">na_values=</span></li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+!cat examples/ex2.csv
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>id,date,val,extra
+1,2024-01-01,10,foo
+2,2024-01-02,NA,bar</code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+pd.read_csv(
+    "examples/ex2.csv", usecols=["id", "date", "val"], index_col="id",
+    parse_dates=["date"], dtype={"val": "Int64"}, na_values=["NA", "NULL"]
+)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>            date   val
+id                      
+1   2024-01-01    10
+2   2024-01-02   NaN</code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>CSV — Write to File</h2>
+          <p>Use <span class="inline-code">DataFrame.to_csv(..., index=False, na_rep="NULL")</span></p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+df = pd.DataFrame({"id": [1,  2], "val": [10,11]})
+df.to_csv("examples/out.csv", index=False, na_rep="NULL")
+    </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+!cat examples/out.csv
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>id,val
+1,10
+2,11</code></pre>
+          </div>
+        </section>
+
+        <!-- TSV: sep and writing -->
+        <section>
+          <h2>TSV — Tab Separated Values</h2>
+          <ul>
+            <li>Set <span class="inline-code">sep="\t"</span></li>
+            <li>Writing: <span class="inline-code">to_csv(..., sep="\t")</span></li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+!cat examples/data.tsv
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>id\tname
+1\tAlice
+2\tBob</code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+pd.read_csv("examples/data.tsv", sep="\t")
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>   id   name
+0   1  Alice
+1   2    Bob</code></pre>
+          </div>
+        </section>
+
+        <!-- CSV: scale tips (sample & skip) -->
+        <section style="font-size: 0.8em;" data-auto-animate>
+          <h2>CSV — Scale Tips</h2>
+          <ul>
+            <li>Quick sample with <span class="inline-code">nrows=</span></li>
+            <li>Thin data with <span class="inline-code">skiprows=</span></li>
+          </ul>
+
+          <!-- Peek at the file first -->
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+!cat examples/ex1.csv
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>a,b,c,d,message
+1,2,3,4,hello
+5,6,7,8,world
+9,10,11,12,foo</code></pre>
+          </div>
+
+          <!-- Quick sample with nrows -->
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+pd.read_csv("examples/ex1.csv", nrows=2)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>   a  b  c  d message
+0  1  2  3  4   hello
+1  5  6  7  8   world</code></pre>
+          </div>
+
+          <!-- Skip rows to thin data -->
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+# Skip the first data row (header kept)
+pd.read_csv("examples/ex1.csv", skiprows=[1])
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>   a   b   c   d message
+0  5   6   7   8   world
+1  9  10  11  12     foo</code></pre>
+          </div>
+        </section>
+
+        <!-- CSV: scale tips (iterate with chunksize) -->
+        <section style="font-size: 0.8em;" data-auto-animate>
+          <h2>CSV — Scale Tips</h2>
+          <ul>
+            <li>Use <span class="inline-code">chunksize=</span> to iterate</li>
+            <li>Stream large files in pieces; constant memory</li>
+            <li>Aggregate per chunk, then combine</li>
+          </ul>
+
+          <!-- Stream & aggregate -->
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+total = 0
+for i, chunk in enumerate(pd.read_csv("examples/ex1.csv", chunksize=2), start=1):
+    print(f"chunk {i} shape:", tuple(chunk.shape))
+    total += chunk["a"].sum()
+total
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>chunk 1 shape: (2, 5)
+chunk 2 shape: (1, 5)
+15</code></pre>
+          </div>
+        </section>
+
+        <!-- JSON: records -->
+        <section style="font-size: 0.9em;">
+          <h2>JSON — Records</h2>
+          <p>Arrays of objects map cleanly to rows</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+!cat examples/records.json
+    </code></pre>
+            <pre
+              class="jp-output"><code class="language-text" data-trim>[{"id":1,"name":"Alice"},{"id":2,"name":"Bob"}]</code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+pd.read_json("examples/records.json")
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>   id   name
+0   1  Alice
+1   2    Bob</code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+df = pd.DataFrame([{"id":1,"name":"Alice"},{"id":2,"name":"Bob"}])
+df.to_json("examples/out.json", orient="records")
+!cat examples/out.json</code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+[{"id":1,"name":"Alice"},{"id":2,"name":"Bob"}]</code></pre>
+          </div>
+        </section>
+
+        <!-- JSON: nested -> flat -->
+        <section style="font-size: 0.9em;">
+          <h2>JSON — Nested → Flat</h2>
+          <p>Normalize nested structures with <span class="inline-code">pd.json_normalize</span></p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+!cat examples/nested.json
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>{"items":[
+  {"id": 1, "user": {"name": "Alice", "age": 30}},
+  {"id": 2, "user": {"name": "Bob", "age": 25}}
+]}</code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import json
+with open("examples/nested.json", "r") as f:
+    obj = json.load(f)
+pd.json_normalize(obj["items"])
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+    id user.name  user.age
+0    1     Alice        30
+1    2       Bob        25</code></pre>
+          </div>
+        </section>
+
+        <!-- Excel (1/2): Read -->
+        <section style="font-size: 0.75em;" data-auto-animate>
+          <h2>Excel: Reading</h2>
+          <ul>
+            <li>Use <span class="inline-code">ExcelFile</span> to inspect sheet names before reading</li>
+            <li>Install dependencies: <span class="inline-code">conda install openpyxl xlrd</span></li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+xlsx = pd.ExcelFile("examples/ex1.xlsx")
+xlsx.sheet_names
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>['Sheet1']</code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+# Read a sheet
+xlsx.parse(sheet_name="Sheet1")
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>   Unnamed: 0  a   b   c   d message
+0           0  1   2   3   4   hello
+1           1  5   6   7   8   world
+2           2  9  10  11  12     foo</code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+# With an index column
+xlsx.parse(sheet_name="Sheet1", index_col=0)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>   a   b   c   d message
+0  1   2   3   4   hello
+1  5   6   7   8   world
+2  9  10  11  12     foo</code></pre>
+          </div>
+        </section>
+        <section style="font-size: 0.75em;" data-auto-animate>
+          <h2>Excel: Reading</h2>
+          <ul>
+            <li>Use <span class="inline-code">pd.read_excel</span> for convenience</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+# Convenience reader
+frame = pd.read_excel("examples/ex1.xlsx", sheet_name="Sheet1")
+frame
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>   Unnamed: 0  a   b   c   d message
+0           0  1   2   3   4   hello
+1           1  5   6   7   8   world
+2           2  9  10  11  12     foo</code></pre>
+          </div>
+
+        </section>
+
+        <!-- Excel (2/2): read_excel & Write -->
+        <section style="font-size: 0.9em;">
+          <h2>Excel: Writing</h2>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+# Writer API (explicit)
+writer = pd.ExcelWriter("examples/ex2.xlsx")
+frame.to_excel(writer, "Sheet1")
+writer.close()
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+# One-liner (implicit writer)
+frame.to_excel("examples/ex2.xlsx")
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Common args summary -->
+        <section style="font-size: 0.6em;">
+          <h2>Common Arguments</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Argument</th>
+                <th>Used In</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">header</span> / <span class="inline-code">names</span></td>
+                <td>CSV, Excel</td>
+                <td>Row to use as header or explicit list of names.</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">index_col</span></td>
+                <td>CSV, Excel</td>
+                <td>Column(s) to set as row index.</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">usecols</span></td>
+                <td>CSV, Excel</td>
+                <td>Select a subset of columns at read time.</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">dtype</span></td>
+                <td>CSV, Excel</td>
+                <td>Force or preserve data types.</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">parse_dates</span></td>
+                <td>CSV</td>
+                <td>Parse date-like strings into datetime.</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">na_values</span></td>
+                <td>CSV</td>
+                <td>Custom strings to treat as <span class="keyword">NaN</span>.</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">chunksize</span> / <span class="inline-code">nrows</span></td>
+                <td>CSV</td>
+                <td>Iterate or sample large inputs.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- When to use what -->
+        <section style="font-size: 0.7em;">
+          <h2>Pick the Right Format</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Format</th>
+                <th>Pros</th>
+                <th>Cons</th>
+                <th>Typical Use</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span>CSV/TSV</span></td>
+                <td>Human-readable, ubiquitous</td>
+                <td>No types; big files are slow</td>
+                <td>Interchange, quick inspection</td>
+              </tr>
+              <tr>
+                <td><span>JSON</span></td>
+                <td>Flexible, web-native</td>
+                <td>Nesting; need normalize</td>
+                <td>APIs, logs, config</td>
+              </tr>
+              <tr>
+                <td><span>Excel</span></td>
+                <td>Multiple sheets; stakeholders</td>
+                <td>Heavier, slower; binary</td>
+                <td>Business reporting</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h2>Other Formats</h2>
+          <p>
+            There are many more formats Pandas can read and write.
+            Please refer to the <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/io.html">IO
+              documentation</a> for details.
+          </p>
+        </section>
+
+      </section>
+
+      <!-- Part 2: Data Cleaning and Preparation -->
+      <section>
+        <section id="section-data-cleaning-preparation">
+          <h1><span class="text-light">2.</span><br>Data Cleaning and Preparation</h1>
+        </section>
+
+        <!-- Why Cleaning Matters -->
+        <section>
+          <h2>Why Cleaning Matters</h2>
+          <ul>
+            <li>Most time goes to <span class="keyword">preparation</span>: load → clean → transform → rearrange</li>
+            <li>Raw formats rarely fit the task → need <span class="keyword">reshaping</span> & <span
+                class="keyword">type</span> fixes</li>
+            <li><span class="keyword">pandas</span> + Python make data <em>analysis-ready</em></li>
+          </ul>
+        </section>
+
+        <!-- What We Cover -->
+        <section>
+          <h2>What We Cover</h2>
+          <ul>
+            <li><span class="keyword">Missing data</span>: detect, drop, impute</li>
+            <li><span class="keyword">Duplicates</span>: find, remove</li>
+            <li><span class="keyword">Strings</span>: trim, case, replace</li>
+            <li><span class="keyword">Types &amp; transforms</span>: <span class="inline-code">to_datetime</span>, <span
+                class="inline-code">astype</span>, mapping</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <!-- 2.1. Handling Missing Data -->
+        <section data-jp-reset>
+          <h1>
+            <span class="text-light">2.1.</span><br>
+            Handling Missing Data
+          </h1>
+        </section>
+
+        <section>
+          <h2>Overview</h2>
+          <ul>
+            <li>Missing values are common</li>
+            <li>We call missing values <span class="keyword">NA</span> (<em>not available</em>)</li>
+            <li>Many stats <span class="keyword">exclude NA</span> by default</li>
+            <li><span class="inline-code">float64</span> uses <span class="inline-code">NaN</span> as a <span
+                class="keyword">sentinel</span></li>
+            <li>Detect with <span class="inline-code">isna</span> / <span class="inline-code">notna</span> (or <span
+                class="inline-code">pandas.isna</span>)</li>
+          </ul>
+        </section>
+
+        <!-- NaN as Sentinel -->
+        <section>
+          <h2>NaN as Sentinel</h2>
+          <p><span class="inline-code">NaN</span> marks missing values in <span class="inline-code">float64</span>
+          </p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+float_data = pd.Series([1.2, -3.5, np.nan, 0])
+float_data
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    1.2
+1   -3.5
+2    NaN
+3    0.0
+dtype: float64
+    </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+float_data.isna()
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    False
+1    False
+2     True
+3    False
+dtype: bool
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- None is also NA -->
+        <section data-auto-animate>
+          <h2>None is Also NA</h2>
+          <p><span class="inline-code">None</span> is treated as <span class="keyword">NA</span> (Not Available) in
+            pandas</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+string_data = pd.Series(["aardvark", np.nan, None, "avocado"])
+string_data
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    aardvark
+1         NaN
+2        None
+3     avocado
+dtype: object
+    </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+string_data.isna()
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    False
+1     True
+2     True
+3    False
+dtype: bool
+    </code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>None is Also NA</h2>
+          <p><span class="inline-code">None</span> is treated as <span class="keyword">NA</span> (Not Available) in
+            pandas</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+float_data = pd.Series([1, 2, None], dtype='float64')
+float_data
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    1.0
+1    2.0
+2    NaN
+dtype: float64
+    </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+float_data.isna()
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    False
+1    False
+2     True
+dtype: bool
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h1>
+            <span class="text-light">2.1.1.</span><br>
+            Filtering Out Missing Data
+          </h1>
+        </section>
+
+        <!-- Filter Out Missing: Series -->
+        <section>
+          <h2>Series</h2>
+          <p>Use <span class="inline-code">dropna()</span> or Boolean index with <span
+              class="inline-code">notna()</span></p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data = pd.Series([1, np.nan, 3.5, np.nan, 7])
+data.dropna()
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    1.0
+2    3.5
+4    7.0
+dtype: float64
+    </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data[data.notna()]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    1.0
+2    3.5
+4    7.0
+dtype: float64
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Filter Out Missing: DataFrame -->
+        <section>
+          <h2>DataFrame</h2>
+          <p><span class="inline-code">dropna()</span> drops rows with <span class="keyword">any</span> NA by default
+          </p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data = pd.DataFrame([[1., 6.5, 3.],
+                     [1., np.nan, np.nan],
+                     [np.nan, np.nan, np.nan],
+                     [np.nan, 6.5, 3.]])
+data
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+     0    1    2
+0  1.0  6.5  3.0
+1  1.0  NaN  NaN
+2  NaN  NaN  NaN
+3  NaN  6.5  3.0
+    </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data.dropna()
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+     0    1    2
+0  1.0  6.5  3.0
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Drop All-NA Rows / All-NA Columns -->
+        <section>
+          <h2>All-NA Rows </h2>
+          <p>Only drop rows of all NA: <span class="inline-code">dropna(how="all")</span></p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data.dropna(how="all")
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+     0    1    2
+0  1.0  6.5  3.0
+1  1.0  NaN  NaN
+3  NaN  6.5  3.0
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>All-NA Columns</h2>
+          <p>Use <span class="inline-code">axis="columns"</span></p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data[4] = np.nan
+data
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+     0    1    2   4
+0  1.0  6.5  3.0 NaN
+1  1.0  NaN  NaN NaN
+2  NaN  NaN  NaN NaN
+3  NaN  6.5  3.0 NaN
+    </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data.dropna(axis="columns", how="all")
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+     0    1    2
+0  1.0  6.5  3.0
+1  1.0  NaN  NaN
+2  NaN  NaN  NaN
+3  NaN  6.5  3.0
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Keep Rows with At Least N Non-NA -->
+        <section style="font-size: 0.75em;">
+          <h2>Keep Rows with ≥ N Non-NA</h2>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+df = pd.DataFrame(np.random.standard_normal((7, 3)))
+df.iloc[:4, 1] = np.nan
+df.iloc[:2, 2] = np.nan
+df
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+          0         1         2
+0 -0.204708       NaN       NaN
+1 -0.555730       NaN       NaN
+2  0.092908       NaN  0.769023
+3  1.246435       NaN -1.296221
+4  0.274992  0.228913  1.352917
+5  0.886429 -2.001637 -0.371843
+6  1.669025 -0.438570 -0.539741
+    </code></pre>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em;">
+            <div class="jp-cell">
+              <pre class="jp-input"><code class="language-python" data-trim>
+df.dropna()
+    </code></pre>
+              <pre class="jp-output"><code class="language-text" data-trim>
+          0         1         2
+4  0.274992  0.228913  1.352917
+5  0.886429 -2.001637 -0.371843
+6  1.669025 -0.438570 -0.539741
+    </code></pre>
+            </div>
+            <div class="jp-cell">
+              <pre class="jp-input"><code class="language-python" data-trim>
+df.dropna(thresh=2)
+    </code></pre>
+              <pre class="jp-output"><code class="language-text" data-trim>
+          0         1         2
+2  0.092908       NaN  0.769023
+3  1.246435       NaN -1.296221
+4  0.274992  0.228913  1.352917
+5  0.886429 -2.001637 -0.371843
+6  1.669025 -0.438570 -0.539741
+    </code></pre>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h1>
+            <span class="text-light">2.1.2.</span><br>
+            Filling In Missing Data
+          </h1>
+        </section>
+
+        <!-- Fill Missing Values -->
+        <section data-auto-animate>
+          <h2>Fill Missing Values</h2>
+          <p>Constant fill: <span class="inline-code">fillna(0)</span></p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+df.fillna(0)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+          0         1         2
+0 -0.204708  0.000000  0.000000
+1 -0.555730  0.000000  0.000000
+2  0.092908  0.000000  0.769023
+3  1.246435  0.000000 -1.296221
+4  0.274992  0.228913  1.352917
+5  0.886429 -2.001637 -0.371843
+6  1.669025 -0.438570 -0.539741
+    </code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Fill Missing Values</h2>
+          <p>Per-column fill: <span class="inline-code">fillna({col: value})</span></p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+df.fillna({1: 0.5, 2: 0})
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+          0         1         2
+0 -0.204708  0.500000  0.000000
+1 -0.555730  0.500000  0.000000
+2  0.092908  0.500000  0.769023
+3  1.246435  0.500000 -1.296221
+4  0.274992  0.228913  1.352917
+5  0.886429 -2.001637 -0.371843
+6  1.669025 -0.438570 -0.539741
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Fill by Propagation -->
+        <section data-auto-animate style="font-size: 0.75em;">
+          <h2>Fill by Propagation</h2>
+          <p>Forward/backward fill: <span class="inline-code">method="ffill"</span> / <span
+              class="inline-code">"bfill"</span></p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+df = pd.DataFrame(np.random.standard_normal((6, 3)))
+df.iloc[2:, 1] = np.nan
+df.iloc[4:, 2] = np.nan
+</code></pre>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em;">
+            <div class="jp-cell">
+              <pre class="jp-input"><code class="language-python" data-trim>
+df
+    </code></pre>
+              <pre class="jp-output"><code class="language-text" data-trim>
+          0         1         2
+0  0.476985  3.248944 -1.021228
+1 -0.577087  0.124121  0.302614
+2  0.523772       NaN  1.343810
+3 -0.713544       NaN -2.370232
+4 -1.860761       NaN       NaN
+5 -1.265934       NaN       NaN
+    </code></pre>
+            </div>
+            <div class="jp-cell">
+              <pre class="jp-input"><code class="language-python" data-trim>
+df.fillna(method="ffill")
+    </code></pre>
+              <pre class="jp-output"><code class="language-text" data-trim>
+          0         1         2
+0  0.476985  3.248944 -1.021228
+1 -0.577087  0.124121  0.302614
+2  0.523772  0.124121  1.343810
+3 -0.713544  0.124121 -2.370232
+4 -1.860761  0.124121 -2.370232
+5 -1.265934  0.124121 -2.370232
+    </code></pre>
+            </div>
+          </div>
+        </section>
+
+        <section data-auto-animate style="font-size: 0.75em;">
+          <h2>Fill by Propagation</h2>
+          <p>Limit runs with <span class="inline-code">limit=</span></p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+df.fillna(method="ffill", limit=2)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+          0         1         2
+0  0.476985  3.248944 -1.021228
+1 -0.577087  0.124121  0.302614
+2  0.523772  0.124121  1.343810
+3 -0.713544  0.124121 -2.370232
+4 -1.860761       NaN -2.370232
+5 -1.265934       NaN -2.370232
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Simple Imputation -->
+        <section>
+          <h2>Simple Imputation</h2>
+          <p>Can use statistics like <span class="inline-code">mean</span> / <span class="inline-code">median</span>
+            for filling
+          </p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data = pd.Series([1., np.nan, 3.5, np.nan, 7])
+data.fillna(data.mean())
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    1.000000
+1    3.833333
+2    3.500000
+3    3.833333
+4    7.000000
+dtype: float64
+    </code></pre>
+          </div>
+        </section>
+      </section>
+
+      <!-- 2.2 Data Transformation -->
+      <section>
+        <section data-jp-reset>
+          <h1><span class="text-light">2.2.</span><br>Data Transformation</h1>
+        </section>
+
+        <!-- Overview -->
+        <section>
+          <h2>Overview</h2>
+          <ul>
+            <li>Beyond <span class="keyword">missing values</span> → clean & reshape data</li>
+            <li>Topics:
+              <ul>
+                <li><span class="keyword">Remove duplicates</span></li>
+                <li><span class="keyword">Map / transform</span> values</li>
+                <li><span class="keyword">Replace</span> codes</li>
+                <li><span class="keyword">Rename</span> labels</li>
+                <li><span class="keyword">Bin</span> continuous data</li>
+                <li><span class="keyword">Handle outliers</span> & <span class="keyword">sample</span> randomly</li>
+                <li>Create <span class="keyword">dummy variables</span></li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Removing Duplicates -->
+        <section>
+          <h1>
+            <span class="text-light">2.2.1.</span><br>
+            Removing Duplicates
+          </h1>
+        </section>
+
+        <section>
+          <h2>Overview</h2>
+          <ul>
+            <li>Detect dupes: <span class="inline-code">duplicated()</span></li>
+            <li>Drop dupes: <span class="inline-code">drop_duplicates()</span></li>
+            <li>Default uses <span class="keyword">all columns</span> and keeps the <span class="keyword">first</span>
+              occurrence</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Creating dummy dataframe</h2>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data = pd.DataFrame({
+    "k1": ["one", "two"] * 3 + ["two"],
+    "k2": [1, 1, 2, 3, 3, 4, 4]
+})
+data
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+    k1  k2
+0  one   1
+1  two   1
+2  one   2
+3  two   3
+4  one   3
+5  two   4
+6  two   4
+</code></pre>
+          </div>
+        </section>
+
+        <!-- Removing Duplicates: Basics -->
+        <section>
+          <h2>Detecting Duplicates</h2>
+          <ul>
+            <li>Detect dup rows with <span class="inline-code">.duplicated()</span></li>
+            <li>Default uses <span class="keyword">all columns</span></li>
+          </ul>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em;">
+            <div class="jp-cell">
+              <pre class="jp-input"><code class="language-python" data-trim>
+data
+    </code></pre>
+              <pre class="jp-output"><code class="language-text" data-trim>
+    k1  k2
+0  one   1
+1  two   1
+2  one   2
+3  two   3
+4  one   3
+5  two   4
+6  two   4
+</code></pre>
+            </div>
+            <div class="jp-cell">
+              <pre class="jp-input"><code class="language-python" data-trim>
+data.duplicated()
+    </code></pre>
+              <pre class="jp-output"><code class="language-text" data-trim>
+0    False
+1    False
+2    False
+3    False
+4    False
+5    False
+6     True
+dtype: bool
+    </code></pre>
+            </div>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Removing Duplicates</h2>
+          <h4>Basics</h4>
+          <ul>
+            <li>Drop dup rows with <span class="inline-code">.drop_duplicates()</span></li>
+            <li>Default keeps the <span class="keyword">first</span>
+              occurrence</li>
+          </ul>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em;">
+            <div class="jp-cell">
+              <pre class="jp-input"><code class="language-python" data-trim>
+data
+    </code></pre>
+              <pre class="jp-output"><code class="language-text" data-trim>
+    k1  k2
+0  one   1
+1  two   1
+2  one   2
+3  two   3
+4  one   3
+5  two   4
+6  two   4
+</code></pre>
+            </div>
+            <div class="jp-cell">
+              <pre class="jp-input"><code class="language-python" data-trim>
+data.drop_duplicates()
+    </code></pre>
+              <pre class="jp-output"><code class="language-text" data-trim>
+   k1   k2
+0  one   1
+1  two   1
+2  one   2
+3  two   3
+4  one   3
+5  two   4
+    </code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Removing Duplicates: Subset -->
+        <section data-auto-animate>
+          <h2>Removing Duplicates</h2>
+          <h4>Subset</h4>
+          <p>Use <span class="inline-code">subset=[...]</span> to check
+            <span class="keyword">only specific columns</span>
+          </p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data["v1"] = range(7)
+data.drop_duplicates(subset=["k1"])
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+    k1  k2  v1
+0  one   1   0
+1  two   1   1
+    </code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Removing Duplicates</h2>
+          <h4>Keep</h4>
+          <p>Control <span class="keyword">which duplicate to keep</span> via <span
+              class="inline-code">keep="first"</span> (default) or <span class="inline-code">keep="last"</span></p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data.drop_duplicates(["k1", "k2"], keep="last")
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+    k1  k2  v1
+0  one   1   0
+1  two   1   1
+2  one   2   2
+3  two   3   3
+4  one   3   4
+6  two   4   6
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h1>
+            <span class="text-light">2.2.2.</span><br>
+            Transforming Data
+          </h1>
+        </section>
+
+        <!-- Transforming with map: Dict -->
+        <section data-jp-reset>
+          <h2>Overview</h2>
+          <ul>
+            <li><span class="inline-code">Series.map()</span> applies a <span class="keyword">function</span> or <span
+                class="keyword">mapping</span> to elements</li>
+            <li>Great for <span class="keyword">feature engineering</span> / adding derived columns</li>
+          </ul>
+        </section>
+
+        <section data-auto-animate style="font-size: 0.72em;">
+          <h2>Transforming Values</h2>
+          <h4>with dict</h4>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data = pd.DataFrame({
+    "food": ["bacon","pulled pork","bacon","pastrami","corned beef",
+             "bacon","pastrami","honey ham","nova lox"],
+    "ounces": [4,3,12,6,7.5,8,3,5,6]
+})
+meat_to_animal = {
+    "bacon": "pig",
+    "pulled pork": "pig",
+    "pastrami": "cow",
+    "corned beef": "cow",
+    "honey ham": "pig",
+    "nova lox": "salmon"
+}
+data["animal"] = data["food"].map(meat_to_animal)
+data
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+          food  ounces  animal
+0        bacon     4.0     pig
+1  pulled pork     3.0     pig
+2        bacon    12.0     pig
+3     pastrami     6.0     cow
+4  corned beef     7.5     cow
+5        bacon     8.0     pig
+6     pastrami     3.0     cow
+7    honey ham     5.0     pig
+8     nova lox     6.0  salmon
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Transforming with map: Function -->
+        <section data-auto-animate style="font-size: 0.72em;">
+          <h2>Transforming Values</h2>
+          <h4>with function</h4>
+          <ul>
+            <li>Pass a custom <span class="keyword">callable</span> for flexible logic</li>
+            <li>Equivalent result to dict mapping above</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+def get_animal(x):
+    return meat_to_animal[x]
+
+data["food"].map(get_animal)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0       pig
+1       pig
+2       pig
+3       cow
+4       cow
+5       pig
+6       cow
+7       pig
+8    salmon
+Name: food, dtype: object
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h1>
+            <span class="text-light">2.2.3.</span><br>
+            Replacing Values
+          </h1>
+        </section>
+
+        <!-- Replacing Values: Basics -->
+        <section>
+          <h2>Replacing Values</h2>
+          <ul>
+            <li>General-purpose replacement with <span class="inline-code">.replace</span></li>
+            <li>Use it for <span class="keyword">sentinel</span> values → <span class="inline-code">NaN</span> or other
+              codes</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data = pd.Series([1., -999., 2., -999., -1000., 3.])
+data.replace(-999, np.nan) # -999 likely a sentinel value
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0       1.0
+1       NaN
+2       2.0
+3       NaN
+4   -1000.0
+5       3.0
+dtype: float64
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Replacing Values: Multiple & dict -->
+        <section data-auto-animate>
+          <h2>Replacing Multiple Values</h2>
+          <p>Replace many-to-one: pass a <span class="inline-code">list</span> of targets</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data.replace([-999, -1000], np.nan)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    1.0
+1    NaN
+2    2.0
+3    NaN
+4    NaN
+5    3.0
+dtype: float64
+    </code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Replacing Multiple Values</h2>
+          <p>Replace many-to-many: pass <span class="inline-code">lists</span> or a <span
+              class="inline-code">dict</span></p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data.replace({-999: np.nan, -1000: 0})
+# same as: data.replace([-999, -1000], [np.nan, 0])
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    1.0
+1    NaN
+2    2.0
+3    NaN
+4    0.0
+5    3.0
+dtype: float64
+    </code></pre>
+          </div>
+          <p><strong>Note</strong>: <span class="inline-code">Series.str.replace</span> is for <span
+              class="keyword">string</span> substitution (different API)</p>
+        </section>
+
+        <section>
+          <h1>
+            <span class="text-light">2.2.4.</span><br>
+            Renaming Axis Indexes
+          </h1>
+        </section>
+
+        <!-- Renaming Axis Indexes -->
+        <section>
+          <h2>Transform labels</h2>
+          <p>
+            Use <span class="inline-code">.map()</span> with index / columns to modify labels
+          </p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data = pd.DataFrame(
+    np.arange(12).reshape((3, 4)),
+    index=["Ohio", "Colorado", "New York"],
+    columns=["one", "two", "three", "four"]
+)
+
+def transform(x):
+    return x[:4].upper()
+
+data.index.map(transform)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+Index(['OHIO', 'COLO', 'NEW '], dtype='object')
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Modify in place</h2>
+
+          <p>
+            Assign back to <span class="inline-code">.index</span> or <span class="inline-code">.columns</span>
+          </p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data.index = data.index.map(transform)
+data
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+      one  two  three  four
+OHIO    0    1      2     3
+COLO    4    5      6     7
+NEW     8    9     10    11
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Copy data then modify</h2>
+
+          <p>
+            Use <span class="inline-code">.rename()</span> to create a modified copy of the dataframe
+          </p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data.rename(index=str.title, columns=str.upper)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+      ONE  TWO  THREE  FOUR
+Ohio    0    1      2     3
+Colo    4    5      6     7
+New     8    9     10    11
+    </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data.rename(index={"OHIO": "INDIANA"}, 
+            columns={"three": "peekaboo"})
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+         one  two  peekaboo  four
+INDIANA    0    1         2     3
+COLO       4    5         6     7
+NEW        8    9        10    11
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Discretization and Binning -->
+        <section data-jp-reset>
+          <h1>
+            <span class="text-light">2.2.5.</span><br>
+            Discretization &amp; Binning
+          </h1>
+        </section>
+
+        <section>
+          <h2>Overview</h2>
+          <ul>
+            <li><strong>Goal:</strong> Bin continuous data.</li>
+            <li><strong>Why:</strong> Simpler analysis (histograms, features).</li>
+            <li><strong>Tools:</strong>
+              <ul>
+                <li><span class="inline-code">pd.cut</span> = fixed edges</li>
+                <li><span class="inline-code">pd.qcut</span> = quantiles (equal counts)</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Example: Make age bins -->
+        <section style="font-size: 0.9em;">
+          <h2>Example: Bin Ages</h2>
+          <ul>
+            <li>Goal: group ages into buckets (18–25, 26–35, 36–60, 61+)</li>
+            <li><span class="inline-code">pd.cut</span> assigns each value to an interval</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+ages = [20, 22, 25, 27, 21, 23, 37, 31, 61, 45, 41, 32]
+bins = [18, 25, 35, 60, 100]
+age_categories = pd.cut(ages, bins)
+age_categories
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+[(18, 25], (18, 25], (18, 25], (25, 35], (18, 25], (18, 25], (35, 60],
+(25, 35], (60, 100], (35, 60], (35, 60], (25, 35]]
+Categories (4, interval[int64, right]): [(18, 25] &lt; (25, 35] &lt; (35, 60] &lt; (60, 100]]
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Categorical result -->
+        <section style="font-size: 0.9em;">
+          <h2>What <span class="inline-code">pd.cut</span> Returns</h2>
+          <ul>
+            <li>A <span class="inline-code">Categorical</span> array with <span class="inline-code">Interval</span>
+              labels</li>
+            <li>Use <span class="inline-code">.codes</span> for bin indices and <span
+                class="inline-code">.categories</span> for interval metadata</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+age_categories.codes
+</code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+array([0, 0, 0, 1, 0, 0, 2, 1, 3, 2, 2, 1], dtype=int8)
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+age_categories.categories
+</code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+IntervalIndex([(18, 25], (25, 35], (35, 60], (60, 100]], dtype='interval[int64, right]')
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+age_categories.categories[0]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+Interval(18, 25, closed='right')
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Bin counts -->
+        <section style="font-size: 0.9em;">
+          <h2>Bin Counts</h2>
+          <p><span class="inline-code">Categorical.value_counts</span> gives bin frequencies</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+age_categories.value_counts()
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+(18, 25]      5
+(25, 35]      3
+(35, 60]      3
+(60, 100]     1
+Name: count, dtype: int64
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Open vs Closed intervals -->
+        <section style="font-size: 0.9em;">
+          <h2>Open vs Closed Intervals</h2>
+          <ul>
+            <li><span class="inline-code">(a, b]</span>: left <span class="keyword">open</span> (exclusive), right <span
+                class="keyword">closed</span> (inclusive)</li>
+            <li>Set <span class="inline-code">right=False</span> for <span class="inline-code">[a, b)</span>
+              (left-closed, right-open)</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+pd.cut(ages, bins, right=False)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+[[18, 25), [18, 25), [25, 35), [25, 35), [18, 25), [18, 25), [35, 60),
+[25, 35), [60, 100), [35, 60), [35, 60), [25, 35)]
+Categories (4, interval[int64, left]): [[18, 25) < [25, 35) < [35, 60) < [60, 100)]
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Custom labels -->
+        <section>
+          <h2>Custom Bin Labels</h2>
+          <p>Use <span class="inline-code">labels=...</span> to name intervals</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+group_names = ["Youth", "YoungAdult", "MiddleAged", "Senior"]
+pd.cut(ages, bins, labels=group_names)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+['Youth', 'Youth', 'Youth', 'YoungAdult', 'Youth', 'Youth', 'MiddleAged',
+'YoungAdult', 'Senior', 'MiddleAged', 'MiddleAged', 'YoungAdult']
+Categories (4, object): ['Youth' < 'YoungAdult' < 'MiddleAged' < 'Senior']
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Equal-width bins by count -->
+        <section>
+          <h2>Equal-Width Bins by Count</h2>
+          <ul>
+            <li>Pass an <span class="inline-code">int</span> to <span class="inline-code">pd.cut(data, k)</span> for
+              <span class="keyword">k equal-width</span> bins
+            </li>
+            <li>Use <span class="inline-code">precision</span> to limit decimal digits in labels</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data = np.random.uniform(size=20)
+pd.cut(data, 4, precision=2)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+[(0.12, 0.34], (0.34, 0.55], ..., (0.76, 0.97]]
+Categories (4, interval[float64, right]): [(0.12, 0.34] < (0.34, 0.55] < (0.55, 0.76] < (0.76, 0.97]]
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Quantile-based bins with qcut -->
+        <section style="font-size: 0.85em;">
+          <h2>Quantile Bins</h2>
+          <ul>
+            <li>Splits by <span class="keyword">sample quantiles</span> → roughly equal counts per bin</li>
+            <li>Great for balancing groups (e.g., quartiles, deciles)</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data = np.random.standard_normal(1000)
+quartiles = pd.qcut(data, 4, precision=2)
+quartiles
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+[(-2.96, -0.68], (-0.68, -0.026], (-0.026, 0.62], (0.62, 3.93], ...]
+Categories (4, interval[float64, right]): [(-2.96, -0.68] < (-0.68, -0.026] < (-0.026, 0.62] < (0.62, 3.93]]
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+quartiles.value_counts()
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+(-2.96, -0.68]     250
+(-0.68, -0.026]    250
+(-0.026, 0.62]     250
+(0.62, 3.93]       250
+Name: count, dtype: int64
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Custom quantile cuts -->
+        <section>
+          <h2>Custom Quantiles</h2>
+          <ul>
+            <li>Provide explicit probabilities in <span class="inline-code">[0, 1]</span></li>
+            <li>Example: 10%, 50%, 90% breakpoints</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+pd.qcut(data, [0, 0.1, 0.5, 0.9, 1.0]).value_counts()
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+(-2.95, -1.187]     100
+(-1.187, -0.0265]   400
+(-0.0265, 1.286]    400
+(1.286, 3.928]      100
+Name: count, dtype: int64
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- When to use + tips -->
+        <section>
+          <h2>When to Use <span class="inline-code">cut</span> vs <span class="inline-code">qcut</span></h2>
+          <ul>
+            <li><span class="inline-code">cut</span>: fixed-width or domain-specific edges (e.g., age groups)</li>
+            <li><span class="inline-code">qcut</span>: balanced group sizes for fair comparisons</li>
+            <li>Always inspect: <span class="inline-code">.categories</span>, <span class="inline-code">.codes</span>,
+              and <span class="inline-code">value_counts</span></li>
+            <li>Be explicit about interval closure with <span class="inline-code">right=...</span></li>
+          </ul>
+        </section>
+
+        <!-- Detecting and Filtering Outliers -->
+        <section data-jp-reset>
+          <h1>
+            <span class="text-light">2.2.6.</span><br>
+            Detecting &amp; Filtering Outliers
+          </h1>
+        </section>
+
+        <section>
+          <h2>Overview</h2>
+          <ul>
+            <li><strong>Goal:</strong> Identify and handle extreme values.</li>
+            <li><strong>Why:</strong> Robust analysis &amp; stable models.</li>
+            <li><strong>How:</strong>
+              <ul>
+                <li>Boolean masks with <span class="inline-code">.abs()</span>, comparisons</li>
+                <li>Row filtering via <span class="inline-code">.any(axis="columns")</span></li>
+                <li>Capping (winsorizing) with <span class="inline-code">np.sign</span></li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Setup: Simulated Data</h2>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data = pd.DataFrame(np.random.standard_normal((1000, 4)))
+data.describe()
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+                 0            1            2            3
+count  1000.000000  1000.000000  1000.000000  1000.000000
+mean      0.049091     0.026112    -0.002544    -0.051827
+std       0.996947     1.007458     0.995232     0.998311
+min      -3.645860    -3.184377    -3.745356    -3.428254
+25%      -0.599807    -0.612162    -0.687373    -0.747478
+50%       0.047101    -0.013609    -0.022158    -0.088274
+75%       0.756646     0.695298     0.699046     0.623331
+max       2.653656     3.525865     2.735527     3.366626
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Find Outliers in One Column</h2>
+          <ul>
+            <li>Example: values in column <span class="inline-code">2</span> with <span class="inline-code">|x| &gt;
+                3</span></li>
+            <li>Use <span class="inline-code">.abs()</span> and Boolean indexing</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+col = data[2]
+col[col.abs() > 3]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+41    -3.399312
+136   -3.745356
+Name: 2, dtype: float64
+    </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size: 0.9em;">
+          <h2>Filter Rows with <span class="text-underlined">Any</span> Outlier</h2>
+          <ul>
+            <li>Create a Boolean mask: <span class="inline-code">data.abs() &gt; 3</span></li>
+            <li>Reduce across columns with <span class="inline-code">.any(axis="columns")</span></li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data[(data.abs() > 3).any(axis="columns")]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+             0         1         2         3
+41    0.457246 -0.025907 -3.399312 -0.974657
+60    1.951312  3.260383  0.963301  1.201206
+136   0.508391 -0.196713 -3.745356 -1.520113
+235  -0.242459 -3.056990  1.918403 -0.578828
+258   0.682841  0.326045  0.425384 -3.428254
+322   1.179227 -3.184377  1.369891 -1.074833
+544  -3.548824  1.553205 -2.186301  1.277104
+635  -0.578093  0.193299  1.397822  3.366626
+782  -0.207434  3.525865  0.283070  0.544635
+803  -3.645860  0.255475 -0.549574 -1.907459
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Cap Extreme Values</h2>
+          <ul>
+            <li>Replace <span class="inline-code">|x| &gt; 3</span> with <span class="inline-code">3 * np.sign(x)</span>
+            </li>
+            <li>Keeps direction; limits magnitude to threshold</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data[data.abs() > 3] = np.sign(data) * 3
+data.describe()
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+                 0            1            2            3
+count  1000.000000  1000.000000  1000.000000  1000.000000
+mean      0.050286     0.025567    -0.001399    -0.051765
+std       0.992920     1.004214     0.991414     0.995761
+min      -3.000000    -3.000000    -3.000000    -3.000000
+25%      -0.599807    -0.612162    -0.687373    -0.747478
+50%       0.047101    -0.013609    -0.022158    -0.088274
+75%       0.756646     0.695298     0.699046     0.623331
+max       2.653656     3.000000     2.735527     3.000000
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>What <span class="inline-code">np.sign</span> Does</h2>
+          <ul>
+            <li>Returns <span class="inline-code">-1</span>, <span class="inline-code">0</span>, or <span
+                class="inline-code">1</span> elementwise</li>
+            <li>Used to preserve the sign when capping</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+np.sign(data).head()
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+     0    1    2    3
+0 -1.0  1.0 -1.0  1.0
+1  1.0 -1.0  1.0 -1.0
+2  1.0  1.0  1.0 -1.0
+3 -1.0 -1.0  1.0 -1.0
+4 -1.0  1.0 -1.0 -1.0
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Tips &amp; Variations</h2>
+          <ul>
+            <li>Try other thresholds (e.g., <span class="inline-code">z-score &gt; 3</span>)</li>
+            <li>Alternative to capping: drop rows with outliers</li>
+            <li>Document decisions; outlier handling affects downstream analysis</li>
+          </ul>
+        </section>
+
+        <!-- Permutation and Random Sampling -->
+        <section data-jp-reset>
+          <h1>
+            <span class="text-light">2.2.7.</span><br>
+            Permutation &amp; Random Sampling
+          </h1>
+        </section>
+
+        <section>
+          <h2>Overview</h2>
+          <ul>
+            <li><strong>Goal:</strong> Randomly reorder or select data.</li>
+            <li><strong>Key tools:</strong>
+              <ul>
+                <li><span class="inline-code">np.random.permutation</span> → shuffle order</li>
+                <li><span class="inline-code">take</span> / <span class="inline-code">iloc</span> → apply permutation
+                </li>
+                <li><span class="inline-code">.sample()</span> → draw random subset</li>
+              </ul>
+            </li>
+            <li><strong>Sampling:</strong> without replacement (default); set <span
+                class="inline-code">replace=True</span> to allow repeats</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Why Random Sampling?</h2>
+          <ul>
+            <li>Shuffle for unbiased <strong>train/test splits</strong></li>
+            <li>Random folds in <strong>cross-validation</strong></li>
+            <li><strong>Bootstrapping</strong> with <span class="inline-code">replace=True</span></li>
+            <li>Quick <strong>Exploratory Data Analysis (EDA)</strong> with a random subset</li>
+            <li><strong>Downsample</strong> large data with <span class="inline-code">sample(n | frac)</span></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Setup: Simple DataFrame</h2>
+          <p>A 5×7 grid of integers 0…34</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+df = pd.DataFrame(np.arange(5 * 7).reshape((5, 7)))
+df
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+    0   1   2   3   4   5   6
+0   0   1   2   3   4   5   6
+1   7   8   9  10  11  12  13
+2  14  15  16  17  18  19  20
+3  21  22  23  24  25  26  27
+4  28  29  30  31  32  33  34
+    </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size: 0.8em;">
+          <h2>Row Permutation</h2>
+          <ul>
+            <li>Generate random row order with <span class="inline-code">np.random.permutation</span></li>
+            <li>Apply to dataframe with <span class="inline-code">take</span> or <span class="inline-code">iloc</span>
+            </li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+sampler = np.random.permutation(5)
+sampler
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+array([3, 1, 4, 2, 0])
+    </code></pre>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em;">
+            <div class="jp-cell">
+              <pre class="jp-input"><code class="language-python" data-trim>
+df.take(sampler)
+    </code></pre>
+              <pre class="jp-output"><code class="language-text" data-trim>
+    0   1   2   3   4   5   6
+3  21  22  23  24  25  26  27
+1   7   8   9  10  11  12  13
+4  28  29  30  31  32  33  34
+2  14  15  16  17  18  19  20
+0   0   1   2   3   4   5   6
+    </code></pre>
+            </div>
+
+            <div class="jp-cell">
+              <pre class="jp-input"><code class="language-python" data-trim>
+df.iloc[sampler]
+    </code></pre>
+              <pre class="jp-output"><code class="language-text" data-trim>
+    0   1   2   3   4   5   6
+3  21  22  23  24  25  26  27
+1   7   8   9  10  11  12  13
+4  28  29  30  31  32  33  34
+2  14  15  16  17  18  19  20
+0   0   1   2   3   4   5   6
+    </code></pre>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Column Permutation</h2>
+          <p>Use <span class="inline-code">take(axis="columns")</span> to permute columns</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+column_sampler = np.random.permutation(7)
+column_sampler
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+array([4, 6, 3, 2, 1, 0, 5])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+df.take(column_sampler, axis="columns")
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+    4   6   3   2   1   0   5
+0   4   6   3   2   1   0   5
+1  11  13  10   9   8   7  12
+2  18  20  17  16  15  14  19
+3  25  27  24  23  22  21  26
+4  32  34  31  30  29  28  33
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Random Subset without Replacement: <span class="inline-code">sample</span></h2>
+          <p>Select <span class="inline-code">n</span> random rows; no repeats by default</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+df.sample(n=3)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+    0   1   2   3   4   5   6
+2  14  15  16  17  18  19  20
+4  28  29  30  31  32  33  34
+0   0   1   2   3   4   5   6
+    </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size: 0.95em;">
+          <h2>Sampling With Replacement</h2>
+          <ul>
+            <li>Allow repeated draws using <span class="inline-code">replace=True</span></li>
+            <li>Works on <span class="inline-code">Series</span> and <span class="inline-code">DataFrame</span></li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+choices = pd.Series([5, 7, -1, 6, 4])
+choices.sample(n=10, replace=True)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+2   -1
+0    5
+3    6
+1    7
+4    4
+0    5
+4    4
+0    5
+4    4
+4    4
+dtype: int64
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Tips &amp; Notes</h2>
+          <ul>
+            <li>Use <span class="inline-code">random_state=...</span> in <span class="inline-code">.sample</span> for
+              reproducibility</li>
+            <li>Weighted sampling: <span class="inline-code">.sample(weights=...)</span> (probability-proportional)</li>
+            <li>Permute columns: <span class="inline-code">take(..., axis="columns")</span>; permute rows: <span
+                class="inline-code">take(...)</span> or <span class="inline-code">iloc</span></li>
+          </ul>
+        </section>
+
+        <!-- Computing Indicator/Dummy Variables -->
+        <section data-jp-reset>
+          <h1>
+            <span class="text-light">2.2.8.</span><br>
+            Computing Indicator / Dummy Variables
+          </h1>
+        </section>
+
+        <section>
+          <h2>Overview</h2>
+          <ul>
+            <li><strong>Goal:</strong> Convert a <strong>categorical</strong> field into an <strong>indicator
+                matrix</strong> of 0/1 columns.</li>
+            <li><strong>Why:</strong> Required by many ML/statistical models; enables grouping &amp; aggregation.</li>
+            <li><strong>Key tool:</strong> <span class="inline-code">pd.get_dummies</span> (or <span
+                class="inline-code">Series.str.get_dummies</span> for multi-membership)</li>
+            <li><strong>Output type:</strong> recent pandas → boolean by default; set <span
+                class="inline-code">dtype=float</span> if needed.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Example DataFrame</h2>
+          <p>Make a small dataset with a categorical key</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+df = pd.DataFrame({"key": ["b", "b", "a", "c", "a", "b"],
+                   "data1": range(6)})
+df
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+  key  data1
+0   b      0
+1   b      1
+2   a      2
+3   c      3
+4   a      4
+5   b      5
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Basic One-Hot Encoding</h2>
+          <p>Turn categories into indicator columns</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+pd.get_dummies(df["key"], dtype=float)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+     a    b    c
+0  0.0  1.0  0.0
+1  0.0  1.0  0.0
+2  1.0  0.0  0.0
+3  0.0  0.0  1.0
+4  1.0  0.0  0.0
+5  0.0  1.0  0.0
+    </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size: 0.9em;">
+          <h2>Add Prefix &amp; Join</h2>
+          <ul>
+            <li>Name columns with <span class="inline-code">prefix=...</span></li>
+            <li>Combine with original data using <span class="inline-code">DataFrame.join</span></li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+dummies = pd.get_dummies(df["key"], prefix="key", dtype=float)
+df_with_dummy = df[["data1"]].join(dummies)
+df_with_dummy
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+   data1  key_a  key_b  key_c
+0      0    0.0    1.0    0.0
+1      1    0.0    1.0    0.0
+2      2    1.0    0.0    0.0
+3      3    0.0    0.0    1.0
+4      4    1.0    0.0    0.0
+5      5    0.0    1.0    0.0
+    </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size: 0.8em;" data-auto-animate>
+          <h2>Multi-Membership Categories</h2>
+          <p>When rows belong to <strong>multiple</strong> categories in a delimited string, use <span
+              class="inline-code">Series.str.get_dummies</span></p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+mnames = ["movie_id", "title", "genres"]
+movies = pd.read_table("datasets/movielens/movies.dat", sep="::",
+                       header=None, names=mnames, engine="python")
+movies[:10]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+   movie_id                               title                        genres
+0         1                    Toy Story (1995)   Animation|Children's|Comedy
+1         2                      Jumanji (1995)  Adventure|Children's|Fantasy
+2         3             Grumpier Old Men (1995)                Comedy|Romance
+3         4            Waiting to Exhale (1995)                  Comedy|Drama
+4         5  Father of the Bride Part II (1995)                        Comedy
+5         6                         Heat (1995)         Action|Crime|Thriller
+6         7                      Sabrina (1995)                Comedy|Romance
+7         8                 Tom and Huck (1995)          Adventure|Children's
+8         9                 Sudden Death (1995)                        Action
+9        10                    GoldenEye (1995)     Action|Adventure|Thriller
+    </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size: 0.8em;" data-auto-animate>
+          <h2>Multi-Membership Categories</h2>
+          <p>When rows belong to <strong>multiple</strong> categories in a delimited string, use <span
+              class="inline-code">Series.str.get_dummies</span></p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+dummies = movies["genres"].str.get_dummies("|")
+dummies.iloc[:10, :6]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+   Action  Adventure  Animation  Children's  Comedy  Crime
+0       0          0          1           1       1      0
+1       0          1          0           1       0      0
+2       0          0          0           0       1      0
+3       0          0          0           0       1      0
+4       0          0          0           0       1      0
+5       1          0          0           0       0      1
+6       0          0          0           0       1      0
+7       0          1          0           1       0      0
+8       1          0          0           0       0      0
+9       1          1          0           0       0      0
+    </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size: 0.9em;">
+          <h2>Join with Prefixed Columns</h2>
+          <p>Add indicators to the original table with a clear prefix</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+movies_windic = movies.join(dummies.add_prefix("Genre_"))
+movies_windic.iloc[0]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+movie_id                                      1
+title                          Toy Story (1995)
+genres              Animation|Children's|Comedy
+Genre_Action                                  0
+Genre_Adventure                               0
+Genre_Animation                               1
+Genre_Children's                              1
+Genre_Comedy                                  1
+Genre_Crime                                   0
+Genre_Documentary                             0
+Genre_Drama                                   0
+Genre_Fantasy                                 0
+Genre_Film-Noir                               0
+Genre_Horror                                  0
+Genre_Musical                                 0
+Genre_Mystery                                 0
+Genre_Romance                                 0
+Genre_Sci-Fi                                  0
+Genre_Thriller                                0
+Genre_War                                     0
+Genre_Western                                 0
+Name: 0, dtype: object
+    </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size: 0.75em;">
+          <h2>Recipe: Bin then One-Hot</h2>
+          <p>Discretize a numeric variable with <span class="inline-code">pd.cut</span>, then encode with <span
+              class="inline-code">pd.get_dummies</span></p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+np.random.seed(12345)  # to make the example repeatable
+values = np.random.uniform(size=10)
+values
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+array([0.9296, 0.3164, 0.1839, 0.2046, 0.5677, 0.5955, 0.9645, 0.6532,
+       0.7489, 0.6536])
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+bins = [0, 0.2, 0.4, 0.6, 0.8, 1]
+pd.get_dummies(pd.cut(values, bins))
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+   (0.0, 0.2]  (0.2, 0.4]  (0.4, 0.6]  (0.6, 0.8]  (0.8, 1.0]
+0       False       False       False       False        True
+1       False        True       False       False       False
+2        True       False       False       False       False
+3       False        True       False       False       False
+4       False       False        True       False       False
+5       False       False        True       False       False
+6       False       False       False       False        True
+7       False       False       False        True       False
+8       False       False       False        True       False
+9       False       False       False        True       False
+    </code></pre>
+          </div>
+        </section>
+      </section>
+
+      <!-- 2.3. Extension Data Types -->
+      <section>
+        <section data-jp-reset>
+          <h1>
+            <span class="text-light">2.3.</span><br>
+            Extension Data Types
+          </h1>
+        </section>
+
+        <section>
+          <h2>Overview</h2>
+          <ul>
+            <li><strong>Goal:</strong> Support richer, nullable, and non-NumPy types in pandas</li>
+            <li><strong>Motivation:</strong>
+              <ul>
+                <li>NumPy lacked full support for missing integers &amp; booleans</li>
+                <li>String &amp; object arrays used excessive memory</li>
+                <li>Time zones, intervals, etc. needed specialized storage</li>
+              </ul>
+            </li>
+            <li><strong>Solution:</strong> pandas <strong>ExtensionDtypes</strong> — fully integrated custom array types
+            </li>
+          </ul>
+        </section>
+
+        <section style="font-size: 0.8em;">
+          <h2>Legacy vs Extension Behavior</h2>
+          <p>Missing integers default to <span class="inline-code">float64</span> with <span
+              class="inline-code">NaN</span>:</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+s = pd.Series([1, 2, 3, None])  # int becomes float
+s, s.dtype
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    1.0
+1    2.0
+2    3.0
+3    NaN
+dtype: float64
+    </code></pre>
+          </div>
+
+          <p>&rarr; Use <span class="inline-code">Int64Dtype</span> for a proper nullable integer type:</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+s = pd.Series([1, 2, 3, None], dtype="Int64")
+s
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0       1
+1       2
+2       3
+3    &lt;NA&gt;
+dtype: Int64
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Handling Missing Values</h2>
+          <p>Extension arrays use <span class="inline-code">&lt;NA&gt;</span> (the <span
+              class="inline-code">pd.NA</span> sentinel)</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+s.iloc[3], s.iloc[3] is pd.NA
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+&lt;NA&gt;
+True
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>String Extension Type</h2>
+          <p>Use <span class="inline-code">pd.StringDtype()</span> for efficient, nullable string arrays (requires
+            <em>pyarrow</em>)
+          </p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+s = pd.Series(["one", "two", None, "three"], dtype="string")
+s
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0      one
+1      two
+2     &lt;NA&gt;
+3    three
+dtype: string
+    </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size: 0.85em;">
+          <h2>Converting Columns with <span class="inline-code">astype</span></h2>
+          <p>Extension dtypes integrate with <span class="inline-code">.astype()</span> for consistent null handling</p>
+
+          <div class="jp-cell" style="font-size: 0.85em;">
+            <pre class="jp-input"><code class="language-python" data-trim>
+df = pd.DataFrame({
+    "A": [1, 2, None, 4],
+    "B": ["one", "two", "three", None],
+    "C": [False, None, False, True]
+})
+
+df["A"] = df["A"].astype("Int64")
+df["B"] = df["B"].astype("string")
+df["C"] = df["C"].astype("boolean")
+df
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+      A      B      C
+0     1    one  False
+1     2    two   &lt;NA&gt;
+2  &lt;NA&gt;  three  False
+3     4   &lt;NA&gt;   True
+    </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size: 0.85em;">
+          <h2>Common Extension Types</h2>
+          <ul>
+            <li><strong>Int/UInt*</strong> – nullable integers (<span class="inline-code">"Int64"</span>, <span
+                class="inline-code">"UInt32"</span>, etc.)</li>
+            <li><strong>Float*</strong> – nullable floats (<span class="inline-code">"Float32"</span>, <span
+                class="inline-code">"Float64"</span>)</li>
+            <li><strong>boolean</strong> – nullable booleans</li>
+            <li><strong>string</strong> – efficient string arrays</li>
+            <li><strong>category</strong> – categorical data</li>
+            <li><strong>datetime[tz]</strong> – datetimes with timezone</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Key Takeaways</h2>
+          <ul>
+            <li><strong>Extension types</strong> fix NumPy’s null handling and memory limits</li>
+            <li>Use <span class="inline-code">pd.NA</span> and new dtypes (<span class="inline-code">Int64</span>, <span
+                class="inline-code">boolean</span>, <span class="inline-code">string</span>) for clean pipelines</li>
+            <li>Convert easily with <span class="inline-code">.astype()</span></li>
+            <li>Widely used in modern pandas versions for robust data cleaning</li>
+          </ul>
+        </section>
+
+      </section>
+
+      <!-- 2.4 String Manipulation -->
+      <section>
+        <section data-jp-reset>
+          <h1>
+            <span class="text-light">2.4.</span><br>
+            String Manipulation
+          </h1>
+        </section>
+
+        <!-- 2.4.1 Python Built-In String Object Methods -->
+        <section data-jp-reset>
+          <h1><span class="text-light">2.4.1.</span><br>Python Built-In String Methods</h1>
+        </section>
+
+        <section>
+          <h2>Overview</h2>
+          <ul>
+            <li>Use core <span class="inline-code">split</span> / <span class="inline-code">strip</span> / <span
+                class="inline-code">join</span> to normalize tokens.</li>
+            <li><span class="inline-code">in</span> / <span class="inline-code">find</span> / <span
+                class="inline-code">index</span> / <span class="inline-code">count</span> for lookups &amp; positions.
+            </li>
+            <li><span class="inline-code">replace</span> to swap or remove characters.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Split → Clean → Join</h2>
+          <p>Split on commas, trim whitespace, then rejoin with <span class="inline-code">"::"</span> — a common
+            normalize step.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+val = "a,b,  guido"
+pieces = [x.strip() for x in val.split(",")]
+pieces
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+['a', 'b', 'guido']
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+"::".join(pieces)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+'a::b::guido'
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Find vs Index vs Count</h2>
+          <p>Choose the right lookup: <span class="inline-code">in</span> (boolean), <span
+              class="inline-code">find</span> (pos or −1), <span class="inline-code">index</span> (raises), <span
+              class="inline-code">count</span> (frequency).</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+val = "a,b,  guido"
+"guido" in val
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+True
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+val.find(":")
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+-1
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+val.count(",")
+# val.index(":")  # would raise ValueError if not found
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+2
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Replace</h2>
+          <p>Substitute delimiters or delete characters entirely during cleanup.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+val.replace(",", "::")
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+'a::b::  guido'
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+val.replace(",", "")
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+'ab  guido'
+    </code></pre>
+          </div>
+        </section>
+
+
+        <!-- 2.4.2. Regular Expressions -->
+        <section>
+          <h1><span class="text-light">2.4.2.</span><br>
+            Regular Expressions</h1>
+        </section>
+
+        <section>
+          <h2>Overview</h2>
+          <ul>
+            <li>Regex = flexible patterns for split, search, extract, replace.</li>
+            <li>Use raw strings <span class="inline-code">r"...\"</span> to avoid escapes.</li>
+            <li><span class="inline-code">re.compile</span> for repeated use (faster).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Whitespace Split</h2>
+          <p>Split on any run of spaces/tabs/newlines with <span class="inline-code">\s+</span> — robust tokenization.
+          </p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import re
+text = "foo    bar\t baz  \tqux"
+re.split(r"\s+", text)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+['foo', 'bar', 'baz', 'qux']
+    </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size:0.8em;">
+          <h2>Email Pattern: Find &amp; Redact</h2>
+          <p><span class="inline-code">findall</span> extracts all emails; <span class="inline-code">sub</span> safely
+            redacts them in text.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import re
+
+text = """Dave dave@google.com
+Steve steve@gmail.com
+Rob rob@gmail.com
+Ryan ryan@yahoo.com"""
+
+pat = r"[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}"
+regex = re.compile(pat, flags=re.IGNORECASE)
+
+hits = regex.findall(text)
+hits
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+['dave@google.com', 'steve@gmail.com', 'rob@gmail.com', 'ryan@yahoo.com']
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+redacted = regex.sub("REDACTED", text)
+redacted.splitlines()[:2]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+['Dave REDACTED', 'Steve REDACTED']
+    </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size:0.8em;">
+          <h2>Capture Groups</h2>
+          <p>Parentheses segment matches (user, domain, suffix) for structured reuse in code or replacements.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+pat = r"([A-Z0-9._%+-]+)@([A-Z0-9.-]+)\.([A-Z]{2,4})"
+regex = re.compile(pat, flags=re.IGNORECASE)
+
+m = regex.match("wesm@bright.net").groups()
+m
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+('wesm', 'bright', 'net')
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+tuples = regex.findall(text)[:2]
+tuples
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+[('dave', 'google', 'com'), ('steve', 'gmail', 'com')]
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+labeled = regex.sub(r"User:\1 Domain:\2 Suffix:\3", text).splitlines()[:2]
+labeled
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+['Dave User:dave Domain:google Suffix:com',
+ 'Steve User:steve Domain:gmail Suffix:com']
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- 2.4.3. String Functions in pandas -->
+        <section>
+          <h1><span class="text-light">2.4.3.</span><br>
+            String Functions in pandas</h1>
+        </section>
+
+        <section>
+          <h2>Overview</h2>
+          <ul>
+            <li>Use <span class="inline-code">Series.str</span> for <span class="keyword">vectorized, NA-safe</span>
+              string ops.
+            </li>
+            <li>Prefer extension dtypes (<span class="inline-code">string</span>, <span
+                class="inline-code">boolean</span>) for nullable results.</li>
+            <li>Regex integrates via <span class="inline-code">contains</span>, <span
+                class="inline-code">findall</span>, <span class="inline-code">extract</span>.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>NA-Safe Contains</h2>
+          <p><span class="inline-code">Series.str.contains</span> works across the column and preserves NA with nullable
+            booleans.</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data = pd.Series({
+    "Dave": "dave@google.com",
+    "Steve": "steve@gmail.com",
+    "Rob": "rob@gmail.com",
+    "Wes": np.nan
+})
+data.astype("string").str.contains("gmail")
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+Dave     False
+Steve     True
+Rob       True
+Wes       &lt;NA&gt;
+dtype: boolean
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Regex: vectorized findall</h2>
+          <p>Match emails per row; each cell holds a list of (user, domain, suffix) tuples.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+pat = r"([A-Z0-9._%+-]+)@([A-Z0-9.-]+)\.([A-Z]{2,4})"
+found = data.str.findall(pat, flags=re.IGNORECASE)
+found
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+Dave     [(dave, google, com)]
+Steve    [(steve, gmail, com)]
+Rob        [(rob, gmail, com)]
+Wes                        NaN
+dtype: object
+    </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size:0.9em;">
+          <h2>Pick &amp; transform to domains</h2>
+          <p>To get the domain of each email: Pull group 2 with <span class="inline-code">.str.get(1)</span>—no loops.
+          </p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+matches = found.str[0]  # take the first match per cell
+matches
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+Dave     (dave, google, com)
+Steve    (steve, gmail, com)
+Rob        (rob, gmail, com)
+Wes                      NaN
+dtype: object
+    </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+domains = matches.str.get(1)
+domains
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+Dave     google
+Steve     gmail
+Rob       gmail
+Wes         NaN
+dtype: object
+    </code></pre>
+          </div>
+        </section>
+
+
+        <section>
+          <h2>Regex → DataFrame</h2>
+          <p><span class="inline-code">str.extract</span> returns one column per capture group — great for parsing
+            fields.</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data.str.extract(pat, flags=re.IGNORECASE)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+           0       1    2
+Dave    dave  google  com
+Steve  steve   gmail  com
+Rob      rob   gmail  com
+Wes      NaN     NaN  NaN
+    </code></pre>
+          </div>
+          <p>
+            💡 Combine with <span class="inline-code">DataFrame.columns=</span> to name the extracted fields.
+          </p>
+        </section>
+
+        <section>
+          <h2>Quick Slicing</h2>
+          <p>Vectorized preview/truncation without Python loops.</p>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+data.str[:5]
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+Dave     dave@
+Steve    steve
+Rob      rob@g
+Wes        NaN
+dtype: object
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Tips &amp; Notes</h2>
+          <ul>
+            <li>Prefer <span class="inline-code">re.compile(...)</span> for repeated use</li>
+            <li>Use raw strings <span class="inline-code">r"...\"</span> for regex patterns</li>
+            <li>Adopt <span class="inline-code">string</span>/<span class="inline-code">boolean</span> dtypes for
+              cleaner
+              NA handling</li>
+            <li>Leverage <span class="inline-code">str.extract</span> for structured parsing</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- 2.5 Categorical Data -->
+      <section>
+        <section data-jp-reset>
+          <h1>
+            <span class="text-light">2.5.</span><br>
+            Categorical Data
+          </h1>
+        </section>
+
+        <section>
+          <h2>Overview</h2>
+          <ul>
+            <li><strong>Goal:</strong> Introduce pandas <span class="inline-code">Categorical</span> type for efficient
+              label storage.</li>
+            <li><strong>Why:</strong> Boost <strong>performance</strong> and reduce <strong>memory</strong> use in
+              repeated-value columns.</li>
+            <li><strong>Use:</strong> Simplify handling of categorical data in <strong>stats</strong> and
+              <strong>ML</strong> workflows.
+            </li>
+          </ul>
+        </section>
+
+        <!-- 2.5.1. Background and Motivation -->
+        <section>
+          <h1>
+            <span class="text-light">2.5.1.</span>
+            <br>
+            Background &amp; Motivation
+          </h1>
+        </section>
+        <section>
+          <h2>Overview</h2>
+          <h4> Why Categorical Data?</h4>
+          <ul>
+            <li>Many columns repeat a small set of labels (low cardinality).</li>
+            <li><strong>Idea:</strong> store labels once; reference by integer codes.</li>
+            <li><strong>Benefits:</strong> smaller memory, faster groupby/joins, clear semantics.</li>
+          </ul>
+        </section>
+
+        <section style="font-size:0.95em;">
+          <h2>Distinct Values &amp; Counts</h2>
+          <p>Find unique labels and their frequencies.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+values = pd.Series(['apple', 'orange', 'apple', 'apple'] * 2)
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+pd.unique(values)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+array(['apple', 'orange'], dtype=object)
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+pd.value_counts(values)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+apple     6
+orange    2
+Name: count, dtype: int64
+    </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size:0.8em;">
+          <h2>Dictionary Encoding</h2>
+          <p>Store labels once (<strong>dimension</strong>); store integer <strong>codes</strong> in main column.
+          </p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+codes = pd.Series([0, 1, 0, 0] * 2)
+codes
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    0
+1    1
+2    0
+3    0
+4    0
+5    1
+6    0
+7    0
+dtype: int64
+    </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+dim = pd.Series(['apple', 'orange'])
+dim
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0     apple
+1    orange
+dtype: object
+    </code></pre>
+          </div>
+
+          <p>
+            &rarr; Less memory: store integers (codes) instead of full strings (labels).
+          </p>
+        </section>
+
+        <section>
+          <h2>Restore Labels with <span class="inline-code">take</span></h2>
+          <p>Map codes back to labels via the dimension table.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+dim.take(codes)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0     apple
+1    orange
+0     apple
+0     apple
+0     apple
+1    orange
+0     apple
+0     apple
+dtype: object
+    </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Terminology &amp; Why It Matters</h2>
+          <ul>
+            <li><strong>Categories</strong>: the distinct labels (e.g., <span
+                class="inline-code">['apple','orange']</span>).</li>
+            <li><strong>Codes</strong>: integer indices into categories.</li>
+            <li><strong>Perks</strong>: rename categories or add new ones without rewriting codes; speed &amp; memory
+              wins.</li>
+          </ul>
+        </section>
+
+        <!-- 2.5.2 Categorical Extension Type in pandas -->
+        <section data-jp-reset>
+          <h1>
+            <span class="text-light">2.5.2.</span><br>
+            Categorical Extension Type in pandas
+          </h1>
+        </section>
+
+        <section>
+          <h2>Overview</h2>
+          <ul>
+            <li><strong>What:</strong> pandas <span class="inline-code">Categorical</span> stores integer
+              <strong>codes</strong> + shared <strong>categories</strong>.
+            </li>
+            <li><strong>Why:</strong> lower <strong>memory</strong>, faster <strong>groupby/joins</strong>, clearer
+              semantics.</li>
+            <li><strong>How:</strong> <span class="inline-code">astype('category')</span>, <span
+                class="inline-code">pd.Categorical(...)</span>, <span class="inline-code">from_codes</span>.</li>
+          </ul>
+        </section>
+
+        <section style="font-size:0.9em;">
+          <h2>Example DataFrame</h2>
+          <p>Small fruit basket with repeated labels.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+fruits = ['apple', 'orange', 'apple', 'apple'] * 2
+N = len(fruits)
+rng = np.random.default_rng(seed=12345)
+df = pd.DataFrame({
+    'basket_id': np.arange(N),
+    'fruit': fruits,
+    'count': rng.integers(3, 15, size=N),
+    'weight': rng.uniform(0, 4, size=N)})
+df
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+   basket_id   fruit  count    weight
+0          0   apple     11  1.564438
+1          1  orange      5  1.331256
+2          2   apple     12  2.393235
+3          3   apple      6  0.746937
+4          4   apple      5  2.691024
+5          5  orange     12  3.767211
+6          6   apple     10  0.992983
+7          7   apple     11  3.795525
+      </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Convert to <span class="inline-code">Categorical</span></h2>
+          <p>Swaps Python strings for compact category codes.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+fruit_cat = df['fruit'].astype('category')
+fruit_cat
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0     apple
+1    orange
+2     apple
+3     apple
+4     apple
+5    orange
+6     apple
+7     apple
+Name: fruit, dtype: category
+Categories (2, object): ['apple', 'orange']
+      </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size:0.95em;">
+          <h2>What's Inside: <span class="inline-code">Categorical</span></h2>
+          <p>Access the underlying categorical array and its pieces.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+c = fruit_cat.array # the Categorical object underneath
+type(c)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+pandas.core.arrays.categorical.Categorical
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+c.categories
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+Index(['apple', 'orange'], dtype='object')
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+c.codes
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+array([0, 1, 0, 0, 0, 1, 0, 0], dtype=int8)
+      </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size:0.95em;">
+          <h2>Codes ↔ Labels Mapping</h2>
+          <p>Quick lookup table for interpreting codes.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+dict(enumerate(c.categories))
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+{0: 'apple', 1: 'orange'}
+      </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>In-Place on a DataFrame</h2>
+          <p>Assign the converted column back to <span class="inline-code">df</span>.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+df['fruit'] = df['fruit'].astype('category')
+df['fruit']
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0     apple
+1    orange
+2     apple
+3     apple
+4     apple
+5    orange
+6     apple
+7     apple
+Name: fruit, dtype: category
+Categories (2, object): ['apple', 'orange']
+      </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size:0.95em;">
+          <h2>Create a <span class="inline-code">Categorical</span> Directly</h2>
+          <p>From any sequence of values.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+my_categories = pd.Categorical(['foo','bar','baz','foo','bar'])
+my_categories
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+['foo', 'bar', 'baz', 'foo', 'bar']
+Categories (3, object): ['bar', 'baz', 'foo']
+      </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size:0.95em;">
+          <h2>Construct from Codes</h2>
+          <p>When you already have integer codes and a category list.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+categories = ['foo','bar','baz']
+codes = [0, 1, 2, 0, 0, 1]
+my_cats_2 = pd.Categorical.from_codes(codes, categories)
+my_cats_2
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+['foo', 'bar', 'baz', 'foo', 'foo', 'bar']
+Categories (3, object): ['foo', 'bar', 'baz']
+      </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size:0.8em;">
+          <h2>Ordered Categoricals</h2>
+          <p>Specify an order for comparisons, sorting, and bins.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+ordered_cat = pd.Categorical.from_codes(codes, categories, ordered=True)
+ordered_cat
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+['foo', 'bar', 'baz', 'foo', 'foo', 'bar']
+Categories (3, object): ['foo' < 'bar' < 'baz']
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+my_cats_2.as_ordered()
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+['foo', 'bar', 'baz', 'foo', 'foo', 'bar']
+Categories (3, object): ['foo' < 'bar' < 'baz']
+      </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Notes &amp; Takeaways</h2>
+          <ul>
+            <li><strong>Not just strings:</strong> categories can be any immutable values.</li>
+            <li><strong>Performance:</strong> fewer bytes → faster ops on repeated labels.</li>
+            <li><strong>Accessors:</strong> use <span class="inline-code">.cat</span> for category-aware methods
+              (next).</li>
+          </ul>
+        </section>
+
+        <!-- 2.5.3 Computations with Categoricals -->
+        <section data-jp-reset>
+          <h1>
+            <span class="text-light">2.5.3.</span><br>
+            Computations with Categoricals
+          </h1>
+        </section>
+
+        <section>
+          <h2>Overview</h2>
+          <ul>
+            <li><strong>Same APIs:</strong> Categoricals behave like strings/objects in most ops.</li>
+            <li><strong>Faster ops:</strong> <span class="inline-code">groupby</span>, <span
+                class="inline-code">value_counts</span> leverage integer codes.</li>
+            <li><strong>Ordered use:</strong> Some functions respect categorical <strong>ordering</strong>.</li>
+          </ul>
+        </section>
+
+        <section style="font-size:0.95em;">
+          <h2>Make Quartile Bins with <span class="inline-code">qcut</span></h2>
+          <p>Vectorized binning returns an <span class="keyword">ordered</span> <span
+              class="inline-code">Categorical</span>.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+rng = np.random.default_rng(seed=12345)
+draws = rng.standard_normal(1000)
+draws[:5]
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+array([-1.4238,  1.2637, -0.8707, -0.2592, -0.0753])
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+bins = pd.qcut(draws, 4)
+bins
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+[(-3.121, -0.675], (0.687, 3.211], (-3.121, -0.675], (-0.675, 0.0134], (-0.675, 0.0134], ...
+Length: 1000
+Categories (4, interval[float64, right]): [(-3.121, -0.675] < (-0.675, 0.0134] < (0.0134, 0.687] < (0.687, 3.211]]
+      </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Label Bins</h2>
+          <p>Human-friendly quartile names keep the categorical ordering.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+bins = pd.qcut(draws, 4, labels=['Q1','Q2','Q3','Q4'])
+bins
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+['Q1', 'Q4', 'Q1', 'Q2', 'Q2', ..., 'Q3', 'Q3', 'Q2', 'Q3', 'Q2']
+Length: 1000
+Categories (4, object): ['Q1' < 'Q2' < 'Q3' < 'Q4']
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+bins.codes[:10]
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+array([0, 3, 0, 1, 1, 0, 0, 2, 2, 0], dtype=int8)
+      </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size:0.8em;">
+          <h2>GroupBy with Categoricals</h2>
+          <p>Use labels to aggregate numeric data by quartile.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+bins = pd.Series(bins, name='quartile')
+results = (pd.Series(draws)
+           .groupby(bins)
+           .agg(['count','min','max'])
+           .reset_index())
+results
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+  quartile  count       min       max
+0       Q1    250 -3.119609 -0.678494
+1       Q2    250 -0.673305  0.008009
+2       Q3    250  0.018753  0.686183
+3       Q4    250  0.688282  3.211418
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+results['quartile']
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    Q1
+1    Q2
+2    Q3
+3    Q4
+Name: quartile, dtype: category
+Categories (4, object): ['Q1' < 'Q2' < 'Q3' < 'Q4']
+      </code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Performance &amp; Memory</h2>
+          <p>Large repeated-label Series benefit from categorical encoding.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+N = 10_000_000
+labels = pd.Series(['foo','bar','baz','qux'] * (N // 4))
+categories = labels.astype('category')
+</code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+labels.memory_usage(deep=True)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+520000132
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+categories.memory_usage(deep=True)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+10000512
+      </code></pre>
+          </div>
+
+          <p>
+            &rarr; Huge memory savings: 520 MB → 10 MB
+          </p>
+
+        </section>
+
+        <section data-auto-animate>
+          <h2>Performance &amp; Memory</h2>
+          <p>Conversion is not free. But it is a <strong>one-time cost.</strong></p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+%time _ = labels.astype('category')
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+CPU times: user 475 ms, sys: 9.04 ms, total: 484 ms
+Wall time: 483 ms
+      </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2><span class="inline-code">value_counts</span> Speedup</h2>
+          <p>Counts use integer codes under the hood &rarr; big win.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+%timeit labels.value_counts()
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+382 ms ± 1.47 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+%timeit categories.value_counts()
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+17.5 ms ± 373 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+      </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Takeaways</h2>
+          <ul>
+            <li><span class="inline-code">qcut</span>/<span class="inline-code">cut</span>: produce ordered <span
+                class="inline-code">Categorical</span> bins.</li>
+            <li><strong>GroupBy:</strong> faster on categoricals; ordered labels keep sort semantics.</li>
+            <li><strong>Scale:</strong> huge memory savings; big speedups for counting/aggregation.</li>
+          </ul>
+        </section>
+
+        <!-- 2.5.4 Categorical Methods -->
+        <section data-jp-reset>
+          <h1>
+            <span class="text-light">2.5.4.</span><br>
+            Categorical Methods
+          </h1>
+        </section>
+
+        <section>
+          <h2>Overview</h2>
+          <ul>
+            <li><strong>Accessor:</strong> Use <span class="inline-code">.cat</span> for codes &amp; categories.</li>
+            <li><strong>Manage:</strong> Set/rename/reorder/add/remove categories.</li>
+            <li><strong>Modeling:</strong> Create <strong>dummy</strong> (one-hot) variables.</li>
+          </ul>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Create &amp; Inspect</h2>
+          <p>Convert labels to <span class="inline-code">category</span></p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+s = pd.Series(['a','b','c','d'] * 2)
+cat_s = s.astype('category')
+cat_s
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    a
+1    b
+2    c
+3    d
+4    a
+5    b
+6    c
+7    d
+dtype: category
+Categories (4, object): ['a', 'b', 'c', 'd']
+      </code></pre>
+          </div>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Create &amp; Inspect</h2>
+          <p>Explore codes and category names via attribute <span class="inline-code">.cat</span></p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+cat_s.cat.codes
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    0
+1    1
+2    2
+3    3
+4    0
+5    1
+6    2
+7    3
+dtype: int8
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+cat_s.cat.categories
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+Index(['a', 'b', 'c', 'd'], dtype='object')
+      </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Set Categories</h2>
+          <p>Declare the full universe of categories (even if absent in data).</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+actual = ['a','b','c','d','e']
+cat_s2 = cat_s.cat.set_categories(actual)
+cat_s2
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    a
+1    b
+2    c
+3    d
+4    a
+5    b
+6    c
+7    d
+dtype: category
+Categories (5, object): ['a', 'b', 'c', 'd', 'e']
+      </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size:0.85em;">
+          <h2><span class="inline-code">value_counts</span> Respects Categories</h2>
+          <p>Unseen categories appear with zero count when defined.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+cat_s.value_counts()
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+a    2
+b    2
+c    2
+d    2
+Name: count, dtype: int64
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+cat_s2.value_counts()
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+a    2
+b    2
+c    2
+d    2
+e    0
+Name: count, dtype: int64
+      </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size:0.95em;">
+          <h2>Remove Unused Categories</h2>
+          <p>After filtering, drop categories not present in the data.</p>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+cat_s3 = cat_s[cat_s.isin(['a','b'])]
+cat_s3
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    a
+1    b
+4    a
+5    b
+dtype: category
+Categories (4, object): ['a', 'b', 'c', 'd']
+      </code></pre>
+          </div>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+cat_s3.cat.remove_unused_categories()
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+0    a
+1    b
+4    a
+5    b
+dtype: category
+Categories (2, object): ['a', 'b']
+      </code></pre>
+          </div>
+        </section>
+
+        <section style="font-size:0.8em;">
+          <h2>Other Handy Methods</h2>
+          <table style="width:100%;">
+            <thead>
+              <tr>
+                <th style="text-align:left;">Method</th>
+                <th style="text-align:left;">What it does</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">add_categories</span></td>
+                <td>Append new categories.</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">rename_categories</span></td>
+                <td>Relabel without changing count.</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">reorder_categories</span></td>
+                <td>Change order (can set ordered).</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">as_ordered</span> / <span class="inline-code">as_unordered</span></td>
+                <td>Toggle the ordering flag.</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">remove_categories</span></td>
+                <td>Drop categories (values → NA).</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+
+        <section style="font-size:0.85em;">
+          <h2>Dummy Variables (One-Hot)</h2>
+          <ul>
+            <li>One-hot encoding is common in stats and machine learning.</li>
+            <li><span class="inline-code">pd.get_dummies</span> creates binary indicator columns for each category.</li>
+            <li>Each row is now a <strong>one-hot</strong> vector.</li>
+          </ul>
+
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+cat_s = pd.Series(['a','b','c','d'] * 2, dtype='category')
+pd.get_dummies(cat_s, dtype=float)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+     a    b    c    d
+0  1.0  0.0  0.0  0.0
+1  0.0  1.0  0.0  0.0
+2  0.0  0.0  1.0  0.0
+3  0.0  0.0  0.0  1.0
+4  1.0  0.0  0.0  0.0
+5  0.0  1.0  0.0  0.0
+6  0.0  0.0  1.0  0.0
+7  0.0  0.0  0.0  1.0
+      </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>Takeaways</h2>
+          <ul>
+            <li><span class="inline-code">.cat</span> gives direct access to <strong>codes</strong> &amp;
+              <strong>categories</strong>.
+            </li>
+            <li>Define category universe early to control downstream behavior.</li>
+            <li>Trim unused categories post-filter for clarity &amp; memory wins.</li>
+            <li><span class="inline-code">get_dummies</span> bridges to stats/ML pipelines.</li>
+          </ul>
+        </section>
+
+      </section>
+
+      <!-- Wrap-up -->
+      <section style="font-size:0.8em;">
+        <h2>Wrap-up</h2>
+        <ul>
+          <li><strong>Loading:</strong> Efficiently load data from various sources.</li>
+          <li><strong>Cleaning:</strong> Handle missing data, duplicates, and outliers.</li>
+          <li><strong>Transformation:</strong> Map, replace, bin, and sample efficiently.</li>
+          <li><strong>Strings:</strong> Use <span class="inline-code">Series.str</span> for fast text ops.</li>
+          <li><strong>Extension dtypes:</strong> Nullable <span class="inline-code">Int64</span>, <span
+              class="inline-code">boolean</span>, <span class="inline-code">string</span>.</li>
+          <li><strong>Categoricals:</strong> Encode labels for speed, memory, and modeling.</li>
+        </ul>
+        <div>Next: Data Wrangling: Join, Combine, and Reshape</div>
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        Prog. Data Proc. (2526-1) §7: Data Loading &amp; Cleaning
+      </div>
+      <!-- End of footer -->
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+
+  <script>
+    (function () {
+      function renumberJupyterCells() {
+        let n = 0;
+        // Traverse slides in DOM order; allow per-slide reset via data-jp-reset
+        document.querySelectorAll('.slides section').forEach(sec => {
+          if (sec.hasAttribute('data-jp-reset')) n = 0;
+          sec.querySelectorAll('.jp-input').forEach(input => {
+            input.dataset.jpN = ++n;                 // set number on input
+            const cell = input.closest('.jp-cell');  // copy same number to any outputs in the cell
+            if (cell) cell.querySelectorAll('.jp-output').forEach(out => out.dataset.jpN = n);
+          });
+        });
+      }
+
+      // Run at load and whenever Reveal changes slides/layout
+      if (window.Reveal && Reveal.on) {
+        Reveal.on('ready', renumberJupyterCells);
+        Reveal.on('slidechanged', renumberJupyterCells);
+        Reveal.on('resize', renumberJupyterCells);
+      } else {
+        document.addEventListener('DOMContentLoaded', renumberJupyterCells);
+      }
+    })();
+  </script>
+
+</body>
+
+</html>
