@@ -77,8 +77,7 @@
           <h1>
             <span class="text-light">Lecture 7</span>
             <br>
-            Advanced Topics in
-            Pandas
+            Data Loading &amp; Cleaning
           </h1>
         </section>
 
@@ -93,36 +92,77 @@
         </section>
 
         <!-- Today -->
-        <section data-markdown>
-          <textarea data-template>
-          ## Today
-          1. Data Loading and Storage
-          1. Data Cleaning and Preparation
-              + Handling Missing Data
-              + Data Transformation
-              + Extension Data Types
-              + String Manipulation
-              + Categorical Data
-        </textarea>
+        <section>
+          <h2>Today</h2>
+          <ol>
+            <li>Data Loading and Storage
+              <a href="#section-data-loading-and-storage">
+                &rarr;
+              </a>
+            </li>
+            <li>Data Cleaning and Preparation
+              <a href="#section-data-cleaning-preparation">
+                &rarr;
+              </a>
+            </li>
+          </ol>
         </section>
       </section>
 
       <section>
-        <!-- Part 1: Data Loading (Most Common Formats) -->
+        <!-- Part 1: Data Loading and Storage -->
 
         <!-- Title -->
-        <section id="section-data-loading-common-formats">
+        <section id="section-data-loading-and-storage">
           <h1><span class="text-light">1.</span><br>Data Loading and Storage</h1>
         </section>
 
-        <!-- What you'll use most -->
-        <section>
-          <h2>What You'll Use Most</h2>
+        <!-- Overview -->
+        <section data-jp-reset>
+          <h2>Overview</h2>
           <ul>
-            <li><span>CSV/TSV</span> — delimited text tables</li>
-            <li><span>JSON</span> — web/APIs; can be nested</li>
-            <li><span>Excel (.xlsx)</span> — spreadsheets</li>
+            <li>Loading data from various file formats</li>
+            <li>Storing data in different formats</li>
+            <li>Best practices for data loading and storage</li>
           </ul>
+        </section>
+
+        <!-- Outline -->
+        <section>
+          <h2>Outline</h2>
+          <ol>
+            <li><span>CSV/TSV</span> — delimited text tables ⭐️
+              <a href="#section-csv-tsv">
+                &rarr;
+              </a>
+            </li>
+            <li><span>JSON</span> — web/APIs; can be nested ⭐️
+              <a href="#section-json">
+                &rarr;
+              </a>
+            </li>
+            <li><span>Excel (.xlsx)</span> — spreadsheets
+              <a href="#section-excel">
+                &rarr;
+              </a>
+            </li>
+            <li>Some notes on data loading
+              <a href="#section-data-loading-notes">
+                &rarr;
+              </a>
+            </li>
+          </ol>
+        </section>
+
+        <!-- 1.1. CSV -->
+        <section id="section-csv-tsv">
+          <h1>
+            <span class="text-light">1.1.</span>
+            <br>
+            CSV:
+            <br>
+            Comma-Separated Values ⭐️
+          </h1>
         </section>
 
         <!-- CSV: basic -->
@@ -295,6 +335,17 @@ chunk 2 shape: (1, 5)
           </div>
         </section>
 
+        <!-- 1.2. JSON -->
+        <section id="section-json">
+          <h1>
+            <span class="text-light">1.2.</span>
+            <br>
+            JSON:
+            <br>
+            JavaScript Object Notation ⭐️
+          </h1>
+        </section>
+
         <!-- JSON: records -->
         <section style="font-size: 0.9em;">
           <h2>JSON — Records</h2>
@@ -354,6 +405,17 @@ pd.json_normalize(obj["items"])
 0    1     Alice        30
 1    2       Bob        25</code></pre>
           </div>
+        </section>
+
+        <!-- 1.3. Excel -->
+        <section id="section-excel">
+          <h1>
+            <span class="text-light">1.3.</span>
+            <br>
+            Excel:
+            <br>
+            Spreadsheets
+          </h1>
         </section>
 
         <!-- Excel (1/2): Read -->
@@ -432,6 +494,15 @@ writer.close()
 frame.to_excel("examples/ex2.xlsx")
     </code></pre>
           </div>
+        </section>
+
+        <!-- 1.4. Notes -->
+        <section id="section-data-loading-notes">
+          <h1>
+            <span class="text-light">1.4.</span>
+            <br>
+            Notes on Data Loading
+          </h1>
         </section>
 
         <!-- Common args summary -->
@@ -537,9 +608,10 @@ frame.to_excel("examples/ex2.xlsx")
           <h1><span class="text-light">2.</span><br>Data Cleaning and Preparation</h1>
         </section>
 
-        <!-- Why Cleaning Matters -->
-        <section>
-          <h2>Why Cleaning Matters</h2>
+        <!-- Overview -->
+        <section data-jp-reset>
+          <h2>Overview</h2>
+          <h4>Why Cleaning Matters</h4>
           <ul>
             <li>Most time goes to <span class="keyword">preparation</span>: load → clean → transform → rearrange</li>
             <li>Raw formats rarely fit the task → need <span class="keyword">reshaping</span> & <span
@@ -548,29 +620,50 @@ frame.to_excel("examples/ex2.xlsx")
           </ul>
         </section>
 
-        <!-- What We Cover -->
+        <!-- Outline -->
         <section>
-          <h2>What We Cover</h2>
-          <ul>
-            <li><span class="keyword">Missing data</span>: detect, drop, impute</li>
-            <li><span class="keyword">Duplicates</span>: find, remove</li>
-            <li><span class="keyword">Strings</span>: trim, case, replace</li>
-            <li><span class="keyword">Types &amp; transforms</span>: <span class="inline-code">to_datetime</span>, <span
-                class="inline-code">astype</span>, mapping</li>
-          </ul>
+          <h2>Outline</h2>
+          <ol>
+            <li>Handling Missing Data ⭐️
+              <a href="#section-handling-missing-data">
+                &rarr;
+              </a>
+            </li>
+            <li>Data Transformation ⭐️
+              <a href="#section-data-transformation">
+                &rarr;
+              </a>
+            </li>
+            <li>Extension Data Types ⭐️
+              <a href="#section-extension-data-types">
+                &rarr;
+              </a>
+            </li>
+            <li>String Manipulation ⭐️
+              <a href="#section-string-manipulation">
+                &rarr;
+              </a>
+            </li>
+            <li>Categorical Data ⭐️
+              <a href="#section-categorical-data">
+                &rarr;
+              </a>
+            </li>
+          </ol>
         </section>
       </section>
 
       <section>
         <!-- 2.1. Handling Missing Data -->
-        <section data-jp-reset>
+        <section id="section-handling-missing-data">
           <h1>
             <span class="text-light">2.1.</span><br>
             Handling Missing Data
           </h1>
         </section>
 
-        <section>
+        <!-- Overview -->
+        <section data-jp-reset>
           <h2>Overview</h2>
           <ul>
             <li>Missing values are common</li>
@@ -581,6 +674,23 @@ frame.to_excel("examples/ex2.xlsx")
             <li>Detect with <span class="inline-code">isna</span> / <span class="inline-code">notna</span> (or <span
                 class="inline-code">pandas.isna</span>)</li>
           </ul>
+        </section>
+
+        <!-- Outline -->
+        <section>
+          <h2>Outline</h2>
+          <ol>
+            <li>Filtering Out Missing Data ⭐️
+              <a href="#section-filtering-out-missing-data">
+                &rarr;
+              </a>
+            </li>
+            <li>Filling In Missing Data ⭐️
+              <a href="#section-filling-in-missing-data">
+                &rarr;
+              </a>
+            </li>
+          </ol>
         </section>
 
         <!-- NaN as Sentinel -->
@@ -676,10 +786,11 @@ dtype: bool
           </div>
         </section>
 
-        <section>
+        <!-- 2.1.1. Filtering Out Missing Data -->
+        <section id="section-filtering-out-missing-data">
           <h1>
             <span class="text-light">2.1.1.</span><br>
-            Filtering Out Missing Data
+            Filtering Out Missing Data ⭐️
           </h1>
         </section>
 
@@ -842,10 +953,11 @@ df.dropna(thresh=2)
           </div>
         </section>
 
-        <section>
+        <!-- 2.1.2. Filling In Missing Data -->
+        <section id="section-filling-in-missing-data">
           <h1>
             <span class="text-light">2.1.2.</span><br>
-            Filling In Missing Data
+            Filling In Missing Data ⭐️
           </h1>
         </section>
 
@@ -981,12 +1093,12 @@ dtype: float64
 
       <!-- 2.2 Data Transformation -->
       <section>
-        <section data-jp-reset>
+        <section id="section-data-transformation">
           <h1><span class="text-light">2.2.</span><br>Data Transformation</h1>
         </section>
 
         <!-- Overview -->
-        <section>
+        <section data-jp-reset>
           <h2>Overview</h2>
           <ul>
             <li>Beyond <span class="keyword">missing values</span> → clean & reshape data</li>
@@ -1004,15 +1116,62 @@ dtype: float64
           </ul>
         </section>
 
-        <!-- Removing Duplicates -->
+        <!-- Outline -->
         <section>
+          <h2>Outline</h2>
+          <ol>
+            <li>Removing Duplicates ⭐️
+              <a href="#section-removing-duplicates">
+                &rarr;
+              </a>
+            </li>
+            <li>Transforming Data Using a Func or Mapping ⭐️
+              <a href="#section-transforming-data-using-a-function-or-mapping">
+                &rarr;
+              </a>
+            </li>
+            <li>Replacing Values ⭐️
+              <a href="#section-replacing-values">
+                &rarr;
+              </a>
+            </li>
+            <li>Renaming Axis Indexes 💨
+              <a href="#section-renaming-axis-indexes">
+                &rarr;
+              </a>
+            </li>
+            <li>Discretization and Binning 💨
+              <a href="#section-discretization-and-binning">
+                &rarr;
+              </a>
+            </li>
+            <li>Detecting and Filtering Outliers 💨
+              <a href="#section-detecting-and-filtering-outliers">
+                &rarr;
+              </a>
+            </li>
+            <li>Permutation and Random Sampling 💨
+              <a href="#section-permutation-and-random-sampling">
+                &rarr;
+              </a>
+            </li>
+            <li>Computing Indicator / Dummy Variables ⭐️
+              <a href="#section-computing-indicator-dummy-variables">
+                &rarr;
+              </a>
+            </li>
+          </ol>
+        </section>
+
+        <!-- 2.2.1 Removing Duplicates -->
+        <section id="section-removing-duplicates">
           <h1>
             <span class="text-light">2.2.1.</span><br>
-            Removing Duplicates
+            Removing Duplicates ⭐️
           </h1>
         </section>
 
-        <section>
+        <section data-jp-reset>
           <h2>Overview</h2>
           <ul>
             <li>Detect dupes: <span class="inline-code">duplicated()</span></li>
@@ -1170,10 +1329,11 @@ data.drop_duplicates(["k1", "k2"], keep="last")
           </div>
         </section>
 
-        <section>
+        <!-- 2.2.2 Transforming Data Using a Function or Mapping -->
+        <section id="section-transforming-data-using-a-function-or-mapping">
           <h1>
             <span class="text-light">2.2.2.</span><br>
-            Transforming Data
+            Transforming Data Using a Function or Mapping ⭐️
           </h1>
         </section>
 
@@ -1253,10 +1413,11 @@ Name: food, dtype: object
           </div>
         </section>
 
-        <section>
+        <!-- 2.2.3 Replacing Values -->
+        <section id="section-replacing-values">
           <h1>
             <span class="text-light">2.2.3.</span><br>
-            Replacing Values
+            Replacing Values ⭐️
           </h1>
         </section>
 
@@ -1328,10 +1489,11 @@ dtype: float64
               class="keyword">string</span> substitution (different API)</p>
         </section>
 
-        <section>
+        <!-- 2.2.4 Renaming Axis Indexes -->
+        <section id="section-renaming-axis-indexes">
           <h1>
             <span class="text-light">2.2.4.</span><br>
-            Renaming Axis Indexes
+            Renaming Axis Indexes 💨
           </h1>
         </section>
 
@@ -1413,15 +1575,15 @@ NEW        8    9        10    11
           </div>
         </section>
 
-        <!-- Discretization and Binning -->
-        <section data-jp-reset>
+        <!-- 2.2.5. Discretization and Binning -->
+        <section id="section-discretization-and-binning">
           <h1>
             <span class="text-light">2.2.5.</span><br>
-            Discretization &amp; Binning
+            Discretization &amp; Binning 💨
           </h1>
         </section>
 
-        <section>
+        <section data-jp-reset>
           <h2>Overview</h2>
           <ul>
             <li><strong>Goal:</strong> Bin continuous data.</li>
@@ -1644,15 +1806,15 @@ Name: count, dtype: int64
           </ul>
         </section>
 
-        <!-- Detecting and Filtering Outliers -->
-        <section data-jp-reset>
+        <!-- 2.2.6. Detecting and Filtering Outliers -->
+        <section id="section-detecting-and-filtering-outliers">
           <h1>
             <span class="text-light">2.2.6.</span><br>
-            Detecting &amp; Filtering Outliers
+            Detecting &amp; Filtering Outliers 💨
           </h1>
         </section>
 
-        <section>
+        <section data-jp-reset>
           <h2>Overview</h2>
           <ul>
             <li><strong>Goal:</strong> Identify and handle extreme values.</li>
@@ -1795,15 +1957,15 @@ np.sign(data).head()
           </ul>
         </section>
 
-        <!-- Permutation and Random Sampling -->
-        <section data-jp-reset>
+        <!-- 2.2.7. Permutation and Random Sampling -->
+        <section id="section-permutation-and-random-sampling">
           <h1>
             <span class="text-light">2.2.7.</span><br>
-            Permutation &amp; Random Sampling
+            Permutation &amp; Random Sampling 💨
           </h1>
         </section>
 
-        <section>
+        <section data-jp-reset>
           <h2>Overview</h2>
           <ul>
             <li><strong>Goal:</strong> Randomly reorder or select data.</li>
@@ -1985,14 +2147,14 @@ dtype: int64
         </section>
 
         <!-- Computing Indicator/Dummy Variables -->
-        <section data-jp-reset>
+        <section id="section-computing-indicator-dummy-variables">
           <h1>
             <span class="text-light">2.2.8.</span><br>
-            Computing Indicator / Dummy Variables
+            Computing Indicator / Dummy Variables ⭐️
           </h1>
         </section>
 
-        <section>
+        <section data-jp-reset>
           <h2>Overview</h2>
           <ul>
             <li><strong>Goal:</strong> Convert a <strong>categorical</strong> field into an <strong>indicator
@@ -2203,14 +2365,14 @@ pd.get_dummies(pd.cut(values, bins))
 
       <!-- 2.3. Extension Data Types -->
       <section>
-        <section data-jp-reset>
+        <section id="section-extension-data-types">
           <h1>
             <span class="text-light">2.3.</span><br>
             Extension Data Types
           </h1>
         </section>
 
-        <section>
+        <section data-jp-reset>
           <h2>Overview</h2>
           <ul>
             <li><strong>Goal:</strong> Support richer, nullable, and non-NumPy types in pandas</li>
@@ -2355,19 +2517,57 @@ df
 
       <!-- 2.4 String Manipulation -->
       <section>
-        <section data-jp-reset>
+        <section data-jp-reset id="section-string-manipulation">
           <h1>
             <span class="text-light">2.4.</span><br>
             String Manipulation
           </h1>
         </section>
 
-        <!-- 2.4.1 Python Built-In String Object Methods -->
         <section data-jp-reset>
-          <h1><span class="text-light">2.4.1.</span><br>Python Built-In String Methods</h1>
+          <h2>Overview</h2>
+          <ul>
+            <li><strong>Goal:</strong> Clean and transform text data.</li>
+            <li><strong>Python:</strong> Built-ins (<span class="inline-code">split</span>, <span
+                class="inline-code">strip</span>, <span class="inline-code">join</span>, <span
+                class="inline-code">find</span>, <span class="inline-code">replace</span>).</li>
+            <li><strong>Regex:</strong> Flexible patterns via <span class="inline-code">re</span> (<span
+                class="inline-code">findall</span>, <span class="inline-code">search</span>, <span
+                class="inline-code">sub</span>).</li>
+            <li><strong>pandas:</strong> Vectorized <span class="inline-code">Series.str</span>, NA-safe, regex-aware.
+            </li>
+          </ul>
         </section>
 
+        <!-- Outline -->
         <section>
+          <h2>Outline</h2>
+          <ol>
+            <li>Python Built-In String Object Methods 💨
+              <a href="#section-python-built-in-string-object-methods">
+                &rarr;
+              </a>
+            </li>
+            <li>Regular Expressions 💨
+              <a href="#section-regular-expressions">
+                &rarr;
+              </a>
+            </li>
+            <li>String Functions in pandas ⭐️
+              <a href="#section-string-functions-in-pandas">
+                &rarr;
+              </a>
+            </li>
+          </ol>
+        </section>
+
+
+        <!-- 2.4.1 Python Built-In String Object Methods -->
+        <section id="section-python-built-in-string-object-methods">
+          <h1><span class="text-light">2.4.1.</span><br>Python Built-In String Methods 💨</h1>
+        </section>
+
+        <section data-jp-reset>
           <h2>Overview</h2>
           <ul>
             <li>Use core <span class="inline-code">split</span> / <span class="inline-code">strip</span> / <span
@@ -2466,12 +2666,12 @@ val.replace(",", "")
 
 
         <!-- 2.4.2. Regular Expressions -->
-        <section>
+        <section id="section-regular-expressions">
           <h1><span class="text-light">2.4.2.</span><br>
-            Regular Expressions</h1>
+            Regular Expressions 💨</h1>
         </section>
 
-        <section>
+        <section data-jp-reset>
           <h2>Overview</h2>
           <ul>
             <li>Regex = flexible patterns for split, search, extract, replace.</li>
@@ -2572,12 +2772,12 @@ labeled
         </section>
 
         <!-- 2.4.3. String Functions in pandas -->
-        <section>
+        <section id="section-string-functions-in-pandas">
           <h1><span class="text-light">2.4.3.</span><br>
-            String Functions in pandas</h1>
+            String Functions in pandas ⭐️</h1>
         </section>
 
-        <section>
+        <section data-jp-reset>
           <h2>Overview</h2>
           <ul>
             <li>Use <span class="inline-code">Series.str</span> for <span class="keyword">vectorized, NA-safe</span>
@@ -2720,14 +2920,14 @@ dtype: object
 
       <!-- 2.5 Categorical Data -->
       <section>
-        <section data-jp-reset>
+        <section id="section-categorical-data">
           <h1>
             <span class="text-light">2.5.</span><br>
             Categorical Data
           </h1>
         </section>
 
-        <section>
+        <section data-jp-reset>
           <h2>Overview</h2>
           <ul>
             <li><strong>Goal:</strong> Introduce pandas <span class="inline-code">Categorical</span> type for efficient
@@ -2740,15 +2940,43 @@ dtype: object
           </ul>
         </section>
 
-        <!-- 2.5.1. Background and Motivation -->
+        <!-- Outline -->
         <section>
+          <h2>Outline</h2>
+          <ol>
+            <li>Background &amp; Motivation ⭐️
+              <a href="#section-background-motivation">
+                &rarr;
+              </a>
+            </li>
+            <li>Categorical Extension Type in pandas ⭐️
+              <a href="#section-categorical-extension-type-in-pandas">
+                &rarr;
+              </a>
+            </li>
+            <li>Computations with Categoricals 💨
+              <a href="#section-computations-with-categoricals">
+                &rarr;
+              </a>
+            </li>
+            <li>Categorical Methods ⭐️
+              <a href="#section-categorical-methods">
+                &rarr;
+              </a>
+            </li>
+          </ol>
+        </section>
+
+        <!-- 2.5.1. Background and Motivation -->
+        <section id="section-background-motivation">
           <h1>
             <span class="text-light">2.5.1.</span>
             <br>
-            Background &amp; Motivation
+            Background &amp; Motivation ⭐️
           </h1>
         </section>
-        <section>
+
+        <section data-jp-reset>
           <h2>Overview</h2>
           <h4> Why Categorical Data?</h4>
           <ul>
@@ -2863,14 +3091,14 @@ dtype: object
         </section>
 
         <!-- 2.5.2 Categorical Extension Type in pandas -->
-        <section data-jp-reset>
+        <section id="section-categorical-extension-type-in-pandas">
           <h1>
             <span class="text-light">2.5.2.</span><br>
-            Categorical Extension Type in pandas
+            Categorical Extension Type in pandas ⭐️
           </h1>
         </section>
 
-        <section>
+        <section data-jp-reset>
           <h2>Overview</h2>
           <ul>
             <li><strong>What:</strong> pandas <span class="inline-code">Categorical</span> stores integer
@@ -3079,14 +3307,14 @@ Categories (3, object): ['foo' < 'bar' < 'baz']
         </section>
 
         <!-- 2.5.3 Computations with Categoricals -->
-        <section data-jp-reset>
+        <section id="section-computations-with-categoricals">
           <h1>
             <span class="text-light">2.5.3.</span><br>
-            Computations with Categoricals
+            Computations with Categoricals 💨
           </h1>
         </section>
 
-        <section>
+        <section data-jp-reset>
           <h2>Overview</h2>
           <ul>
             <li><strong>Same APIs:</strong> Categoricals behave like strings/objects in most ops.</li>
@@ -3273,14 +3501,14 @@ Wall time: 483 ms
         </section>
 
         <!-- 2.5.4 Categorical Methods -->
-        <section data-jp-reset>
+        <section id="section-categorical-methods">
           <h1>
             <span class="text-light">2.5.4.</span><br>
-            Categorical Methods
+            Categorical Methods ⭐️
           </h1>
         </section>
 
-        <section>
+        <section data-jp-reset>
           <h2>Overview</h2>
           <ul>
             <li><strong>Accessor:</strong> Use <span class="inline-code">.cat</span> for codes &amp; categories.</li>
@@ -3469,7 +3697,6 @@ Categories (2, object): ['a', 'b']
             </tbody>
           </table>
         </section>
-
 
         <section style="font-size:0.85em;">
           <h2>Dummy Variables (One-Hot)</h2>
