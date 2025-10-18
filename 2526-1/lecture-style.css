@@ -45,6 +45,10 @@
     text-align: center;
 }
 
+.reveal .text-underlined {
+    text-decoration: underline;
+}
+
 .reveal .footer {
     position: absolute;
     bottom: 0;
