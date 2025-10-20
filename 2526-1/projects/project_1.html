@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Đề bài dự án nhóm — NYC TLC Taxi Trips</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <style>
+        code,
+        pre {
+            font-size: 0.9rem !important;
+        }
+
+        .section-anchor {
+            scroll-margin-top: 6rem;
+        }
+
+        /* Simple info blocks */
+        .cardlet {
+            border: 1px solid rgba(0, 0, 0, .125);
+            border-radius: .5rem;
+            padding: .75rem 1rem;
+            background: #f8f9fa;
+        }
+
+        .cardlet+.cardlet {
+            margin-top: .5rem;
+        }
+
+        /* Task blocks: paragraphs only */
+        .task-block {
+            border-left: 4px solid #0d6efd;
+            padding-left: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .task-block h5 {
+            margin-bottom: .35rem;
+        }
+
+        .task-block p {
+            margin-bottom: .6rem;
+        }
+
+        .container {
+            max-width: 900px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-semibold" href="#">Đề bài dự án nhóm #1</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"
+                aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="nav" class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#thong-tin-chung">Thông tin chung</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tong-quan-du-lieu">Tổng quan dữ liệu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#muctieu">Mục tiêu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#congviec">Công việc</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#sanpham">Sản phẩm</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#rubric">Rubric</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-light border-bottom">
+        <div class="container py-5">
+            <div class="row align-items-center g-4">
+                <div class="col-12">
+                    <h1 class="display-6 fw-bold mb-2">NYC TLC Taxi Trips</h1>
+                    <h3>Chuẩn hoá hành trình &amp; tổng hợp theo thời gian/khu vực</h3>
+                    <p class="lead mb-0">Môn học: <span class="fw-semibold">Lập trình xử lý dữ liệu</span></p>
+                    <p class="lead mb-0">Học kỳ: <span class="fw-semibold">1, 2025–2026</span></p>
+                    <p class="lead mb-0">Trường Đại học Công nghệ, ĐHQG Hà Nội</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <!-- Thông tin chung -->
+        <section id="thong-tin-chung" class="section-anchor mb-5">
+            <h2>Thông tin chung</h2>
+            <div class="g-4">
+                <div class="alert alert-primary mb-0" role="alert">
+                    <span class="fw-bold">Hình thức đánh giá:</span> Vấn đáp dựa trên báo cáo, mã nguồn và sản phẩm dữ
+                    liệu.
+                </div>
+
+                <div class="alert alert-info mb-0 mt-2" role="alert">
+                    <span class="fw-bold">Phân công năm dữ liệu:</span> Xem ở spreadsheet này.
+                </div>
+
+                <div class="alert alert-success mb-0 mt-2" role="alert">
+                    <span class="fw-bold">Quan trọng:</span>
+                    <ul class="mb-0">
+                        <li>
+                            Tạo GitHub repo <strong>riêng cho nhóm</strong>, để ở chế độ <strong>riêng tư
+                                (private)</strong>, và mời
+                            tất cả thành viên trong nhóm vào làm cộng tác viên (collaborators). Sau đó chia sẻ quyền đọc
+                            (read access) với account GitHub của giảng viên: <code>@phongnt570</code>. Điền link repo
+                            vào spreadsheet.
+                        </li>
+                        <li>GitHub repo <strong>đầy đủ</strong> (mã nguồn, dữ liệu thô và đã xử lý, báo cáo) và
+                            <strong>README</strong> hướng dẫn chạy lại, có <code>requirements.txt</code> liệt kê thư
+                            viện đã dùng.
+                        </li>
+                        <li>
+                            Xem thêm thông tin tại <a href="#sanpham">mục Sản phẩm cần bàn giao</a>.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="alert alert-warning mb-0 mt-2" role="alert">
+                    <strong>Hạn nộp:</strong> 23:59:59, ngày <span class="fw-bold">19/12/2025</span> (đồng bộ theo thời
+                    gian hệ thống GitHub).
+                </div>
+
+            </div>
+        </section>
+
+        <section id="tong-quan-du-lieu" class="section-anchor my-5">
+            <h2>Tổng quan về dữ liệu</h2>
+
+            <div class="p-3 border rounded-3">
+                <h4>Giới thiệu</h4>
+
+                <p>
+                    <strong>TLC Trip Record Data</strong> là bộ dữ liệu chuyến đi taxi do NYC Taxi & Limousine
+                    Commission công bố,
+                    phát hành theo <em>tháng</em> cho từng loại hình (yellow/green/FHV). Dữ liệu thường có
+                    định dạng
+                    <strong>CSV</strong> và/hoặc <strong>Parquet</strong>, bao gồm thời điểm đón/trả, số hành khách,
+                    quãng đường,
+                    mã vùng đón/trả (PULocationID, DOLocationID), thông tin chi phí (fare/tip/tolls/total), v.v.
+                </p>
+
+                <p>
+                    <strong>Trang tải dữ liệu chính thức:</strong>
+                    <a href="https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page" target="_blank"
+                        rel="noopener">
+                        https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+                    </a> <span class="text-muted">(Ưu tiên Parquet khi khả dụng; một số năm/tháng có thể vẫn ở định
+                        dạng CSV.)</span>
+                </p>
+
+                <h4>Phạm vi dữ liệu</h4>
+
+                <p>
+                    Tất cả các nhóm sử dụng <strong>yellow taxi</strong> và phân tích <strong>toàn bộ zones của
+                        New York City (NYC)</strong>.
+                    Mỗi nhóm sẽ được phân công <strong>01 năm</strong> dữ liệu (theo bảng phân công trong spreadsheet).
+                </p>
+            </div>
+        </section>
+
+        <!-- Goals -->
+        <section id="muctieu" class="section-anchor my-5">
+            <h2>Mục tiêu</h2>
+            <ol>
+                <li class="mb-2">Thành thạo <strong>nạp/ghi dữ liệu lớn</strong> (CSV/Parquet) và tổ chức thư mục làm
+                    việc.
+                </li>
+                <li class="mb-2">Rèn luyện <strong>làm sạch, chuẩn hoá, tạo đặc trưng</strong> bằng Python, NumPy,
+                    Pandas.
+                </li>
+                <li class="mb-2">Thực hành <strong>trực quan hoá</strong> bằng Matplotlib/Seaborn.
+                </li>
+                <li class="mb-0">Nâng cao kỹ năng <strong>tổng hợp &amp; diễn giải</strong> dữ liệu thực tế; báo cáo
+                    minh bạch.</li>
+            </ol>
+        </section>
+
+        <hr class="my-5" />
+
+        <!-- Công việc cần thực hiện -->
+        <section id="congviec" class="section-anchor">
+            <h2>Công việc cần thực hiện</h2>
+
+            <!-- 0 -->
+            <div class="task-block">
+                <h5>0) Khởi tạo dự án &amp; GitHub repo</h5>
+                <p><strong>Yêu cầu chung:</strong> Tạo GitHub repo riêng cho nhóm (private); mời giảng viên làm
+                    collaborator.</p>
+                <ul class="mb-2 ps-3">
+                    <li>
+                        Tạo repo mới trên GitHub, đặt tên rõ ràng (ví dụ:
+                        <code>2526-LTXLDL-Project-&lt;Tên-Nhóm&gt;</code>).
+                    </li>
+                    <li>
+                        Mời giảng viên (<code>@phongnt570</code>) làm collaborator với quyền đọc (read access).
+                    </li>
+                    <li>
+                        Điền link repo vào spreadsheet phân công nhóm. Hạn cuối: trước <strong>23:59:59, ngày
+                            10/11/2025</strong>.
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 1 -->
+            <div class="task-block">
+                <h5>1) Thu thập &amp; tổ chức dữ liệu</h5>
+                <p><strong>Yêu cầu chung:</strong> Tải đủ 12 tệp theo tháng cho <em>yellow taxi</em> của năm mà nhóm
+                    mình được phân công.</p>
+
+                <p>Dữ liệu thô cần tải về từ trang chính thức, bao gồm:</p>
+                <ul>
+                    <li>12 tệp Parquet theo tháng cho năm đã được phân công (ví dụ: từ
+                        <code>yellow_tripdata_2022-01.parquet</code> đến <code>yellow_tripdata_2022-12.parquet</code>).
+                    </li>
+                    <li>Tệp <code>taxi_zone_lookup.csv</code> để tra mã vùng sang tên khu vực.</li>
+                </ul>
+
+                <p class="mb-1"><strong>Gợi ý các bước:</strong></p>
+                <ul class="mb-2 ps-3">
+                    <li>Kiểm tra danh sách tháng có mặt/thiếu; ghi chú rõ trong báo cáo.</li>
+                    <li>Chỉ nạp các cột cần thiết.</li>
+                    <li>Tổ chức tệp/thư mục với cấu trúc rõ ràng: <code>raw/</code>, <code>processed/</code>,
+                        <code>figures/</code>,
+                        <code>reports/</code>, v.v.
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 2 -->
+            <div class="task-block">
+                <h5>2) Làm sạch &amp; chuẩn hoá</h5>
+                <p><strong>Yêu cầu chung:</strong> Xây dựng bộ quy tắc đảm bảo chất lượng dữ liệu (QA) minh bạch; gắn cờ
+                    ngoại lệ (vd. <code>qa_flag</code>) thay vì xoá mù; chuẩn hoá danh mục và thời gian.
+                </p>
+                <p>
+                    <em>Tránh “xoá mù”:</em> không xoá bản ghi (vd. sử dụng <code>drop</code>) khi chưa có tiêu
+                    chí QA được <em>định nghĩa rõ ràng</em>.
+                    Ưu tiên <em>gắn cờ</em> trước rồi mới lọc khi phân tích; thống kê số bản ghi bị ảnh hưởng cho
+                    từng quy tắc.
+                </p>
+
+                <div class="p-3 border rounded-3 bg-light mt-2 mb-3">
+                    <h6 class="text-uppercase text-muted mb-2">Bảng tóm tắt QA (bắt buộc trong báo cáo)</h6>
+                    <ul class="mb-0 ps-3">
+                        <li>Số bản ghi bị <strong>gắn cờ</strong> theo từng quy tắc (thời lượng, quãng đường, tốc độ,
+                            giá trị âm, trùng…).</li>
+                        <li>Tỷ lệ % trên tổng số; ví dụ minh hoạ 2–3 trường hợp điển hình.</li>
+                        <li>Mô tả quyết định phân tích: <em>giữ kèm cờ</em> hay <em>loại khỏi tính KPI</em> (và lý do).
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="p-3 border rounded-3 mt-2 mb-3">
+                    <h6 class="text-uppercase text-muted mb-2">Phân loại & cờ chi tiết</h6>
+                    <p class="mb-2"><em>Nguyên tắc:</em> “<strong>Hard invalid</strong>” được xét <strong>theo từng
+                            KPI</strong>,
+                        không phải loại khỏi toàn bộ dữ liệu. Ví dụ: bản ghi thiếu <code>dropoff_datetime</code> sẽ
+                        bị loại khi tính KPI <em>thời lượng</em>, nhưng vẫn có thể dùng cho KPI <em>trips</em> hoặc
+                        <em>doanh thu</em> nếu các trường tương ứng còn hợp lệ.
+                    </p>
+                    <ul class="mb-2 ps-3">
+                        <li><strong>Hard invalid</strong> (loại khỏi KPI): thiếu <em>pickup/dropoff</em>, <em>dropoff
+                                &lt; pickup</em>, <em>trip_duration ≤ 0</em>, giá trị tiền <em>NaN</em> hoặc không hợp
+                            lệ.</li>
+                        <li><strong>Soft outlier</strong> (giữ nhưng gắn cờ): <em>trip_duration</em> quá dài (vd. &gt;
+                            180'), <em>trip_distance</em> quá lớn (vd. &gt; 150), <em>speed</em> bất hợp lý (vd. &gt; 80
+                            mph).</li>
+                        <li><strong>Cờ chi tiết</strong>: <code>qa_duration_invalid</code>,
+                            <code>qa_distance_outlier</code>, <code>qa_speed_outlier</code>,
+                            <code>qa_negative_amount</code>, <code>qa_duplicate</code>… và <code>qa_any</code> (tổng hợp
+                            OR).
+                        </li>
+                        <li><strong>Dedup & trường bắt buộc</strong>: loại bỏ trùng lặp theo một tập cột nhất quán; yêu
+                            cầu đủ
+                            <em>pickup/dropoff</em> để tính thời lượng.
+                        </li>
+                    </ul>
+                    <p class="small text-muted mb-0">Xuất <code>reports/qa_summary.csv</code> (trước &amp; sau QA) để
+                        ghi nhận số lượng/tỷ lệ ảnh hưởng theo từng quy tắc.</p>
+                </div>
+
+
+                <p class="mb-1"><strong>Gợi ý các bước:</strong></p>
+                <ul class="mb-2 ps-3">
+                    <li>Xác định ngưỡng hợp lý cho thời lượng, quãng đường, tốc độ; xử lý giá trị âm/thiếu.</li>
+                    <li>Chuẩn hoá <em>payment_type</em>, thời gian (year/month/weekday/hour), và loại bỏ trùng lặp (nếu
+                        có).
+                    </li>
+                    <li>Ghi lại tác động của mỗi quy tắc (bao nhiêu bản ghi bị gắn cờ/loại).</li>
+                </ul>
+
+                <p class="text-muted small mb-0">Khuyến khích tạo thêm các quy tắc QA phù hợp (nhưng cần giải
+                    thích rõ ràng trong báo cáo).</p>
+            </div>
+
+            <!-- 3 -->
+            <div class="task-block">
+                <h5>3) Tổng hợp &amp; KPI</h5>
+
+                <p><strong>KPI</strong> (Key Performance Indicator) là chỉ số cốt lõi gắn với mục tiêu, có công thức
+                    &amp; đơn vị rõ ràng.
+                    Ưu tiên <strong>median (p50)</strong> và <strong>p95</strong> vì ít bị lệch bởi ngoại lệ, giúp so
+                    sánh ổn định.</p>
+
+                <div class="p-3 border rounded-3 bg-light mb-3">
+                    <h6 class="text-uppercase text-muted mb-2">Giải thích nhanh</h6>
+                    <ul class="mb-2 ps-3">
+                        <li><strong>p50 (median):</strong> 50% chuyến nhỏ hơn và 50% lớn hơn giá trị này (giá trị “điển
+                            hình”).</li>
+                        <li><strong>p95:</strong> 95% chuyến nằm dưới ngưỡng này (phản ánh điều kiện xấu/đuôi phân
+                            phối).</li>
+                        <li><strong>% tổng năm:</strong> tỷ lệ số chuyến của một giai đoạn so với <em>tổng số chuyến cả
+                                năm</em>
+                            &rarr; <code>% = trips_period / trips_year_total × 100%</code>. Dễ so sánh giữa các
+                            tháng/ngày trong các năm khác nhau.</li>
+                        <li><strong>Chỉ số Index (base = 100):</strong> chuẩn hoá theo mốc (vd. median ngày của năm)
+                            &rarr; <code>Index = trips_period / median_daily_year × 100</code>. Cho thấy mức độ cao/thấp
+                            so với “mức điển hình”.</li>
+                        <li><strong>Chỉ số điều chỉnh thứ trong tuần:</strong> so với median của <em>chính thứ đó</em>
+                            trong năm
+                            &rarr; <code>Index_dow = trips_day / median_trips_same_weekday × 100</code> (khử mùa vụ
+                            tuần).</li>
+                    </ul>
+                    <p class="small text-muted mb-0">Chọn <em>một</em> cách chuẩn hoá phù hợp mục tiêu; nêu rõ công thức
+                        trong báo cáo.</p>
+                </div>
+
+                <p class="mb-1"><strong>Yêu cầu chung:</strong> Tổng hợp theo <em>ngày/tuần/tháng</em>; dùng p50/p95 cho
+                    các biến nhạy outlier;
+                    áp dụng <em>% tổng năm</em> hoặc <em>chỉ số base 100</em> (có thể kèm phiên bản điều chỉnh thứ trong
+                    tuần).</p>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="h-100 p-3 border rounded-3">
+                            <h6 class="text-uppercase text-muted mb-2">Bộ KPI tối thiểu</h6>
+                            <ul class="mb-0 ps-3">
+                                <li><strong>Trips</strong> (số tuyệt đối) + <strong>% tổng năm</strong> hoặc
+                                    <strong>Index (100)</strong>
+                                </li>
+                                <li><strong>Thời lượng</strong>: p50, p95 (phút)</li>
+                                <li><strong>Tốc độ</strong>: p50 (mph/kmh)</li>
+                                <li><strong>Doanh thu</strong>: median <em>total_amount</em></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="h-100 p-3 border rounded-3">
+                            <h6 class="text-uppercase text-muted mb-2">Quy tắc thực hiện</h6>
+                            <ul class="mb-0 ps-3">
+                                <li><strong>Tính sau QA</strong> (loại/gắn cờ ngoại lệ) và ghi tác động.</li>
+                                <li><strong>Định nghĩa rõ</strong>: Tên → Mục tiêu → Công thức → Đơn vị → Mức tổng hợp.
+                                </li>
+                                <li><strong>Nhất quán đơn vị</strong> (phút, dặm, mph / km/h) trong toàn báo
+                                    cáo.</li>
+                                <li><strong>Lưu bảng</strong> vào <code>processed/</code> (ghi rõ năm &amp; mức tổng
+                                    hợp).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="small text-muted mt-2 mb-0">Khuyến khích sáng tạo: thử p90/p99, phân rã theo zone/khung giờ,
+                    hoặc các chỉ số do nhóm tự đề xuất.</p>
+            </div>
+
+            <!-- 4 -->
+            <div class="task-block">
+                <h5>4) Trực quan hoá</h5>
+                <p><strong>Yêu cầu chung:</strong> Tối thiểu 3 hình có tiêu đề, nhãn trục, đơn vị, chú giải; ưu tiên
+                    tính đọc được và thông điệp rõ ràng.</p>
+                <p class="mb-1"><strong>Gợi ý các bước:</strong></p>
+                <ul class="mb-2 ps-3">
+                    <li>Đường theo thời gian (ngày/tháng) cho số chuyến hoặc thời lượng.</li>
+                    <li>Cột so sánh (ví dụ top khung giờ/zone theo chỉ số đã chuẩn hoá).</li>
+                    <li>Heatmap <em>hour × weekday</em> cho mật độ chuyến.</li>
+                </ul>
+                <p class="text-muted small mb-0">Khuyến khích thử thêm biểu đồ phù hợp (nhưng giữ tối giản, nhất quán).
+                </p>
+            </div>
+
+            <!-- 5 -->
+            <div class="task-block">
+                <h5>5) Xuất dữ liệu &amp; tổ chức dự án</h5>
+                <p><strong>Yêu cầu chung:</strong> Xuất các bảng tổng hợp (CSV) và dữ liệu đã xử lý (ưu tiên Parquet);
+                    kèm hướng dẫn chạy lại toàn bộ pipeline.</p>
+                <p class="mb-1"><strong>Gợi ý các bước:</strong></p>
+                <ul class="mb-2 ps-3">
+                    <li>Thiết lập cấu trúc thư mục chuẩn; đặt tên tệp nhất quán theo năm.</li>
+                    <li>Ghi README mô tả các bước chạy lại và yêu cầu môi trường.</li>
+                    <li>Xuất bảng tổng hợp KPI theo định dạng CSV vào <code>processed/</code>.</li>
+                    <li>Xuất dữ liệu đã làm sạch/chuẩn hoá vào <code>processed/</code> (ưu tiên Parquet).</li>
+                    <li>Lưu hình vào <code>figures/</code> với tên dễ tra cứu.</li>
+                </ul>
+                <p class="text-muted small mb-0">Khuyến khích bổ sung sơ đồ pipeline hoặc checklist kiểm tra trước khi
+                    nộp.</p>
+            </div>
+
+            <!-- 6 -->
+            <div class="task-block">
+                <h5>6) Diễn giải &amp; kết luận</h5>
+                <p><strong>Yêu cầu chung:</strong> Trình bày phát hiện chính, nêu bối cảnh theo năm (sự kiện, mùa vụ),
+                    thảo luận giới hạn và đề xuất tiếp theo.</p>
+                <p class="mb-1"><strong>Gợi ý các bước:</strong></p>
+                <ul class="mb-2 ps-3">
+                    <li>Tóm tắt 3–5 phát hiện đáng chú ý, kèm hình/bảng minh hoạ.</li>
+                    <li>Nêu ảnh hưởng của các quy tắc QA và dữ liệu thiếu/thừa.</li>
+                    <li>Đề xuất cải tiến (thu thập, xử lý, KPI mới hoặc phân tích mở rộng).</li>
+                    <li>Bình luận bối cảnh đặc thù của năm (dịch bệnh, thời tiết cực đoan, thay đổi chính sách giá/toll)
+                        có thể ảnh hưởng KPI.</li>
+                </ul>
+                <p class="text-muted small mb-0">Khuyến khích so sánh nhanh với một năm liền kề (nếu có) ở mức mô tả.
+                </p>
+            </div>
+
+            <!-- 7 -->
+            <div class="task-block">
+                <h5>7) Viết báo cáo kỹ thuật</h5>
+                <p><strong>Yêu cầu chung:</strong> Viết báo cáo kỹ thuật (theo mẫu) với cấu trúc mạch lạc, tham chiếu
+                    hình/bảng; nêu rõ cách tái lập.</p>
+                <p class="mb-1"><strong>Gợi ý các bước:</strong></p>
+                <ul class="mb-2 ps-3">
+                    <li>Sử dụng mẫu báo cáo được cung cấp, sau đó xuất sang PDF để nộp lên GitHub repo.</li>
+                    <li>Tham chiếu hình/bảng đúng chỗ trong báo cáo.</li>
+                    <li>Mô tả rõ ràng trong file <code>README.md</code> cách tái lập: môi trường, thư viện, seed, link
+                        repo.</li>
+                    <li>Tổ chức repo rõ ràng: thư mục, tên tệp, mô tả trong <code>README.md</code>.</li>
+                </ul>
+            </div>
+
+            <!-- 8 (optional) -->
+            <div class="task-block">
+                <h5>8) Nâng cao (tuỳ chọn, điểm thưởng)</h5>
+                <p><strong>Yêu cầu chung:</strong> Thực hiện thêm 1–2 phân tích nâng cao để mở rộng kết quả chính. Ưu
+                    tiên
+                    cách làm đơn giản, minh bạch, tái lập (reproducible); nêu rõ mục tiêu, dữ liệu dùng, phương pháp và
+                    cách đánh giá.
+                    Phần này
+                    <em>không bắt buộc</em>, nếu đạt yêu cầu sẽ có điểm thưởng từ +5 đến +20.
+                </p>
+
+                <p class="mb-1"><strong>Gợi ý hướng mở rộng:</strong></p>
+                <ul class="mb-2 ps-3">
+                    <li><strong>Dự báo nhu cầu</strong> (trips) theo ngày/giờ: so sánh baseline (cùng thứ của tuần
+                        trước) với mô hình đơn giản (hồi quy tuyến tính/ARIMA). Báo cáo MAE, MAPE, v.v.</li>
+                    <li><strong>Phát hiện bất thường</strong> thời lượng/tốc độ: điểm z (z-score) theo <em>hour ×
+                            weekday</em>
+                        hoặc mô hình đơn giản (Isolation Forest). Liệt kê & diễn giải các ca bất thường điển hình.</li>
+                    <li><strong>Phân cụm mẫu hình</strong> (k-means) cho zone/khung giờ dựa trên vector KPI (p50/p95
+                        thời lượng, trips index). Đặt tên cụm & mô tả đặc trưng.</li>
+                    <li><strong>Chỉ số chuẩn hoá</strong> nâng cao: “base = 100” theo median năm hoặc theo từng thứ
+                        trong tuần; phân rã mùa vụ/ngoại lệ ngắn hạn.</li>
+                    <li><strong>Kiểm thử dữ liệu nâng cao</strong>: thiết kế bộ quy tắc QA tự động, dashboard tỉ lệ lỗi
+                        theo tháng, phân tích tác động QA lên KPI.</li>
+                </ul>
+
+                <div class="p-3 border rounded-3 bg-light">
+                    <h6 class="text-uppercase text-muted mb-2">Nguyên tắc chấm điểm thưởng</h6>
+                    <ul class="mb-0 ps-3">
+                        <li><strong>Minh bạch &amp; tái lập:</strong> pipeline chạy lại được, có seed/phiên bản thư
+                            viện.</li>
+                        <li><strong>Đánh giá đúng:</strong> có tập kiểm định hoặc backtest; nêu rõ metric (MAE/MAPE/F1…
+                            tuỳ bài).</li>
+                        <li><strong>Diễn giải:</strong> giải thích ý nghĩa thực tế, giới hạn &amp; rủi ro; hình/bảng hỗ
+                            trợ.</li>
+                    </ul>
+                    <p class="small text-muted mb-0">Được phép dùng thư viện ngoài (vd. <em>scikit-learn</em>,
+                        <em>statsmodels</em>) miễn ghi rõ phiên bản. Không yêu cầu deep learning.
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+        <hr class="my-5" />
+
+        <!-- Deliverables -->
+        <section id="sanpham" class="section-anchor">
+            <h2>Sản phẩm cần bàn giao</h2>
+            <ol>
+                <li>
+                    <strong>Mã nguồn (Notebook/script)</strong> chạy lại được toàn bộ pipeline: nạp → làm sạch/chuẩn hoá
+                    → tổng hợp → vẽ hình. Có chú thích rõ ràng từng bước ghi vào <code>README.md</code>. Ghi toàn bộ các
+                    thư viện và phiên bản đã dùng vào file <code>requirements.txt</code> (để có thể tái lập môi trường
+                    Python nhanh bằng <code>pip install -r requirements.txt</code>).
+                    <br>
+                    <div class="p-3 border rounded-3 bg-light mt-3 mb-3">
+                        <h6 class="text-uppercase text-muted mb-2">Cấu trúc thư mục đề xuất</h6>
+                        <pre><code>.
+├── raw/                  # Dữ liệu thô
+├── processed/            # Dữ liệu đã xử lý & bảng tổng hợp
+├── figures/              # Hình trực quan hoá
+├── reports/              # Báo cáo kỹ thuật (chứa file report-&lt;tên-nhóm&gt;.pdf)
+├── src/                  # Jupyter Notebooks hoặc Python scripts
+├── README.md             # Hướng dẫn chạy lại
+└── requirements.txt      # Thư viện & phiên bản
+</code></pre>
+                    </div>
+                </li>
+                <li>
+                    <strong>Dữ liệu</strong>: bản thô (đã tải, ở <code>raw/</code>) và bản đã xử lý (Parquet/CSV tổng
+                    hợp, ở <code>processed/</code>). Vì dữ liệu khá lớn, các nhóm sẽ cần chia file CSV/Parquet thành
+                    nhiều phần nhỏ hơn
+                    khi lưu trữ và nộp lên GitHub. Khi nộp file lớn hơn 100 MB, các nhóm cần dùng Git Large File Storage
+                    (tìm hiểu tại <a href="https://git-lfs.github.com/">[1]</a> và <a
+                        href="https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github">[2]</a>).
+                    <ul>
+                        <li><em>Nếu tổng lượng dữ liệu quá lớn</em>: Không bắt buộc đẩy toàn bộ <code>raw/</code> lên
+                            GitHub
+                            nhưng
+                            cần có file <code>README.md</code> trong
+                            <code>raw/</code> liệt kê đường dẫn đến các tệp tin thô.
+                        </li>
+                        <li><em>Luôn luôn bắt buộc</em> phải đẩy <code>processed/</code> lên GitHub.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Báo cáo kỹ thuật</strong> mô tả dữ liệu, quy tắc chất lượng,
+                    KPI, kết quả và giới hạn, kèm hình/bảng minh hoạ.
+                    <br>
+                    <strong>Yêu cầu</strong>:
+                    <ul>
+                        <li>Dùng cấu trúc mẫu được cung cấp (xem bên dưới).</li>
+                        <li>Ưu tiên sử dụng LaTeX (vd. Overleaf.com) để viết báo cáo; hoặc có thể dùng Microsoft Word /
+                            Google Docs để soạn thảo.</li>
+                        <li>Xuất file ra <code>reports/report-&lt;tên-nhóm&gt;.pdf</code>.</li>
+                        <li>Tuỳ chọn: Có thể viết bằng tiếng Việt hoặc tiếng Anh.</li>
+                    </ul>
+
+                    <div class="p-3 border rounded-3 bg-light mt-3 mb-3">
+                        <h6 class="text-uppercase text-muted mb-2">Cấu trúc báo cáo kỹ thuật</h6>
+                        <ul class="mb-0 ps-3">
+                            <li><strong>Thông tin cơ bản:</strong> tên dự án, tên nhóm, thành viên, năm dữ liệu, ngày
+                                nộp, commit hash được dùng để xác định phiên bản mã nguồn sẽ chấm.</li>
+                            <li><strong>Giới thiệu &amp; tổng quan dữ liệu:</strong> nguồn, phạm vi, đặc điểm chính.
+                            </li>
+                            <li><strong>Làm sạch &amp; chuẩn hoá:</strong> quy tắc QA, tác động, chuẩn hoá danh mục/thời
+                                gian.
+                            </li>
+                            <li><strong>Tổng hợp &amp; KPI:</strong> định nghĩa, công thức, đơn vị, bảng tổng hợp.</li>
+                            <li><strong>Trực quan hoá:</strong> hình minh hoạ với chú thích đầy đủ.</li>
+                            <li>
+                                <strong>Các phân tích nâng cao (nếu có):</strong> mục tiêu, phương pháp, đánh giá, diễn
+                                giải.
+                            </li>
+                            <li><strong>Diễn giải &amp; kết luận:</strong> phát hiện chính, bối cảnh, giới hạn, đề xuất
+                                tiếp theo.
+                            </li>
+                            <li><strong>Tham khảo:</strong> liệt kê tài liệu, trang web, thư viện đã dùng.</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <strong>Tệp tóm tắt & quy ước tên file KPI</strong>:
+                    <ul>
+                        <li>Xuất <code>reports/qa_summary.csv</code> (hoặc <code>processed/qa_summary.csv</code>) ghi số
+                            lượng/tỷ lệ
+                            bản ghi bị ảnh hưởng theo từng quy tắc QA, trước &amp; sau khi lọc.</li>
+                        <li>Đặt tên bảng KPI theo quy ước: <code>processed/kpi_daily_YYYY.csv</code>,
+                            <code>processed/kpi_weekly_YYYY.csv</code>, <code>processed/kpi_monthly_YYYY.csv</code>
+                            (đổi <code>YYYY</code> theo năm của nhóm).
+                        </li>
+                    </ul>
+                </li>
+
+            </ol>
+
+
+            <div class="alert alert-info mt-3" role="alert">
+                <strong>Quan trọng:</strong> Tất cả sản phẩm nêu trên phải được commit lên GitHub repo của nhóm
+                trước hạn nộp (23:59:59, ngày 19/12/2025).
+                <br>
+                <strong>Đóng dấu nộp bài:</strong> Tạo <em>Git tag</em> hoặc <em>Release</em> trước deadline và ghi rõ
+                <code>commit hash</code> được chấm trong báo cáo.
+            </div>
+            <div class="alert alert-danger mt-2" role="alert">
+                <strong>Bảo mật:</strong> Không commit <em>token/API key/mật khẩu</em>. Nếu cần biến môi trường, hướng
+                dẫn cấu hình trong <code>README.md</code>.
+            </div>
+        </section>
+
+        <hr class="my-5" />
+
+        <!-- Rubric -->
+        <section id="rubric" class="section-anchor">
+            <h2>Cách tính điểm</h2>
+            <div class="table-responsive">
+                <table class="table table-striped align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Hạng mục</th>
+                            <th>Mô tả</th>
+                            <th class="text-end">Điểm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Thu thập dữ liệu</td>
+                            <td>Đúng <strong>năm được phân</strong>; kiểm kê đủ/thiếu 12 tháng; ghi <strong>nguồn &amp;
+                                    phiên bản</strong> dữ liệu; tổ chức tệp/thư mục rõ ràng.</td>
+                            <td class="text-end">10</td>
+                        </tr>
+                        <tr>
+                            <td>Làm sạch &amp; chuẩn hoá</td>
+                            <td>Quy tắc đảm bảo chất lượng dữ liệu (QA) hợp lý (thời lượng/quãng đường/tốc độ/giá trị
+                                âm); <strong>gắn cờ &amp; báo
+                                    cáo tác động</strong>; chuẩn hoá danh mục &amp; thời gian.</td>
+                            <td class="text-end">30</td>
+                        </tr>
+                        <tr>
+                            <td>Bảng tổng hợp &amp; KPI</td>
+                            <td>KPI <strong>p50/p95</strong> cho biến nhạy outlier; <strong>chuẩn hoá</strong> theo
+                                <em>% tổng năm</em> hoặc <em>Index (base=100)</em> (tuỳ chọn: bản điều chỉnh thứ trong
+                                tuần); định nghĩa rõ công thức/đơn vị; lưu bảng đúng định dạng.
+                            </td>
+                            <td class="text-end">20</td>
+                        </tr>
+                        <tr>
+                            <td>Trực quan hoá</td>
+                            <td>≥ 3 hình (đường/cột/heatmap); tiêu đề, trục, đơn vị, chú giải đầy đủ; thông điệp rõ;
+                                nhất quán phong cách.</td>
+                            <td class="text-end">20</td>
+                        </tr>
+                        <tr>
+                            <td>Diễn giải &amp; kết luận</td>
+                            <td>Nêu phát hiện chính và bối cảnh theo <strong>năm</strong>; thảo luận <strong>giới hạn dữ
+                                    liệu</strong> &amp; <strong>tác động QA</strong>; đề xuất tiếp theo.</td>
+                            <td class="text-end">10</td>
+                        </tr>
+                        <tr>
+                            <td>Viết báo cáo &amp; tái lập</td>
+                            <td>Cấu trúc mạch lạc; tham chiếu hình/bảng; <strong>README</strong> &amp; hướng dẫn chạy
+                                lại; công bố <strong>seed</strong>, <strong>requirements</strong>, và liên kết repo; tổ
+                                chức repo rõ ràng.</td>
+                            <td class="text-end">10</td>
+                        </tr>
+                        <tr class="table-success">
+                            <td>Điểm thưởng (tuỳ chọn)</td>
+                            <td>Phân tích nâng cao: dự báo, phát hiện bất thường, phân cụm, chuẩn hoá nâng cao, kiểm thử
+                                dữ liệu nâng cao… Có đánh giá (MAE/MAPE/F1 hoặc backtest), minh bạch &amp; tái lập.</td>
+                            <td class="text-end">+0 đến +20</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="text-center mt-5">
+            <span class="text-muted">— Kết thúc đề bài —</span>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
