@@ -15,7 +15,7 @@ Serving the slides locally allows several advantages, such as the ability to see
 
 Nothing special is needed. Just push your changes to the `main` branch, and GitHub Pages will automatically serve the content.
 
-# Createing New Lectures
+# Creating New Lectures
 
 1. Copy `lecture-template.html` to a new file named `lecture-xxx-title.html`, where `xxx` is the lecture number (e.g., `001`, `002`, etc.) and `title` is a short description of the lecture topic (e.g., `introduction`, `data-processing`, etc.).
 1. Edit the new file to update the lecture title, date, and content.
