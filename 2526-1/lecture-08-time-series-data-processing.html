@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Lecture 8: Time Series Data Processing</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="plugin/highlight/zenburn.css">
+
+  <link rel="stylesheet" href="lecture-style.css">
+
+  <!-- in <head> -->
+  <style>
+    .panda-sticker {
+      position: absolute;
+      bottom: -2rem;
+      right: 0rem;
+      width: clamp(96px, 12vw, 160px);
+      height: auto;
+      transform: rotate(-2deg);
+      /* filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .15)); */
+      /* opacity: .95; */
+      z-index: -5;
+      pointer-events: none;
+      /* never blocks clicks */
+    }
+
+    /* If you ever need a dark theme tweak, slightly lighten */
+    .reveal.has-dark-background .panda-sticker {
+      opacity: .9;
+    }
+
+    /* Stack on small screens so it doesn't crowd the title */
+    @media (max-width: 700px) {
+      .panda-sticker {
+        top: .75rem;
+        right: .75rem;
+        width: 22vw;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <!-- Title slide -->
+        <section>
+          <h1>Programming for Data Processing</h1>
+          <div>
+            <p>
+              <strong>Lectures:</strong> Nguyễn Tuấn Phong, Đào Việt Anh
+            </p>
+            <p>
+              <strong>Labs:</strong> Trịnh Ngọc Huỳnh, Phạm Tiến Du
+            </p>
+            <p>
+              <strong>Semester:</strong> 2025-2026-1
+            </p>
+            <p>Institute for AI, VNU-UET</p>
+          </div>
+        </section>
+
+        <!-- Lecture title -->
+        <section>
+          <h1>
+            <span class="text-light">Lecture 8</span>
+            <br>
+            Time Series
+            <br>
+            Data Processing
+          </h1>
+        </section>
+
+        <!-- Last time -->
+        <section data-markdown>
+          <textarea data-template>
+            ## Last time
+            1. Data Loading and Storage
+            2. Data Cleaning and Preparation
+          </textarea>
+        </section>
+
+        <!-- Today -->
+        <section>
+          <h2>Today</h2>
+
+          <ul>
+            <li>From <span class="keyword">parsing</span> → <span class="keyword">resampling</span> → <span
+                class="keyword">rolling</span> → <span class="keyword">TZ/DST</span> → <span
+                class="keyword">outliers</span></li>
+            <li>Live notebooks: Real-world data for <strong>Hanoi/Vietnam</strong> + <strong>Household Power
+                Consumption</strong>
+            </li>
+            <li>Focus: clean indices, correct frequency, reliable aggregates</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <!-- Motivation: Why Processing Time Series? -->
+        <section style="font-size: 0.9em;">
+          <h2>Why Processing Time Series?</h2>
+          <ul>
+            <li>Many signals are time-ordered: <span class="keyword">apps</span>, <span class="keyword">sensors</span>,
+              <span class="keyword">finance</span>, <span class="keyword">operations</span>
+            </li>
+            <li>Order reveals <span class="keyword">trends</span>, <span class="keyword">seasonality</span>, <span
+                class="keyword">autocorrelation</span></li>
+            <li>Clean time axes → reliable <span class="keyword">KPIs</span>, monitoring, <span
+                class="keyword">forecasts</span></li>
+            <li>Real-world wrinkles: <span class="keyword">TZ/DST</span>, <span class="keyword">gaps</span>, <span
+                class="keyword">duplicates</span>, <span class="keyword">irregular sampling</span></li>
+          </ul>
+        </section>
+
+        <!-- Motivation: What Goes Wrong Without It? -->
+        <section style="font-size: 0.9em;">
+          <h2>What Goes Wrong Without It?</h2>
+          <ul>
+            <li><span class="keyword">Duplicate</span> or unsorted timestamps break <span
+                class="inline-code">asfreq()</span> &amp; rolling</li>
+            <li>Hidden <span class="keyword">gaps</span> bias aggregates after <span
+                class="inline-code">resample()</span></li>
+            <li>Bad <span class="keyword">TZ/DST</span> handling shifts data or drops hours</li>
+            <li>Random (non-time) splits cause <span class="keyword">leakage</span></li>
+            <li>Imputation over long spans collapses <span class="keyword">variance</span></li>
+            <li>Mixing <span class="keyword">asfreq</span> and <span class="keyword">resample</span> intents leads to
+              silent errors</li>
+          </ul>
+        </section>
+
+        <!-- Live Demo Cues -->
+        <section>
+          <h2>Live Demo Cues</h2>
+          <ul>
+            <li><span class="keyword">Hanoi/Vietnam</span>: parse → weekly resample → MA → z-score (<a
+                href="notebooks/Lec08-HanoiVietnam.ipynb">link</a>)
+            </li>
+            <li><span class="keyword">Household Power Consumption</span>: tz_localize → asfreq vs resample →
+              hourly/daily
+              kWh (<a href="notebooks/Lec08-HouseholdPowerConsumption.ipynb">link</a>)</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <!-- Datetime Basics -->
+        <section data-jp-reset>
+          <h2>Date &amp; Time Basics</h2>
+          <ul>
+            <li>Parse with <span class="inline-code">pd.to_datetime(..., errors="coerce")</span></li>
+            <li>Set <span class="keyword">DateTimeIndex</span>; always <span class="inline-code">sort_index()</span>
+            </li>
+            <li>Keep raw strings until parsing is verified</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+df = pd.read_csv("data.csv")
+df["ts"] = pd.to_datetime(df["timestamp"], 
+                          utc=True, errors="coerce")
+df = df.set_index("ts").sort_index()
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+# DateTimeIndex[UTC] ready for time-aware ops
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- Indexing, Selection, Duplicates -->
+        <section>
+          <h2>Indexing &amp; Duplicates</h2>
+          <ul>
+            <li>Time slicing: <span class="inline-code">s["2022-10":"2022-12"]</span></li>
+            <li>Detect duplicates: <span class="inline-code">.index.duplicated()</span></li>
+            <li>Resolve: <span class="inline-code">groupby(level=0).mean()</span> or <span
+                class="inline-code">drop_duplicates(keep="last")</span></li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+dup = df.index.duplicated(keep=False)
+df_clean = df.groupby(level=0).mean(numeric_only=True)  # collapse exact dup timestamps
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+# Unique DateTimeIndex achieved
+      </code></pre>
+          </div>
+        </section>
+      </section>
+
+      <!-- Date Ranges & Frequencies -->
+      <section>
+        <section>
+          <h2>Date Ranges &amp; Frequencies</h2>
+          <ul>
+            <li>Generate with <span class="inline-code">pd.date_range</span></li>
+            <li>Common codes: <span class="inline-code">D</span>, <span class="inline-code">H</span>, <span
+                class="inline-code">T</span>, <span class="inline-code">MS</span>, <span class="inline-code">QS</span>
+            </li>
+            <li>Shift values with <span class="inline-code">s.shift(k)</span> for lags</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+rng = pd.date_range("2024-01-01", periods=5, freq="D")
+s = pd.Series(range(5), index=rng)
+s_lag1 = s.shift(1)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+# Lag features ready
+      </code></pre>
+          </div>
+        </section>
+      </section>
+
+      <!-- TZ & DST -->
+      <section>
+        <section style="font-size: 0.9em;">
+          <h2>Time Zones &amp; DST</h2>
+          <ul>
+            <li><span class="keyword">Localize</span> tz-naive: Raw data did not specify timezone, then use <span
+                class="inline-code">tz_localize("Europe/Paris")</span></li>
+            <li><span class="keyword">Convert</span> tz-aware: Raw data used a different timezone, then use <span
+                class="inline-code">tz_convert("Asia/Ho_Chi_Minh")</span></li>
+            <li>Daylight Saving Time (DST): handle <span class="keyword">nonexistent</span> &amp; <span
+                class="keyword">ambiguous</span> times
+            </li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+df = df.tz_localize("Europe/Paris", ambiguous="NaT", nonexistent="NaT")
+df_hcm = df.tz_convert("Asia/Ho_Chi_Minh")
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+# DST-safe index for resampling and rolling windows
+      </code></pre>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>Upsampling vs Downsampling</h2>
+          <ul>
+            <li><span class="keyword">Upsample</span>: increase frequency (e.g., daily → hourly)</li>
+            <li><span class="keyword">Downsample</span>: decrease frequency (e.g., minute → hourly)</li>
+            <li>Two main methods: <span class="inline-code">.asfreq()</span> vs <span
+                class="inline-code">.resample()</span></li>
+          </ul>
+        </section>
+
+        <!-- .asfreq(): reveal/align to a fixed grid -->
+        <section style="font-size: 0.8em;">
+          <h2><span class="inline-code">.asfreq()</span></h2>
+          <h4>Reveal / Align to a Fixed Grid</h4>
+          <ul>
+            <li><span class="keyword">Reindex</span> to a target frequency without aggregation</li>
+            <li>Preserves values at exact timestamps; others become <span class="keyword">NaN</span></li>
+            <li>Use to expose <span class="keyword">gaps</span>, prep <span
+                class="inline-code">interpolate("time")</span>
+              / <span class="inline-code">ffill()</span>, align
+              multiple series</li>
+            <li>Typical: hourly → <span class="inline-code">15min</span> grid, then impute</li>
+          </ul>
+        </section>
+
+        <section style="font-size: 0.8em;">
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+# Hourly series (2 points)
+idx = pd.date_range("2024-01-01 10:00", periods=2, freq="h")
+s = pd.Series([100, 110], index=idx)
+
+# Align to a 15-minute grid (no aggregation; reveals NaNs)
+up = s.asfreq("15min")
+
+# Optional: make it continuous
+up_i = up.interpolate("time").ffill()
+display(up)
+print("---" * 10)
+display(up_i)
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+2024-01-01 10:00:00    100.0
+2024-01-01 10:15:00      NaN
+2024-01-01 10:30:00      NaN
+2024-01-01 10:45:00      NaN
+2024-01-01 11:00:00    110.0
+Freq: 15min, dtype: float64
+------------------------------
+2024-01-01 10:00:00    100.0
+2024-01-01 10:15:00    102.5
+2024-01-01 10:30:00    105.0
+2024-01-01 10:45:00    107.5
+2024-01-01 11:00:00    110.0
+Freq: 15min, dtype: float64
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- .resample(): aggregate / change granularity (and comparison) -->
+        <section style="font-size: 0.8em;">
+          <h2><span class="inline-code">.resample()</span></h2>
+          <h4>Aggregate / Change Granularity</h4>
+          <ul>
+            <li>Bins by time; apply aggregations like <span class="inline-code">mean()</span>, <span
+                class="inline-code">sum()</span></li>
+            <li><span class="keyword">Downsample</span>: e.g., <span class="inline-code">1min → 15min</span> with <span
+                class="inline-code">mean()</span></li>
+            <li><span class="keyword">Upsample</span>: prefer <span class="inline-code">.asfreq()</span> + impute
+              (aggregation alone won’t create values)</li>
+            <li><strong>Compare</strong>: <span class="inline-code">asfreq</span> = align grid (no math); <span
+                class="inline-code">resample(...).mean()</span> = within-bin summary</li>
+          </ul>
+        </section>
+
+        <section style="font-size: 0.7em;">
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+# Minute data (5 points in the first 15-min bin)
+idx_m = pd.date_range("2024-01-01 10:00", periods=5, freq="min")
+m = pd.Series([1, 2, 3, 4, 5], index=idx_m)
+
+# Downsample to 15-minute bins:
+down_af   = m.asfreq("15min")            # just pick value exactly at 10:00, else NaN
+down_mean = m.resample("15min").mean()   # aggregation (average of 1..5 = 3)
+
+print("Original data:")
+display(m)
+print("---")
+print("asfreq('15min'):")
+display(down_af.head())
+print("---")
+print("resample('15min').mean():")
+display(down_mean.head())
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+Original data:
+2024-01-01 10:00:00    1
+2024-01-01 10:01:00    2
+2024-01-01 10:02:00    3
+2024-01-01 10:03:00    4
+2024-01-01 10:04:00    5
+Freq: min, dtype: int64
+---
+asfreq('15min'):
+2024-01-01 10:00:00    1
+Freq: 15min, dtype: int64
+---
+resample('15min').mean():
+2024-01-01 10:00:00    3.0
+Freq: 15min, dtype: float64
+      </code></pre>
+          </div>
+        </section>
+
+        <!-- Grouped Resampling & Calendar Features -->
+        <section style="font-size: 0.8em;">
+          <h2>Grouped Resampling &amp; Calendar Features</h2>
+          <ul>
+            <li>Weekly/monthly views: <span class="inline-code">resample("W").sum()</span></li>
+            <li>Per-key groups: <span class="inline-code">df.groupby("city").resample("D").mean()</span></li>
+            <li>Calendar: <span class="inline-code">index.dayofweek</span>, <span class="inline-code">index.month</span>
+            </li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+weekly = s.resample("W").sum()
+by_month = s.groupby(s.index.month).mean()
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+# Seasonal patterns by calendar buckets
+      </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h3>Takeaways</h3>
+          <ul>
+            <li><span class="keyword">Rule of thumb</span>:
+              <ul>
+                <li><span class="inline-code">asfreq</span> to align/expose gaps, then <span
+                    class="inline-code">interpolate/ffill</span></li>
+                <li><span class="inline-code">resample</span> to summarize/change granularity</li>
+              </ul>
+            </li>
+            <li>Be explicit about intent: <span class="inline-code">asfreq()</span> ≠ <span
+                class="inline-code">mean()</span></li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <!-- Moving Windows -->
+        <section style="font-size: 0.9em;">
+          <h2>Moving Windows</h2>
+          <h4>Capture trends & local patterns</h4>
+          <ul>
+            <li>Row-based: <span class="inline-code">rolling(30, min_periods=15)</span></li>
+            <li>Time-based: <span class="inline-code">rolling("30D")</span></li>
+            <li>Use <span class="inline-code">center=True</span> when visual trend matters</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+roll = s.rolling("30D", min_periods=15)
+ma = roll.mean(); sd = roll.std()
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+# Smooth trend & local variability
+      </code></pre>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <!-- Missing Data & Imputation -->
+        <section>
+          <h2>Missing Data &amp; Imputation</h2>
+          <ul>
+            <li>Reveal gaps: <span class="inline-code">asfreq("D")</span></li>
+            <li>Fill: <span class="inline-code">ffill</span>, <span class="inline-code">bfill</span>, <span
+                class="inline-code">interpolate("time")</span></li>
+            <li>Beware variance collapse on long spans</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+s_reg = s.asfreq("D")
+s_fill = s_reg.interpolate("time").ffill()
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+# Consistent daily series for downstream ops
+      </code></pre>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <!-- Outliers -->
+        <section style="font-size: 0.9em;">
+          <h2>Outliers</h2>
+          <ul>
+            <li>Local rule: <span class="inline-code">|z| &gt; 3</span> with rolling mean/std</li>
+            <li>Another option: rolling <span class="keyword">MAD</span></li>
+            <li>Guard: ignore tiny <span class="inline-code">sd</span> windows</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+roll = s.rolling(30, min_periods=15)
+mu, sd = roll.mean(), roll.std()
+z = (s - mu) / sd
+outliers = s[z.abs() > 3]
+      </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+# Flags are relative to the local 30-sample context
+      </code></pre>
+          </div>
+        </section>
+      </section>
+
+      <!-- Wrap-up -->
+      <section>
+        <h2>Wrap-up</h2>
+        <ul>
+          <li>Parse → <span class="keyword">DateTimeIndex</span> → <span class="keyword">TZ/DST</span> policy</li>
+          <li>Reveal gaps → <span class="inline-code">asfreq</span> vs <span class="inline-code">resample</span></li>
+          <li>Impute sparingly → <span class="inline-code">rolling</span>
+          </li>
+          <li>Outliers in context → Baselines before models</li>
+        </ul>
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        Prog. Data Proc. (2526-1) §8: Time Series
+      </div>
+      <!-- End of footer -->
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+
+  <script>
+    (function () {
+      function renumberJupyterCells() {
+        let n = 0;
+        // Traverse slides in DOM order; allow per-slide reset via data-jp-reset
+        document.querySelectorAll('.slides section').forEach(sec => {
+          if (sec.hasAttribute('data-jp-reset')) n = 0;
+          sec.querySelectorAll('.jp-input').forEach(input => {
+            input.dataset.jpN = ++n;                 // set number on input
+            const cell = input.closest('.jp-cell');  // copy same number to any outputs in the cell
+            if (cell) cell.querySelectorAll('.jp-output').forEach(out => out.dataset.jpN = n);
+          });
+        });
+      }
+
+      // Run at load and whenever Reveal changes slides/layout
+      if (window.Reveal && Reveal.on) {
+        Reveal.on('ready', renumberJupyterCells);
+        Reveal.on('slidechanged', renumberJupyterCells);
+        Reveal.on('resize', renumberJupyterCells);
+      } else {
+        document.addEventListener('DOMContentLoaded', renumberJupyterCells);
+      }
+    })();
+  </script>
+
+</body>
+
+</html>
