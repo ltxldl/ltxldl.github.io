@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Đề bài dự án nhóm — NYC TLC Taxi Trips</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <style>
+        code,
+        pre {
+            font-size: 0.9rem !important;
+        }
+
+        .section-anchor {
+            scroll-margin-top: 6rem;
+        }
+
+        /* Simple info blocks */
+        .cardlet {
+            border: 1px solid rgba(0, 0, 0, .125);
+            border-radius: .5rem;
+            padding: .75rem 1rem;
+            background: #f8f9fa;
+        }
+
+        .cardlet+.cardlet {
+            margin-top: .5rem;
+        }
+
+        /* Task blocks: paragraphs only */
+        .task-block {
+            border-left: 4px solid #0d6efd;
+            padding-left: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .task-block h5 {
+            margin-bottom: .35rem;
+        }
+
+        .task-block p {
+            margin-bottom: .6rem;
+        }
+
+        .container {
+            max-width: 900px;
+        }
+    </style>
+</head>
+
+<body>
+  <!-- Top Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <div class="container">
+          <a class="navbar-brand fw-semibold" href="#">Đề bài dự án nhóm #4</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"
+              aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div id="nav" class="collapse navbar-collapse">
+              <ul class="navbar-nav ms-auto">
+                  <li class="nav-item"><a class="nav-link" href="#thong-tin-chung">Thông tin chung</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#tong-quan-du-lieu">Tổng quan dữ liệu</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#muctieu">Mục tiêu</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#congviec">Công việc</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#sanpham">Sản phẩm</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#rubric">Rubric</a></li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="bg-light border-bottom">
+    <div class="container py-5">
+      <div class="row align-items-center g-4">
+        <div class="col-12">
+          <h1 class="display-6 fw-bold mb-2">Inside Airbnb</h1>
+          <h3>Phân tích dữ liệu đặt phòng khách sạn theo thời gian/khu vực</h3>
+          <p class="lead mb-0">Môn học: <span class="fw-semibold">Lập trình xử lý dữ liệu</span></p>
+          <p class="lead mb-0">Học kỳ: <span class="fw-semibold">1, 2025–2026</span></p>
+          <p class="lead mb-0">Trường Đại học Công nghệ, ĐHQG Hà Nội</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container my-5">
+    <!-- Thông tin chung -->
+    <section id="thong-tin-chung" class="section-anchor mb-5">
+      <h2>Thông tin chung</h2>
+      <div class="g-4">
+        <div class="alert alert-primary mb-0" role="alert">
+          <span class="fw-bold">Hình thức đánh giá:</span> Vấn đáp dựa trên báo cáo, mã nguồn và sản phẩm dữ liệu.
+        </div>
+
+        <div class="alert alert-info mb-0 mt-2" role="alert">
+          <span class="fw-bold">Nguồn dữ liệu:</span>
+          <a href="https://insideairbnb.com/get-the-data/" target="_blank" rel="noopener">insideairbnb.com/get-the-data</a> · Tài liệu khám phá: 
+          <a href="https://insideairbnb.com/explore/" target="_blank" rel="noopener">insideairbnb.com/explore</a>
+        </div>
+
+        <div class="alert alert-success mb-0 mt-2" role="alert">
+          <span class="fw-bold">Quan trọng:</span>
+          <ul class="mb-0">
+              <li>
+                  Tạo GitHub repo <strong>riêng cho nhóm</strong>, để ở chế độ <strong>riêng tư
+                      (private)</strong>, và mời
+                  tất cả thành viên trong nhóm vào làm cộng tác viên (collaborators). Sau đó chia sẻ quyền đọc
+                  (read access) với account GitHub của giảng viên: <code>@tuanphong-uet</code> (Thầy Phong), <code></code> (Thầy Việt Anh), <code></code> (Anh Du), <code></code> (Anh Huỳnh). Điền link repo
+                  vào spreadsheet.
+              </li>
+              <li>GitHub repo <strong>đầy đủ</strong> (mã nguồn, dữ liệu thô và đã xử lý, báo cáo) và
+                  <strong>README</strong> hướng dẫn chạy lại, có <code>requirements.txt</code> liệt kê thư
+                  viện đã dùng.
+              </li>
+              <li>
+                  Xem thêm thông tin tại <a href="#sanpham">mục Sản phẩm cần bàn giao</a>.
+              </li>
+          </ul>
+      </div>
+      <div class="alert alert-warning mb-0 mt-2" role="alert">
+        <strong>Hạn nộp:</strong> 23:59:59, ngày <span class="fw-bold">12/12/2025</span> (đồng bộ theo thời
+        gian hệ thống GitHub).
+    </div>
+    </section>
+
+    <!-- Tổng quan dữ liệu -->
+    <section id="tong-quan-du-lieu" class="section-anchor my-5">
+      <h2>Tổng quan về dữ liệu</h2>
+      <div class="p-3 border rounded-3">
+        <h4>Giới thiệu</h4>
+        <p>
+          <strong>Inside Airbnb</strong> cung cấp các snapshot dữ liệu Airbnb theo thành phố và theo thời điểm thu thập (collection date). 
+          Các tệp thường ở định dạng <strong>CSV</strong> (đôi khi kèm <strong>gz</strong>), bao gồm: <em>listings</em> (thông tin chỗ ở & giá), 
+          <em>calendar</em> (tính sẵn sàng & giá theo ngày), <em>reviews</em> (đánh giá), và <em>neighbourhoods</em> (ranh giới khu vực GeoJSON/CSV) tuỳ thành phố.
+        </p>
+        <p>
+          <strong>Trang tải dữ liệu chính thức:</strong>
+          <a href="https://insideairbnb.com/get-the-data/" target="_blank" rel="noopener">https://insideairbnb.com/get-the-data/</a>· Tài liệu khám phá: 
+          <a href="https://insideairbnb.com/explore/" target="_blank" rel="noopener">insideairbnb.com/explore</a>
+        </p>
+        <h4>Phạm vi dữ liệu</h4>
+        <p>
+          Mỗi Nhóm chịu trách nhiệm <strong>01 thành phố chính</strong> và <strong>so sánh chéo</strong> với hai thành phố đối chứng.
+        </p>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title mb-2">Nhóm 4.1 — Phân tích <span class="badge bg-primary-subtle text-primary">Singapore</span></h5>
+              <p class="mb-2">So sánh với: <span class="badge bg-secondary-subtle text-secondary">Bangkok</span>, <span class="badge bg-secondary-subtle text-secondary">Taipei</span></p>
+              <ul class="mb-2">
+                <li><strong>Singapore, Singapore, Singapore</strong>: 28 September, 2025; 25 June, 2025; 21 March, 2025; 28 December, 2024</li>
+                <li><strong>Bangkok, Central Thailand, Thailand</strong>: 24 June, 2025; 19 March, 2025; 25 December, 2024</li>
+                <li><strong>Taipei, Northern Taiwan, Taiwan</strong>: 29 June, 2025; 28 March, 2025; 31 December, 2024</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title mb-2">Nhóm 4.2 — Phân tích <span class="badge bg-primary-subtle text-primary">Bangkok</span></h5>
+              <p class="mb-2">So sánh với: <span class="badge bg-secondary-subtle text-secondary">Singapore</span>, <span class="badge bg-secondary-subtle text-secondary">Taipei</span></p>
+              <ul class="mb-2">
+                <li><strong>Bangkok, Central Thailand, Thailand</strong>: 24 June, 2025; 19 March, 2025; 25 December, 2024</li>
+                <li><strong>Singapore, Singapore, Singapore</strong>: 28 September, 2025; 25 June, 2025; 21 March, 2025; 28 December, 2024</li>
+                <li><strong>Taipei, Northern Taiwan, Taiwan</strong>: 29 June, 2025; 28 March, 2025; 31 December, 2024</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title mb-2">Nhóm 4.3 — Phân tích <span class="badge bg-primary-subtle text-primary">Taipei</span></h5>
+              <p class="mb-2">So sánh với: <span class="badge bg-secondary-subtle text-secondary">Bangkok</span>, <span class="badge bg-secondary-subtle text-secondary">Singapore</span></p>
+              <ul class="mb-2">
+                <li><strong>Taipei, Northern Taiwan, Taiwan</strong>: 29 June, 2025; 28 March, 2025; 31 December, 2024</li>
+                <li><strong>Bangkok, Central Thailand, Thailand</strong>: 24 June, 2025; 19 March, 2025; 25 December, 2024</li>
+                <li><strong>Singapore, Singapore, Singapore</strong>: 28 September, 2025; 25 June, 2025; 21 March, 2025; 28 December, 2024</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title mb-2">Nhóm 4.4 — Phân tích <span class="badge bg-primary-subtle text-primary">Brussels</span></h5>
+              <p class="mb-2">So sánh với: <span class="badge bg-secondary-subtle text-secondary">Berlin</span>, <span class="badge bg-secondary-subtle text-secondary">Paris</span></p>
+              <ul class="mb-2">
+                <li><strong>Brussels, Brussels, Belgium</strong>: 21 June, 2025; 16 March, 2025; 22 December, 2024</li>
+                <li><strong>Berlin, Berlin, Germany</strong>: 23 September, 2025; 20 June, 2025; 15 March, 2025; 21 December, 2024</li>
+                <li><strong>Paris, Île-de-France, France</strong>: 12 September, 2025; 06 June, 2025; 03 March, 2025; 06 December, 2024</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title mb-2">Nhóm nhó 4.5 — Phân tích <span class="badge bg-primary-subtle text-primary">Berlin</span></h5>
+              <p class="mb-2">So sánh với: <span class="badge bg-secondary-subtle text-secondary">Brussels</span>, <span class="badge bg-secondary-subtle text-secondary">Paris</span></p>
+              <ul class="mb-2">
+                <li><strong>Berlin, Berlin, Germany</strong>: 23 September, 2025; 20 June, 2025; 15 March, 2025; 21 December, 2024</li>
+                <li><strong>Brussels, Brussels, Belgium</strong>: 21 June, 2025; 16 March, 2025; 22 December, 2024</li>
+                <li><strong>Paris, Île-de-France, France</strong>: 12 September, 2025; 06 June, 2025; 03 March, 2025; 06 December, 2024</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </section>
+
+    
+
+      <!-- Goals -->
+    <section id="muctieu" class="section-anchor my-5">
+        <h2>Mục tiêu</h2>
+        <ol>
+            <li class="mb-2">Thành thạo <strong>nạp/ghi dữ liệu lớn</strong> (CSV/Parquet) và tổ chức thư mục làm
+                việc.
+            </li>
+            <li class="mb-2">Rèn luyện <strong>làm sạch, chuẩn hoá, tạo đặc trưng</strong> bằng Python, NumPy,
+                Pandas.
+            </li>
+            <li class="mb-2">Thực hành <strong>trực quan hoá</strong> bằng Matplotlib/Seaborn.
+            </li>
+            <li class="mb-0">Nâng cao kỹ năng <strong>tổng hợp &amp; diễn giải</strong> dữ liệu thực tế; báo cáo
+                minh bạch.</li>
+        </ol>
+    </section>
+
+    <hr class="my-5" />
+
+    <!-- Công việc cần thực hiện -->
+    <section id="congviec" class="section-anchor">
+      <h2>Công việc cần thực hiện</h2>
+
+      <!-- 0 -->
+      <div class="task-block">
+        <h5>0) Khởi tạo dự án &amp; GitHub repo</h5>
+        <p><strong>Yêu cầu chung:</strong> Tạo GitHub repo riêng cho nhóm (private); mời giảng viên làm
+            collaborator.</p>
+        <ul class="mb-2 ps-3">
+            <li>
+                Tạo repo mới trên GitHub, đặt tên rõ ràng (ví dụ:
+                <code>2526-LTXLDL-Project-&lt;Tên-Nhóm&gt;</code>).
+            </li>
+            <li>
+                Mời các giảng viên làm collaborator với quyền đọc (read access).
+            </li>
+            <li>
+                Điền link repo vào spreadsheet phân công nhóm. Hạn cuối: trước <strong>23:59:59, ngày
+                    10/11/2025</strong>.
+            </li>
+        </ul>
+    </div>
+
+      <!-- 1 -->
+      <div class="task-block">
+        <h5>1) Thu thập &amp; tổ chức dữ liệu</h5>
+        <p><strong>Mục tiêu:</strong> có được dữ liệu thô (raw data) để xử lý.</p>
+        <p><strong>Yêu cầu:</strong> Tải các snapshot được yêu cầu cho thành phố chính và các thành phố đối chứng.</p>
+        <p><strong>Tổ chức tệp/thư mục với cấu trúc rõ ràng:</strong> <code>raw/&lt;city&gt;/&lt;snapshot_date&gt;/</code>, <code>processed/&lt;city&gt;/&lt;snapshot_date&gt;/</code>, <code>figures/</code>, <code>reports/</code>, <code>src/</code>.</p>
+      </div>
+
+      <!-- 2 -->
+      <div class="task-block">
+        <h5>2) Khám phá dữ liệu</h5>
+        <p><strong>Mục tiêu:</strong> Hiểu rõ cấu trúc, nội dung và chất lượng của bộ dữ liệu Airbnb trước khi tiến hành xử lý và làm sạch.</p>
+        <p><strong>Yêu cầu:</strong></p>
+        <ul>
+          <li>Khảo sát tổng quan về kích thước và cấu trúc dữ liệu của từng tệp (gợi ý các lệnh Python cơ bản: <code>df.info(), df.describe(), df.head()</code>)</li>
+          <li>Nhận diện các trường dữ liệu, ý nghĩa của từng trường và mối liên hệ giữa các bảng.</li>
+          <li>Thống kê và ghi nhận các vấn đề dữ liệu phổ biến:
+            <ul>
+              <li>Giá trị bị thiếu (<em>missing values</em>), dữ liệu ngoại lệ (<em>outliers</em>), dữ liệu trùng lặp.</li>
+              <li>Kiểu dữ liệu không phù hợp (ví dụ: giá lưu dưới dạng chuỗi).</li>
+              <li>Phạm vi hoặc đơn vị không thống nhất giữa các snapshot.</li>
+            </ul>
+          </li>
+          <li>Đưa ra nhận xét ban đầu về mức độ đầy đủ và độ tin cậy của dữ liệu.</li>
+        </ul>
+        <p><strong>Kết quả mong đợi:</strong> Báo cáo ngắn gọn mô tả cấu trúc dữ liệu, số lượng bản ghi, tỷ lệ dữ liệu thiếu, và các phát hiện sơ bộ, phục vụ cho bước làm sạch và chuẩn hoá tiếp theo.</p>
+      </div>
+
+
+      <!-- 3 -->
+      <div class="task-block">
+        <h5>3) Làm sạch &amp; chuẩn hoá</h5>
+        <p><strong>Mục tiêu:</strong> Đảm bảo dữ liệu Airbnb chính xác, nhất quán và sẵn sàng cho phân tích.</p>
+        <p><strong>Yêu cầu chung:</strong> Xây dựng bộ quy tắc đảm bảo chất lượng dữ liệu (QA) minh bạch; ưu tiên
+            <em>gắn cờ</em> thay vì xoá dữ liệu; chuẩn
+            hoá kiểu dữ liệu, danh mục (vd. <em>room_type, neighbourhood, price</em>) và các trường thời gian
+            (<em>host_since, last_scraped</em>).
+        </p>
+        <p><strong>Ví dụ quy tắc phát hiện dữ liệu ngoại lệ:</strong> giá (<em>price</em>) âm hoặc bằng 0;
+            toạ độ (<em>latitude, longitude</em>) ngoài phạm vi hợp lệ. Dữ liệu đặt phòng có thể bị trùng hoặc chồng lấn giữa các snapshot, cần được xử lý để đảm bảo tính đồng bộ và nhất quán theo thời gian.</p>
+        <p><strong>Lưu kết quả:</strong> Tóm tắt số lượng/tỷ lệ theo từng quy tắc
+            và quyết định xử lý (giữ/loại khỏi thống kê KPI - mục 3).
+            Ghi báo cáo QA này vào <code>reports/qa_summary.csv</code> và mô tả rõ trong báo cáo PDF cuối cùng.
+            Lưu dữ liệu đã làm sạch/chuẩn hoá (ưu tiên CSV) vào <code>processed/</code>.
+        </p>
+      </div>
+
+
+      <!-- 4 -->
+      <div class="task-block">
+        <h5>4) Tổng hợp &amp; KPI</h5>
+        <p><strong>Mục tiêu:</strong> Cung cấp bảng tổng hợp và chỉ số KPI giúp các bên liên quan (quỹ đầu tư, nhà quy hoạch, khách du lịch) hiểu xu hướng thị trường Airbnb: mức giá, nguồn cung, mức độ sẵn sàng và nhu cầu theo khu vực và thời gian.</p>
+        <p><strong>Yêu cầu:</strong> Tổng hợp theo <em>neighbourhood</em>, <em>thời gian (ví dụ snapshot, tháng, ngày)</em>, <em>thành phố</em>, v.v. Định nghĩa rõ <em>tên → mục tiêu → công thức → đơn vị</em>; tính <em>sau QA</em> được hoàn thành.</p>
+        <p class="mb-2"><strong>Ví dụ KPI đặc trưng:</strong></p>
+        <ul>
+          <li><strong>Giá thuê:</strong> median <code>price</code>, <code>price</code> theo <code>room_type</code>.</li>
+          <li><strong>Cung &amp; hoạt động:</strong> số listing đang hoạt động, tỷ lệ <code>entire_home</code>/private/shared, % multi-hosts.</li>
+          <li><strong>Tính sẵn sàng:</strong> median <code>availability_90</code>, tỷ lệ kín phòng theo mùa.</li>
+        </ul>
+        <p>Lưu kết quả: Ghi các bảng KPI vào <code>processed/</code>.</p>
+      </div>
+
+
+      <!-- 5 -->
+      <div class="task-block">
+        <h5>5) Trực quan hoá</h5>
+        <p>Yêu cầu: Tối thiểu 5 hình, có tiêu đề, nhãn trục/đơn vị/chú giải rõ ràng; thông điệp cụ thể.</p>
+        <p class="mb-1"><strong>Gợi ý:</strong></p>
+        <ul class="mb-2">
+          <li>Khuyến khích làm việc với dữ liệu địa lý và trực quan hoá thông tin trên bản đồ.</li>
+          <li>Thanh so sánh tỷ trọng loại phòng; top neighbourhoods theo KPI.</li>
+          <li>Heatmap <em>neighbourhood × snapshot</em> cho Index giá/độ kín phòng.</li>
+          <li>Biểu đồ so sánh hai thành phố trên cùng trục (nhãn rõ đơn vị).</li>
+        </ul>
+        <p><strong>Lưu hình:</strong> vào <code>figures/</code> với tên dễ tra cứu, ví dụ <code>figures/price_trend_sg_bkk.png</code>.</p>
+      </div>
+
+      <!-- 6 -->
+      <div class="task-block">
+        <h5>6) Diễn giải &amp; Kết luận</h5>
+        <p><strong>Mục tiêu:</strong> Trình bày các phát hiện chính từ dữ liệu Airbnb, nêu bối cảnh theo tháng hoặc mùa, thảo luận giới hạn và đề xuất hướng cải tiến tiếp theo.</p>
+        <p><strong>Yêu cầu:</strong> 
+          Tóm tắt 3–5 phát hiện nổi bật kèm hình hoặc bảng minh hoạ; nêu ảnh hưởng của các quy tắc <em>QA</em> và dữ liệu thiếu/thừa; chỉ ra những yếu tố bối cảnh có thể ảnh hưởng đến các chỉ số <em>KPI</em>; và đề xuất cải tiến cho quy trình thu thập, xử lý hoặc bổ sung KPI mới.
+        </p>
+        <p><strong>Gợi ý:</strong></p>
+        <ul>
+          <li>Tổng hợp xu hướng đáng chú ý về giá, độ kín phòng, đánh giá hoặc nguồn cung.</li>
+          <li>Bình luận tác động của QA (loại dữ liệu bất thường, thiếu vùng, trùng ID, v.v.) tới kết quả phân tích.</li>
+          <li>Nhấn mạnh các yếu tố theo mùa hoặc sự kiện đặc thù ảnh hưởng đến chỉ số.</li>
+          <li>Đề xuất hướng mở rộng: phân tích theo mùa, theo nhóm chủ nhà, hoặc xây dựng KPI nâng cao.</li>
+        </ul>
+      </div>
+
+
+      <!-- 7 -->
+      <div class="task-block">
+        <h5>7) Viết báo cáo kỹ thuật</h5>
+        <p><strong>Yêu cầu:</strong> Báo cáo kỹ thuật (mẫu tại mục <a href="#sanpham">Sản phẩm</a>), xuất PDF vào <code>reports/report-&lt;ten-nhom&gt;.pdf</code>; 
+          repo có <code>README.md</code> hướng dẫn chạy lại (tải dữ liệu, tiền xử lý, tổng hợp, vẽ hình).</p>
+      </div>
+
+      <!-- 8 (optional) -->
+      <div class="task-block">
+        <h5>8) Nâng cao (tuỳ chọn, điểm thưởng)</h5>
+        <p><strong>Gợi ý:</strong></p>
+        <ul>
+          <li><strong>Dự báo xu hướng:</strong> ước lượng <em>median price</em>, <em>occupancy rate</em> hoặc số <em>active listings</em> theo thời gian (baseline vs mô hình hồi quy đơn giản).</li>
+          <li><strong>Phát hiện bất thường:</strong> xác định khu vực (<em>neighbourhood</em>) có biến động giá hoặc nguồn cung bất thường bằng <em>z-score</em> hoặc <em>Isolation Forest</em>.</li>
+          <li><strong>Phân cụm thị trường:</strong> nhóm các <em>neighbourhoods</em> có đặc trưng tương tự theo vector KPI (giá, độ kín phòng, đánh giá, mức sẵn sàng).</li>
+          <li><strong>Phân tích không gian:</strong> trực quan hoá bản đồ giá và mật độ listing bằng <em>Folium</em> hoặc <em>Kepler.gl</em>.</li>
+          <li><strong>Chuẩn hoá nâng cao:</strong> xây dựng chỉ số <em>Index</em> theo median toàn thành phố hoặc nhóm khu vực để so sánh tương đối.</li>
+          <li><strong>Tự động hoá dữ liệu:</strong> thu thập (crawl) dữ liệu từ tất cả các thành phố trên Airbnb và phát triển nền tảng tự động hiển thị thông tin phân tích tương tự <em>Inside Airbnb</em>.</li>
+        </ul>
+      </div>
+
+    <hr class="my-5" />
+
+    <!-- Deliverables -->
+    <section id="sanpham" class="section-anchor">
+      <h2>Sản phẩm cần bàn giao</h2>
+      <ol>
+        <li>
+          <strong>Mã nguồn</strong> (Notebook/script) chạy lại toàn bộ pipeline: tải → làm sạch/chuẩn hoá → tổng hợp → vẽ hình → so sánh. Có <strong>README</strong> chi tiết & <code>requirements.txt</code>.
+          <div class="p-3 border rounded-3 bg-light mt-3 mb-3">
+            <h6 class="text-uppercase text-muted mb-2">Cấu trúc thư mục đề xuất</h6>
+<pre><code>.
+├── raw/                         # Dữ liệu thô (theo city/snapshot_date)
+├── processed/                   # Dữ liệu sạch & bảng KPI
+├── figures/                     # Hình trực quan hoá
+├── reports/                     # Báo cáo kỹ thuật (PDF)
+├── src/                         # Notebooks / scripts
+├── README.md                    # Hướng dẫn chạy lại
+└── requirements.txt             # Thư viện & phiên bản
+</code></pre>
+          </div>
+        </li>
+        <li>
+          <strong>Dữ liệu</strong>: bản thô (trong <code>raw/</code>) và bản đã xử lý (CSV sau QA, báo cáo QA trong <code>processed/</code>).
+        </li>
+        <li>
+          <strong>Báo cáo kỹ thuật</strong> mô tả dữ liệu, QA, KPI, kết quả & giới hạn, kèm hình/bảng; có phần <em>So sánh các thành phố</em> rõ ràng.
+          <div class="p-3 border rounded-3 bg-light mt-3 mb-3">
+            <h6 class="text-uppercase text-muted mb-2">Cấu trúc báo cáo kỹ thuật</h6>
+            <ul class="mb-0">
+              <li><strong>Thông tin cơ bản</strong>: tên dự án, nhóm, thành viên, các thành phố, danh sách các <code>snapshot_date</code>, ngày nộp, commit hash.</li>
+              <li><strong>Giới thiệu & dữ liệu</strong>: nguồn, phạm vi, cấu trúc tệp, các trường chính.</li>
+              <li><strong>QA</strong>: quy tắc, tác động, chuẩn hoá danh mục/thời gian/giá.</li>
+              <li><strong>KPI</strong>: định nghĩa, công thức, đơn vị, bảng tổng hợp.</li>
+              <li><strong>Trực quan</strong>: ≥ 5 hình có chú giải đầy đủ.</li>
+              <li><strong>So sánh</strong>: phân tích khác biệt/giống nhau giữa 2 thành phố theo thời gian & không gian.</li>
+              <li><strong>Nâng cao (nếu có)</strong>: mục tiêu, phương pháp, đánh giá.</li>
+              <li><strong>Kết luận</strong>: phát hiện chính, giới hạn, đề xuất tiếp theo.</li>
+              <li><strong>Tham khảo</strong>: tài liệu/trang web/thư viện sử dụng.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+
+      <div class="alert alert-info mt-3" role="alert">
+        <strong>Quan trọng:</strong> Toàn bộ sản phẩm phải được commit trước 23:59:59, 12/12/2025. <br>
+        <strong>Đóng dấu nộp:</strong> Tạo <em>Git tag</em> hoặc <em>Release</em>; ghi rõ <code>commit hash</code> trong báo cáo.
+      </div>
+      <div class="alert alert-danger mt-2" role="alert">
+        <strong>Bảo mật:</strong> Không commit token/API key/mật khẩu. Dùng biến môi trường & hướng dẫn cấu hình trong <code>README.md</code>.
+      </div>
+    </section>
+
+    <hr class="my-5" />
+
+    <!-- Rubric -->
+    <section id="rubric" class="section-anchor">
+      <h2>Cách tính điểm</h2>
+      <div class="table-responsive">
+        <table class="table table-striped align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Hạng mục</th>
+              <th>Mô tả</th>
+              <th class="text-end">Điểm</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Thu thập dữ liệu</td>
+              <td>Đúng các thành phố; đủ các snapshot gần nhất (ghi rõ <code>snapshot_date</code>); tổ chức tệp/thư mục rõ ràng.</td>
+              <td class="text-end">10</td>
+            </tr>
+            <tr>
+              <td>Làm sạch &amp; chuẩn hoá</td>
+              <td>QA hợp lý (giá, toạ độ, danh mục, trùng id…); <strong>gắn cờ &amp; báo cáo tác động</strong>; chuẩn hoá trường (giá/danh mục/thời gian).</td>
+              <td class="text-end">20</td>
+            </tr>
+            <tr>
+              <td>Bảng tổng hợp &amp; KPI</td>
+              <td>Định nghĩa rõ công thức/đơn vị; tính KPI (city & neighbourhood); lưu bảng đúng định dạng & có <code>snapshot_date</code>.</td>
+              <td class="text-end">20</td>
+            </tr>
+            <tr>
+              <td>Trực quan hoá</td>
+              <td><strong>≥ 5 hình</strong> (đường/cột/heatmap…); tiêu đề, trục, đơn vị, chú giải đầy đủ; thông điệp rõ; phong cách nhất quán.</td>
+              <td class="text-end">20</td>
+            </tr>
+            <tr>
+              <td>So sánh &amp; diễn giải</td>
+              <td>Nêu phát hiện chính theo thời gian & không gian; thảo luận <strong>giới hạn dữ liệu</strong> & <strong>tác động QA</strong>; lập luận rõ ràng.</td>
+              <td class="text-end">10</td>
+            </tr>
+            <tr>
+              <td>Viết báo cáo &amp; tái lập</td>
+              <td>Cấu trúc mạch lạc; tham chiếu hình/bảng; <strong>README</strong> & hướng dẫn chạy lại; công bố <strong>seed</strong>, <strong>requirements</strong>; repo rõ ràng.</td>
+              <td class="text-end">10</td>
+            </tr>
+            <tr>
+              <td>Trình bày &amp; vấn đáp</td>
+              <td>Trình bày mạch lạc; trả lời câu hỏi; thảo luận quy trình & kết quả; bảo vệ lựa chọn kỹ thuật.</td>
+              <td class="text-end">10</td>
+            </tr>
+            <tr class="table-success">
+              <td>Điểm thưởng (tuỳ chọn)</td>
+              <td>Nâng cao: dự báo, bất thường, phân cụm, chuẩn hoá nâng cao, kiểm thử dữ liệu nâng cao… Có đánh giá (MAE/MAPE/F1/backtest), minh bạch & tái lập.</td>
+              <td class="text-end">+0 đến +20</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="text-center mt-5">
+      <span class="text-muted">— Kết thúc đề bài —</span>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+
+
+</html>
