@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Đề bài dự án nhóm — NYC TLC Taxi Trips</title>
+    <title>Đề bài dự án nhóm — Vastopolis Epidemic</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap 5 -->
@@ -57,7 +57,7 @@
     <!-- Top Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand fw-semibold" href="#">Đề bài dự án nhóm #1</a>
+            <a class="navbar-brand fw-semibold" href="#">Đề bài dự án nhóm #2</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"
                 aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -80,8 +80,8 @@
         <div class="container py-5">
             <div class="row align-items-center g-4">
                 <div class="col-12">
-                    <h1 class="display-6 fw-bold mb-2">NYC TLC Taxi Trips</h1>
-                    <h3>Chuẩn hoá hành trình &amp; tổng hợp theo thời gian/khu vực</h3>
+                    <h1 class="display-6 fw-bold mb-2">Vastopolis Epidemic</h1>
+                    <h3>Chuẩn hoá dữ liệu văn bản &amp; tổng hợp theo thời gian/khu vực</h3>
                     <p class="lead mb-0">Môn học: <span class="fw-semibold">Lập trình xử lý dữ liệu</span></p>
                     <p class="lead mb-0">Học kỳ: <span class="fw-semibold">1, 2025–2026</span></p>
                     <p class="lead mb-0">Trường Đại học Công nghệ, ĐHQG Hà Nội</p>
@@ -139,13 +139,10 @@
                 <h4>Giới thiệu</h4>
 
                 <p>
-                    <strong>TLC Trip Record Data</strong> là bộ dữ liệu chuyến đi taxi do NYC Taxi & Limousine
-                    Commission công bố,
-                    phát hành theo <em>tháng</em> cho từng loại hình (yellow/green/FHV). Dữ liệu thường có
-                    định dạng
-                    <strong>CSV</strong> và/hoặc <strong>Parquet</strong>, bao gồm thời điểm đón/trả, số hành khách,
-                    quãng đường,
-                    mã vùng đón/trả (PULocationID, DOLocationID), thông tin chi phí (fare/tip/tolls/total), v.v.
+                    <strong>Vastopolis Epidemic </strong> là bộ dữ liệu trong Mini Challenge 1 của cuộc thi IEEE VAST 2011,
+                    dữ liệu bao gồm dữ liệu về <em>Thời tiết</em> và dữ liệu về các <em> Microblogs (nội dung, ngày giờ) </em> do các cư dân thành phố
+                    Vastopolis đăng tải. Dữ liệu thường có định dạng
+                    <strong>CSV</strong> và/hoặc <strong>Parquet</strong>.
                 </p>
 
                 <p>
@@ -160,9 +157,16 @@
                 <h4>Phạm vi dữ liệu</h4>
 
                 <p>
-                    Tất cả các nhóm sử dụng <strong>yellow taxi</strong> và phân tích <strong>toàn bộ zones của
-                        New York City (NYC)</strong>.
-                    Mỗi nhóm sẽ được phân công <strong>01 năm</strong> dữ liệu (theo bảng phân công trong spreadsheet).
+                    Tất cả các nhóm sử dụng dữ liệu Thời tiết và microblogs để phân tích cho thành phố Vastopolis.
+                </p>
+
+                <h4>Mục tiêu của việc phân tích dữ liệu</h4>
+
+                <p>
+                    Thành phố Vastopolis đã xảy ra một đại dịch lớn (vẫn chưa rõ là đại dịch nào) và nguyên nhân vẫn chưa được nắm rõ (có thể do khủng bố). Bằng việc
+                    phân tích dữ liệu về Thời tiết và microblogs của mỗi cư dân, tìm cách kết nối thông tin về Thời tiết và thông tin về microblogs, từ đó đại dịch 
+                    có thể được truy vết để tìm ra đại dịch đang sảy ra, thời điểm
+                    bùng phát, nơi bùng phát, nguyên nhân lan truyền dịch bệnh, nơi chịu tổn hại nhiều nhất và nguyên nhân gây ra dịch bệnh.
                 </p>
             </div>
         </section>
@@ -213,15 +217,19 @@
             <!-- 1 -->
             <div class="task-block">
                 <h5>1) Thu thập &amp; tổ chức dữ liệu</h5>
-                <p><strong>Yêu cầu chung:</strong> Tải đủ 12 tệp theo tháng cho <em>yellow taxi</em> của năm mà nhóm
+                <p><strong>Yêu cầu chung:</strong> Tải đủ dữ liệu về Thời tiết và microblogs nhóm
                     mình được phân công.</p>
 
                 <p>Dữ liệu thô cần tải về từ trang chính thức, bao gồm:</p>
                 <ul>
-                    <li>12 tệp Parquet theo tháng cho năm đã được phân công (ví dụ: từ
-                        <code>yellow_tripdata_2022-01.parquet</code> đến <code>yellow_tripdata_2022-12.parquet</code>).
+                    <li>Tệp CSV về microblogs.
                     </li>
-                    <li>Tệp <code>taxi_zone_lookup.csv</code> để tra mã vùng sang tên khu vực.</li>
+                    <li>Tệp CSV về Thời tiết.
+                    </li>
+                    <li>Tệp CSV về dân số.
+                    </li>
+                    <li>Tệp PNG về bản đồ thành phố Vastopolis.
+                    </li>
                 </ul>
 
                 <p>Tổ chức tệp/thư mục với cấu trúc rõ ràng: <code>raw/</code>, <code>processed/</code>,
@@ -236,39 +244,28 @@
                 <p><strong>Yêu cầu chung:</strong> Xây dựng bộ quy tắc đảm bảo chất lượng dữ liệu (QA) minh bạch; ưu
                     tiên
                     <em>gắn cờ</em> thay vì xoá dữ liệu; chuẩn
-                    hoá kiểu dữ liệu, danh mục (vd. <em>payment_type</em>) và trường thời gian.
+                    hoá kiểu dữ liệu, danh mục (vd. <em>payment_type</em>) và trường thời gian và trường vị trí địa lý.
                 </p>
-                <p><strong>Ví dụ quy tắc phát hiện dữ liệu ngoại lệ:</strong> dropoff &lt; pickup; trip_duration ≤ 0
-                    hoặc quá dài;
-                    trip_distance ≤ 0 hoặc cực lớn; tốc độ âm hoặc quá cao; tiền âm bất thường;
-                    bản ghi trùng lặp, v.v.</p>
-                <p><strong>Lưu kết quả:</strong> Tóm tắt số lượng/tỷ lệ theo từng quy tắc
-                    và quyết định xử lý (giữ/loại khỏi thống kê KPI - mục 3).
+                <p><strong>Ví dụ quy tắc phát hiện dữ liệu ngoại lệ:</strong> Không có thông tin nội dung blogs, không có thông tin vị trí địa lý, v.v.</p>
+                <p><strong>Lưu kết quả:</strong>
                     Ghi báo cáo QA này vào <code>reports/qa_summary.csv</code> và mô tả rõ trong báo cáo PDF cuối cùng.
-                    Lưu dữ liệu đã làm sạch/chuẩn hoá (ưu tiên Parquet) vào <code>processed/</code>.
+                    Lưu dữ liệu đã làm sạch/chuẩn hoá (ưu tiên CSV) vào <code>processed/</code>.
                 </p>
             </div>
 
             <!-- 3 -->
             <div class="task-block">
-                <h5>3) Tổng hợp &amp; KPI</h5>
+                <h5>3) Tổng hợp &amp;</h5>
 
-                <p><strong>KPI</strong> (Key Performance Indicator) là chỉ số cốt lõi gắn với mục tiêu, có công thức
-                    &amp; đơn vị rõ ràng.</p>
+                <p>Tổng hợp theo <strong> Từ khóa </strong> và <strong> Loại hình thời tiết </strong></p>
 
-                <p><strong>Yêu cầu chung:</strong> Tổng hợp theo <em>ngày/tuần/tháng</em>; mỗi KPI cần tên → mục tiêu →
-                    công
-                    thức → đơn vị; tất cả tính <em>sau khi hoàn thành QA</em> ở mục 2.</p>
+                <p><strong>Yêu cầu chung:</strong> Tổng hợp theo <em>giờ/ngày/tháng</em>;
 
-                <p class="mb-2"><strong>Ví dụ KPI:</strong> Số trips trên ngày; Duration p50 (median) theo tháng;
-                    Duration p95
-                    theo thứ trong tuần; Speed p50 theo giờ; % tổng năm theo tháng; Index(100) theo ngày;
-                    Index<sub>dow</sub> theo thứ trong tuần, v.v.</p>
+                <p class="mb-2"><strong>Ví dụ Từ khóa:</strong> Chia nội dung blogs theo từ khóa, thống kê số lượng; lượng tử hóa theo giờ, theo phút, v.v.</p>
 
-                <strong>Lưu kết quả:</strong> Ghi các bảng KPI vào <code>processed/</code> với tên tệp theo quy ước:
-                <code>processed/kpi_daily_YYYY.csv</code>,
-                <code>processed/kpi_weekly_YYYY.csv</code>, <code>processed/kpi_monthly_YYYY.csv</code>
-                (đổi <code>YYYY</code> theo năm của nhóm).
+                <strong>Lưu kết quả:</strong> Ghi các bảng thống kê vào <code>processed/</code> với tên tệp theo quy ước:
+                <code>processed/kpi_hourly_HH_DD_MM.csv</code>,
+                (đổi <code>HH_DD_MM</code> theo giờ/ngày/tháng của nhóm).
 
             </div>
 
@@ -332,17 +329,10 @@
 
                 <p class="mb-1"><strong>Gợi ý hướng mở rộng:</strong></p>
                 <ul class="mb-2 ps-3">
-                    <li><strong>Dự báo nhu cầu</strong> (trips) theo ngày/giờ: so sánh baseline (cùng thứ của tuần
-                        trước) với mô hình đơn giản (hồi quy tuyến tính/ARIMA). Báo cáo MAE, MAPE, v.v.</li>
-                    <li><strong>Phát hiện bất thường</strong> thời lượng/tốc độ: điểm z (z-score) theo <em>hour ×
-                            weekday</em>
-                        hoặc mô hình đơn giản (Isolation Forest). Liệt kê & diễn giải các ca bất thường điển hình.</li>
-                    <li><strong>Phân cụm mẫu hình</strong> (k-means) cho zone/khung giờ dựa trên vector KPI (p50/p95
-                        thời lượng, trips index). Đặt tên cụm & mô tả đặc trưng.</li>
-                    <li><strong>Chỉ số chuẩn hoá</strong> nâng cao: “base = 100” theo median năm hoặc theo từng thứ
-                        trong tuần; phân rã mùa vụ/ngoại lệ ngắn hạn.</li>
-                    <li><strong>Kiểm thử dữ liệu nâng cao</strong>: thiết kế bộ quy tắc QA tự động, dashboard tỉ lệ lỗi
-                        theo tháng, phân tích tác động QA lên KPI.</li>
+                    <li><strong>Phân tích tình hình dịch bệnh theo dòng thời gian</strong> dựa trên khối lượng từ khóa xuất hiện </li>
+                    <li>Phân tích hướng lan truyền và cách dịch bệnh lan truyền</li>
+                    <li>Tìm ra và phân tích nguồn gây ra dịch bệnh</li>
+                    <li><strong>Phân cụm mẫu hình</strong> (k-means) cho khung giờ dựa trên vector keywords. Đặt tên cụm & mô tả đặc trưng.</li>
                 </ul>
 
             </div>
