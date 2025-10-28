@@ -284,7 +284,9 @@
         <p><strong>Yêu cầu chung:</strong> Xây dựng bộ quy tắc đảm bảo chất lượng dữ liệu (QA) minh bạch; ưu
           tiên
           <em>gắn cờ</em> thay vì xoá dữ liệu; chuẩn
-          hoá các kiểu dữ liệu như danh mục (vd. <em>wheather</em>, <em>wind-direction</em>) và trường thời gian và trường vị trí địa lý (lat-long).
+          hoá các kiểu dữ liệu như danh mục (vd. <em>wheather</em>, <em>wind-direction</em>) và trường thời gian và trường vị trí địa lý (lat-long). 
+          Chuẩn hóa <strong>dữ liệu văn bản</strong> trong nội dung blog và keyword, ví dụ: 
+          xóa khoảng trắng dư thừa, chuyển về chữ thường hoặc chữ in hoa đồng nhất (normalcase / uppercase), v.v.
         </p>
         <p><strong>Chú ý đọc file README</strong> để hiểu rõ hơn về dữ liệu</p>
         <p><strong>Ví dụ quy tắc phát hiện dữ liệu ngoại lệ:</strong> Không có trường thông tin <em>text</em> của bảng microblogs, không
@@ -302,7 +304,7 @@
   <p><strong>Yêu cầu chung:</strong></p>
 
   <p class="mb-2">
-    Yêu cầu 1: <strong>Dữ liệu thời tiết</strong> có tần suất <strong>theo ngày</strong>, 
+    <strong>* Yêu cầu 1:</strong> <strong>Dữ liệu thời tiết</strong> có tần suất <strong>theo ngày</strong>, 
     trong khi <strong>dữ liệu blog</strong> có tần suất <strong>theo giờ hoặc phút</strong>. 
     Do đó, cần <strong>nội suy (upsample)</strong> dữ liệu thời tiết lên tần suất theo giờ hoặc phút 
     và <strong>kết nối (join)</strong> với bảng dữ liệu blog thông qua 
@@ -312,12 +314,7 @@
   </p>
 
   <p class="mb-2">
-    Yêu cầu 2: Chuẩn hóa <strong>dữ liệu văn bản</strong> trong nội dung blog, ví dụ: 
-    xóa khoảng trắng dư thừa, chuyển về chữ thường hoặc chữ in hoa đồng nhất (normalcase / uppercase), v.v.
-  </p>
-
-  <p class="mb-2">
-    Yêu cầu 3: Sử dụng danh sách từ khóa trong tệp <code>keywords.txt</code> để:
+    <strong>* Yêu cầu 2:</strong> Sử dụng danh sách từ khóa trong tệp <code>keywords.txt</code> để:
     <ul class="mb-2 ps-3">
       <li>Thống kê <strong>số lần xuất hiện</strong> của mỗi từ khóa trên các blog theo <strong>giờ</strong>.</li>
       <li>Xác định <strong>kiểu thời tiết (weather)</strong> và <strong>hướng gió (wind_direction)</strong> phổ biến nhất cho từng từ khóa theo giờ.</li>
@@ -325,7 +322,7 @@
   </p>
 
   <p class="mb-2">
-    Yêu cầu 4: <strong>Ánh xạ vị trí địa lý (location):</strong> Thống kê các vị trí địa lý nơi xuất hiện từng từ khóa theo từng khung giờ. 
+    <strong>* Yêu cầu 3:</strong> Ánh xạ vị trí địa lý (location): Thống kê các vị trí địa lý nơi xuất hiện từng từ khóa theo từng khung giờ. 
     Ví dụ: từ khóa <strong>stomachache</strong> xuất hiện tại các vị trí 
     (40.34N - 93.30W), (41.32N - 92.15W), ... trong khoảng thời gian 10h–11h ngày 01/05/2011.
   </p>
