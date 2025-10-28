@@ -152,21 +152,20 @@
           dữ liệu bao gồm dữ liệu về <em>Thời tiết</em> và dữ liệu về các <em> Microblogs (nội dung, ngày giờ)
           </em> do các cư dân thành phố
           Vastopolis đăng tải. Dữ liệu thường có định dạng
-          <strong>CSV</strong> và/hoặc <strong>Parquet</strong>.
+          <strong>CSV</strong> và <strong>PNG</strong>.
         </p>
 
         <p>
-          <strong>Trang tải dữ liệu chính thức:</strong>
-          <a href="https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page" target="_blank" rel="noopener">
-            https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
-          </a> <span class="text-muted">(Ưu tiên Parquet khi khả dụng; một số năm/tháng có thể vẫn ở định
-            dạng CSV.)</span>
+          <strong>Trang tải dữ liệu:</strong>
+          <a href="https://ltxldl.github.io/2526-1/projects/datasets/project_2" target="_blank" rel="noopener">
+            https://ltxldl.github.io/2526-1/projects/datasets/project_2
+          </a>
         </p>
 
         <h4>Phạm vi dữ liệu</h4>
 
         <p>
-          Tất cả các nhóm sử dụng dữ liệu Thời tiết và microblogs để phân tích cho thành phố Vastopolis.
+          Tất cả các nhóm sử dụng dữ liệu Thời tiết và microblogs để phân tích tình hình đại dịch cho thành phố Vastopolis.
         </p>
 
         <h4>Mục tiêu của việc phân tích dữ liệu</h4>
@@ -229,8 +228,7 @@
       <!-- 1 -->
       <div class="task-block">
         <h5>1) Thu thập &amp; tổ chức dữ liệu</h5>
-        <p><strong>Yêu cầu chung:</strong> Tải đủ dữ liệu về Thời tiết và microblogs nhóm
-          mình được phân công.</p>
+        <p><strong>Yêu cầu chung:</strong> Tải đủ dữ liệu về Thời tiết và microblogs của thành phố Vastopolis.</p>
 
         <p>Dữ liệu thô cần tải về từ trang chính thức, bao gồm:</p>
         <ul>
@@ -244,10 +242,14 @@
           </li>
         </ul>
 
-        <p>Tổ chức tệp/thư mục với cấu trúc rõ ràng: <code>raw/</code>, <code>processed/</code>,
+        <p>Tổ chức tệp/thư mục với cấu trúc rõ ràng: 
+          <code>raw/</code>, 
+          <code>processed/</code>,
           <code>figures/</code>,
           <code>reports/</code>, v.v.
         </p>
+
+        <p>Thư mục raw chứa toàn bộ dữ liệu thô liệt kê bên trên</p>
       </div>
 
       <!-- 2 -->
@@ -256,10 +258,10 @@
         <p><strong>Yêu cầu chung:</strong> Xây dựng bộ quy tắc đảm bảo chất lượng dữ liệu (QA) minh bạch; ưu
           tiên
           <em>gắn cờ</em> thay vì xoá dữ liệu; chuẩn
-          hoá kiểu dữ liệu, danh mục (vd. <em>payment_type</em>) và trường thời gian và trường vị trí địa lý.
+          hoá kiểu dữ liệu, danh mục (vd. <em>wheather</em>, <em>wind-direction</em>) và trường thời gian và trường vị trí địa lý.
         </p>
         <p><strong>Ví dụ quy tắc phát hiện dữ liệu ngoại lệ:</strong> Không có thông tin nội dung blogs, không
-          có thông tin vị trí địa lý, v.v.</p>
+          có thông tin vị trí địa lý, không có thông tin thời tiết, hướng gió v.v.</p>
         <p><strong>Lưu kết quả:</strong>
           Ghi báo cáo QA này vào <code>reports/qa_summary.csv</code> và mô tả rõ trong báo cáo PDF cuối cùng.
           Lưu dữ liệu đã làm sạch/chuẩn hoá (ưu tiên CSV) vào <code>processed/</code>.
@@ -270,51 +272,60 @@
       <div class="task-block">
         <h5>3) Tổng hợp &amp;</h5>
 
-        <p>Tổng hợp theo <strong> Từ khóa </strong> và <strong> Loại hình thời tiết </strong></p>
+        <p>Tổng hợp theo <strong> Từ khóa </strong> và <strong> Vị trí địa lý </strong></p>
 
         <p><strong>Yêu cầu chung:</strong> Tổng hợp theo <em>giờ/ngày/tháng</em>;
 
+        <p class="mb-2"><strong>Dữ liệu thời tiết</strong> có tần suất theo ngày và <strong> Dữ liệu blogs </strong> có tuần suất theo giờ/phút.
+        Do đó cần upsample dữ liệu thời tiết và nối với dữ liệu blogs, thêm cột weather, wind_direction và average_wind_speed cho bảng microblogs</p>
+
+        <p class="mb-2">Lượng tử hóa dữ liệu <strong>Vị trí địa lý</strong> theo từng khu vực của thành phố (ví dụ: Downtown, Westown, ...). Thêm cột
+        area cho bảng microblogs để biểu diễn khu vực mà microblogs xuất hiện</p>
+
         <p class="mb-2"><strong>Ví dụ Từ khóa:</strong> Chia nội dung blogs theo từ khóa, thống kê số lượng;
-          lượng tử hóa theo giờ, theo phút, v.v.</p>
+          lượng tử hóa theo giờ, theo phút, xác định loại hình thời tiết chính theo từ khóa P50, xác định tên khu vực xuất hiện từ khóa nhiều nhất P50 v.v.</p>
 
         <strong>Lưu kết quả:</strong> Ghi các bảng thống kê vào <code>processed/</code> với tên tệp theo quy
         ước:
-        <code>processed/kpi_hourly_HH_DD_MM.csv</code>,
-        (đổi <code>HH_DD_MM</code> theo giờ/ngày/tháng của nhóm).
-
+        <code>processed/all_areas/all_hourly_HH_DD_MM.csv</code>,
+        (đổi <code>HH_DD_MM</code> theo giờ/ngày/tháng).
+        Trong đó gồm các cột <code>keywords</code>, <code>count</code> đếm số lượng keyword đó xuất hiện theo giờ, <code>wind_direction</code> hướng gió, v.v và các cột 
+        do các bạn chọn để phân tích.
+        <code>processed/areas/<area_name>/areas_hourly_HH_DD_MM.csv</code>,
+        (đổi, area_name theo tên khu vực, ví dụ: Downtown. Đổi <code>HH_DD_MM</code> theo giờ/ngày/tháng).
+        Thống kê theo giờ cho từng khu vực. Các cột giống với bảng thống kê cho toàn bộ khu vực
       </div>
 
       <!-- 4 -->
       <div class="task-block">
         <h5>4) Trực quan hoá</h5>
-        <p><strong>Yêu cầu chung:</strong> Tối thiểu 5 hình có tiêu đề, nhãn trục tung/hoành, đơn vị, chú giải;
-          ưu tiên thông điệp rõ ràng.</p>
-        <p class="mb-1"><strong>Gợi ý:</strong></p>
+        <p><strong>Yêu cầu chung:</strong> Đối với toàn bộ khu vực vẽ biểu đồ thống kê cho mỗi bảng (hourly) đối với từng khu vực
+          vẽ vị trí xuất hiện (các chấm) của các keyword liên quan đến triệu chứng của bệnh lên bản đồ cho mỗi bảng (hourly)</p>
+        <p class="mb-1"><strong>Gợi ý biểu đồ:</strong></p>
         <ul class="mb-2 ps-3">
-          <li>Đường theo thời gian (ngày/tháng) cho số chuyến hoặc thời lượng.</li>
-          <li>Cột so sánh (ví dụ top khung giờ/zone theo chỉ số đã chuẩn hoá).</li>
-          <li>Heatmap <em>hour × weekday</em> cho mật độ chuyến.</li>
+          <li>Đường theo thời gian (giờ/ngày/tháng) cho số lượng các keyword liên quan đến triệu chứng bệnh.</li>
+          <li>Cột so sánh (ví dụ top khung giờ/area theo số lượng mỗi keyword theo giờ) => để phát hiện lượng keyword xuất hiện nhiều nhất theo giờ.</li>
+          <li>Heatmap của mỗi keyword trên bản đồ theo giờ</li>
         </ul>
 
         <p>
           <strong>Lưu kết quả:</strong> Lưu hình vào <code>figures/</code> với tên dễ tra cứu (ví dụ:
-          <code>figures/trips_over_time.png</code>, <code>figures/heatmap_hour_weekday.png</code>).
+          <code>figures/all_areas/keyword_count_overtime.png</code>, <code>figures/<area_name>/heatmap_epidemic_symptoms_hourly_HH_DD_MM.png</code>).
         </p>
       </div>
 
       <!-- 5 -->
       <div class="task-block">
         <h5>5) Diễn giải &amp; kết luận</h5>
-        <p><strong>Yêu cầu chung:</strong> Trình bày phát hiện chính, nêu bối cảnh theo năm (sự kiện, mùa vụ),
+        <p><strong>Yêu cầu chung:</strong> Trình bày phát hiện chính,
           thảo luận giới hạn và đề xuất tiếp theo.</p>
         <p class="mb-1"><strong>Gợi ý:</strong></p>
         <ul class="mb-2 ps-3">
           <li>Tóm tắt 3–5 phát hiện đáng chú ý, kèm hình/bảng minh hoạ.</li>
-          <li>Nêu ảnh hưởng của các quy tắc QA và dữ liệu thiếu/thừa.</li>
-          <li>Đề xuất cải tiến (thu thập, xử lý, KPI mới hoặc phân tích mở rộng).</li>
-          <li>Bình luận bối cảnh đặc thù theo năm có thể ảnh hưởng đến các chỉ số KPI.</li>
+          <li>Đề xuất cải tiến (thu thập, trích xuất thêm thông tin, sáng tạo thêm phương pháp visualize dễ hiểu hoặc phân tích mở rộng).</li>
+          <li>Đưa ra dự đoán về thời điểm bùng phát dịch bệnh và các triệu chứng bệnh phổ biến nhất của từng khu vực => Từ đó bình luận về các con đường lây lan dịch bệnh.</li>
         </ul>
-        <p class="text-muted small mb-0">Khuyến khích so sánh nhanh với một năm liền kề (nếu có) ở mức mô tả.
+        <p class="text-muted small mb-0">Khuyến khích việc suy luận dựa trên nhiều kiểu hình thống kê và biểu đồ khác.
         </p>
       </div>
 
@@ -348,6 +359,7 @@
             xuất hiện </li>
           <li>Phân tích hướng lan truyền và cách dịch bệnh lan truyền</li>
           <li>Tìm ra và phân tích nguồn gây ra dịch bệnh</li>
+          <li>Truy vết ngược và kết hợp với biểu đồ để kể lại câu chuyện về đại dịch ở thành phố Vastopolis</li>
           <li><strong>Phân cụm mẫu hình</strong> (k-means) cho khung giờ dựa trên vector keywords. Đặt tên cụm
             & mô tả đặc trưng.</li>
         </ul>
@@ -382,8 +394,7 @@
           </div>
         </li>
         <li>
-          <strong>Dữ liệu</strong>: bản thô (đã tải, ở <code>raw/</code>) và bản đã xử lý (Parquet sau QA, báo
-          cáo QA, v.v., ở <code>processed/</code>).
+          <strong>Dữ liệu</strong>: bản thô (đã tải, ở <code>raw/</code>) và bản đã xử lý (CSV ở <code>processed/</code>).
         </li>
         <li>
           <strong>Báo cáo kỹ thuật</strong> mô tả dữ liệu, quy tắc chất lượng,
@@ -405,10 +416,10 @@
                 nộp, commit hash được dùng để xác định phiên bản mã nguồn sẽ chấm.</li>
               <li><strong>Giới thiệu &amp; tổng quan dữ liệu:</strong> nguồn, phạm vi, đặc điểm chính.
               </li>
-              <li><strong>Làm sạch &amp; chuẩn hoá:</strong> quy tắc QA, tác động, chuẩn hoá danh mục/thời
+              <li><strong>Làm sạch &amp; chuẩn hoá:</strong> tác động, chuẩn hoá danh mục/thời
                 gian.
               </li>
-              <li><strong>Tổng hợp &amp; KPI:</strong> định nghĩa, công thức, đơn vị, bảng tổng hợp.</li>
+              <li><strong>Tổng hợp &amp;:</strong> định nghĩa, công thức, đơn vị, bảng tổng hợp.</li>
               <li><strong>Trực quan hoá:</strong> hình minh hoạ với chú thích đầy đủ.</li>
               <li>
                 <strong>Các phân tích nâng cao (nếu có):</strong> mục tiêu, phương pháp, đánh giá, diễn
@@ -454,34 +465,32 @@
           <tbody>
             <tr>
               <td>Thu thập dữ liệu</td>
-              <td>Đúng <strong>năm được phân</strong>; kiểm kê đủ/thiếu 12 tháng; ghi <strong>nguồn &amp;
+              <td> Ghi <strong>nguồn &amp;
                   phiên bản</strong> dữ liệu; tổ chức tệp/thư mục rõ ràng.</td>
               <td class="text-end">10</td>
             </tr>
             <tr>
               <td>Làm sạch &amp; chuẩn hoá</td>
-              <td>Quy tắc đảm bảo chất lượng dữ liệu (QA) hợp lý (thời lượng/quãng đường/tốc độ/giá trị
-                âm); <strong>gắn cờ &amp; báo
+              <td>Quy tắc đảm bảo chất lượng dữ liệu (QA) hợp lý (keywords, thời gian, thời tiết, hướng gió, ...); <strong>gắn cờ &amp; báo
                   cáo tác động</strong>; chuẩn hoá danh mục &amp; thời gian.</td>
               <td class="text-end">20</td>
             </tr>
             <tr>
               <td>Bảng tổng hợp &amp; KPI</td>
-              <td>Định nghĩa rõ <strong>công thức/đơn vị</strong> cho các KPI; <strong>kết quả tính
-                  KPI</strong>; lưu bảng đúng định dạng.
+              <td>Định nghĩa rõ <strong>công thức/đơn vị</strong>; lưu bảng đúng định dạng.
               </td>
               <td class="text-end">20</td>
             </tr>
             <tr>
               <td>Trực quan hoá</td>
-              <td><strong>≥ 5 hình (đường/cột/heatmap, v.v.)</strong>; tiêu đề, trục, đơn vị, chú giải đầy
-                đủ; thông điệp rõ ràng; nhất quán phong cách.</td>
+              <td> Tiêu đề, trục, đơn vị, chú giải đầy
+                đủ; thông điệp rõ ràng; nhất quán phong cách. <strong>Bản đồ</strong> vẽ chính xác vị trí, rõ ràng, dễ hiểu</td>
               <td class="text-end">20</td>
             </tr>
             <tr>
               <td>Diễn giải &amp; kết luận</td>
               <td>Nêu phát hiện chính và bối cảnh; thảo luận <strong>giới hạn dữ
-                  liệu</strong> &amp; <strong>tác động QA</strong>; đề xuất tiếp theo.</td>
+                  liệu</strong> &amp; đề xuất tiếp theo.</td>
               <td class="text-end">10</td>
             </tr>
             <tr>
@@ -499,8 +508,8 @@
             </tr>
             <tr class="table-success">
               <td>Điểm thưởng (tuỳ chọn)</td>
-              <td>Phân tích nâng cao: dự báo, phát hiện bất thường, phân cụm, chuẩn hoá nâng cao, kiểm thử
-                dữ liệu nâng cao… Có đánh giá (MAE/MAPE/F1 hoặc backtest), minh bạch &amp; tái lập.</td>
+              <td>Phân tích nâng cao: Suy luận, phân tích dự đoán theo thời gian về nguyên nhân, hướng lan truyền, nguyên nhân lan truyền, 
+              kể lại câu chuyện theo dòng thời gian của diễn biến sử dụng biểu đồ</td>
               <td class="text-end">+0 đến +20</td>
             </tr>
           </tbody>
