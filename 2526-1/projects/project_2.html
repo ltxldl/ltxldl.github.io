@@ -295,51 +295,95 @@
         </p>
       </div>
 
-      <!-- 3 -->
-      <div class="task-block">
-        <h5>3) Tổng hợp &amp;</h5>
+<!-- 3 -->
+<div class="task-block">
+  <h5>3) Tổng hợp dữ liệu</h5>
 
-        <p><strong>Yêu cầu chung:</strong>
+  <p><strong>Yêu cầu chung:</strong></p>
 
-        <p class="mb-2"><strong>Dữ liệu thời tiết</strong> có tần suất theo ngày và <strong> Dữ liệu blogs </strong> có tuần suất theo giờ/phút.
-        Do đó cần <strong>upsample dữ liệu thời tiết</strong> lên tần suất theo giờ/phút và kết nối với bảng dữ liệu blogs thông qua <strong>trường dữ liệu thời gian</strong> (thêm các cột weather, wind_direction và average_wind_speed cho bảng microblogs) </p>
+  <p class="mb-2">
+    <strong>Dữ liệu thời tiết</strong> có tần suất <strong>theo ngày</strong>, 
+    trong khi <strong>dữ liệu blog</strong> có tần suất <strong>theo giờ hoặc phút</strong>. 
+    Do đó, cần <strong>nội suy (upsample)</strong> dữ liệu thời tiết lên tần suất theo giờ hoặc phút 
+    và <strong>kết nối (join)</strong> với bảng dữ liệu blog thông qua 
+    <strong>trường thời gian (timestamp)</strong>. Sau khi kết nối, thêm các cột 
+    <code>weather</code>, <code>wind_direction</code> và <code>average_wind_speed</code> 
+    vào bảng <code>microblogs</code>.
+  </p>
 
-        <p class="mb-2">Chuẩn hóa <strong>dữ liệu text của nội dung blog</strong>, ví dụ: xóa khoảng trắng, chuyển về normalcase hoặc uppercase, v.v. </p>
+  <p class="mb-2">
+    Chuẩn hóa <strong>dữ liệu văn bản</strong> trong nội dung blog, ví dụ: 
+    xóa khoảng trắng dư thừa, chuyển về chữ thường hoặc chữ in hoa đồng nhất (normalcase / uppercase), v.v.
+  </p>
 
-        <p class="mb-2">Sử dụng danh sách các từ khóa (keyword) đã được cho trong file <code>keywords.txt</code> để thống kê số lượng mỗi từ khóa xuất hiện trên các blog theo giờ, <strong>kiểu hình thời tiết (cột weather)</strong> và <strong>hướng gió (cột wind_direction)</strong> phổ biến nhất theo mỗi keyword theo giờ</p>
+  <p class="mb-2">
+    Sử dụng danh sách từ khóa trong tệp <code>keywords.txt</code> để:
+    <ul class="mb-2 ps-3">
+      <li>Thống kê <strong>số lần xuất hiện</strong> của mỗi từ khóa trên các blog theo <strong>giờ</strong>.</li>
+      <li>Xác định <strong>kiểu thời tiết (weather)</strong> và <strong>hướng gió (wind_direction)</strong> phổ biến nhất cho từng từ khóa theo giờ.</li>
+    </ul>
+  </p>
 
-        <p class="mb-2"><strong>Thống kê, ánh xạ các vị trí địa lý (cột location) </strong> xuất hiện từ khóa theo mỗi từ khóa theo giờ, ví dụ từ khóa: <strong>stomachache</strong> xuất hiện tại các vị trí (40.34N - 93.30W), (41.32N - 92.15W), ... trong khoảng thời gian 10h-11h ngày 01/05/2011</p>
+  <p class="mb-2">
+    <strong>Ánh xạ vị trí địa lý (location):</strong> Thống kê các vị trí địa lý nơi xuất hiện từng từ khóa theo từng khung giờ. 
+    Ví dụ: từ khóa <strong>stomachache</strong> xuất hiện tại các vị trí 
+    (40.34N - 93.30W), (41.32N - 92.15W), ... trong khoảng thời gian 10h–11h ngày 01/05/2011.
+  </p>
 
-        <strong>Lưu kết quả:</strong> Ghi các bảng thống kê vào <code>processed/</code> với tên tệp theo quy
-        ước: <br/>
-        <code>processed/stat_hourly_HH_DD_MM.csv</code>,
-        (đổi <code>HH_DD_MM</code> theo giờ/ngày/tháng).
-        Trong đó gồm các cột <code>keywords</code> => mỗi hàng sẽ là một keyword, cột <code>count</code> => đếm số lượng mỗi keyword xuất hiện trên các blog, cột <code>weather</code> => kiểu hình thời tiết, cột <code>wind_direction</code> => hướng gió, v.v và các cột 
-        do các bạn chọn để phân tích. <br/>
-        <code>processed/keyword_location_mapping_hourly_HH_DD_MM.csv</code>,
-        (đổi <code>HH_DD_MM</code> theo giờ/ngày/tháng).
-        Trong đó gồm các cột <code>location</code> => vị trí xuất hiện từ khóa, cột <code>keyword</code> => từ khóa xuất hiện tại vị trí đó  <br/>
-        <em>Gỉa sử ta có K1, K2, ..., Kn từ khóa và mỗi từ khóa xuất hiện ở N1, N2, ..., Nn số vị trí trong một giờ thì bảng này sẽ có N1 + N2 + ... + Nn hàng. Cùng một giá trị vị trí hoặc từ khóa có thể nằm ở nhiều hàng nhưng 
-        <strong>mỗi cặp vị trí - từ khóa là duy nhất (unique)</strong></em>
-      </div>
+  <p><strong>Lưu kết quả:</strong></p>
+  <ul class="ps-3">
+    <li>
+      <code>processed/stat_hourly_HH_DD_MM.csv</code> 
+      (trong đó <code>HH_DD_MM</code> lần lượt là giờ/ngày/tháng).<br/>
+      Các cột gồm: <code>keyword</code>, <code>count</code>, <code>weather</code>, 
+      <code>wind_direction</code> và các cột tùy chọn khác để phân tích.
+    </li>
+    <li class="mt-2">
+      <code>processed/keyword_location_mapping_hourly_HH_DD_MM.csv</code><br/>
+      Gồm các cột: <code>location</code> (vị trí địa lý), <code>keyword</code> (từ khóa xuất hiện tại vị trí đó).<br/>
+      <em>
+        Giả sử có K₁, K₂, ..., Kₙ từ khóa, mỗi từ khóa xuất hiện tại N₁, N₂, ..., Nₙ vị trí trong một giờ, 
+        thì bảng này có tổng cộng N₁ + N₂ + ... + Nₙ hàng. 
+        Mỗi <strong>cặp (vị trí - từ khóa)</strong> là <strong>duy nhất (unique)</strong>, 
+        nhưng cùng một vị trí hoặc từ khóa có thể lặp lại ở nhiều hàng khác nhau.
+      </em>
+    </li>
+  </ul>
+</div>
 
-      <!-- 4 -->
-      <div class="task-block">
-        <h5>4) Trực quan hoá</h5>
-        <p><strong>Yêu cầu chung:</strong> Cần có 3-4 biểu đồ cho mỗi thống kê theo giờ (thống kê và vẽ biểu đồ theo giờ)
-        <p class="mb-1"><strong>Gợi ý biểu đồ:</strong></p>
-        <ul class="mb-2 ps-3">
-          <li><strong>Bắt buộc</strong> - vẽ bản đồ phân bố từ khóa liên quan đến triệu chứng bệnh lên bản đồ theo giờ (sử dụng bảng keyword_location_mapping_hourly_...), mỗi vị trí xuất hiện từ khóa là một chấm (màu sắc phân biệt theo mỗi keyword)</li>
-          <li>Cột so sánh (ví dụ top khung giờ/area theo số lượng mỗi keyword theo giờ) => để phát hiện lượng keyword xuất hiện nhiều nhất theo giờ.</li>
-          <li>Đường theo thời gian (giờ/ngày/tháng) cho số lượng các keyword liên quan đến triệu chứng bệnh.</li>
-          <li>Các bạn tự nghĩ thêm biểu đồ dùng để phân tích dữ liệu - Khuyến khích sử dụng thêm các thông tin về thời tiết</li>
-        </ul>
+<!-- 4 -->
+<div class="task-block">
+  <h5>4) Trực quan hóa dữ liệu</h5>
 
-        <p>
-          <strong>Lưu kết quả:</strong> Lưu hình vào <code>figures/</code> với tên dễ tra cứu (ví dụ:
-          <code>figures/keyword_count_overtime.png</code>, <code>figures/pointmap_epidemic_symptoms_hourly_HH_DD_MM.png</code>).
-        </p>
-      </div>
+  <p><strong>Yêu cầu chung:</strong> Cần tạo <strong>3–4 biểu đồ</strong> cho mỗi thống kê theo <strong>giờ</strong> (tức là thống kê và vẽ biểu đồ dữ liệu ở mức độ theo giờ).</p>
+
+  <p class="mb-1"><strong>Gợi ý biểu đồ:</strong></p>
+  <ul class="mb-2 ps-3">
+    <li>
+      <strong>Bắt buộc:</strong> Bản đồ phân bố các từ khóa liên quan đến triệu chứng bệnh theo từng giờ 
+      (sử dụng bảng <code>keyword_location_mapping_hourly_...</code>), 
+      trong đó mỗi vị trí có từ khóa là một chấm, màu sắc khác nhau thể hiện từng từ khóa.
+    </li>
+    <li>
+      Biểu đồ cột so sánh (ví dụ: top khung giờ hoặc khu vực có số lượng từ khóa xuất hiện nhiều nhất).
+    </li>
+    <li>
+      Biểu đồ đường theo thời gian (giờ/ngày/tháng) thể hiện xu hướng số lượng từ khóa liên quan đến triệu chứng bệnh.
+    </li>
+    <li>
+      Có thể sáng tạo thêm các biểu đồ khác để phân tích mối liên hệ giữa blog và thời tiết, 
+      ví dụ: tương quan giữa từ khóa và nhiệt độ, hoặc hướng gió với tần suất xuất hiện từ khóa.
+    </li>
+  </ul>
+
+  <p>
+    <strong>Lưu kết quả:</strong> Lưu các hình vào thư mục <code>figures/</code> 
+    với tên dễ tra cứu, ví dụ:<br/>
+    <code>figures/keyword_count_overtime.png</code>, 
+    <code>figures/pointmap_epidemic_symptoms_hourly_HH_DD_MM.png</code>
+  </p>
+</div>
+
 
       <!-- 5 -->
       <div class="task-block">
