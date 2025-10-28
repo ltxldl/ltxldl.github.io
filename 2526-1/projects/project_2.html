@@ -304,11 +304,9 @@
   <p><strong>Yêu cầu chung:</strong></p>
 
   <p class="mb-2">
-    <strong>* Yêu cầu 1:</strong> <strong>Dữ liệu thời tiết</strong> có tần suất <strong>theo ngày</strong>, 
-    trong khi <strong>dữ liệu blog</strong> có tần suất <strong>theo giờ hoặc phút</strong>. 
-    Do đó, cần <strong>nội suy (upsample)</strong> dữ liệu thời tiết lên tần suất theo giờ hoặc phút 
-    và <strong>kết nối (join)</strong> với bảng dữ liệu blog thông qua 
-    <strong>trường thời gian (timestamp)</strong>. Sau khi kết nối, thêm các cột 
+    <strong>* Yêu cầu 1:Nội suy (upsample) dữ liệu thời tiết lên tần suất theo giờ hoặc phút 
+    và <strong>kết nối (join)</strong> với bảng dữ liệu microblogs thông qua 
+    <strong>trường thời gian</strong>. Sau khi kết nối, thêm các cột 
     <code>weather</code>, <code>wind_direction</code> và <code>average_wind_speed</code> 
     vào bảng <code>microblogs</code>.
   </p>
@@ -316,6 +314,7 @@
   <p class="mb-2">
     <strong>* Yêu cầu 2:</strong> Sử dụng danh sách từ khóa trong tệp <code>keywords.txt</code> để:
     <ul class="mb-2 ps-3">
+      <li>Phân loại thủ công hoặc tự động các từ khóa thành hai nhóm bao gồm: các loại từ khóa liên quan đến <strong>triệu chứng bệnh, bệnh viện</strong> và các loại từ khóa <strong>khác</strong></li>
       <li>Thống kê <strong>số lần xuất hiện</strong> của mỗi từ khóa trên các blog theo <strong>giờ</strong>.</li>
       <li>Xác định <strong>kiểu thời tiết (weather)</strong> và <strong>hướng gió (wind_direction)</strong> phổ biến nhất cho từng từ khóa theo giờ.</li>
     </ul>
@@ -329,6 +328,11 @@
 
   <p><strong>Lưu kết quả:</strong></p>
   <ul class="ps-3">
+    <li>
+      <code>processed/keywords.csv</code> 
+      Các cột gồm: <code>symptom_keyword</code> => các từ khóa liên quan đến triệu chứng bệnh, 
+      <code>other_keyword</code> => các từ khóa khác
+    </li>
     <li>
       <code>processed/stat_hourly_HH_DD_MM.csv</code> 
       (trong đó <code>HH_DD_MM</code> lần lượt là giờ/ngày/tháng).<br/>
