@@ -265,6 +265,8 @@
           </li>
           <li>Tệp CSV về dân số của mỗi khu vực trong thành phố Vastopolis.
           </li>
+          <li>Tệp CSV tổng hợp các từ khóa phổ biến trong các blogs của cư dân.
+          </li>
           <li>Tệp PNG hình ảnh bản đồ thành phố Vastopolis (đọc thêm tệp README.DOC để rõ hơn về kích thước và tọa độ
             địa lý của bản đổ).
           </li>
@@ -291,6 +293,7 @@
           trường vị trí địa lý (lat-long).
           Chuẩn hóa <strong>dữ liệu văn bản</strong> trong nội dung blog và keyword, ví dụ:
           xóa khoảng trắng dư thừa, chuyển về chữ thường hoặc chữ in hoa đồng nhất (normalcase / uppercase), v.v.
+          Chú ý về encoding của các ký tự lưu trữ trong file ('utf-8', 'latin-1')
         </p>
         <!-- <p><strong>Chú ý đọc file README</strong> để hiểu rõ hơn về dữ liệu</p> -->
         <p><strong>Ví dụ quy tắc phát hiện dữ liệu ngoại lệ:</strong> Không có trường thông tin <em>text</em> của bảng
@@ -320,7 +323,7 @@
           <strong>* Yêu cầu 2:</strong> Sử dụng danh sách từ khóa trong tệp <code>keywords.txt</code> để:
         <ul class="mb-2 ps-3">
           <li>Phân loại thủ công hoặc tự động các từ khóa thành hai nhóm bao gồm: các loại từ khóa liên quan đến
-            <code>triệu chứng bệnh, bệnh viện</code> và các loại từ khóa <code>khác</code>.
+            <code>triệu chứng bệnh, bệnh viện</code> ví dụ: (stomach, flu, fever, caught, bad, medicine, feel, chills,...) và các loại từ khóa <code>khác</code>.
           </li>
           <li>Thống kê <em>số lần xuất hiện</em> của mỗi từ khóa trên các blog theo <em>giờ</em>.</li>
           <li>Xác định <em>kiểu thời tiết (weather)</em> và <em>hướng gió (wind_direction)</em> phổ biến nhất cho từng
@@ -411,7 +414,7 @@
           <li>Đề xuất cải tiến (thu thập, trích xuất thêm thông tin, sáng tạo thêm phương pháp visualize dễ hiểu hoặc
             phân tích mở rộng).</li>
           <li>Đưa ra dự đoán về thời điểm bùng phát dịch bệnh và các triệu chứng bệnh phổ biến nhất của từng khu vực =>
-            Từ đó bình luận về các con đường lây lan dịch bệnh.</li>
+            Từ đó bình luận về các con đường lây lan dịch bệnh (gợi ý: đường không khí, đường nước, ...).</li>
         </ul>
         <p class="text-muted small mb-0">Khuyến khích việc suy luận dựa trên nhiều kiểu hình thống kê và biểu đồ khác.
         </p>
