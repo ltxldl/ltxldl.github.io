@@ -149,10 +149,10 @@
         <p>
           <strong>Vastopolis Epidemic </strong> là bộ dữ liệu trong Mini Challenge 1 của cuộc thi IEEE VAST
           2011,
-          dữ liệu bao gồm dữ liệu về <em>Thời tiết</em> và dữ liệu về các <em> Microblogs (nội dung, ngày giờ)
+          dữ liệu bao gồm dữ liệu về <em>Thời tiết (kiểu hình thời tiết, thời gian, tốc độ gió trung bình, hướng gió)</em> và dữ liệu về các <em> Microblogs (nội dung blog, thời gian đăng tải, vị trí đăng tải)
           </em> do các cư dân thành phố
-          Vastopolis đăng tải. Dữ liệu thường có định dạng
-          <strong>CSV</strong> và <strong>PNG</strong>.
+          Vastopolis đăng tải. Dữ liệu có định dạng
+          <strong>CSV</strong>.
         </p>
 
         <p>
@@ -167,26 +167,26 @@
         <p>   
           <p>
             Tất cả các nhóm sử dụng dữ liệu Thời tiết và microblogs để phân tích tình hình đại dịch cho thành phố Vastopolis.
-            Mỗi nhóm tự tách dữ liệu về thời tiết và microblogs của mình theo khoảng thời gian được phân công từ bảng dữ liệu chung.
+            Mỗi nhóm tự tách dữ liệu về thời tiết và microblogs của mình theo khoảng thời gian được phân công như bên dưới.
           </p>
           Mỗi nhóm sẽ được phân công <strong>04 ngày</strong> dữ liệu (theo bảng phân công trong spreadsheet).
         </p>
 
         <ul>
           <li>
-            <strong>Nhóm 1.1:</strong> Dữ liệu từ ngày 30/4 - 3/5.
+            <strong>Nhóm 1.1:</strong> Dữ liệu thời tiết + microblogs từ ngày 30/4 - 3/5.
           </li>
           <li>
-            <strong>Nhóm 1.2:</strong> Dữ liệu từ ngày 4/5 - 7-5.
+            <strong>Nhóm 1.2:</strong> Dữ liệu thời tiết + microblogs từ ngày 4/5 - 7-5.
           </li>
           <li>
-            <strong>Nhóm 1.3:</strong> Dữ liệu từ ngày 8/5 - 11/5.
+            <strong>Nhóm 1.3:</strong> Dữ liệu thời tiết + microblogs từ ngày 8/5 - 11/5.
           </li>
           <li>
-            <strong>Nhóm 1.4:</strong> Dữ liệu từ ngày 12/5 - 15/5.
+            <strong>Nhóm 1.4:</strong> Dữ liệu thời tiết + microblogs từ ngày 12/5 - 15/5.
           </li>
           <li>
-            <strong>Nhóm 1.5:</strong> Dữ liệu từ ngày 16/5 - 20/5.
+            <strong>Nhóm 1.5:</strong> Dữ liệu thời tiết + microblogs từ ngày 16/5 - 20/5.
           </li>
         </ul>
 
@@ -195,11 +195,11 @@
         <p>
           Thành phố Vastopolis đã xảy ra một đại dịch lớn (vẫn chưa rõ là đại dịch nào) và nguyên nhân vẫn
           chưa được nắm rõ (có thể do khủng bố). Bằng việc
-          phân tích dữ liệu về Thời tiết và microblogs của mỗi cư dân, tìm cách kết nối thông tin về Thời tiết
+          phân tích dữ liệu về Thời tiết theo ngày và microblogs theo phút của mỗi cư dân, tìm cách kết nối thông tin về Thời tiết
           và thông tin về microblogs, từ đó đại dịch
-          có thể được truy vết để tìm ra đại dịch đang sảy ra, thời điểm
+          có thể được truy vết để tìm ra đại dịch nào đang sảy ra, thời điểm
           bùng phát, nơi bùng phát, nguyên nhân lan truyền dịch bệnh, nơi chịu tổn hại nhiều nhất và nguyên
-          nhân gây ra dịch bệnh.
+          nhân gây ra đại dịch.
         </p>
       </div>
     </section>
@@ -208,13 +208,15 @@
     <section id="muctieu" class="section-anchor my-5">
       <h2>Mục tiêu</h2>
       <ol>
-        <li class="mb-2">Thành thạo <strong>nạp/ghi dữ liệu lớn</strong> (CSV/Parquet) và tổ chức thư mục làm
+        <li class="mb-2">Thành thạo <strong>nạp/ghi dữ liệu lớn</strong> (CSV) và tổ chức thư mục làm
           việc.
         </li>
         <li class="mb-2">Rèn luyện <strong>làm sạch, chuẩn hoá, tạo đặc trưng</strong> bằng Python, NumPy,
           Pandas.
         </li>
         <li class="mb-2">Thực hành <strong>trực quan hoá</strong> bằng Matplotlib/Seaborn.
+        </li>
+        <li class="mb-2">Thực hành <strong>trực quan hoá</strong> dữ liệu GIS (thông tin địa lý) lên bản đồ.
         </li>
         <li class="mb-0">Nâng cao kỹ năng <strong>tổng hợp &amp; diễn giải</strong> dữ liệu thực tế; báo cáo
           minh bạch.</li>
@@ -258,9 +260,9 @@
           </li>
           <li>Tệp CSV về Thời tiết.
           </li>
-          <li>Tệp CSV về dân số.
+          <li>Tệp CSV về dân số của mỗi khu vực trong thành phố Vastopolis.
           </li>
-          <li>Tệp PNG về bản đồ thành phố Vastopolis.
+          <li>Tệp PNG hình ảnh bản đồ thành phố Vastopolis (đọc thêm tệp README.DOC để rõ hơn về kích thước và tọa độ địa lý của bản đổ).
           </li>
           <li>Tệp DOC mô tả về dữ liệu.
           </li>
@@ -282,11 +284,11 @@
         <p><strong>Yêu cầu chung:</strong> Xây dựng bộ quy tắc đảm bảo chất lượng dữ liệu (QA) minh bạch; ưu
           tiên
           <em>gắn cờ</em> thay vì xoá dữ liệu; chuẩn
-          hoá kiểu dữ liệu, danh mục (vd. <em>wheather</em>, <em>wind-direction</em>) và trường thời gian và trường vị trí địa lý.
+          hoá các kiểu dữ liệu như danh mục (vd. <em>wheather</em>, <em>wind-direction</em>) và trường thời gian và trường vị trí địa lý (lat-long).
         </p>
         <p><strong>Chú ý đọc file README</strong> để hiểu rõ hơn về dữ liệu</p>
-        <p><strong>Ví dụ quy tắc phát hiện dữ liệu ngoại lệ:</strong> Không có thông tin nội dung blogs, không
-          có thông tin vị trí địa lý, không có thông tin thời tiết, hướng gió v.v.</p>
+        <p><strong>Ví dụ quy tắc phát hiện dữ liệu ngoại lệ:</strong> Không có trường thông tin <em>text</em> của bảng microblogs, không
+          có thông tin vị trí địa lý của mỗi blog, không có thông tin thời tiết, hướng gió v.v.</p>
         <p><strong>Lưu kết quả:</strong>
           Ghi báo cáo QA này vào <code>reports/qa_summary.csv</code> và mô tả rõ trong báo cáo PDF cuối cùng.
           Lưu dữ liệu đã làm sạch/chuẩn hoá (ưu tiên CSV) vào <code>processed/</code>.
@@ -297,45 +299,45 @@
       <div class="task-block">
         <h5>3) Tổng hợp &amp;</h5>
 
-        <p>Tổng hợp theo <strong> Từ khóa </strong> và <strong> Vị trí địa lý </strong></p>
-
-        <p><strong>Yêu cầu chung:</strong> Tổng hợp theo <em>giờ/ngày/tháng</em>;
+        <p><strong>Yêu cầu chung:</strong>
 
         <p class="mb-2"><strong>Dữ liệu thời tiết</strong> có tần suất theo ngày và <strong> Dữ liệu blogs </strong> có tuần suất theo giờ/phút.
-        Do đó cần upsample dữ liệu thời tiết và nối với dữ liệu blogs, thêm cột weather, wind_direction và average_wind_speed cho bảng microblogs</p>
+        Do đó cần upsample dữ liệu thời tiết lên tần suất theo giờ/phút và kết nối với bảng dữ liệu blogs thông qua trường dữ liệu thời gian (thêm cột weather, wind_direction và average_wind_speed cho bảng microblogs) </p>
 
-        <p class="mb-2">Lượng tử hóa dữ liệu <strong>Vị trí địa lý</strong> theo từng khu vực của thành phố (ví dụ: Downtown, Westown, ...). Thêm cột
-        area cho bảng microblogs để biểu diễn khu vực mà microblogs xuất hiện</p>
+        <p class="mb-2">Chuẩn hóa <strong>dữ liệu text của nội dung blog</strong>, ví dụ: xóa khoảng trắng, chuyển về normalcase hoặc uppercase, v.v. </p>
 
-        <p class="mb-2"><strong>Ví dụ Từ khóa:</strong> Chia nội dung blogs theo từ khóa, thống kê số lượng;
-          lượng tử hóa theo giờ, theo phút, xác định loại hình thời tiết chính theo từ khóa P50, xác định tên khu vực xuất hiện từ khóa nhiều nhất P50 v.v.</p>
+        <p class="mb-2">Sử dụng danh sách các từ khóa (keyword) đã được cho trong file keywords.txt để thống kê số lượng mỗi từ khóa xuất hiện trên các blog theo giờ, kiểu hình thời tiết - cột weather và hướng gió - cột wind_direction phổ biến nhất theo mỗi keyword theo giờ</p>
+
+        <p class="mb-2">Thống kê, ánh xạ các vị trí địa lý (cột location) xuất hiện từ khóa theo mỗi từ khóa theo giờ, ví dụ từ khóa: stomachache xuất hiện tại các vị trí 40.34N - 93.30W, 41.32N - 92.15W, ... trong khoảng thời gian 10h-11h ngày 01/05/2011</p>
 
         <strong>Lưu kết quả:</strong> Ghi các bảng thống kê vào <code>processed/</code> với tên tệp theo quy
         ước:
-        <code>processed/all_areas/all_hourly_HH_DD_MM.csv</code>,
+        <code>processed/stat_hourly_HH_DD_MM.csv</code>,
         (đổi <code>HH_DD_MM</code> theo giờ/ngày/tháng).
-        Trong đó gồm các cột <code>keywords</code>, <code>count</code> đếm số lượng keyword đó xuất hiện theo giờ, <code>wind_direction</code> hướng gió, v.v và các cột 
-        do các bạn chọn để phân tích.
-        <code>processed/areas/<area_name>/areas_hourly_HH_DD_MM.csv</code>,
-        (đổi, area_name theo tên khu vực, ví dụ: Downtown. Đổi <code>HH_DD_MM</code> theo giờ/ngày/tháng).
-        Thống kê theo giờ cho từng khu vực. Các cột giống với bảng thống kê cho toàn bộ khu vực
+        Trong đó gồm các cột <code>keywords</code> => mỗi hàng sẽ là một keyword, <code>count</code> đếm số lượng mỗi keyword xuất hiện trên các blog, <code>weather</code> kiểu hình thời tiết, <code>wind_direction</code> hướng gió, <code></code> v.v và các cột 
+        do các bạn chọn để phân tích. <br/>
+        <code>processed/keyword_location_mapping_hourly_HH_DD_MM.csv</code>,
+        (đổi <code>HH_DD_MM</code> theo giờ/ngày/tháng).
+        Trong đó gồm các cột <code>location</code> => vị trí xuất hiện từ khóa, <code>keyword</code> => từ khóa xuất hiện tại vị trí đó  <br/>
+        Gỉa sử ta có K1, K2, ..., Kn từ khóa và mỗi từ khóa xuất hiện ở N1, N2, ..., Nn số vị trí trong một giờ thì bảng này sẽ có N1 + N2 + ... + Nn hàng. Cùng một giá trị vị trí hoặc từ khóa có thể nằm ở nhiều hàng nhưng 
+        <strong>mỗi cặp vị trí - từ khóa là duy nhất (unique)</strong>.
       </div>
 
       <!-- 4 -->
       <div class="task-block">
         <h5>4) Trực quan hoá</h5>
-        <p><strong>Yêu cầu chung:</strong> Đối với toàn bộ khu vực vẽ biểu đồ thống kê cho mỗi bảng (hourly) đối với từng khu vực
-          vẽ vị trí xuất hiện (các chấm) của các keyword liên quan đến triệu chứng của bệnh lên bản đồ cho mỗi bảng (hourly)</p>
+        <p><strong>Yêu cầu chung:</strong> Cần có 3-4 biểu đồ cho mỗi thống kê theo giờ (thống kê và vẽ biểu đồ theo giờ)
         <p class="mb-1"><strong>Gợi ý biểu đồ:</strong></p>
         <ul class="mb-2 ps-3">
-          <li>Đường theo thời gian (giờ/ngày/tháng) cho số lượng các keyword liên quan đến triệu chứng bệnh.</li>
+          <li><strong>Bắt buộc</strong> - vẽ bản đồ phân bố từ khóa liên quan đến triệu chứng bệnh lên bản đồ theo giờ (sử dụng bảng keyword_location_mapping_hourly_...), mỗi vị trí xuất hiện từ khóa là một chấm (màu sắc phân biệt theo mỗi keyword)</li>
           <li>Cột so sánh (ví dụ top khung giờ/area theo số lượng mỗi keyword theo giờ) => để phát hiện lượng keyword xuất hiện nhiều nhất theo giờ.</li>
-          <li>Heatmap của mỗi keyword trên bản đồ theo giờ</li>
+          <li>Đường theo thời gian (giờ/ngày/tháng) cho số lượng các keyword liên quan đến triệu chứng bệnh.</li>
+          <li>Các bạn tự nghĩ thêm biểu đồ dùng để phân tích dữ liệu - Khuyến khích sử dụng thêm các thông tin về thời tiết</li>
         </ul>
 
         <p>
           <strong>Lưu kết quả:</strong> Lưu hình vào <code>figures/</code> với tên dễ tra cứu (ví dụ:
-          <code>figures/all_areas/keyword_count_overtime.png</code>, <code>figures/<area_name>/heatmap_epidemic_symptoms_hourly_HH_DD_MM.png</code>).
+          <code>figures/keyword_count_overtime.png</code>, <code>figures/pointmap_epidemic_symptoms_hourly_HH_DD_MM.png</code>).
         </p>
       </div>
 
