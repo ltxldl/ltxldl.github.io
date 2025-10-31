@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Lecture 9: Data Visualization with Python</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="plugin/highlight/zenburn.css">
+
+  <link rel="stylesheet" href="lecture-style.css">
+
+  <!-- in <head> -->
+  <style>
+    .panda-sticker {
+      position: absolute;
+      bottom: -2rem;
+      right: 0rem;
+      width: clamp(96px, 12vw, 160px);
+      height: auto;
+      transform: rotate(-2deg);
+      /* filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .15)); */
+      /* opacity: .95; */
+      z-index: -5;
+      pointer-events: none;
+      /* never blocks clicks */
+    }
+
+    /* If you ever need a dark theme tweak, slightly lighten */
+    .reveal.has-dark-background .panda-sticker {
+      opacity: .9;
+    }
+
+    /* Stack on small screens so it doesn't crowd the title */
+    @media (max-width: 700px) {
+      .panda-sticker {
+        top: .75rem;
+        right: .75rem;
+        width: 22vw;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <!-- Title slide -->
+        <section>
+          <h1>Programming for Data Processing</h1>
+          <div>
+            <p>
+              <strong>Lectures:</strong> Nguyễn Tuấn Phong, Đào Việt Anh
+            </p>
+            <p>
+              <strong>Labs:</strong> Trịnh Ngọc Huỳnh, Phạm Tiến Du
+            </p>
+            <p>
+              <strong>Semester:</strong> 2025-2026-1
+            </p>
+            <p>Institute for AI, VNU-UET</p>
+          </div>
+        </section>
+
+        <!-- Lecture title -->
+        <section>
+          <img class="panda-sticker" src="img/lecture-09/panda-drawing.png" alt="Cute panda drawing illustration"
+            loading="lazy" style="width: 220px!important;">
+          <h1>
+            <span class="text-light">Lecture 9</span>
+            <br>
+            Data Visualization with Python
+          </h1>
+        </section>
+
+        <!-- Last time -->
+        <section data-markdown>
+          <textarea data-template>
+            ## Last time
+            - Time Series Data Processing
+          </textarea>
+        </section>
+
+        <!-- Today -->
+        <section>
+          <h2>Today</h2>
+
+          <ul>
+            <li>Tools: <span class="keyword">Matplotlib</span>, <span class="keyword">Seaborn</span>, <span
+                class="keyword">pandas.plot</span>, <span class="keyword">Plotly Express</span>, <span
+                class="keyword">Altair</span></li>
+            <li>Goal: clear, honest, useful charts</li>
+            <li>
+              Demo: <a
+                href="https://colab.research.google.com/drive/1n3KFJ0_S79v0UkX5fgtkmIQk5rk-x_0k?usp=sharing"
+                target="_blank">Link to Google Colab Notebook</a>
+              (use VNU account to access)
+            </li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">1.</span>
+            <br>
+            Introduction
+          </h1>
+        </section>
+
+        <!-- Slide 2: Why visualize? -->
+        <section>
+          <h2>Why Visualize?</h2>
+          <ul>
+            <li>See structure; Spot anomalies; Communicate</li>
+            <li>Tasks → charts:
+              <ul>
+                <li><span class="keyword">Compare</span> → bar / point / line</li>
+                <li><span class="keyword">Distribution</span> → hist / KDE / ECDF / box / violin</li>
+                <li><span class="keyword">Relationship</span> → scatter / line (+ trend)</li>
+                <li><span class="keyword">Composition</span> → stacked bars/area (sparingly)</li>
+              </ul>
+            </li>
+            <li>Start with a question, not a chart</li>
+          </ul>
+        </section>
+
+        <!-- Slide 3: Design quick hits -->
+        <section>
+          <h2>Design Quick Hits</h2>
+          <ul>
+            <li>Prefer <span class="keyword">position/length</span> over area</li>
+            <li>Label units; Add reference lines</li>
+            <li><span class="keyword">Colorblind-safe</span> palettes; minimize colors</li>
+            <li>Use <span class="keyword">log scale</span> for heavy tails</li>
+            <li>Avoid truncated axes without context</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">2.</span>
+            <br>
+            Matplotlib
+          </h1>
+        </section>
+
+        <!-- Slide 4: Matplotlib mental model (OO) -->
+        <section data-auto-animate data-jp-reset>
+          <h2>Matplotlib Mental Model</h2>
+          <h4>Object-oriented (OO) API</h4>
+          <ul>
+            <li>Figure → Axes → Artists</li>
+            <li>OO pattern: <span class="inline-code">fig, ax = plt.subplots()</span> → methods on <span
+                class="inline-code">ax</span></li>
+            <li>Explicit; Reusable; Composable</li>
+            <li>Save: <span class="inline-code">fig.savefig(...)</span></li>
+          </ul>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Matplotlib Mental Model</h2>
+          <h4>Object-oriented (OO) API</h4>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0, 2*np.pi, 200)
+y = np.sin(x)
+
+fig, ax = plt.subplots(figsize=(6,4))
+
+ax.plot(x, y, linewidth=2)
+ax.set(title="Sine wave", xlabel="x (rad)", ylabel="y")
+
+fig.tight_layout()
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+# Renders a line chart (Figure)
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Slide 5: Matplotlib techniques -->
+        <section>
+          <h2>Matplotlib Techniques</h2>
+          <ul>
+            <li>Subplots: <span class="inline-code">fig, axs = plt.subplots(r, c, sharex=True)</span></li>
+            <li>Legends/ticks/grid/annotations via <span class="inline-code">ax</span> methods</li>
+            <li>Avoid misleading dual y-axes → normalize or small multiples</li>
+            <li>Vector export: <span class="keyword">SVG/PDF</span> for publication-ready articles</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">3.</span>
+            <br>
+            Seaborn
+          </h1>
+        </section>
+
+        <!-- Slide 6: Seaborn what & why -->
+        <section>
+          <h2>Seaborn: What &amp; Why</h2>
+          <ul>
+            <li>High-level stats plots on Matplotlib</li>
+            <li><span class="keyword">Axes-level</span> (e.g., <span class="inline-code">sns.boxplot</span>)</li>
+            <li><span class="keyword">Figure-level</span> (e.g., <span class="inline-code">displot</span>, <span
+                class="inline-code">relplot</span>)</li>
+            <li>Theme once: <span class="inline-code">sns.set_theme(style="whitegrid", palette="colorblind")</span></li>
+          </ul>
+        </section>
+
+        <!-- Slide 7: Distributions: KDE vs ECDF -->
+        <section data-auto-animate>
+          <h2>Distributions: KDE vs ECDF</h2>
+          <ul>
+            <li><span class="keyword">KDE</span>: smoothed shape; risk of over-smoothing</li>
+            <li><span class="keyword">ECDF</span>: exact cumulative distribution</li>
+            <li>Use both for group comparison (e.g., penguins)</li>
+            <li>Order categories by statistic (e.g., median)</li>
+          </ul>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Distributions: KDE vs ECDF</h2>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import seaborn as sns
+penguins = sns.load_dataset("penguins").dropna()
+
+sns.kdeplot(
+    penguins,
+    x="body_mass_g",
+    hue="species",
+    fill=True
+)
+sns.ecdfplot(
+    penguins, 
+    x="body_mass_g",
+    hue="species"
+)
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Slide 8: Relationships & categoricals -->
+        <section>
+          <h2>Relationships &amp; Categoricals</h2>
+          <ul>
+            <li>Trend/uncertainty: <span class="inline-code">sns.lmplot</span>, <span
+                class="inline-code">sns.regplot</span></li>
+            <li>Overplotting: use <span class="keyword">alpha</span>, jitter, size</li>
+            <li>Summaries: <span class="inline-code">sns.pointplot(estimator="median", errorbar=("pi", 50))</span></li>
+            <li>Keep OO: pass <span class="inline-code">ax=</span> when using axes-level funcs</li>
+          </ul>
+        </section>
+
+        <!-- Slide 9: Faceting -->
+        <section data-auto-animate>
+          <h2>Faceting</h2>
+          <ul>
+            <li><span class="inline-code">FacetGrid(..., col="island", hue="species")</span></li>
+            <li><span class="inline-code">map_dataframe(sns.scatterplot, x=..., y=...)</span></li>
+            <li>Shared scales → fair comparisons</li>
+            <li>Labels &amp; titles: <span class="inline-code">g.set_axis_labels(...).set_titles("{col_name}")</span>
+            </li>
+          </ul>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Faceting</h2>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+g = sns.FacetGrid(
+    penguins, 
+    col="island", 
+    hue="species", 
+    height=3
+)
+
+g.map_dataframe(
+    sns.scatterplot, 
+    x="bill_length_mm", 
+    y="bill_depth_mm"
+).add_legend()
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+# One column per island; colors map species
+    </code></pre>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">4.</span>
+            <br>
+            Direct Plotting with pandas
+          </h1>
+        </section>
+
+        <!-- Slide 10: Quick EDA with pandas.plot -->
+        <section>
+          <h2>Quick EDA with pandas.plot</h2>
+          <ul>
+            <li>Fast first pass from DataFrame/Series</li>
+            <li>Timeseries: rolling mean, resample</li>
+            <li>Then refine in Seaborn/Matplotlib</li>
+            <li>Example: <span class="inline-code">df.plot(kind="line")</span>, <span
+                class="inline-code">df.hist()</span></li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">5.</span>
+            <br>
+            Interactive Visualization
+          </h1>
+        </section>
+
+        <!-- Slide 11: Interactivity with Plotly Express -->
+        <section>
+          <h2>Interactivity: Plotly Express</h2>
+          <ul>
+            <li>Hover / Zoom / Facet in one line</li>
+            <li>Trendline: <span class="inline-code">trendline="ols"</span> (needs <span
+                class="inline-code">statsmodels</span>)</li>
+            <li>Share: <span class="inline-code">fig.write_html("figure.html")</span></li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import plotly.express as px
+
+tips = sns.load_dataset("tips")
+fig = px.scatter(
+    tips, x="total_bill", y="tip", color="time",
+    size="size", facet_col="sex", trendline="ols",
+    title="Interactive scatter with facets"
+)
+fig.show()
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Slide 12: Altair declarative grammar -->
+        <section>
+          <h2>Altair: Declarative Grammar</h2>
+          <ul>
+            <li>Map fields → encodings (concise)</li>
+            <li>Faceting via <span class="inline-code">row</span>/<span class="inline-code">column</span></li>
+            <li>Tooltips by default; HTML export</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import altair as alt
+from vega_datasets import data
+cars = data.cars()
+alt.Chart(cars).mark_point().encode(
+    x="Horsepower", y="Miles_per_Gallon",
+    color="Origin", tooltip=["Name","Year","Cylinders"]
+).properties(width=320, height=220)
+    </code></pre>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>
+            <span class="text-light">6.</span>
+            <br>
+            Best Practices &amp; Pitfalls
+          </h1>
+        </section>
+
+        <!-- Slide 13: Choosing the right tool -->
+        <section>
+          <h2>Choosing the Right Tool</h2>
+          <ul>
+            <li><span class="keyword">pandas.plot</span> → quickest EDA</li>
+            <li><span class="keyword">Matplotlib</span> → full control, publication quality</li>
+            <li><span class="keyword">Seaborn</span> → statistical defaults + faceting</li>
+            <li><span class="keyword">Plotly/Altair</span> → interactivity &amp; shareable HTML</li>
+            <li>Pattern: explore → refine → share</li>
+          </ul>
+        </section>
+
+        <!-- Slide 14: Reproducibility & pitfalls -->
+        <section>
+          <h2>Reproducibility &amp; Pitfalls</h2>
+          <ul>
+            <li>Seed randomness; Pin data versions</li>
+            <li>Consistent styles across plots</li>
+            <li>Common pitfalls:
+              <ul>
+                <li>Dual y-axes without care</li>
+                <li>Missing units/labels</li>
+                <li>Rainbow palettes</li>
+                <li>Truncated axes without context</li>
+                <li>Over-smoothed <span class="keyword">KDE</span></li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        Prog. Data Proc. (2526-1) §9: Data Visualization
+      </div>
+      <!-- End of footer -->
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+
+  <script>
+    (function () {
+      function renumberJupyterCells() {
+        let n = 0;
+        // Traverse slides in DOM order; allow per-slide reset via data-jp-reset
+        document.querySelectorAll('.slides section').forEach(sec => {
+          if (sec.hasAttribute('data-jp-reset')) n = 0;
+          sec.querySelectorAll('.jp-input').forEach(input => {
+            input.dataset.jpN = ++n;                 // set number on input
+            const cell = input.closest('.jp-cell');  // copy same number to any outputs in the cell
+            if (cell) cell.querySelectorAll('.jp-output').forEach(out => out.dataset.jpN = n);
+          });
+        });
+      }
+
+      // Run at load and whenever Reveal changes slides/layout
+      if (window.Reveal && Reveal.on) {
+        Reveal.on('ready', renumberJupyterCells);
+        Reveal.on('slidechanged', renumberJupyterCells);
+        Reveal.on('resize', renumberJupyterCells);
+      } else {
+        document.addEventListener('DOMContentLoaded', renumberJupyterCells);
+      }
+    })();
+  </script>
+
+</body>
+
+</html>
