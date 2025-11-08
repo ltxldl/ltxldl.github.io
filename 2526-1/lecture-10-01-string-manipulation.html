@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Lecture 10 (Part 1): String Manipulation</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="plugin/highlight/zenburn.css">
+
+  <link rel="stylesheet" href="lecture-style.css">
+
+  <!-- in <head> -->
+  <style>
+    .panda-sticker {
+      position: absolute;
+      bottom: -2rem;
+      right: 0rem;
+      width: clamp(96px, 12vw, 160px);
+      height: auto;
+      transform: rotate(-2deg);
+      /* filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .15)); */
+      /* opacity: .95; */
+      z-index: -5;
+      pointer-events: none;
+      /* never blocks clicks */
+    }
+
+    /* If you ever need a dark theme tweak, slightly lighten */
+    .reveal.has-dark-background .panda-sticker {
+      opacity: .9;
+    }
+
+    /* Stack on small screens so it doesn't crowd the title */
+    @media (max-width: 700px) {
+      .panda-sticker {
+        top: .75rem;
+        right: .75rem;
+        width: 22vw;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <!-- Title slide -->
+        <section>
+          <h1>Programming for Data Processing</h1>
+          <div>
+            <p>
+              <strong>Lectures:</strong> Nguyễn Tuấn Phong, Đào Việt Anh
+            </p>
+            <p>
+              <strong>Labs:</strong> Trịnh Ngọc Huỳnh, Phạm Tiến Du
+            </p>
+            <p>
+              <strong>Semester:</strong> 2025-2026-1
+            </p>
+            <p>Institute for AI, VNU-UET</p>
+          </div>
+        </section>
+
+        <!-- Lecture title -->
+        <section>
+          <h1>
+            <span class="text-light">Lecture 10</span>
+            <br>
+            <span class="text-light">Part 1:</span>
+            <br>
+            String Manipulation
+          </h1>
+        </section>
+      </section>
+
+      <section>
+        <!-- Slide: Why Strings Matter -->
+        <section data-jp-reset>
+          <h2>Why strings matter</h2>
+          <ul>
+            <li><span class="keyword">Clean</span> &amp; <span class="keyword">canonicalize</span> messy text</li>
+            <li><span class="keyword">Extract</span> structure (emails, URLs, phones)</li>
+            <li>Inputs for joins, features, and QA checks</li>
+          </ul>
+        </section>
+
+        <!-- Slide: Bytes vs Text -->
+        <section style="font-size: 0.8em;">
+          <h2>Bytes vs text (encodings)</h2>
+          <ul>
+            <li>Files: <span class="keyword">bytes</span></li>
+            <li>Python: <span class="keyword">Unicode str</span></li>
+            <li>Specify <span class="inline-code">encoding="utf-8"</span></li>
+            <li>Use <span class="inline-code">errors="replace"</span> at ingestion</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+s = "Café ☕"
+b = s.encode("utf-8")
+print(type(s).__name__, type(b).__name__)
+print(b.decode("utf-8"))
+print(b[:-1].decode("utf-8", errors="replace"))
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+str bytes
+Café ☕
+Café �
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Slide: Unicode Normalization -->
+        <section style="font-size: 0.8em;">
+          <h2>Unicode normalization &amp; casefold</h2>
+          <ul>
+            <li><span class="keyword">NFKC</span> unifies full-width/compat forms</li>
+            <li><span class="inline-code">casefold()</span> &gt; <span class="inline-code">lower()</span> for matching
+            </li>
+            <li>Diacritics: strip only when appropriate</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import unicodedata
+samples = ["Café", "Cafe\u0301", "ＦＯＯ", "Straße"]
+for x in samples:
+    n = unicodedata.normalize("NFKC", x)
+    print(x, "->", n, "->", n.casefold())
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+Café -> Café -> café
+Café -> Café -> café
+ＦＯＯ -> FOO -> foo
+Straße -> Straße -> strasse
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Slide: Idempotent Cleaner -->
+        <section>
+          <h2>Idempotent cleaner</h2>
+          <ul>
+            <li>Order: <span class="keyword">normalize → casefold → trim → collapse</span></li>
+            <li><span class="keyword">Idempotent</span>: re-running changes nothing</li>
+            <li>Avoid lossy steps too early</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import re, unicodedata
+def normalize_text(s: str) -> str:
+    s = unicodedata.normalize("NFKC", s).casefold()
+    return re.sub(r"\s+", " ", s).strip()
+print(normalize_text("  ＦＯＯ   Bar\t"))
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+foo bar
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Slide: Regex Essentials -->
+        <section>
+          <h2>Regex essentials</h2>
+          <ul>
+            <li><span class="keyword">Named groups</span>, flags, non-greedy <span class="inline-code">.*?</span></li>
+            <li><span class="keyword">Pre-compile</span> for reuse</li>
+            <li>Prefer libraries for complex URLs/HTML</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import re
+email_re = re.compile(r"(?P&lt;user&gt;[\\w.+-]+)@(?P&lt;domain&gt;[A-Za-z0-9.-]+\\.[A-Za-z]{2,})")
+m = email_re.search("contact: first.last+tag@uni.edu")
+print(m.group("user"), m.group("domain"))
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+first.last+tag uni.edu
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Slide: Pandas String Ops -->
+        <section style="font-size: 0.8em;">
+          <h2>Vectorized Pandas string ops</h2>
+          <ul>
+            <li><span class="inline-code">.str.extract</span>, <span class="inline-code">.str.contains</span>, <span
+                class="inline-code">.str.replace</span></li>
+            <li><span class="inline-code">regex=False</span> for literals; set <span class="inline-code">na=</span>
+              explicitly</li>
+            <li>Reuse compiled patterns</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import pandas as pd, re
+df = pd.DataFrame({"email":["alice@acme.io","bob.smith@uni.edu"]})
+pat = re.compile(r".+@(?P&lt;domain&gt;[^@]+)$")
+print(df["email"].str.extract(pat, expand=True).head())
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+        domain
+0     acme.io
+1     uni.edu
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Slide: Parsing Semi-Structured -->
+        <section>
+          <h2>Parsing semi-structured</h2>
+          <ul>
+            <li><span class="keyword">JSONL</span>: stream line-by-line</li>
+            <li><span class="keyword">Logs</span>: small regex with groups</li>
+            <li>Use parsers for HTML</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import json, io
+jsonl = '{"u":"a","r":5}\\n{"u":"b","r":3}'
+records = [json.loads(line) for line in io.StringIO(jsonl)]
+print(records)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+[{'u': 'a', 'r': 5}, {'u': 'b', 'r': 3}]
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Slide: PII Redaction -->
+        <section>
+          <h2>PII redaction &amp; ethics</h2>
+          <ul>
+            <li>Redact <span class="keyword">emails</span>/<span class="keyword">phones</span> early</li>
+            <li><span class="keyword">Log</span> changes; keep an audit trail</li>
+            <li>Preserve meaning; document assumptions</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+text = "Email: a@b.com, Phone: +1 202 555 0199"
+import re
+text = re.sub(r"[\\w.+-]+@[\\w.-]+", "&lt;EMAIL&gt;", text)
+text = re.sub(r"(?:\\+?\\d[\\d\\- ]{7,}\\d)", "&lt;PHONE&gt;", text)
+print(text)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+Email: &lt;EMAIL&gt;, Phone: &lt;PHONE&gt;
+    </code></pre>
+          </div>
+        </section>
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        Prog. Data Proc. (2526-1) §10.1: String Manipulation
+      </div>
+      <!-- End of footer -->
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+
+  <script>
+    (function () {
+      function renumberJupyterCells() {
+        let n = 0;
+        // Traverse slides in DOM order; allow per-slide reset via data-jp-reset
+        document.querySelectorAll('.slides section').forEach(sec => {
+          if (sec.hasAttribute('data-jp-reset')) n = 0;
+          sec.querySelectorAll('.jp-input').forEach(input => {
+            input.dataset.jpN = ++n;                 // set number on input
+            const cell = input.closest('.jp-cell');  // copy same number to any outputs in the cell
+            if (cell) cell.querySelectorAll('.jp-output').forEach(out => out.dataset.jpN = n);
+          });
+        });
+      }
+
+      // Run at load and whenever Reveal changes slides/layout
+      if (window.Reveal && Reveal.on) {
+        Reveal.on('ready', renumberJupyterCells);
+        Reveal.on('slidechanged', renumberJupyterCells);
+        Reveal.on('resize', renumberJupyterCells);
+      } else {
+        document.addEventListener('DOMContentLoaded', renumberJupyterCells);
+      }
+    })();
+  </script>
+
+</body>
+
+</html>

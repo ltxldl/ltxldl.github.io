@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Lecture 10 (Part 2): Pandas Aggregation &amp; Groupby</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="plugin/highlight/zenburn.css">
+
+  <link rel="stylesheet" href="lecture-style.css">
+
+  <!-- in <head> -->
+  <style>
+    .panda-sticker {
+      position: absolute;
+      bottom: -2rem;
+      right: 0rem;
+      width: clamp(96px, 12vw, 160px);
+      height: auto;
+      transform: rotate(-2deg);
+      /* filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .15)); */
+      /* opacity: .95; */
+      z-index: -5;
+      pointer-events: none;
+      /* never blocks clicks */
+    }
+
+    /* If you ever need a dark theme tweak, slightly lighten */
+    .reveal.has-dark-background .panda-sticker {
+      opacity: .9;
+    }
+
+    /* Stack on small screens so it doesn't crowd the title */
+    @media (max-width: 700px) {
+      .panda-sticker {
+        top: .75rem;
+        right: .75rem;
+        width: 22vw;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <!-- Title slide -->
+        <section>
+          <h1>Programming for Data Processing</h1>
+          <div>
+            <p>
+              <strong>Lectures:</strong> Nguyễn Tuấn Phong, Đào Việt Anh
+            </p>
+            <p>
+              <strong>Labs:</strong> Trịnh Ngọc Huỳnh, Phạm Tiến Du
+            </p>
+            <p>
+              <strong>Semester:</strong> 2025-2026-1
+            </p>
+            <p>Institute for AI, VNU-UET</p>
+          </div>
+        </section>
+
+        <!-- Lecture title -->
+        <section>
+          <h1>
+            <span class="text-light">Lecture 10</span>
+            <br>
+            <span class="text-light">Part 2:</span>
+            <br>
+            Pandas Aggregation &amp; Groupby
+          </h1>
+        </section>
+      </section>
+
+      <section>
+
+        <!-- Slide: Split Apply Combine -->
+        <section data-jp-reset>
+          <h2>Split–Apply–Combine</h2>
+          <ul>
+            <li><span class="keyword">Split</span> by keys → <span class="keyword">Apply</span> functions → <span
+                class="keyword">Combine</span></li>
+            <li><span class="keyword">Aggregation</span> vs <span class="keyword">Transformation</span></li>
+            <li>Manage index with <span class="inline-code">as_index</span></li>
+          </ul>
+        </section>
+
+        <!-- Slide: Groupby Basics -->
+        <section>
+          <h2>Groupby basics</h2>
+          <ul>
+            <li>Use <span class="inline-code">groupby()</span> + reducers</li>
+            <li>Prefer <span class="inline-code">as_index=False</span> for tidy outputs</li>
+            <li>Set categorical dtypes for speed/size</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import pandas as pd
+df = pd.DataFrame({"k":["a","a","b"],"v":[1,2,3]})
+print(df.groupby("k", as_index=False).agg(total=("v","sum")))
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+   k  total
+0  a      3
+1  b      3
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Slide: Named Aggregations -->
+        <section style="font-size: 0.8em;">
+          <h2>Named aggregations</h2>
+          <ul>
+            <li>One pass, many stats</li>
+            <li>Clear, labeled metrics</li>
+            <li>Compute first, format later</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+orders = pd.DataFrame({
+  "cust":["c1","c1","c2","c2","c2"],
+  "amt":[10,40,5,8,20]
+})
+out = orders.groupby("cust", as_index=False).agg(
+  orders=("amt","count"),
+  revenue=("amt","sum"),
+  p90=("amt", lambda s: s.quantile(0.9))
+)
+print(out)
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+  cust  orders  revenue   p90
+0   c1       2       50  37.0
+1   c2       3       33  17.6
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Slide: Custom Functions -->
+        <section>
+          <h2>Custom functions (caution)</h2>
+          <ul>
+            <li>Prefer vectorized reductions</li>
+            <li>Functions must be <span class="keyword">pure</span> (no side effects)</li>
+            <li>Be mindful of performance with <span class="inline-code">apply</span></li>
+          </ul>
+        </section>
+
+        <!-- Slide: Transform -->
+        <section style="font-size: 0.8em;">
+          <h2>Groupwise features w/ transform</h2>
+          <ul>
+            <li>Same-length output aligned to rows</li>
+            <li>Examples: share-of-total, z-scores</li>
+            <li>Great for features in modeling</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+g = orders.groupby("cust")["amt"]
+orders["share"] = orders["amt"] / g.transform("sum")
+orders["z"] = (orders["amt"] - g.transform("mean")) / g.transform("std")
+print(orders.head())
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+  cust  amt     share         z
+0   c1   10  0.200000 -1.000000
+1   c1   40  0.800000  1.000000
+2   c2    5  0.119048 -0.773131
+...
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Slide: When to use apply -->
+        <section>
+          <h2>When (not) to use apply</h2>
+          <ul>
+            <li>Use for per-group DataFrame logic</li>
+            <li>Disable keys: <span class="inline-code">group_keys=False</span></li>
+            <li>Beware memory/parallel limits</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+def topk(d, k=2): 
+    return d.nlargest(k, "amt")[["cust","amt"]]
+print(orders.groupby("cust", group_keys=False).apply(topk, k=1))
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+  cust  amt
+1   c1   40
+4   c2   20
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Slide: Pivot & MultiIndex -->
+        <section>
+          <h2>Pivoting &amp; MultiIndex</h2>
+          <ul>
+            <li>Use <span class="inline-code">pivot_table</span> (handles duplicates)</li>
+            <li><span class="inline-code">margins=True</span> for totals</li>
+            <li>Clean axes before export</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import numpy as np
+orders["seg"] = np.where(orders["cust"]=="c1","high","regular")
+pt = orders.pivot_table(index="seg", columns="cust", values="amt", aggfunc="sum", margins=True)
+print(pt.fillna(0))
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+cust        c1    c2   All
+seg                      
+high      50.0   0.0  50.0
+regular    0.0  33.0  33.0
+All       50.0  33.0  83.0
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Slide: Time Grouping -->
+        <section>
+          <h2>Time grouping &amp; resampling</h2>
+          <ul>
+            <li><span class="inline-code">pd.Grouper(key="ts", freq="W")</span></li>
+            <li><span class="inline-code">resample("D")</span> on DatetimeIndex</li>
+            <li>Careful with timezones</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+import pandas as pd
+ts = pd.date_range("2024-01-01", periods=7, freq="D")
+x = pd.Series([1,3,2,4,5,2,1], index=ts)
+print(x.resample("D").sum().head(3))
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+2024-01-01    1
+2024-01-02    3
+2024-01-03    2
+Freq: D, dtype: int64
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Slide: Rolling Windows -->
+        <section>
+          <h2>Rolling windows</h2>
+          <ul>
+            <li><span class="inline-code">rolling(window=7, min_periods=1)</span></li>
+            <li>Use for smoothing, thresholds, alerts</li>
+            <li>Validate with known totals</li>
+          </ul>
+          <div class="jp-cell">
+            <pre class="jp-input"><code class="language-python" data-trim>
+roll7 = x.rolling(3, min_periods=1).mean()
+print(pd.DataFrame({"x": x, "roll3": roll7}).head(5))
+    </code></pre>
+            <pre class="jp-output"><code class="language-text" data-trim>
+             x     roll3
+2024-01-01  1  1.000000
+2024-01-02  3  2.000000
+2024-01-03  2  2.000000
+2024-01-04  4  3.000000
+2024-01-05  5  3.666667
+    </code></pre>
+          </div>
+        </section>
+
+        <!-- Slide: Performance & Repro -->
+        <!-- <section>
+          <h2>Performance &amp; reproducibility</h2>
+          <ul>
+            <li>Vectorize; avoid <span class="inline-code">apply</span> when possible</li>
+            <li>Reuse compiled regex; stream large files</li>
+            <li>Document versions; keep a change log</li>
+          </ul>
+        </section> -->
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        Prog. Data Proc. (2526-1) §10.2: Pandas Aggregation &amp; Groupby
+      </div>
+      <!-- End of footer -->
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+
+  <script>
+    (function () {
+      function renumberJupyterCells() {
+        let n = 0;
+        // Traverse slides in DOM order; allow per-slide reset via data-jp-reset
+        document.querySelectorAll('.slides section').forEach(sec => {
+          if (sec.hasAttribute('data-jp-reset')) n = 0;
+          sec.querySelectorAll('.jp-input').forEach(input => {
+            input.dataset.jpN = ++n;                 // set number on input
+            const cell = input.closest('.jp-cell');  // copy same number to any outputs in the cell
+            if (cell) cell.querySelectorAll('.jp-output').forEach(out => out.dataset.jpN = n);
+          });
+        });
+      }
+
+      // Run at load and whenever Reveal changes slides/layout
+      if (window.Reveal && Reveal.on) {
+        Reveal.on('ready', renumberJupyterCells);
+        Reveal.on('slidechanged', renumberJupyterCells);
+        Reveal.on('resize', renumberJupyterCells);
+      } else {
+        document.addEventListener('DOMContentLoaded', renumberJupyterCells);
+      }
+    })();
+  </script>
+
+</body>
+
+</html>
