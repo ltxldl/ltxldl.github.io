@@ -13,7 +13,7 @@
 
 ## 2. Chính sách AI
 
-- ⬜ `ai-policy.html` — trang chính sách AI của môn
+- ✅ `ai-policy.html` — trang chính sách AI của môn (2 chế độ đóng/mở, công cụ được phép, khai báo, ranh giới gian lận, hậu quả)
 
 ## 3. Bài tập lớn Inside Airbnb
 
