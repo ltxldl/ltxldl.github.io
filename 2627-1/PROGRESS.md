@@ -17,9 +17,9 @@
 
 ## 3. Bài tập lớn Inside Airbnb
 
-- ⬜ Khảo sát insideairbnb.com/get-the-data (thành phố + snapshot thật, schema `reviews`)
-- ⬜ `projects/project_airbnb.html`
-- ⬜ `projects/index.html`
+- ✅ Khảo sát insideairbnb.com (05/07/2026): 38/120 thành phố đạt ≥3 snapshot/12 tháng; chọn 12 (Barcelona, Madrid, Lisbon, Porto, Montreal, Toronto, Vancouver, NYC, New Orleans, Buenos Aires, Santiago, Rio). Schema `reviews`/`listings`/`calendar` xác minh thật, phát hiện schema drift 79→90 cột + giá chuỗi nội tệ. **Lưu ý: các thành phố châu Á chỉ còn 2 snapshot → bị loại theo tiêu chí (xem QUESTIONS.md).**
+- ✅ `projects/project_airbnb.html` — đề đầy đủ: 12 thành phố + snapshot thật, nhóm tự đề xuất QA/KPI, hợp phần LLM bắt buộc (baseline + ≥100 nhãn tay + chi phí), AI_USAGE.md, chấm held-out snapshot, vấn đáp cá nhân, rubric 4 tiêu chí × 4 mức (30/25/25/20), placeholder deadline/phân công
+- ✅ `projects/index.html`
 
 ## 4. Slide + notebook từng buổi
 

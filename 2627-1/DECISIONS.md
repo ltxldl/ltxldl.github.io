@@ -9,3 +9,8 @@
 - **Hệ màu hộp nhấn** (theo style guide): cam `#E8890C` = điểm chốt, đỏ `#E62727` = cảnh báo/lỗi, xanh lá `#2E8B57` = khuyến nghị/ví dụ tốt, xanh lam `#1E93AB` = cấu trúc/định nghĩa/câu hỏi. Badge 🤖 "Làm với AI" dùng tím `#7A4CB0` để tách khỏi 4 màu nội dung.
 - **Copy `package.json` + `gulpfile.js`** từ 2526-1 sang để giữ workflow `npm start` (speaker notes + livereload) cho ai cần.
 - **VanderPlas 2nd ed**: link bản đọc online miễn phí `jakevdp.github.io/PythonDataScienceHandbook` (trang chính thức của sách; nội dung online là bản mở của sách).
+- **BTL — 12 thành phố** (khảo sát thật 05/07/2026, tiêu chí ≥3 snapshot/12 tháng): Barcelona, Madrid, Lisbon, Porto, Montreal, Toronto, Vancouver, New York City, New Orleans, Buenos Aires, Santiago, Rio de Janeiro. Dự phòng: SF, Portland, Dallas, Boston, Quebec City, Brisbane, Budapest… Mỗi thành phố chốt 4 snapshot bắt buộc cách nhau ~1 quý (thành phố monthly được dùng thêm bản khác).
+- **BTL — không commit dữ liệu thô** vào repo nhóm (file quá lớn, và cơ chế held-out yêu cầu script tải tự động theo config) — khác đề cũ 2526-1 vốn cho commit raw.
+- **BTL — trọng số rubric**: A pipeline 30% / B dữ liệu (QA+KPI+LLM) 25% / C trực quan hoá & insight 25% / D nhóm & minh bạch AI 20%; thưởng tối đa +10%.
+- **BTL — held-out**: chấm bằng snapshot phát hành trong kỳ (~09–12/2026) hoặc bản monthly không nằm trong danh sách bắt buộc; ghi rõ trong đề để nhóm thiết kế pipeline chịu được schema drift.
+- **BTL — mốc nộp trung gian**: thêm mốc "bản đề xuất tuần 8" (QA/KPI/LLM dự kiến, GV phản hồi không chấm điểm) — để cứu các nhóm chọn sai hướng sớm.
