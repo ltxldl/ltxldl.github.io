@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Bài 12: Trực quan hoá cơ bản</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+  <link rel="stylesheet" href="plugin/highlight/zenburn.css">
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ====== Mở bài ====== -->
+      <section>
+        <section>
+          <h1>Lập trình xử lý dữ liệu</h1>
+          <div>
+            <p><strong>Giảng viên:</strong> Nguyễn Tuấn Phong</p>
+            <p><strong>Trợ giảng:</strong> {{cập nhật sau}}</p>
+            <p><strong>Học kì:</strong> 1, năm học 2026–2027</p>
+            <p>Viện Trí tuệ nhân tạo, Trường ĐH Công nghệ, ĐHQGHN</p>
+          </div>
+        </section>
+
+        <section>
+          <h1>
+            <span class="text-light">Bài 12</span>
+            <br>
+            Trực quan hoá cơ bản
+          </h1>
+          <p class="text-light">matplotlib, pandas plot — và những hình tự đứng được.</p>
+        </section>
+
+        <section>
+          <h2>Buổi trước</h2>
+          <ul>
+            <li>LLM trích xuất dữ liệu phi cấu trúc — đo bằng nhãn tay.</li>
+            <li>Dữ liệu của bạn giờ vừa sạch (buổi 10) vừa giàu (buổi 11) —
+              đến lúc <strong>cho nó được nhìn thấy</strong>.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Hôm nay</h2>
+          <ol>
+            <li>Vì sao phải vẽ — và vẽ dạng gì?</li>
+            <li>matplotlib: Figure, Axes và bộ tứ biểu đồ</li>
+            <li>pandas .plot &amp; xuất hình từ pipeline</li>
+            <li>Hình trung thực, hình sạch</li>
+            <li>Làm với AI thì sao?</li>
+          </ol>
+        </section>
+      </section>
+
+      <!-- ====== Phần 1 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">1.</span><br>Vì sao phải vẽ —<br>và vẽ dạng gì?</h1>
+          <p class="text-light">describe() không kể hết chuyện.</p>
+        </section>
+
+        <section>
+          <h2>1.1. Bốn bộ dữ liệu, một bảng thống kê</h2>
+          <figure class="fig">
+            <img src="img/lecture-12/anscombe.png" alt="Bộ tứ Anscombe" style="width:98%">
+            <figcaption class="caption">Bộ tứ Anscombe: mean, phương sai, tương quan, hồi quy — giống hệt nhau.
+              Chỉ có mắt mới thấy chúng khác nhau đến thế nào.</figcaption>
+          </figure>
+        </section>
+
+        <section>
+          <h2>1.2. Câu hỏi chọn dạng biểu đồ</h2>
+          <table class="compact-table">
+            <thead>
+              <tr>
+                <th>Bạn muốn cho thấy…</th>
+                <th>Dạng</th>
+                <th>Ví dụ hôm nay</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Diễn biến theo thời gian</td>
+                <td><strong>line</strong></td>
+                <td>review theo tháng</td>
+              </tr>
+              <tr>
+                <td>So sánh giữa các nhóm</td>
+                <td><strong>bar</strong> (ngang nếu tên dài)</td>
+                <td>giá theo quận</td>
+              </tr>
+              <tr>
+                <td>Hình dáng phân phối</td>
+                <td><strong>hist</strong></td>
+                <td>phân phối giá</td>
+              </tr>
+              <tr>
+                <td>Quan hệ hai đại lượng</td>
+                <td><strong>scatter</strong></td>
+                <td>vị trí × giá</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>Chọn dạng theo <em>câu hỏi</em>, không theo… gu thẩm mỹ. Một con số đắt giá đôi khi
+            chỉ cần in to — không cần chart.</p>
+        </section>
+      </section>
+
+      <!-- ====== Phần 2 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">2.</span><br>matplotlib:<br>Figure, Axes &amp; bộ tứ</h1>
+          <p class="text-light">Một API để trị mọi loại hình.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>2.1. Cặp đôi fig, ax</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 4))   # tờ giấy + khung vẽ
+ax.plot(thang.index, thang.values)        # vẽ LÊN KHUNG
+ax.set_title("...")
+ax.set_ylabel("số review / tháng")
+plt.show()
+            </code></pre>
+          </div>
+          <ul>
+            <li><strong>Figure</strong> = tờ giấy; <strong>Axes</strong> = khung vẽ trên giấy.</li>
+            <li>Luôn vẽ qua <span class="inline-code">ax.*</span> — kiểm soát được từng chi tiết,
+              ghép nhiều khung dễ.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>2.2. Giải phẫu một hình tử tế</h2>
+          <figure class="fig">
+            <img src="img/lecture-12/anatomy.png" alt="Giải phẫu biểu đồ" style="width:88%">
+            <figcaption class="caption">Bốn bộ phận tối thiểu: title mang thông điệp, annotation chỉ điểm
+              đáng nói, nhãn trục có đơn vị, nguồn dữ liệu.</figcaption>
+          </figure>
+        </section>
+
+        <section data-jp-reset>
+          <h2>2.3. Line: diễn biến thời gian</h2>
+          <div class="two-col two-col--wide-right">
+            <div>
+              <div class="jp-cell jp-plain">
+                <pre class="jp-input"><code class="language-python" data-trim>
+thang = (rv.set_index("date")
+    .resample("ME").size()
+    .iloc[:-1])          # bỏ kỳ cụt!
+
+fig, ax = plt.subplots()
+ax.plot(thang.index,
+        thang.values,
+        color="#1E93AB", lw=2)
+                </code></pre>
+              </div>
+            </div>
+            <div>
+              <figure class="fig">
+                <img src="img/lecture-12/line-reviews.png" alt="Line chart review theo tháng">
+              </figure>
+            </div>
+          </div>
+          <p class="caption">Mọi kỹ năng buổi 8 (resample, kỳ cụt) đi thẳng vào biểu đồ.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>2.4. Bar ngang: xếp hạng nhóm</h2>
+          <div class="two-col two-col--wide-right">
+            <div>
+              <div class="jp-cell jp-plain">
+                <pre class="jp-input"><code class="language-python" data-trim>
+top = (tk[tk["n"] >= 500]
+       .nlargest(8, "median")
+       .sort_values("median"))
+
+ax.barh(top.index,
+        top["median"])
+ax.bar_label(bars, ...)
+                </code></pre>
+              </div>
+            </div>
+            <div>
+              <figure class="fig">
+                <img src="img/lecture-12/barh-quan.png" alt="Bar ngang giá theo quận">
+              </figure>
+            </div>
+          </div>
+          <p class="caption">Tên quận dài → bar <strong>ngang</strong> cho chữ nằm thẳng;
+            số dán ngay đầu thanh (bar_label) đỡ phải dò trục; tô cam đúng MỘT thanh cần nhấn.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>2.5. Hist: hình dáng phân phối</h2>
+          <div class="two-col two-col--wide-right">
+            <div>
+              <div class="jp-cell jp-plain">
+                <pre class="jp-input"><code class="language-python" data-trim>
+ax.hist(np.log10(gia),
+        bins=55)
+ax.set_xlabel(
+    "log10(giá CLP/đêm)")
+                </code></pre>
+              </div>
+            </div>
+            <div>
+              <figure class="fig">
+                <img src="img/lecture-12/hist-gia.png" alt="Histogram giá thang log">
+              </figure>
+            </div>
+          </div>
+          <p class="caption">Bài buổi 10 bằng hình: phân phối giá phải nhìn qua thang log.
+            Thử vài mức <code>bins</code> — quá ít thì mù, quá nhiều thì nhiễu.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>2.6. Scatter: 18.000 chấm kể chuyện địa lý</h2>
+          <div class="two-col two-col--wide-right">
+            <div>
+              <div class="jp-cell jp-plain">
+                <pre class="jp-input"><code class="language-python" data-trim>
+mau = np.where(
+    s["price"] > median,
+    "#E8890C", "#1E93AB")
+
+ax.scatter(s["longitude"],
+           s["latitude"],
+           s=6, c=mau,
+           alpha=0.45)
+                </code></pre>
+              </div>
+            </div>
+            <div>
+              <figure class="fig">
+                <img src="img/lecture-12/scatter-map.png" alt="Scatter toạ độ theo giá">
+              </figure>
+            </div>
+          </div>
+          <p class="caption">Chỉ lat/lon + màu nhị phân đã thành "bản đồ của người nghèo" —
+            alpha thấp cứu 18 nghìn điểm khỏi dẫm nhau.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>2.7. subplots: đặt hai khung cạnh nhau</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+fig, axes = plt.subplots(1, 2, figsize=(10, 4), sharey=True)
+
+axes[0].hist(gia_t9, bins=40)
+axes[0].set_title("09/2025")
+axes[1].hist(gia_t6, bins=40)
+axes[1].set_title("06/2026")
+            </code></pre>
+          </div>
+          <p>So sánh hai snapshot công bằng: <span class="inline-code">sharey=True</span>
+            ép chung thang đo — so sánh mà khác thang là gian lận thị giác.</p>
+        </section>
+      </section>
+
+      <!-- ====== Phần 3 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">3.</span><br>pandas .plot<br>&amp; xuất hình từ pipeline</h1>
+          <p class="text-light">Nhanh khi khám phá — nghiêm túc khi xuất bản.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>3.1. .plot: một dòng cho bản nháp</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+thang.plot()                                  # line
+df["room_type"].value_counts().plot.barh()    # bar ngang
+df["price"].plot.hist(bins=50)                # hist
+            </code></pre>
+          </div>
+          <p>pandas gọi matplotlib hộ bạn — trục, nhãn tạm đủ để <em>mình nhìn</em>.
+            Khám phá: cứ <code>.plot</code>. Nộp/báo cáo: quay về <code>fig, ax</code> chỉnh chu.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>3.2. savefig: hình là sản phẩm của pipeline</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+fig.savefig("figures/gia_theo_quan.png",
+            dpi=150, bbox_inches="tight")
+            </code></pre>
+          </div>
+          <div class="key-box">
+            <span class="box-title">Điểm chốt</span>
+            BTL: mọi hình trong báo cáo sinh tự động vào <code>figures/</code> khi chạy pipeline —
+            không chỉnh tay, không chụp màn hình. Sửa hình = sửa code + chạy lại.
+          </div>
+        </section>
+
+        <section data-jp-reset>
+          <h2>3.3. rcParams: style một chỗ, đều mọi hình</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
+plt.rcParams.update({
+    "figure.facecolor": "white",
+    "axes.spines.top": False, "axes.spines.right": False,
+    "axes.grid": True, "grid.alpha": 0.25,
+    "font.size": 12,
+})
+            </code></pre>
+          </div>
+          <p>Khai một lần đầu notebook/script — mọi hình cùng "khuôn mặt".
+            Phong cách nhất quán là một tiêu chí chấm hình của BTL.</p>
+        </section>
+      </section>
+
+      <!-- ====== Phần 4 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">4.</span><br>Hình trung thực, hình sạch</h1>
+          <p class="text-light">Biểu đồ có thể nói dối mà không cần sai số liệu.</p>
+        </section>
+
+        <section>
+          <h2>4.1. Trục y bị cắt: nói dối hợp pháp phổ biến nhất</h2>
+          <figure class="fig">
+            <img src="img/lecture-12/truc-y.png" alt="So sánh trục y cắt và trục y từ 0" style="width:96%">
+            <figcaption class="caption">Cùng số liệu: bên trái "phòng riêng chỉ bằng cái móng tay khách sạn";
+              bên phải mới đúng tỷ lệ 34–117. Bar chart: trục y bắt đầu từ 0, chấm hết.</figcaption>
+          </figure>
+        </section>
+
+        <section>
+          <h2>4.2. Mực ít, tín hiệu nhiều</h2>
+          <ul>
+            <li>Bỏ spines phải/trên, grid thật mờ — khung không phải nội dung.</li>
+            <li>Mỗi hình <strong>một thông điệp</strong> — muốn nói hai điều, vẽ hai hình.</li>
+            <li>Màu có nghĩa: một màu cho cùng loại; <strong>nhấn đúng một thứ</strong> bằng màu thứ hai
+              (như thanh Lo Barnechea); không cầu vồng trang trí.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>4.3. Checklist xuất bản một hình (chuẩn BTL)</h2>
+          <div class="good-box">
+            <span class="box-title">Trước khi cho hình vào báo cáo</span>
+            <ol style="margin:0.2em 0 0 1em">
+              <li>Title nói <em>thông điệp</em> (không phải "Biểu đồ giá").</li>
+              <li>Trục có nhãn + <em>đơn vị</em>; bar bắt đầu từ 0; so sánh chung thang.</li>
+              <li>Chú thích nguồn + snapshot.</li>
+              <li>Che title đi, người lạ nhìn 10 giây có rút ra đúng ý không?</li>
+            </ol>
+          </div>
+          <p class="caption">Mục 5 của đề BTL: ≥6 hình, mỗi hình kèm 2–4 câu diễn giải —
+            checklist này là hàng rào chất lượng của bạn.</p>
+        </section>
+      </section>
+
+      <!-- ====== Kết ====== -->
+      <section>
+        <section>
+          <h2>Tổng kết</h2>
+          <ul>
+            <li>Vẽ vì describe() không kể hết (Anscombe); dạng hình đi theo <em>câu hỏi</em>.</li>
+            <li><code>fig, ax</code> + bộ tứ line/bar/hist/scatter phủ 90% nhu cầu.</li>
+            <li>.plot để khám phá; <code>savefig</code> vào <code>figures/</code> từ pipeline;
+              rcParams cho phong cách đồng bộ.</li>
+            <li>Trung thực: trục từ 0, chung thang, một thông điệp, có nguồn.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Làm với AI thì sao?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <div class="good-box">
+            <span class="box-title">AI làm tốt</span>
+            Sinh code matplotlib theo mô tả ("bar ngang, nhãn giá trị, nhấn thanh lớn nhất") —
+            tiết kiệm nhiều thời gian tra cứu API.
+          </div>
+          <div class="warn-box">
+            <span class="box-title">AI hay sai</span>
+            Mặc định để trục y tự co (bar bị cắt gốc!); title kiểu "Biểu đồ cột thể hiện…";
+            thích tô mỗi cột một màu cầu vồng.
+          </div>
+        </section>
+
+        <section>
+          <h2>Kiểm chứng thế nào?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <ul>
+            <li>Mọi hình AI sinh phải qua <strong>checklist 4.3</strong> — nó là bộ test của biểu đồ.</li>
+            <li>Đối chiếu một giá trị trên hình với số thật trong bảng (đọc thanh lớn nhất,
+              kiểm bằng <code>nlargest</code>).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Đọc thêm</h2>
+          <ul>
+            <li>McKinney, 3rd ed. — ch. 9 (Plotting and Visualization).</li>
+            <li>VanderPlas, <em>PDSH</em>, 2nd ed. — Part 4 (Matplotlib).</li>
+            <li>📖 Tự học: matplotlib docs — <em>Anatomy of a figure</em>.</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        LTXLDL (2627-1) · Bài 12: Trực quan hoá cơ bản
+      </div>
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>
