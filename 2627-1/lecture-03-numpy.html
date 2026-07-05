@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Bài 3: NumPy — mảng &amp; tính toán vector hoá</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+  <link rel="stylesheet" href="plugin/highlight/zenburn.css">
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ====== Mở bài ====== -->
+      <section>
+        <section>
+          <h1>Lập trình xử lý dữ liệu</h1>
+          <div>
+            <p><strong>Giảng viên:</strong> Nguyễn Tuấn Phong</p>
+            <p><strong>Trợ giảng:</strong> {{cập nhật sau}}</p>
+            <p><strong>Học kì:</strong> 1, năm học 2026–2027</p>
+            <p>Viện Trí tuệ nhân tạo, Trường ĐH Công nghệ, ĐHQGHN</p>
+          </div>
+        </section>
+
+        <section>
+          <h1>
+            <span class="text-light">Bài 3</span>
+            <br>
+            NumPy — mảng &amp; tính toán vector hoá
+          </h1>
+        </section>
+
+        <section>
+          <h2>Buổi trước</h2>
+          <ul>
+            <li>list/dict/set, comprehension, hàm làm sạch, file.</li>
+            <li>Lời hẹn: "thấy mình <code>for</code> qua từng dòng dữ liệu — dừng lại".</li>
+          </ul>
+          <p class="text-light">Hôm nay trả món nợ đó: công cụ thao tác <strong>cả triệu số một lệnh</strong>.</p>
+        </section>
+
+        <section>
+          <h2>Hôm nay</h2>
+          <ol>
+            <li>Vì sao cần NumPy?</li>
+            <li>ndarray: tạo mảng &amp; dtype</li>
+            <li>Vector hoá &amp; broadcasting</li>
+            <li>Thống kê theo trục</li>
+            <li>Lát cắt, view &amp; copy</li>
+            <li>Làm với AI thì sao?</li>
+          </ol>
+        </section>
+      </section>
+
+      <!-- ====== Phần 1 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">1.</span><br>Vì sao cần NumPy?</h1>
+          <p class="text-light">Vòng for Python không sinh ra cho hàng triệu con số.</p>
+        </section>
+
+        <section>
+          <h2>1.1. Cùng một việc, hai tốc độ</h2>
+          <figure class="fig">
+            <img src="img/lecture-03/speed-comparison.png" alt="So sánh tốc độ vòng for và NumPy"
+              style="width:82%">
+            <figcaption class="caption">Nhân 5 triệu số với 1.1 rồi cộng tổng: NumPy nhanh hơn cả chục lần —
+              khoảng cách còn lớn hơn với phép toán phức tạp.</figcaption>
+          </figure>
+        </section>
+
+        <section>
+          <h2>1.2. Bí mật nằm ở cách xếp dữ liệu</h2>
+          <div class="two-col">
+            <div>
+              <h4>list Python</h4>
+              <ul>
+                <li>Mỗi phần tử là một đối tượng rời rạc trong bộ nhớ.</li>
+                <li>Kiểu tuỳ ý → mỗi bước lặp phải "hỏi kiểu".</li>
+              </ul>
+            </div>
+            <div>
+              <h4>ndarray NumPy</h4>
+              <ul>
+                <li>Một khối nhớ liền, <strong>cùng một dtype</strong>.</li>
+                <li>Vòng lặp chạy trong C, không qua trình thông dịch.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="key-box">
+            <span class="box-title">Điểm chốt</span>
+            Đổi tự do lấy tốc độ: mảng NumPy "cứng nhắc" hơn list — và chính vì thế mà nhanh.
+          </div>
+        </section>
+
+        <section data-jp-reset>
+          <h2>1.3. Diện mạo của một ndarray</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+import numpy as np
+
+gia = np.array([1200000, 950000, 2400000, 610000])
+gia.dtype, gia.shape, gia.ndim
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="1"><code class="language-text" data-trim>
+(dtype('int64'), (4,), 1)
+            </code></pre>
+          </div>
+          <p>Ba thuộc tính định danh một mảng: <strong>dtype</strong> (kiểu chung),
+            <strong>shape</strong> (kích thước từng chiều), <strong>ndim</strong> (số chiều).</p>
+        </section>
+      </section>
+
+      <!-- ====== Phần 2 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">2.</span><br>Tạo mảng &amp; dtype</h1>
+          <p class="text-light">Từ list, từ công thức, hoặc từ máy sinh số ngẫu nhiên.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>2.1. Ba nguồn mảng thường gặp</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+np.array([[1, 2, 3], [4, 5, 6]])       # từ list (lồng nhau -> 2D)
+np.arange(0, 10, 2)                     # dãy cách đều: 0 2 4 6 8
+np.zeros((3, 4))                        # khung rỗng chờ điền
+            </code></pre>
+          </div>
+          <p>Kèm họ hàng: <span class="inline-code">linspace</span> (chia đều đoạn),
+            <span class="inline-code">ones</span>, <span class="inline-code">full</span>.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>2.2. Số ngẫu nhiên: máy sinh dữ liệu thử</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+rng = np.random.default_rng(seed=42)     # seed = tái lập được!
+
+gia_gia_lap = rng.normal(1000, 250, size=5).round()
+gia_gia_lap
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="2"><code class="language-text" data-trim>
+array([1076., 740., 1188., 1235., 512.])
+            </code></pre>
+          </div>
+          <p>Cần dữ liệu để thử pipeline khi chưa có dữ liệu thật? Sinh nó — và
+            <strong>ghim seed</strong> để ai chạy cũng ra đúng số ấy (yêu cầu tái lập của BTL).</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>2.3. dtype không phải chuyện hình thức</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
+diem = np.array(["7.5", "8.0", "9.25"])   # đọc từ CSV: toàn chuỗi!
+diem.dtype
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="3"><code class="language-text" data-trim>
+dtype('&lt;U4')
+            </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
+diem.astype(float).mean()
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="4"><code class="language-text" data-trim>
+8.25
+            </code></pre>
+          </div>
+          <p><span class="inline-code">astype</span> = cửa khẩu đổi kiểu. Chưa đổi kiểu thì
+            <code>mean()</code> của mảng chuỗi chỉ là… lỗi.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>2.4. reshape: cùng dữ liệu, khác khung nhìn</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="5"><code class="language-python" data-trim>
+doanh_thu_12_thang = np.arange(1, 13)
+
+theo_quy = doanh_thu_12_thang.reshape(4, 3)   # 4 quý × 3 tháng
+theo_quy
+            </code></pre>
+            <pre class="jp-output" data-jp-n="5"><code class="language-text" data-trim>
+array([[ 1,  2,  3],
+       [ 4,  5,  6],
+       [ 7,  8,  9],
+       [10, 11, 12]])
+            </code></pre>
+          </div>
+          <p>Không copy dữ liệu — chỉ đổi cách "đọc" khối nhớ. Tổng phần tử phải khớp
+            (4 × 3 = 12).</p>
+        </section>
+      </section>
+
+      <!-- ====== Phần 3 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">3.</span><br>Vector hoá &amp; broadcasting</h1>
+          <p class="text-light">Viết phép toán cho "cả mảng" như cho một con số.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>3.1. Phép toán chạy trên từng phần tử — tự động</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+gia = np.array([1200, 950, 2400, 610])   # nghìn đồng
+
+gia_sau_phi = gia * 1.15 + 50            # thêm 15% phí + 50k dọn dẹp
+gia_sau_phi
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="1"><code class="language-text" data-trim>
+array([1430. , 1142.5, 2810. ,  751.5])
+            </code></pre>
+          </div>
+          <p>Không <code>for</code>, không <code>append</code> — công thức viết một lần,
+            áp cho mọi phần tử. Đây chính là <strong>vector hoá</strong>.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>3.2. So sánh cũng vector hoá: mảng bool</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+gia > 1000
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="2"><code class="language-text" data-trim>
+array([ True, False,  True, False])
+            </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
+(gia > 1000).sum(), (gia > 1000).mean()
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="3"><code class="language-text" data-trim>
+(2, 0.5)
+            </code></pre>
+          </div>
+          <p>Mẹo đáng tiền: <code>sum</code> trên mảng bool = <em>đếm</em>;
+            <code>mean</code> = <em>tỷ lệ</em>. Nửa số KPI của BTL là câu này.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>3.3. Boolean indexing: lọc bằng mặt nạ</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
+gia_tho = np.array([1200, -5, 950, 0, 2400])
+
+gia_tho[gia_tho > 0]              # giữ dòng nào mặt nạ = True
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="4"><code class="language-text" data-trim>
+array([1200,  950, 2400])
+            </code></pre>
+          </div>
+          <p>Bài 2 lọc bằng comprehension, hôm nay lọc bằng <strong>mặt nạ bool</strong> —
+            nhanh hơn, và là cú pháp bạn dùng cả kỳ trong pandas.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>3.4. Ghép điều kiện: &amp; | ~ (không phải and/or!)</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="5"><code class="language-python" data-trim>
+hop_le = (gia_tho > 0) & (gia_tho < 2000)
+gia_tho[hop_le]
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="5"><code class="language-text" data-trim>
+array([1200,  950])
+            </code></pre>
+          </div>
+          <div class="warn-box">
+            <span class="box-title">Cẩn thận</span>
+            Với mảng phải dùng <code>&amp;</code>, <code>|</code>, <code>~</code> và
+            <strong>ngoặc quanh từng vế</strong>. Viết <code>and</code>/<code>or</code> là
+            <code>ValueError</code> — lỗi kinh điển tuần đầu dùng pandas.
+          </div>
+        </section>
+
+        <section data-jp-reset>
+          <h2>3.5. np.where: if-else cho cả mảng</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="6"><code class="language-python" data-trim>
+nhan = np.where(gia > 1000, "cao", "bình dân")
+nhan
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="6"><code class="language-text" data-trim>
+array(['cao', 'bình dân', 'cao', 'bình dân'], dtype='&lt;U8')
+            </code></pre>
+          </div>
+          <p>Một dòng thay cho cả vòng <code>for</code> + <code>if</code>/<code>else</code> —
+            gán nhãn phân khúc, gắn cờ QA đều là nó.</p>
+        </section>
+
+        <section>
+          <h2>3.6. Broadcasting: mảng nhỏ tự "kéo giãn"</h2>
+          <figure class="fig">
+            <img src="img/lecture-03/broadcasting.png" alt="Broadcasting ma trận (4,3) cộng vector (3,)"
+              style="width:88%">
+            <figcaption class="caption">Cộng ma trận (4,3) với vector (3,): NumPy tự áp vector lên từng hàng —
+              không cần viết vòng lặp, không tốn thêm bộ nhớ.</figcaption>
+          </figure>
+        </section>
+
+        <section data-jp-reset>
+          <h2>3.7. Broadcasting trong code</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="7"><code class="language-python" data-trim>
+gia_4tp_3thang = np.array([[10, 12, 11],
+                           [20, 21, 24],
+                           [30, 33, 31],
+                           [40, 44, 42]])
+phu_phi_thang = np.array([1, 2, 3])
+
+(gia_4tp_3thang + phu_phi_thang)[0]      # hàng đầu: 10+1, 12+2, 11+3
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="7"><code class="language-text" data-trim>
+array([11, 14, 14])
+            </code></pre>
+          </div>
+          <p>Quy tắc nhớ nhanh: hai shape khớp nhau khi mỗi chiều <em>bằng nhau hoặc một bên là 1</em>
+            (so từ phải sang).</p>
+        </section>
+      </section>
+
+      <!-- ====== Phần 4 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">4.</span><br>Thống kê theo trục</h1>
+          <p class="text-light">Một ma trận, hai hướng tổng hợp.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>4.1. Bộ thống kê cơ bản</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+gia = np.array([1200, 950, 2400, 610, 980])
+
+gia.mean(), np.median(gia), gia.std().round(1)
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="1"><code class="language-text" data-trim>
+(1228.0, 980.0, 615.6)
+            </code></pre>
+          </div>
+          <p>mean ≫ median là dấu vết của giá trị kéo đuôi (căn hộ 2400) — chuyện muôn thuở
+            của dữ liệu giá. Buổi 10 sẽ khai thác triệt để.</p>
+        </section>
+
+        <section>
+          <h2>4.2. axis: hướng của phép tổng hợp</h2>
+          <figure class="fig">
+            <img src="img/lecture-03/axis.png" alt="mean theo axis 0 và axis 1" style="width:92%">
+            <figcaption class="caption">axis=0 "nuốt" chiều hàng → một số mỗi cột; axis=1 "nuốt" chiều cột →
+              một số mỗi hàng.</figcaption>
+          </figure>
+        </section>
+
+        <section data-jp-reset>
+          <h2>4.3. axis trong code</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+gia_4tp_3thang.mean(axis=0)   # giá TB mỗi THÁNG (gộp 4 thành phố)
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="2"><code class="language-text" data-trim>
+array([25. , 27.5, 27. ])
+            </code></pre>
+          </div>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
+gia_4tp_3thang.mean(axis=1)   # giá TB mỗi THÀNH PHỐ (gộp 3 tháng)
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="3"><code class="language-text" data-trim>
+array([11. , 21.7, 31.3, 42. ])
+            </code></pre>
+          </div>
+          <p>Mẹo nhớ: <strong>axis nào bị nêu tên, chiều đó biến mất</strong> khỏi kết quả.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>4.4. argmax / argsort: hỏi "ở đâu?"</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
+thang = np.array(["T9", "T12", "T3"])
+gia_tb_thang = np.array([25.0, 27.5, 27.0])
+
+thang[gia_tb_thang.argmax()]
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="4"><code class="language-text" data-trim>
+'T12'
+            </code></pre>
+          </div>
+          <p><code>max</code> trả <em>giá trị</em>; <code>argmax</code> trả <em>vị trí</em> —
+            rồi dùng vị trí đó tra ngược sang mảng khác. Cặp bài trùng khi trả lời "tháng nào, phòng nào".</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>4.5. NaN: giá trị thiếu phiên bản số học</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="5"><code class="language-python" data-trim>
+gia = np.array([1200, np.nan, 950])
+
+gia.mean(), np.nanmean(gia)
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="5"><code class="language-text" data-trim>
+(nan, 1075.0)
+            </code></pre>
+          </div>
+          <ul>
+            <li>NaN "lây": dính một phép toán là kết quả thành NaN — <code>mean()</code> báo động đúng.</li>
+            <li><code>nanmean</code> chủ động bỏ qua — <em>bạn</em> quyết định, không phải ngẫu nhiên.</li>
+          </ul>
+          <p class="text-light"><code>None</code> (bài 2) → <code>np.nan</code> (hôm nay) →
+            <code>pd.NA</code> (tuần sau): một khái niệm, ba bộ áo.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>4.6. percentile: thước đo không sợ outlier</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="6"><code class="language-python" data-trim>
+gia = rng.lognormal(7, 0.5, size=10_000)   # phân phối giá "lệch phải"
+
+np.percentile(gia, [50, 95, 99]).round()
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="6"><code class="language-text" data-trim>
+array([1089., 2493., 3561.])
+            </code></pre>
+          </div>
+          <p>"Giá vượt P99" là quy tắc gắn cờ outlier phổ biến — buổi 10 bạn sẽ tự đề xuất
+            ngưỡng và bảo vệ nó.</p>
+        </section>
+      </section>
+
+      <!-- ====== Phần 5 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">5.</span><br>Lát cắt, view &amp; copy</h1>
+          <p class="text-light">Cạm bẫy bài 2 quay lại — phiên bản NumPy.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>5.1. Lát cắt 2D: hàng, cột, ô</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+M = gia_4tp_3thang        # (4 thành phố × 3 tháng)
+
+M[0]        # hàng đầu (thành phố 1)
+M[:, 1]     # cột 1 (tháng thứ hai, mọi thành phố)
+M[1, 2]     # một ô
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="1"><code class="language-text" data-trim>
+24
+            </code></pre>
+          </div>
+          <p>Đọc <span class="inline-code">M[hàng, cột]</span>; dấu <span class="inline-code">:</span>
+            = "lấy hết chiều này".</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>5.2. Lát cắt là VIEW — sửa con là sửa mẹ</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+hang_dau = M[0]          # view — nhìn chung khối nhớ với M
+hang_dau[0] = 999
+
+M[0]
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="2"><code class="language-text" data-trim>
+array([999,  12,  11])
+            </code></pre>
+          </div>
+          <div class="warn-box">
+            <span class="box-title">Cẩn thận</span>
+            Muốn độc lập thật: <code>M[0].copy()</code>. Triệu chứng "dữ liệu gốc tự nhiên đổi"
+            gần như luôn do view — pandas sẽ còn cảnh báo bạn về nó
+            (<em>SettingWithCopyWarning</em>).
+          </div>
+        </section>
+
+        <section data-jp-reset>
+          <h2>5.3. Fancy indexing: chọn theo danh sách vị trí</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
+gia = np.array([1200, 950, 2400, 610, 980])
+top2 = gia.argsort()[-2:][::-1]     # vị trí 2 giá cao nhất
+
+top2, gia[top2]
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="3"><code class="language-text" data-trim>
+(array([2, 0]), array([2400, 1200]))
+            </code></pre>
+          </div>
+          <p>Đưa <em>mảng chỉ số</em> vào ngoặc vuông — lấy nhiều phần tử tuỳ ý một lần
+            (và đây là copy, không phải view).</p>
+        </section>
+      </section>
+
+      <!-- ====== Kết ====== -->
+      <section>
+        <section>
+          <h2>Tổng kết</h2>
+          <ul>
+            <li>ndarray = khối số cùng dtype — đổi tự do lấy <strong>tốc độ</strong>.</li>
+            <li>Vector hoá: công thức, so sánh, if-else (<code>where</code>) đều chạy cả mảng;
+              bool mask để lọc, <code>&amp; | ~</code> để ghép.</li>
+            <li><code>axis</code>: chiều nào bị gọi tên, chiều đó biến mất; NaN xử lý chủ động
+              bằng họ <code>nan*</code>.</li>
+            <li>Lát cắt là <strong>view</strong> — muốn độc lập phải <code>.copy()</code>.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Làm với AI thì sao?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <div class="good-box">
+            <span class="box-title">AI làm tốt</span>
+            "Vector hoá giúp đoạn for này" — AI chuyển vòng lặp sang NumPy rất khá; giải thích
+            lỗi shape mismatch cũng tốt.
+          </div>
+          <div class="warn-box">
+            <span class="box-title">AI hay sai</span>
+            Quên NaN (dùng <code>mean</code> thay <code>nanmean</code> hoặc ngược lại mà không hỏi bạn);
+            broadcasting "chạy được" nhưng ghép nhầm chiều — kết quả sai <em>không báo lỗi</em>.
+          </div>
+        </section>
+
+        <section>
+          <h2>Kiểm chứng thế nào?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <ul>
+            <li>Thử code AI trên <strong>mảng 3×2 tự bịa, tự tính tay</strong> trước khi cho chạy dữ liệu thật.</li>
+            <li>Soi <code>shape</code> của kết quả: đúng chiều mong đợi chưa? Sai chiều = sai nghĩa.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Đọc thêm</h2>
+          <ul>
+            <li>McKinney, <em>Python for Data Analysis</em>, 3rd ed. — ch. 4 (NumPy Basics).</li>
+            <li>VanderPlas, <em>Python Data Science Handbook</em>, 2nd ed. — Part 2 (NumPy).</li>
+            <li>📖 Tự học: Jay Alammar, <a href="https://jalammar.github.io/visual-numpy/" target="_blank"
+                rel="noopener"><em>A Visual Intro to NumPy</em></a>.</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        LTXLDL (2627-1) · Bài 3: NumPy — mảng &amp; tính toán vector hoá
+      </div>
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>
