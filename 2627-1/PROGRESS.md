@@ -26,7 +26,7 @@
 | Buổi | Deck | Notebook |
 |---|---|---|
 | 1. Tổng quan & chính sách AI | ✅ | ✅ |
-| 2. Python cơ bản | ⬜ | ⬜ |
+| 2. Python cơ bản | ✅ | ✅ |
 | 3. NumPy | ⬜ | ⬜ |
 | 4. Làm quen pandas | ⬜ | ⬜ |
 | 5. Series & DataFrame chuyên sâu | ⬜ | ⬜ |
