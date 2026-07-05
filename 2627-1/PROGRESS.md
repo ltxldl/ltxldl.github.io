@@ -28,7 +28,7 @@
 | 1. Tổng quan & chính sách AI | ✅ | ✅ |
 | 2. Python cơ bản | ✅ | ✅ |
 | 3. NumPy | ✅ | ✅ |
-| 4. Làm quen pandas | ⬜ | ⬜ |
+| 4. Làm quen pandas | ✅ | ✅ |
 | 5. Series & DataFrame chuyên sâu | ⬜ | ⬜ |
 | 6. Kết nối & truy xuất dữ liệu ngoài | ⬜ | ⬜ |
 | 7. Xử lý dữ liệu chuỗi | ⬜ | ⬜ |
