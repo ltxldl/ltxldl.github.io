@@ -35,7 +35,7 @@
 | 8. Xử lý dữ liệu thời gian | ⬜ | ⬜ |
 | 9. Ôn tập giữa kỳ (deck ngắn) | ⬜ | — |
 | 10. Làm sạch dữ liệu có cấu trúc | ⬜ | ⬜ |
-| 11. LLM & dữ liệu phi cấu trúc | ⬜ | ⬜ |
+| 11. LLM & dữ liệu phi cấu trúc | ✅ | ✅ |
 | 12. Trực quan hoá cơ bản | ⬜ | ⬜ |
 | 13. Trực quan hoá nâng cao | ⬜ | ⬜ |
 | 14. Kể chuyện bằng dữ liệu | ⬜ | ⬜ |

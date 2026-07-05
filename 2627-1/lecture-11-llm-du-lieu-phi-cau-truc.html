@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Bài 11: Xử lý dữ liệu phi cấu trúc bằng LLM</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+
+  <!-- Theme cho code highlight -->
+  <link rel="stylesheet" href="plugin/highlight/zenburn.css">
+
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ====== Mở bài ====== -->
+      <section>
+        <!-- Title slide -->
+        <section>
+          <h1>Lập trình xử lý dữ liệu</h1>
+          <div>
+            <p><strong>Giảng viên:</strong> Nguyễn Tuấn Phong</p>
+            <p><strong>Trợ giảng:</strong> {{cập nhật sau}}</p>
+            <p><strong>Học kì:</strong> 1, năm học 2026–2027</p>
+            <p>Viện Trí tuệ nhân tạo, Trường ĐH Công nghệ, ĐHQGHN</p>
+          </div>
+        </section>
+
+        <!-- Lecture title -->
+        <section>
+          <h1>
+            <span class="text-light">Bài 11</span>
+            <br>
+            Xử lý dữ liệu phi cấu trúc bằng LLM
+          </h1>
+        </section>
+
+        <!-- Buổi trước -->
+        <section>
+          <h2>Buổi trước</h2>
+          <ul>
+            <li>Làm sạch dữ liệu <strong>có cấu trúc</strong>: giá trị thiếu, ngoại lệ, trùng lặp.</li>
+            <li>Đóng gói các kiểm tra thành <strong>bộ quy tắc QA</strong> chạy lại được.</li>
+          </ul>
+          <p class="text-light">Hôm nay: đến lượt phần dữ liệu mà các quy tắc đó… bó tay.</p>
+        </section>
+
+        <!-- Hôm nay -->
+        <section>
+          <h2>Hôm nay</h2>
+          <ol>
+            <li>Dữ liệu phi cấu trúc</li>
+            <li>Baseline không cần LLM</li>
+            <li>Gọi LLM từ Python</li>
+            <li>Structured output &amp; chạy hàng loạt</li>
+            <li>Đánh giá, chi phí &amp; cạm bẫy</li>
+            <li>Làm với AI thì sao?</li>
+          </ol>
+        </section>
+      </section>
+
+      <!-- ====== Phần 1: Dữ liệu phi cấu trúc ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">1.</span><br>Dữ liệu phi cấu trúc</h1>
+          <p class="text-light">Cột "khó nhằn" nhất trong bảng thường là cột chứa văn bản tự do.</p>
+        </section>
+
+        <!-- Ví dụ mở -->
+        <section data-jp-reset>
+          <h2>1.1. Một cột không giống các cột còn lại</h2>
+          <p>Bảng <span class="inline-code">reviews</span> của Inside Airbnb (Santiago, 690&nbsp;nghìn dòng):</p>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+reviews = pd.read_csv("reviews.csv.gz")
+reviews[["listing_id", "date", "comments"]].head(3)
+            </code></pre>
+            <pre class="jp-output" data-jp-n="1"><code class="language-text" data-trim>
+   listing_id        date  comments
+0       52811  2010-11-13  Cristian's a great host, and the apartment...
+1       52811  2011-03-23  Excellent accommodation and location...
+2      211498  2012-01-05  Un departamento cómodo, bien ubicado...
+            </code></pre>
+          </div>
+          <p><span class="inline-code">date</span> lọc được, <span class="inline-code">listing_id</span> join được —
+            còn <span class="inline-code">comments</span> thì <code>groupby</code> kiểu gì?</p>
+        </section>
+
+        <!-- Câu hỏi thật -->
+        <section>
+          <h2>1.2. Câu hỏi thật mà bảng này phải trả lời</h2>
+          <div class="question-box">
+            <div class="question-title">Đặt hàng từ bên liên quan</div>
+            <div class="question-content">
+              "Trong 2.000 review gần nhất, khách <strong>chê điều gì nhiều nhất</strong> —
+              và khu vực nào bị chê về <strong>độ ồn</strong> nhiều nhất?"
+            </div>
+          </div>
+          <p class="text-light" style="margin-top:0.8em">Không có cột <span class="inline-code">complaint</span> nào
+            để <code>value_counts()</code> cả. Câu trả lời nằm <em>bên trong</em> văn bản.</p>
+        </section>
+
+        <!-- Phổ dữ liệu -->
+        <section>
+          <h2>1.3. Phổ dữ liệu: từ bảng đến văn bản</h2>
+          <div class="pipeline">
+            <div class="stage">
+              <div class="stage-title">Có cấu trúc</div>
+              <div class="stage-desc">bảng, cột có kiểu<br><em>listings.csv</em></div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage">
+              <div class="stage-title">Bán cấu trúc</div>
+              <div class="stage-desc">JSON, log, HTML<br><em>API buổi 6</em></div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage stage-highlight">
+              <div class="stage-title">Phi cấu trúc</div>
+              <div class="stage-desc">văn bản tự do, ảnh, âm thanh<br><em>reviews!</em></div>
+            </div>
+          </div>
+          <p style="margin-top:0.8em">Càng sang phải càng giàu thông tin — và càng khó đưa vào
+            <code>groupby</code>. Phần lớn dữ liệu doanh nghiệp nằm ở phía phải.</p>
+        </section>
+
+        <!-- Chiến lược -->
+        <section>
+          <h2>1.4. Chiến lược: đừng phân tích văn bản — hãy đổi dạng nó</h2>
+          <div class="pipeline">
+            <div class="stage">
+              <div class="stage-title">Văn bản</div>
+              <div class="stage-desc">"Phòng sạch nhưng ồn quá…"</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage stage-highlight">
+              <div class="stage-title">Trích xuất</div>
+              <div class="stage-desc">quy tắc / LLM</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage">
+              <div class="stage-title">Bảng nhãn</div>
+              <div class="stage-desc">sentiment, aspects, lang</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage">
+              <div class="stage-title">pandas</div>
+              <div class="stage-desc">groupby, pivot, plot</div>
+            </div>
+          </div>
+          <div class="key-box" style="margin-top:0.9em">
+            <span class="box-title">Điểm chốt</span>
+            Biến phi cấu trúc thành <strong>bảng</strong>, rồi dùng lại toàn bộ toolbox đã học từ buổi 4–10.
+          </div>
+        </section>
+
+        <!-- Bài toán trích xuất -->
+        <section>
+          <h2>1.5. Bài toán của hôm nay</h2>
+          <p>Với <strong>mỗi review</strong>, điền được một dòng như thế này:</p>
+          <table class="compact-table">
+            <thead>
+              <tr>
+                <th>comments (đầu vào)</th>
+                <th>sentiment</th>
+                <th>aspects_khen</th>
+                <th>aspects_chê</th>
+                <th>lang</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>"Great location, but so noisy at night…"</td>
+                <td>mixed</td>
+                <td>location</td>
+                <td>noise</td>
+                <td>en</td>
+              </tr>
+              <tr>
+                <td>"Depto impecable, anfitrión atento."</td>
+                <td>positive</td>
+                <td>cleanliness, host</td>
+                <td>—</td>
+                <td>es</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="text-light" style="margin-top:0.6em">Có bảng này rồi thì câu hỏi ở 1.2 chỉ còn là một
+            <code>groupby</code>.</p>
+        </section>
+      </section>
+
+      <!-- ====== Phần 2: Baseline ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">2.</span><br>Baseline không cần LLM</h1>
+          <p class="text-light">Trước khi vác búa tạ, thử cái tua vít đã có trong túi từ buổi 7.</p>
+        </section>
+
+        <!-- Keyword aspects -->
+        <section data-jp-reset>
+          <h2>2.1. Khía cạnh bằng từ khoá</h2>
+          <p>Mỗi khía cạnh một bộ từ khoá, quét bằng <span class="inline-code">str.contains</span>:</p>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+KEYWORDS = {
+    "noise": r"noisy|noise|loud|ruido",
+    "cleanliness": r"clean|dirty|limpio|sucio",
+}
+for aspect, pat in KEYWORDS.items():
+    reviews[aspect] = reviews["comments"].str.contains(
+        pat, case=False, regex=True)
+
+reviews[["noise", "cleanliness"]].mean()
+            </code></pre>
+            <pre class="jp-output" data-jp-n="1"><code class="language-text" data-trim>
+noise          0.081
+cleanliness    0.412
+            </code></pre>
+          </div>
+          <p>Ba dòng code, chạy 690&nbsp;nghìn review trong vài giây.</p>
+        </section>
+
+        <!-- Sentiment từ điển -->
+        <section data-jp-reset>
+          <h2>2.2. Cảm xúc bằng từ điển</h2>
+          <p>Đếm từ tích cực trừ từ tiêu cực — thô nhưng có ngay con số:</p>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+POS = r"great|perfect|excellent|excelente"
+NEG = r"bad|dirty|noisy|terrible|malo"
+
+score = (reviews["comments"].str.count(POS, flags=re.I)
+       - reviews["comments"].str.count(NEG, flags=re.I))
+reviews["baseline_sent"] = np.select(
+    [score > 0, score < 0], ["positive", "negative"], "mixed")
+            </code></pre>
+          </div>
+          <p class="text-light">Từ điển "xịn" hơn (VADER…) cũng cùng nguyên lý — vẫn là đếm từ.</p>
+        </section>
+
+        <!-- Baseline giỏi/kém -->
+        <section>
+          <h2>2.3. Baseline giỏi gì, thua gì?</h2>
+          <div class="two-col">
+            <div>
+              <h4 class="text-green">Giỏi</h4>
+              <ul>
+                <li>Nhanh: cả bảng trong vài giây.</li>
+                <li>Miễn phí, chạy lại ra đúng kết quả cũ.</li>
+                <li>Giải thích được từng kết quả.</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-red">Thua</h4>
+              <ul>
+                <li>"not clean at all" → dính từ khoá <em>clean</em>.</li>
+                <li>Mỗi ngôn ngữ phải soạn lại từ khoá.</li>
+                <li>Mỉa mai, viết tắt, sai chính tả: chịu.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Vai trò baseline -->
+        <section>
+          <h2>2.4. Baseline không phải để thắng</h2>
+          <div class="key-box">
+            <span class="box-title">Điểm chốt</span>
+            Baseline là <strong>thước đo</strong>: không có nó, bạn không thể nói LLM "đáng tiền" hay không.
+          </div>
+          <p>Kỷ luật của người làm dữ liệu: <em>baseline trước, công cụ đắt sau</em> —
+            và cả hai cùng được đo trên một bộ đánh giá (phần 5).</p>
+        </section>
+      </section>
+
+      <!-- ====== Phần 3: Gọi LLM từ Python ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">3.</span><br>Gọi LLM từ Python</h1>
+          <p class="text-light">LLM "đọc hiểu" được văn bản — và gọi được từ code, như mọi API buổi 6.</p>
+        </section>
+
+        <!-- Chat vs API -->
+        <section>
+          <h2>3.1. Chat và API là hai cách dùng một mô hình</h2>
+          <div class="two-col">
+            <div>
+              <h4>Giao diện chat</h4>
+              <ul>
+                <li>Người gõ, người đọc.</li>
+                <li>Tốt cho khám phá, hỏi đáp.</li>
+                <li>Không lặp lại được 2.000 lần.</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Gọi qua API</h4>
+              <ul>
+                <li>Code gửi request, nhận response.</li>
+                <li>Nằm <strong>trong pipeline</strong>, chạy hàng loạt.</li>
+                <li>Cách dùng của môn này (và của BTL).</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Gemini API -->
+        <section>
+          <h2>3.2. Gemini API — LLM miễn phí cho môn này</h2>
+          <ul>
+            <li>Lấy API key ở <strong>Google AI Studio</strong> (aistudio.google.com) — free tier,
+              <strong>không cần thẻ</strong>.</li>
+            <li>Model dùng trong môn:</li>
+          </ul>
+          <table class="compact-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Hợp với</th>
+                <th>Giá trả phí (1M token vào/ra)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="inline-code">gemini-3.1-flash-lite</span></td>
+                <td>trích xuất hàng loạt — quota free cao</td>
+                <td>$0.25 / $1.50</td>
+              </tr>
+              <tr>
+                <td><span class="inline-code">gemini-3.5-flash</span></td>
+                <td>văn bản khó, cần suy luận</td>
+                <td>$1.50 / $9.00</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="caption">Free tier: hạn mức theo ngày/phút — xem con số hiện hành trong AI Studio (mục Rate
+            limits); thay đổi thường xuyên.</p>
+        </section>
+
+        <!-- API key -->
+        <section>
+          <h2>3.3. API key là mật khẩu</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+from google.colab import userdata   # Colab: menu 🔑 Secrets
+API_KEY = userdata.get("GEMINI_API_KEY")
+            </code></pre>
+          </div>
+          <div class="warn-box">
+            <span class="box-title">Cẩn thận</span>
+            Không viết key thẳng vào code, không commit lên GitHub, không dán vào chat/ảnh chụp màn hình.
+            Lộ key = người khác tiêu quota (hoặc tiền) của bạn.
+          </div>
+        </section>
+
+        <!-- First call -->
+        <section data-jp-reset>
+          <h2>3.4. Lần gọi đầu tiên</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+from google import genai
+
+client = genai.Client(api_key=API_KEY)
+interaction = client.interactions.create(
+    model="gemini-3.1-flash-lite",
+    input="Chào bằng đúng 5 từ tiếng Việt.",
+)
+print(interaction.output_text)
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="2"><code class="language-text" data-trim>
+Chào bạn, rất vui gặp!
+            </code></pre>
+          </div>
+          <p>Một request — một response. Giống <code>requests.get()</code> buổi 6, chỉ khác là server
+            bên kia… biết đọc.</p>
+        </section>
+
+        <!-- Prompt = hướng dẫn + dữ liệu -->
+        <section data-jp-reset>
+          <h2>3.5. Prompt = hướng dẫn + dữ liệu</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
+review = reviews.loc[7, "comments"]
+
+prompt = f"""Bạn là công cụ phân tích review chỗ ở.
+Review sau khen gì, chê gì? Trả lời ngắn gọn.
+
+Review: {review}"""
+
+out = client.interactions.create(
+    model="gemini-3.1-flash-lite", input=prompt)
+print(out.output_text)
+            </code></pre>
+            <pre class="jp-output" data-jp-n="3"><code class="language-text" data-trim>
+Khen: vị trí trung tâm, chủ nhà thân thiện.
+Chê: về đêm khá ồn do gần quán bar.
+            </code></pre>
+          </div>
+        </section>
+
+        <!-- Vấn đề của output tự do -->
+        <section data-jp-reset>
+          <h2>3.6. Nhưng… văn xuôi thì đưa vào bảng kiểu gì?</h2>
+          <p>Chạy lại 3 lần, nhận 3 kiểu trả lời:</p>
+          <div class="jp-cell">
+            <pre class="jp-output" data-jp-n="4"><code class="language-text" data-trim>
+Lần 1: "Khen: vị trí. Chê: tiếng ồn."
+Lần 2: "Khách hài lòng về vị trí nhưng phàn nàn về độ ồn."
+Lần 3: "- Ưu điểm: location\n- Nhược: noise (ban đêm)"
+            </code></pre>
+          </div>
+          <p>Nội dung đúng cả 3 — nhưng <strong>không parse nổi</strong> thành cột.
+            Ta cần ép mô hình trả lời theo <em>mẫu cố định</em> → phần 4.</p>
+        </section>
+      </section>
+
+      <!-- ====== Phần 4: Structured output ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">4.</span><br>Structured output<br>&amp; chạy hàng loạt</h1>
+          <p class="text-light">Bắt LLM điền form thay vì viết văn.</p>
+        </section>
+
+        <!-- Schema Pydantic -->
+        <section data-jp-reset>
+          <h2>4.1. Khai mẫu trả lời bằng Pydantic</h2>
+          <p>Mô tả "form" mà mô hình phải điền — kiểu dữ liệu + tập giá trị được phép:</p>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+from pydantic import BaseModel
+from typing import Literal
+
+Aspect = Literal["location", "cleanliness", "host",
+                 "value", "noise", "amenities"]
+
+class ReviewInfo(BaseModel):
+    sentiment: Literal["positive", "mixed", "negative"]
+    aspects_positive: list[Aspect]
+    aspects_negative: list[Aspect]
+    language: str          # mã ISO: "en", "es", ...
+            </code></pre>
+          </div>
+          <p><span class="inline-code">Literal</span> = enum: ngoài danh sách này là <em>không hợp lệ</em>.</p>
+        </section>
+
+        <!-- response_format -->
+        <section data-jp-reset>
+          <h2>4.2. Truyền schema vào lời gọi</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+out = client.interactions.create(
+    model="gemini-3.1-flash-lite",
+    input=f"Phân tích review chỗ ở sau.\n\nReview: {review}",
+    response_format={
+        "type": "text",
+        "mime_type": "application/json",
+        "schema": ReviewInfo.model_json_schema(),
+    },
+)
+info = ReviewInfo.model_validate_json(out.output_text)
+info.aspects_negative
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="2"><code class="language-text" data-trim>
+['noise']
+            </code></pre>
+          </div>
+          <p>JSON vào, object ra — <span class="inline-code">model_validate_json</span> vừa parse vừa
+            <strong>kiểm tra kiểu</strong>.</p>
+        </section>
+
+        <!-- Enum guard -->
+        <section>
+          <h2>4.3. Schema + enum: hàng rào đầu tiên</h2>
+          <ul>
+            <li>Model bịa nhãn mới ("wifi_speed") → validation <strong>từ chối</strong>, không lọt vào bảng.</li>
+            <li>Thiếu trường, sai kiểu → lỗi ngay tại chỗ, không âm thầm thành <code>NaN</code>.</li>
+          </ul>
+          <div class="key-box">
+            <span class="box-title">Điểm chốt</span>
+            Ràng buộc <em>trước</em> (schema, enum) rẻ hơn nhiều so với dọn rác <em>sau</em>.
+            Đây chính là tư duy QA của buổi 10 áp cho output của LLM.
+          </div>
+        </section>
+
+        <!-- Batch loop -->
+        <section data-jp-reset>
+          <h2>4.4. Chạy hàng loạt: vòng lặp có kỷ luật</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
+import time
+
+results = {}
+for rid, text in sample["comments"].items():
+    try:
+        out = call_llm(text)              # hàm gói lời gọi ở 4.2
+        results[rid] = ReviewInfo.model_validate_json(
+            out.output_text)
+    except Exception as e:
+        results[rid] = None               # ghi lại, xử lý sau
+    time.sleep(4)                          # tôn trọng rate limit!
+            </code></pre>
+          </div>
+          <p>Free tier giới hạn <em>số request mỗi phút</em> — thiếu <span class="inline-code">sleep</span>
+            là dính lỗi <span class="inline-code">429</span> giữa chừng.</p>
+        </section>
+
+        <!-- Cache -->
+        <section data-jp-reset>
+          <h2>4.5. Cache: đã gọi thì không gọi lại</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
+CACHE = Path("llm_cache.json")
+cache = json.loads(CACHE.read_text()) if CACHE.exists() else {}
+
+def extract(rid, text):
+    if str(rid) not in cache:              # chỉ gọi khi chưa có
+        cache[str(rid)] = call_llm(text).output_text
+        CACHE.write_text(json.dumps(cache))
+    return ReviewInfo.model_validate_json(cache[str(rid)])
+            </code></pre>
+          </div>
+          <ul>
+            <li>Tiết kiệm quota; chạy lại notebook không tốn request nào.</li>
+            <li>BTL: người chấm chạy pipeline với <span class="inline-code">--skip-llm</span> —
+              đọc cache, <strong>không cần API key</strong>.</li>
+          </ul>
+        </section>
+
+        <!-- Kết quả về pandas -->
+        <section data-jp-reset>
+          <h2>4.6. Về lại thế giới quen: DataFrame</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="5"><code class="language-python" data-trim>
+labels = pd.DataFrame(
+    {rid: r.model_dump() for rid, r in results.items()
+     if r is not None}
+).T.join(sample)
+
+(labels.explode("aspects_negative")
+       .groupby("aspects_negative").size()
+       .sort_values(ascending=False))
+            </code></pre>
+            <pre class="jp-output" data-jp-n="5"><code class="language-text" data-trim>
+noise          214
+cleanliness    102
+value           78
+host            31
+            </code></pre>
+          </div>
+          <p>Câu hỏi mở đầu ("khách chê gì nhiều nhất?") giờ là một <code>groupby</code> bình thường.</p>
+        </section>
+      </section>
+
+      <!-- ====== Phần 5: Đánh giá, chi phí, cạm bẫy ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">5.</span><br>Đánh giá, chi phí<br>&amp; cạm bẫy</h1>
+          <p class="text-light">"Trông có vẻ đúng" chưa phải là đúng.</p>
+        </section>
+
+        <!-- Hallucination -->
+        <section>
+          <h2>5.1. Hallucination có thật</h2>
+          <p>Những lỗi chúng tôi gặp thật khi soạn bài này:</p>
+          <ul>
+            <li>Review chỉ khen <em>vị trí</em> — model trả thêm <span class="inline-code">cleanliness</span>
+              vào danh sách khen.</li>
+            <li>Review 4 từ — model "suy ra" cả cảm xúc lẫn 3 khía cạnh.</li>
+            <li>Review tiếng Tây Ban Nha — nhãn ngôn ngữ trả về <span class="inline-code">"pt"</span>.</li>
+          </ul>
+          <div class="warn-box">
+            <span class="box-title">Cẩn thận</span>
+            Output của LLM luôn <em>trôi chảy và tự tin</em> — kể cả khi sai.
+            Độ mượt không phải bằng chứng của độ đúng.
+          </div>
+        </section>
+
+        <!-- Bộ đánh giá tay -->
+        <section>
+          <h2>5.2. Bộ đánh giá: ~100 nhãn gán tay</h2>
+          <ol>
+            <li>Rút <strong>~100 review</strong> (ngẫu nhiên, đủ các ngôn ngữ chính).</li>
+            <li>Cả nhóm <strong>tự đọc, tự gán nhãn</strong> theo đúng schema; bất đồng thì thảo luận, chốt
+              hướng dẫn gán.</li>
+            <li>Chạy LLM <em>và</em> baseline trên đúng 100 review đó — so với nhãn tay.</li>
+          </ol>
+          <div class="key-box">
+            <span class="box-title">Điểm chốt</span>
+            100 nhãn tay là "bộ test" của dữ liệu — không có nó, mọi nhận xét chất lượng chỉ là cảm giác.
+          </div>
+        </section>
+
+        <!-- Kết quả đo minh hoạ -->
+        <section>
+          <h2>5.3. Đo xong mới biết ai hơn ai — và hơn ở đâu</h2>
+          <p>Kết quả minh hoạ trên 100 nhãn tay (notebook hôm nay làm bản nhỏ hơn):</p>
+          <table class="compact-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Cảm xúc (accuracy)</th>
+                <th>Khía cạnh (F1)</th>
+                <th>Ngôn ngữ (accuracy)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Baseline từ khoá</td>
+                <td>0.62</td>
+                <td>0.48</td>
+                <td>0.71</td>
+              </tr>
+              <tr>
+                <td>LLM (flash-lite)</td>
+                <td><strong>0.89</strong></td>
+                <td><strong>0.81</strong></td>
+                <td><strong>0.97</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="caption">Chênh lệch lớn nhất nằm ở đâu (phủ định, đa ngôn ngữ…) → đó chính là phần "đáng tiền"
+            của LLM.</p>
+        </section>
+
+        <!-- Phân tích lỗi -->
+        <section>
+          <h2>5.4. Nhìn vào chỗ sai, không chỉ nhìn con số</h2>
+          <ul>
+            <li>Liệt kê các review LLM gán sai → có <em>kiểu</em> lỗi chung không?
+              (review dài? mỉa mai? một ngôn ngữ cụ thể?)</li>
+            <li>Sửa <strong>prompt hoặc enum</strong> theo kiểu lỗi tìm được → <strong>đo lại</strong> trên đúng
+              bộ 100.</li>
+          </ul>
+          <div class="good-box">
+            <span class="box-title">Cách làm tốt</span>
+            Vòng lặp: đo → xem lỗi → sửa prompt/schema → đo lại. Mỗi thay đổi prompt đều phải qua "bộ test",
+            như sửa code phải chạy lại test.
+          </div>
+        </section>
+
+        <!-- Chi phí -->
+        <section>
+          <h2>5.5. Chi phí tính bằng token</h2>
+          <p>Mỗi interaction trả về số token đã dùng:</p>
+          <div class="jp-cell" data-jp-reset>
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+out.usage.total_input_tokens, out.usage.total_output_tokens
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="1"><code class="language-text" data-trim>
+(182, 47)
+            </code></pre>
+          </div>
+          <p>Ước tính cho <strong>100.000 review</strong> (~200 token/lượt vào, ~50 ra) với flash-lite
+            ($0.25 / $1.50 mỗi 1M token):</p>
+          <p class="text-center"><strong>20M token vào ≈ $5 &nbsp;+&nbsp; 5M token ra ≈ $7.5 → ~$12.5</strong></p>
+          <p class="caption">Free tier đủ cho mẫu vài nghìn review (chạy rải ngày) — đủ cho BTL nếu biết chọn mẫu +
+            cache.</p>
+        </section>
+
+        <!-- Khi nào dùng gì -->
+        <section>
+          <h2>5.6. Khi nào dùng gì?</h2>
+          <table class="compact-table">
+            <thead>
+              <tr>
+                <th>Tình huống</th>
+                <th>Công cụ hợp lý</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Pattern rõ ràng (mã bưu điện, giá, ngày…)</td>
+                <td>regex — buổi 7</td>
+              </tr>
+              <tr>
+                <td>Ngữ nghĩa, đa ngôn ngữ, quy mô vừa</td>
+                <td><strong>LLM + schema + bộ nhãn tay</strong></td>
+              </tr>
+              <tr>
+                <td>Quyết định hệ trọng từng ca (pháp lý, y tế…)</td>
+                <td>người thật đọc — LLM chỉ hỗ trợ lọc</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>Và luôn hỏi: <em>sai 10% thì phân tích của mình còn đứng vững không?</em></p>
+        </section>
+      </section>
+
+      <!-- ====== Kết ====== -->
+      <section>
+        <section>
+          <h2>Tổng kết</h2>
+          <ul>
+            <li>Dữ liệu phi cấu trúc: <strong>đổi dạng thành bảng</strong> rồi mới phân tích.</li>
+            <li><strong>Baseline trước, LLM sau</strong> — cả hai cùng đo trên một bộ nhãn tay.</li>
+            <li>Pipeline LLM tử tế = schema + enum + rate limit + <strong>cache</strong>.</li>
+            <li>Chất lượng đo bằng nhãn tay, chi phí đo bằng token — <em>không đo thì không kết luận</em>.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Làm với AI thì sao?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <div class="good-box">
+            <span class="box-title">AI làm tốt</span>
+            Viết nhanh code gọi API, đề xuất danh mục khía cạnh, sinh review giả để thử schema.
+          </div>
+          <div class="warn-box">
+            <span class="box-title">AI hay sai</span>
+            Bịa tham số SDK (SDK Gemini đổi lớn năm 2026 — code mẫu cũ trên mạng rất nhiều);
+            quên rate limit; tự đổi enum giữa chừng.
+          </div>
+        </section>
+
+        <section>
+          <h2>Kiểm chứng thế nào?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <ul>
+            <li>Code AI viết về API: đối chiếu <strong>tài liệu chính thức</strong>, chạy thử trên 1–2 mẫu
+              trước khi chạy cả loạt.</li>
+            <li>Nhãn AI gán: đo trên <strong>bộ nhãn tay</strong> — chính là bài học hôm nay, áp dụng cho mọi
+              output của AI.</li>
+          </ul>
+          <p class="text-light">Buổi hôm nay <em>chính là</em> quy trình kiểm chứng AI mà chính sách môn yêu cầu.</p>
+        </section>
+
+        <section>
+          <h2>Đọc thêm</h2>
+          <ul>
+            <li>Gemini API — Structured output, Rate limits, Pricing:
+              <a href="https://ai.google.dev/gemini-api/docs" target="_blank"
+                rel="noopener">ai.google.dev/gemini-api/docs</a></li>
+            <li>Đề BTL — mục "Hợp phần LLM": yêu cầu đầy đủ về baseline, bộ nhãn tay ≥100, chi phí.</li>
+            <li>Buổi 7 (regex) và buổi 10 (bộ quy tắc QA) — hai nửa còn lại của pipeline hôm nay.</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        LTXLDL (2627-1) · Bài 11: Xử lý dữ liệu phi cấu trúc bằng LLM
+      </div>
+      <!-- End of footer -->
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>
