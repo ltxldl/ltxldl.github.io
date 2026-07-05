@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Buổi 15: Vấn đáp bài tập lớn</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+  <link rel="stylesheet" href="plugin/highlight/zenburn.css">
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ====== Mở ====== -->
+      <section>
+        <section>
+          <h1>Lập trình xử lý dữ liệu</h1>
+          <div>
+            <p><strong>Giảng viên:</strong> Nguyễn Tuấn Phong</p>
+            <p><strong>Trợ giảng:</strong> {{cập nhật sau}}</p>
+            <p><strong>Học kì:</strong> 1, năm học 2026–2027</p>
+            <p>Viện Trí tuệ nhân tạo, Trường ĐH Công nghệ, ĐHQGHN</p>
+          </div>
+        </section>
+
+        <section>
+          <h1>
+            <span class="text-light">Buổi 15</span>
+            <br>
+            Vấn đáp bài tập lớn
+          </h1>
+          <p class="text-light">Hướng dẫn chuẩn bị + checklist nộp — đọc kỹ TRƯỚC hạn nộp.</p>
+        </section>
+
+        <section>
+          <h2>Buổi này khác mọi buổi</h2>
+          <ul>
+            <li>Không ai giảng bài — <strong>các bạn là nhân vật chính</strong>: bảo vệ sản phẩm
+              nhóm mình làm suốt 12 tuần.</li>
+            <li>Vấn đáp là chế độ 🔒 <strong>đóng</strong>: không AI, không nhắc bài —
+              nhưng được (và nên) mở repo + notebook của chính nhóm.</li>
+            <li>Deck này = bản đồ mọi thứ sẽ diễn ra, để không ai bị bất ngờ.</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- ====== Checklist nộp ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">1.</span><br>Checklist nộp bài</h1>
+          <p class="text-light">Hạn nộp: {{tuần 14 — dd/mm/yyyy, 23:59 giờ GitHub}}. Tag
+            <span class="inline-code">final</span>.</p>
+        </section>
+
+        <section>
+          <h2>1.1. Repo phải có đủ — kiểm bằng mắt từng dòng</h2>
+          <ul style="font-size:0.92em">
+            <li>☐ <span class="inline-code">run_pipeline.py</span> (hoặc Makefile) —
+              <strong>một lệnh</strong> chạy từ raw đến mọi kết quả.</li>
+            <li>☐ <span class="inline-code">configs/</span> — thành phố + snapshot nằm trong config,
+              không hard-code.</li>
+            <li>☐ <span class="inline-code">README.md</span> — cài đặt, cách chạy,
+              <em>cách chấm lại</em>; <span class="inline-code">requirements.txt</span> đúng và đủ.</li>
+            <li>☐ <span class="inline-code">data/processed/</span> + <span
+                class="inline-code">data/samples/</span> (bộ ≥100 nhãn tay!); raw KHÔNG commit.</li>
+            <li>☐ <span class="inline-code">figures/</span> sinh tự động; <span
+                class="inline-code">reports/</span> có PDF + qa_report.csv + slides.pdf.</li>
+            <li>☐ <span class="inline-code">AI_USAGE.md</span> — cập nhật lần cuối, có mục
+              "AI sai ở đâu" với ví dụ thật.</li>
+            <li>☐ Cache LLM đầy đủ để <span class="inline-code">--skip-llm</span> chạy
+              <strong>không cần API key</strong>.</li>
+            <li>☐ Tag <span class="inline-code">final</span> + commit hash ghi trong báo cáo.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>1.2. Bài kiểm tra tự làm quan trọng nhất</h2>
+          <div class="key-box">
+            <span class="box-title">Nghi thức "máy sạch"</span>
+            Một thành viên clone repo vào thư mục mới (giả lập máy giảng viên), làm đúng theo
+            README từ đầu: tạo venv → cài requirements → chạy MỘT lệnh. Pipeline chạy trót lọt
+            và ra đúng hình/bảng của báo cáo — thì mới được ngủ ngon.
+          </div>
+          <p>Khi chấm, pipeline của nhóm sẽ chạy trên <strong>snapshot held-out</strong>
+            (bản phát hành trong kỳ hoặc bản không nằm trong danh sách của nhóm) — chỉ đổi config.
+            Hãy tự thử trước với một snapshot nhóm chưa dùng.</p>
+        </section>
+      </section>
+
+      <!-- ====== Kịch bản vấn đáp ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">2.</span><br>Kịch bản một phiên vấn đáp</h1>
+        </section>
+
+        <section>
+          <h2>2.1. Dòng thời gian (mỗi nhóm ~{{35}} phút)</h2>
+          <table class="compact-table">
+            <thead>
+              <tr>
+                <th>Phần</th>
+                <th>Thời lượng</th>
+                <th>Nội dung</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Trình bày nhóm</td>
+                <td>~10'</td>
+                <td>câu chuyện dữ liệu: kết luận → bằng chứng → giới hạn</td>
+              </tr>
+              <tr>
+                <td><strong>Hỏi riêng từng thành viên</strong></td>
+                <td>~5'/người</td>
+                <td>giải thích code/số bất kỳ + câu hỏi thiết kế</td>
+              </tr>
+              <tr>
+                <td>Live task</td>
+                <td>~5'</td>
+                <td>sửa/thêm một thứ nhỏ ngay tại chỗ</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="caption">Lịch chi tiết từng nhóm: {{cập nhật trước buổi 15}}.</p>
+        </section>
+
+        <section>
+          <h2>2.2. Trình bày 10 phút — kim tự tháp, không nhật ký</h2>
+          <ul>
+            <li>Slide 1: <strong>3 kết luận đắt nhất</strong> (mỗi cái một con số + một hình).</li>
+            <li>Sau đó mới đến: dữ liệu &amp; QA (tác động!), KPI, hợp phần LLM (chất lượng đo được),
+              so sánh thành phố.</li>
+            <li>Kết: giới hạn nói thẳng + một điều nhóm tự hào nhất.</li>
+          </ul>
+          <div class="warn-box">
+            <span class="box-title">Cẩn thận</span>
+            10 phút = ~8 slide. Kể "hành trình em làm gì tuần 1, tuần 2…" là cách nhanh nhất
+            để hết giờ trước khi tới phần được điểm.
+          </div>
+        </section>
+
+        <section>
+          <h2>2.3. Hỏi riêng từng người — dạng câu hỏi thật</h2>
+          <ul style="font-size:0.95em">
+            <li>"Mở file <span class="inline-code">src/qa.py</span> dòng 40 — giải thích quy tắc này.
+              Đổi ngưỡng thì KPI nào lung lay?"</li>
+            <li>"Con số 426.230 ở trang 7 báo cáo — truy về dữ liệu gốc thế nào?"</li>
+            <li>"Vì sao nhóm chọn median mà không phải mean cho KPI giá?"</li>
+            <li>"Bộ nhãn tay 100 review: quy trình gán? Bất đồng xử lý ra sao?"</li>
+            <li>"Nếu snapshot mới thiếu cột <span class="inline-code">bedrooms</span>,
+              pipeline sống không? Chỉ chỗ code xử lý."</li>
+          </ul>
+          <p class="text-light">Toàn câu hỏi kiểu <strong>audit 4 bước của buổi 14</strong> —
+            ôn buổi đó chính là ôn vấn đáp.</p>
+        </section>
+
+        <section>
+          <h2>2.4. Live task — ví dụ cho quen tay</h2>
+          <ul>
+            <li>Thêm một quy tắc QA đơn giản (ví dụ: gắn cờ <code>availability_365 == 0</code>)
+              và chạy lại qa_report.</li>
+            <li>Lọc bảng KPI cho một quận cụ thể và đọc kết quả.</li>
+            <li>Chỉ vào một hình trong báo cáo: "hình nào chứng minh kết luận X? Vì sao tin nó?"</li>
+          </ul>
+          <p>Không đánh đố — toàn thao tác đã làm cả kỳ. Điều được chấm: <em>thao tác trên chính
+              repo của mình có trôi chảy không</em>.</p>
+        </section>
+
+        <section>
+          <h2>2.5. Điểm cá nhân — nhắc lại luật chơi</h2>
+          <ul>
+            <li>Điểm nhóm là gốc; phần hỏi riêng điều chỉnh <strong>từng cá nhân</strong> —
+              cùng nhóm có thể lệch điểm nhau.</li>
+            <li>Không giải thích được phần cốt lõi mình phụ trách → phần đó của cá nhân = 0,
+              bất kể sản phẩm nhóm tốt đến đâu.</li>
+            <li>"AI viết đoạn này" không phải câu trả lời — bạn nộp thì bạn phải hiểu
+              (chính sách AI, điều đã cam kết từ buổi 1).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>2.6. Ba lỗi kinh điển ở phòng vấn đáp</h2>
+          <ol>
+            <li><strong>"Phần đó bạn X làm ạ"</strong> — mọi thành viên phải nắm bức tranh chung
+              và code chính. Phân công ≠ chia lô cát cứ.</li>
+            <li><strong>Demo không chạy lại được</strong> — vì chưa từng thử nghi thức máy sạch.</li>
+            <li><strong>Không biết số của chính mình</strong> — báo cáo ghi 426k mà cả nhóm
+              không ai truy lại được nguồn. Vấn đáp = audit; hãy tự audit trước.</li>
+          </ol>
+        </section>
+      </section>
+
+      <!-- ====== Chuẩn bị & kết ====== -->
+      <section>
+        <section>
+          <h2>Kế hoạch ôn 1 tuần trước vấn đáp</h2>
+          <ol>
+            <li><strong>T-7:</strong> nghi thức máy sạch + thử pipeline trên snapshot lạ.</li>
+            <li><strong>T-5:</strong> audit chéo nội bộ (quy trình buổi 14) trên chính báo cáo nhóm;
+              sửa những gì không đứng vững.</li>
+            <li><strong>T-3:</strong> mỗi người tự đi một vòng repo: mở ngẫu nhiên 5 file,
+              tự giải thích to thành lời.</li>
+            <li><strong>T-1:</strong> chạy thử trình bày 10' có bấm giờ; chốt ai nói phần nào,
+              ai demo, ai trực câu hỏi kỹ thuật.</li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Sau môn học này, bạn mang đi được gì?</h2>
+          <ul>
+            <li>Một <strong>pipeline dữ liệu thật</strong> trên GitHub — đưa vào CV được ngay.</li>
+            <li>Tư duy: raw bất khả xâm phạm · gắn cờ đừng xoá · đo đừng đoán ·
+              baseline trước LLM sau · lời vừa với số.</li>
+            <li>Kỹ năng thời AI: <strong>chỉ đạo</strong> công cụ và <strong>kiểm chứng</strong>
+              kết quả — thứ không model nào thay được.</li>
+          </ul>
+          <p class="text-center" style="margin-top:1em"><strong>Chúc các nhóm bảo vệ thành công! 🏁</strong></p>
+        </section>
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        LTXLDL (2627-1) · Buổi 15: Vấn đáp bài tập lớn
+      </div>
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>

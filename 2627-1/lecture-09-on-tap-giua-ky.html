@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Buổi 9: Ôn tập giữa kỳ</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+  <link rel="stylesheet" href="plugin/highlight/zenburn.css">
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ====== Mở ====== -->
+      <section>
+        <section>
+          <h1>Lập trình xử lý dữ liệu</h1>
+          <div>
+            <p><strong>Giảng viên:</strong> Nguyễn Tuấn Phong</p>
+            <p><strong>Trợ giảng:</strong> {{cập nhật sau}}</p>
+            <p><strong>Học kì:</strong> 1, năm học 2026–2027</p>
+            <p>Viện Trí tuệ nhân tạo, Trường ĐH Công nghệ, ĐHQGHN</p>
+          </div>
+        </section>
+
+        <section>
+          <h1>
+            <span class="text-light">Buổi 9</span>
+            <br>
+            Ôn tập giữa kỳ
+          </h1>
+          <p class="text-light">Deck ngắn — dùng để tự ôn trước ngày thi.</p>
+        </section>
+
+        <section>
+          <h2>Thông tin kỳ thi 🔒</h2>
+          <ul>
+            <li><strong>Hình thức:</strong> trên lớp, có giám sát, chế độ 🔒 <strong>đóng</strong> —
+              không AI, không tra cứu (trừ khi đề ghi khác). Trọng số <strong>20%</strong>.</li>
+            <li><strong>Phạm vi:</strong> buổi 1–8 (Python → NumPy → pandas → dữ liệu ngoài →
+              chuỗi → thời gian).</li>
+            <li><strong>Dạng bài:</strong> đọc code đoán kết quả · viết đoạn code ngắn ·
+              giải thích lựa chọn kỹ thuật.</li>
+            <li><strong>Thời lượng &amp; cấu trúc điểm:</strong> {{cập nhật trước ngày thi}}.</li>
+          </ul>
+          <div class="warn-box">
+            <span class="box-title">Nhắc từ chính sách AI</span>
+            Dùng AI hoặc bất kỳ trợ giúp nào trong giờ thi = gian lận thi cử — 0 điểm đầu điểm,
+            lập biên bản theo quy chế.
+          </div>
+        </section>
+      </section>
+
+      <!-- ====== Bản đồ ôn ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">1.</span><br>Bản đồ 8 buổi</h1>
+          <p class="text-light">Với mỗi buổi: câu chốt cần nhớ + 3 câu tự kiểm.
+            Trả lời trôi cả 3 → yên tâm chuyển buổi tiếp.</p>
+        </section>
+
+        <section>
+          <h2>Buổi 2 — Python cho dữ liệu</h2>
+          <div class="key-box">
+            <span class="box-title">Câu chốt</span>
+            <code>None</code> ≠ 0 ≠ ""; list/dict/set mỗi thứ một việc; hàm nhỏ + try/except
+            đúng loại lỗi là đơn vị của pipeline.
+          </div>
+          <ol>
+            <li>Viết comprehension lọc giá &gt; 0 và đổi sang triệu đồng — một dòng?</li>
+            <li><code>ban_sao = goc</code> có tạo bản sao không? Muốn bản sao thật thì sao?</li>
+            <li><code>clean_price("N/A")</code> nên trả gì, và vì sao không nên
+              <code>except Exception: pass</code>?</li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Buổi 3 — NumPy</h2>
+          <div class="key-box">
+            <span class="box-title">Câu chốt</span>
+            Vector hoá thay vòng for; <code>sum/mean</code> trên bool = đếm/tỷ lệ;
+            axis nào gọi tên chiều đó biến mất; lát cắt là view.
+          </div>
+          <ol>
+            <li><code>(gia &gt; 1000).mean()</code> trả về gì, nghĩa là gì?</li>
+            <li>Ma trận (4, 3) cộng vector (3,) — được không? Còn (4,)?</li>
+            <li><code>M.mean(axis=0)</code> ra bao nhiêu phần tử với M là (4, 3)?</li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Buổi 4 — pandas làm quen</h2>
+          <div class="key-box">
+            <span class="box-title">Câu chốt</span>
+            Nghi thức 5 bước với dataset lạ: shape → sample → info → describe → value_counts;
+            lọc bool + <code>loc[hàng, cột]</code>; median cho phân phối lệch.
+          </div>
+          <ol>
+            <li>Vì sao <code>df["a", "b"]</code> lỗi còn <code>df[["a", "b"]]</code> thì không?</li>
+            <li>mean 118k, median 59k — phân phối hình gì, báo cáo con số nào cho "giá điển hình"?</li>
+            <li>Đếm số ô thiếu mỗi cột bằng một dòng?</li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Buổi 5 — pandas chuyên sâu</h2>
+          <div class="key-box">
+            <span class="box-title">Câu chốt</span>
+            Phép toán tự align theo index (NaN mới = nhãn không khớp); vector hoá → map → apply;
+            groupby/agg đặt tên kèm cỡ nhóm; transform trả đúng độ dài; sau merge kiểm số dòng.
+          </div>
+          <ol>
+            <li><code>s.loc[2]</code> khác <code>s.iloc[2]</code> thế nào?</li>
+            <li>Tính "giá so với trung vị quận của chính nó" — dùng agg hay transform?</li>
+            <li>Sau left-merge, số dòng tăng lên nghĩa là gì? Chặn bằng tham số nào?</li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Buổi 6 — Dữ liệu ngoài</h2>
+          <div class="key-box">
+            <span class="box-title">Câu chốt</span>
+            Raw bất khả xâm phạm; usecols/parse_dates/na_values; Parquet giữ dtype;
+            API cần timeout + raise_for_status + lưu raw; DuckDB query thẳng file.
+          </div>
+          <ol>
+            <li>CSV và Parquet: cái nào giữ kiểu dữ liệu, vì sao đáng tiền?</li>
+            <li>Ba "phép lịch sự" khi gọi API trong vòng lặp?</li>
+            <li>Viết truy vấn DuckDB đếm dòng theo room_type trực tiếp trên file CSV?</li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Buổi 7 — Chuỗi &amp; regex</h2>
+          <div class="key-box">
+            <span class="box-title">Câu chốt</span>
+            strip/lower trước khi đếm; contains nhớ na=False; regex mô tả hình dáng —
+            extract + nhóm ( ); kiểm chứng bằng bộ ví dụ khớp + không-khớp.
+          </div>
+          <ol>
+            <li><code>s.str.contains("x")</code> trả gì khi gặp ô NaN? Sửa thế nào?</li>
+            <li>Mẫu <code>r"(\d+)\s*m2"</code> — từng mảnh nghĩa là gì?</li>
+            <li>Vì sao bộ ví dụ kiểm regex phải có cả ca không-được-khớp?</li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Buổi 8 — Thời gian</h2>
+          <div class="key-box">
+            <span class="box-title">Câu chốt</span>
+            parse_dates trước đã (cẩn thận dd/mm); resample = groupby theo lịch;
+            <strong>cắt kỳ cụt</strong>; dữ liệu mùa vụ so <strong>cùng kỳ</strong> (shift 12).
+          </div>
+          <ol>
+            <li>Kỳ cụt là gì, vì sao biểu đồ tháng cuối hay "lao dốc" giả?</li>
+            <li>−27% so tháng trước nhưng +7% so cùng kỳ — tin con số nào, khi nào?</li>
+            <li><code>r.loc["2026-03"]</code> hoạt động nhờ điều kiện gì của index?</li>
+          </ol>
+        </section>
+      </section>
+
+      <!-- ====== Câu mẫu ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">2.</span><br>Hai câu mẫu<br>đúng chất đề thi</h1>
+        </section>
+
+        <section data-jp-reset>
+          <h2>Câu mẫu 1 — đọc code, đoán kết quả</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+s = pd.Series([100, None, 300], index=["a", "b", "c"])
+t = pd.Series([1, 2], index=["c", "a"])
+
+(s + t).isna().sum()
+            </code></pre>
+          </div>
+          <p>Nghĩ đủ ba nhịp: alignment ghép nhãn nào với nhãn nào? None lan truyền ra sao?
+            Nhãn "b" có mặt ở mấy bên?</p>
+          <p class="text-light">(Tự tính rồi kiểm tra trong notebook — đáp án không in ở đây 😉)</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>Câu mẫu 2 — viết đoạn ngắn</h2>
+          <div class="question-box">
+            <div class="question-title">Đề</div>
+            <div class="question-content">
+              Cho <code>df</code> gồm <code>quan, gia, so_dem_toi_thieu</code>. Viết ≤ 4 dòng:
+              giá trung vị theo quận, chỉ tính dòng có giá hợp lệ (&gt; 0, không thiếu)
+              và <code>so_dem_toi_thieu ≤ 365</code>, chỉ hiện quận có ≥ 100 dòng hợp lệ.
+            </div>
+          </div>
+          <p style="margin-top:0.6em">Chấm điểm nhìn vào: mặt nạ lọc đúng &amp; đủ,
+            groupby + agg kèm cỡ nhóm, lọc cỡ nhóm sau tổng hợp.</p>
+        </section>
+      </section>
+
+      <!-- ====== Chiến thuật ====== -->
+      <section>
+        <section>
+          <h2>Chiến thuật phòng thi</h2>
+          <ul>
+            <li>Câu đọc-code: <strong>chạy code trong đầu từng dòng</strong>, viết trạng thái ra nháp —
+              đừng đoán cả khối.</li>
+            <li>Câu viết-code: viết mặt nạ lọc trước, phép tổng hợp sau; đặt tên biến có nghĩa —
+              người chấm đọc được ý là có điểm từng phần.</li>
+            <li>Kẹt một câu quá 5 phút → đánh dấu, đi tiếp, quay lại sau.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Cách ôn hiệu quả nhất trong tuần này</h2>
+          <ol>
+            <li>Chạy lại <strong>notebook buổi 2–8</strong>, làm lại các ô TODO
+              <em>không nhìn lời giải có sẵn</em> (xoá output trước).</li>
+            <li>Tự trả lời 21 câu tự kiểm trong deck này — nói to được là hiểu thật.</li>
+            <li>Nhóm học: mỗi người ra 2 câu "đọc code đoán output" đố nhau — ai bí phải
+              giải thích được vì sao mình bí.</li>
+          </ol>
+          <p class="text-light">Sau giữa kỳ: nửa "hiện đại" của môn — làm sạch, LLM, trực quan hoá,
+            kể chuyện. Hẹn gặp ở buổi 10!</p>
+        </section>
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        LTXLDL (2627-1) · Buổi 9: Ôn tập giữa kỳ
+      </div>
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>
