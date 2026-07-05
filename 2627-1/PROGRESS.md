@@ -32,7 +32,7 @@
 | 5. Series & DataFrame chuyên sâu | ✅ | ✅ |
 | 6. Kết nối & truy xuất dữ liệu ngoài | ✅ | ✅ |
 | 7. Xử lý dữ liệu chuỗi | ✅ | ✅ |
-| 8. Xử lý dữ liệu thời gian | ⬜ | ⬜ |
+| 8. Xử lý dữ liệu thời gian | ✅ | ✅ |
 | 9. Ôn tập giữa kỳ (deck ngắn) | ⬜ | — |
 | 10. Làm sạch dữ liệu có cấu trúc | ⬜ | ⬜ |
 | 11. LLM & dữ liệu phi cấu trúc | ✅ | ✅ |

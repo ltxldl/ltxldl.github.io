@@ -14,3 +14,4 @@
 - **BTL — trọng số rubric**: A pipeline 30% / B dữ liệu (QA+KPI+LLM) 25% / C trực quan hoá & insight 25% / D nhóm & minh bạch AI 20%; thưởng tối đa +10%.
 - **BTL — held-out**: chấm bằng snapshot phát hành trong kỳ (~09–12/2026) hoặc bản monthly không nằm trong danh sách bắt buộc; ghi rõ trong đề để nhóm thiết kế pipeline chịu được schema drift.
 - **BTL — mốc nộp trung gian**: thêm mốc "bản đề xuất tuần 8" (QA/KPI/LLM dự kiến, GV phản hồi không chấm điểm) — để cứu các nhóm chọn sai hướng sớm.
+- **Dữ liệu thật phát hiện khi soạn bài 8**: cột `host_since` trong snapshot Santiago 06/2026 trống 100% (Inside Airbnb thay bằng `hosts_time_as_*`); học liệu dùng `first_review` cho demo Timedelta. Mùa vụ review Santiago đỉnh T1–T4 (không phải T12–T2) — do review trễ hơn chuyến đi + T2 ngắn; đưa thẳng vào bài giảng làm ví dụ "đo, đừng đoán".

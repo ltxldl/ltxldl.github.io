@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Bài 8: Xử lý dữ liệu thời gian</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+  <link rel="stylesheet" href="plugin/highlight/zenburn.css">
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ====== Mở bài ====== -->
+      <section>
+        <section>
+          <h1>Lập trình xử lý dữ liệu</h1>
+          <div>
+            <p><strong>Giảng viên:</strong> Nguyễn Tuấn Phong</p>
+            <p><strong>Trợ giảng:</strong> {{cập nhật sau}}</p>
+            <p><strong>Học kì:</strong> 1, năm học 2026–2027</p>
+            <p>Viện Trí tuệ nhân tạo, Trường ĐH Công nghệ, ĐHQGHN</p>
+          </div>
+        </section>
+
+        <section>
+          <h1>
+            <span class="text-light">Bài 8</span>
+            <br>
+            Xử lý dữ liệu thời gian
+          </h1>
+          <p class="text-light">datetime, resample, rolling — và câu hỏi "so với cùng kỳ".</p>
+        </section>
+
+        <section>
+          <h2>Buổi trước</h2>
+          <ul>
+            <li>.str và regex: cột chữ thành cột tín hiệu.</li>
+            <li>Còn một kiểu cột đặc biệt chưa đụng tới: cột <strong>ngày tháng</strong>.</li>
+          </ul>
+          <p class="text-light">690.112 review của Santiago — mỗi dòng một mốc thời gian.
+            Hôm nay bắt chúng kể chuyện.</p>
+        </section>
+
+        <section>
+          <h2>Hôm nay</h2>
+          <ol>
+            <li>datetime trong pandas</li>
+            <li>Trục thời gian: cắt lát, resample, rolling</li>
+            <li>So sánh theo thời gian: shift &amp; cùng kỳ</li>
+            <li>Case study: mùa vụ Santiago</li>
+            <li>Làm với AI thì sao?</li>
+          </ol>
+        </section>
+      </section>
+
+      <!-- ====== Phần 1 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">1.</span><br>datetime trong pandas</h1>
+          <p class="text-light">"2026-06-29" là chuỗi. Muốn tính toán, phải đổi kiểu.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>1.1. to_datetime: cửa khẩu bắt buộc</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+rv = pd.read_csv("reviews.csv", parse_dates=["date"])
+rv.dtypes
+            </code></pre>
+            <pre class="jp-output" data-jp-n="1"><code class="language-text" data-trim>
+listing_id             int64
+date          datetime64[us]
+            </code></pre>
+          </div>
+          <p>Còn là chuỗi thì "2026-06" chỉ so sánh được theo bảng chữ cái.
+            Thành <span class="inline-code">datetime64</span> rồi thì trừ được, gom theo tháng được,
+            hỏi "thứ mấy" được.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>1.2. Bẫy quốc tịch: 03/07 là ngày nào?</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+pd.to_datetime("03/07/2026")                  # kiểu Mỹ: 7 tháng 3!
+pd.to_datetime("03/07/2026", dayfirst=True)   # kiểu VN: 3 tháng 7
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="2"><code class="language-text" data-trim>
+Timestamp('2026-07-03 00:00:00')
+            </code></pre>
+          </div>
+          <div class="warn-box">
+            <span class="box-title">Cẩn thận</span>
+            Dữ liệu Việt Nam viết dd/mm — pandas mặc định hiểu mm/dd. Sai lặng lẽ, chỉ lộ khi
+            ngày &gt; 12. Chuẩn an toàn: định dạng ISO <code>YYYY-MM-DD</code> ở mọi file
+            <em>bạn</em> ghi ra.
+          </div>
+        </section>
+
+        <section data-jp-reset>
+          <h2>1.3. Mỏ thông tin .dt</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
+rv["date"].dt.year.value_counts().sort_index().tail(3)
+            </code></pre>
+            <pre class="jp-output" data-jp-n="3"><code class="language-text" data-trim>
+2024    131267
+2025    211432
+2026    128663
+            </code></pre>
+          </div>
+          <p>Một cột datetime "chứa sẵn" hàng chục cột con:
+            <span class="inline-code">.dt.year / .month / .dayofweek / .quarter / .date</span>…
+            — trích ra là groupby được.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>1.4. Timedelta: khoảng cách giữa hai mốc</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
+snapshot = pd.Timestamp("2026-06-29")
+tuoi_nam = (snapshot - listings["first_review"]).dt.days / 365.25
+
+tuoi_nam.describe().round(1).loc[["50%", "max"]]
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="4"><code class="language-text" data-trim>
+50%     1.5
+max    15.6
+            </code></pre>
+          </div>
+          <p>Trừ hai datetime → <span class="inline-code">Timedelta</span>. Nửa thị trường Santiago
+            có review đầu tiên chưa đầy 18 tháng trước — "tuổi đời" là đặc trưng mới sinh ra
+            từ một phép trừ. (Chuyện bên lề: cột <code>host_since</code> ở snapshot này…
+            trống 100% — schema drift ngoài đời thật!)</p>
+        </section>
+
+        <section>
+          <h2>1.5. Múi giờ</h2>
+          <div class="slide-badge-row"><span class="self-study-badge">📖 Tự học</span></div>
+          <ul>
+            <li>Dữ liệu log/API thường theo UTC; hiển thị theo giờ địa phương:
+              <span class="inline-code">tz_localize("UTC").tz_convert("Asia/Ho_Chi_Minh")</span>.</li>
+            <li>Ngày trong Inside Airbnb là ngày địa phương, không giờ — môn này không cần đào sâu;
+              làm việc với log hệ thống thì bắt buộc phải biết.</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- ====== Phần 2 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">2.</span><br>Trục thời gian:<br>cắt lát, resample, rolling</h1>
+          <p class="text-light">Đưa thời gian vào index — mở khoá bộ kỹ năng mới.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>2.1. DatetimeIndex: cắt lát bằng chuỗi ngày</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+r = rv.set_index("date").sort_index()
+
+len(r.loc["2026"])          # cả năm 2026
+len(r.loc["2026-03"])       # riêng tháng 3
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="1"><code class="language-text" data-trim>
+128663
+            </code></pre>
+          </div>
+          <p>Index là datetime thì <span class="inline-code">.loc["2026-03"]</span> hiểu là
+            "mọi dòng trong tháng 3/2026" — partial string indexing, đặc quyền của trục thời gian.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>2.2. resample: groupby theo lịch</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+theo_thang = r.resample("ME").size()    # ME = Month End
+theo_thang.tail(3)
+            </code></pre>
+            <pre class="jp-output" data-jp-n="2"><code class="language-text" data-trim>
+date
+2026-05-31    22296
+2026-06-30    16267
+2026-07-31       49
+            </code></pre>
+          </div>
+          <p><span class="inline-code">"ME"</span> tháng, <span class="inline-code">"W"</span> tuần,
+            <span class="inline-code">"QE"</span> quý, <span class="inline-code">"YE"</span> năm —
+            split-apply-combine mà "khoá" là những ô lịch.</p>
+        </section>
+
+        <section>
+          <h2>2.3. Khoan — 49 review tháng 7?!</h2>
+          <div class="question-box">
+            <div class="question-title">Nhìn lại slide trước</div>
+            <div class="question-content">
+              Tháng 5: 22.296 · tháng 6: 16.267 · tháng 7: <strong>49</strong>.
+              Thị trường sụp đổ, hay… có gì đó khác?
+            </div>
+          </div>
+          <p style="margin-top:0.7em">Snapshot chụp ngày <strong>29/06</strong> — "tháng 7" mới có
+            vài giờ dữ liệu. <strong>Kỳ cụt</strong> (partial period) là bẫy kinh điển:
+            luôn cắt bỏ kỳ chưa trọn trước khi vẽ/kết luận.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>2.4. rolling: cửa sổ trượt làm mượt</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
+thang_du = theo_thang.iloc[:-1]              # bỏ kỳ cụt!
+
+muot = thang_du.rolling(6, center=True).mean()
+            </code></pre>
+          </div>
+          <p>Mỗi điểm = trung bình 6 tháng quanh nó — nhiễu tháng-này-tháng-kia mờ đi,
+            xu hướng lộ ra. Xem nó làm việc trên dữ liệu thật:</p>
+          <p class="text-light">(hình ở slide 4.1)</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>2.5. shift &amp; pct_change: so với kỳ liền trước</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
+(thang_du.pct_change() * 100).round(1).tail(2)
+            </code></pre>
+            <pre class="jp-output" data-jp-n="4"><code class="language-text" data-trim>
+date
+2026-05-31     3.0
+2026-06-30   -27.0
+            </code></pre>
+          </div>
+          <p><span class="inline-code">pct_change()</span> =
+            <span class="inline-code">x / x.shift(1) - 1</span>. Tháng 6 giảm 27% so với tháng 5 —
+            nhưng khoan kết luận: có khi <em>tháng 6 nào cũng thế</em>?</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>2.6. "So với cùng kỳ": shift(12) trên chuỗi tháng</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="5"><code class="language-python" data-trim>
+yoy = (thang_du / thang_du.shift(12) - 1) * 100
+
+yoy.loc["2026-06-30"].round(1)
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="5"><code class="language-text" data-trim>
+7.1
+            </code></pre>
+          </div>
+          <div class="key-box">
+            <span class="box-title">Điểm chốt</span>
+            Tháng 6/2026 <em>giảm 27%</em> so với tháng trước nhưng <em>tăng 7%</em> so với
+            cùng kỳ năm ngoái. Dữ liệu có mùa vụ thì <strong>cùng kỳ (YoY)</strong> mới là
+            phép so công bằng.
+          </div>
+        </section>
+      </section>
+
+      <!-- ====== Phần 3 (case study) ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">3.</span><br>Case study:<br>mùa vụ Santiago</h1>
+          <p class="text-light">Toàn bộ kỹ thuật vừa học, trên 690 nghìn review thật.</p>
+        </section>
+
+        <section>
+          <h2>3.1. Mười năm trong một hình</h2>
+          <figure class="fig">
+            <img src="img/lecture-08/reviews-theo-thang.png" alt="Review theo tháng của Santiago 2016-2026"
+              style="width:92%">
+            <figcaption class="caption">Đường trượt 6 tháng phơi ra ba câu chuyện: tăng trưởng dài hạn,
+              nhịp mùa vụ — và hố sâu COVID 2020–2021.</figcaption>
+          </figure>
+        </section>
+
+        <section>
+          <h2>3.2. Nhịp mùa vụ — đo, đừng đoán</h2>
+          <figure class="fig">
+            <img src="img/lecture-08/mua-vu.png" alt="Chỉ số mùa vụ theo tháng" style="width:88%">
+            <figcaption class="caption">Chỉ số mùa vụ (100 = trung bình): đỉnh T1–T4, đáy T9 —
+              tính từ 2022 đến nay, đã loại kỳ cụt.</figcaption>
+          </figure>
+        </section>
+
+        <section>
+          <h2>3.3. Vì sao đỉnh không nằm gọn ở "hè" T12–T2?</h2>
+          <ul>
+            <li><strong>Review trễ hơn chuyến đi</strong>: khách ở tháng 1–2, viết review cuối kỳ nghỉ
+              hoặc sau đó — đỉnh dạt sang T3.</li>
+            <li><strong>T2 ngắn hơn 10%</strong> so với T1 (28 vs 31 ngày) — đếm theo tháng luôn
+              thiên vị tháng dài.</li>
+          </ul>
+          <div class="key-box">
+            <span class="box-title">Điểm chốt</span>
+            Hai bài học một hình: (1) ngày ghi nhận ≠ ngày sự kiện; (2) độ dài kỳ ảnh hưởng
+            phép đếm. Trước khi diễn giải mùa vụ — kiểm tra cả hai.
+          </div>
+        </section>
+
+        <section>
+          <h2>3.4. Số review là proxy, không phải nhu cầu</h2>
+          <div class="warn-box">
+            <span class="box-title">Cẩn thận</span>
+            Ta đang đo "review được viết" — không phải "đêm được đặt". Tỷ lệ khách chịu viết review
+            có thể đổi theo thời gian. Proxy vẫn quý, nhưng <em>báo cáo phải nói rõ nó là proxy</em> —
+            đúng chuẩn minh bạch của BTL.
+          </div>
+          <p>Nhóm BTL nam bán cầu (Santiago, Buenos Aires, Rio): mùa ngược với châu Âu —
+            "so với cùng kỳ" càng quan trọng khi so chéo thành phố.</p>
+        </section>
+      </section>
+
+      <!-- ====== Kết ====== -->
+      <section>
+        <section>
+          <h2>Tổng kết</h2>
+          <ul>
+            <li><code>to_datetime</code>/<code>parse_dates</code> trước đã; cẩn thận dd/mm;
+              ISO khi ghi file.</li>
+            <li>Trục thời gian: cắt lát chuỗi <code>"2026-03"</code>, <code>resample</code> gộp lịch,
+              <code>rolling</code> làm mượt.</li>
+            <li>So sánh: <code>pct_change</code> kỳ trước, <code>shift(12)</code> cùng kỳ —
+              dữ liệu mùa vụ dùng YoY.</li>
+            <li>Ba bẫy: kỳ cụt, ngày ghi nhận ≠ ngày sự kiện, tháng dài ngắn khác nhau.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Làm với AI thì sao?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <div class="good-box">
+            <span class="box-title">AI làm tốt</span>
+            Cú pháp resample/rolling lằng nhằng ("gộp tuần, lấy trung bình, bỏ tuần thiếu dữ liệu") —
+            mô tả rõ là AI viết đúng.
+          </div>
+          <div class="warn-box">
+            <span class="box-title">AI hay sai</span>
+            Không tự cắt kỳ cụt; mặc định mm/dd; so "tháng này vs tháng trước" cho dữ liệu
+            mùa vụ mà không nhắc YoY.
+          </div>
+        </section>
+
+        <section>
+          <h2>Kiểm chứng thế nào?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <ul>
+            <li>In 2–3 kỳ <strong>đầu và cuối</strong> của kết quả resample — kỳ cụt lộ ra ngay.</li>
+            <li>Chọn một tháng, tự đếm bằng <code>len(r.loc["2026-03"])</code> đối chiếu với
+              con số AI đưa.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Đọc thêm</h2>
+          <ul>
+            <li>McKinney, 3rd ed. — ch. 11 (Time Series).</li>
+            <li>📖 Tự học: pandas User Guide — <em>Time series / date functionality</em>
+              (bảng mã tần suất đầy đủ).</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        LTXLDL (2627-1) · Bài 8: Xử lý dữ liệu thời gian
+      </div>
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>
