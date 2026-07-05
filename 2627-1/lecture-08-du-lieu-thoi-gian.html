@@ -145,8 +145,9 @@ max    15.6
           <h2>1.5. Múi giờ</h2>
           <div class="slide-badge-row"><span class="self-study-badge">📖 Tự học</span></div>
           <ul>
-            <li>Dữ liệu log/API thường theo UTC; hiển thị theo giờ địa phương:
-              <span class="inline-code">tz_localize("UTC").tz_convert("Asia/Ho_Chi_Minh")</span>.</li>
+            <li>Dữ liệu log/API thường theo UTC; hiển thị theo giờ địa phương bằng
+              <span class="inline-code">tz_localize("UTC")</span> rồi
+              <span class="inline-code">tz_convert("Asia/Ho_Chi_Minh")</span>.</li>
             <li>Ngày trong Inside Airbnb là ngày địa phương, không giờ — môn này không cần đào sâu;
               làm việc với log hệ thống thì bắt buộc phải biết.</li>
           </ul>

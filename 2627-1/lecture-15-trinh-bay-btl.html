@@ -60,22 +60,28 @@
         </section>
 
         <section>
-          <h2>1.1. Repo phải có đủ — kiểm bằng mắt từng dòng</h2>
-          <ul style="font-size:0.92em">
+          <h2>1.1. Checklist repo (a) — code chạy được</h2>
+          <ul>
             <li>☐ <span class="inline-code">run_pipeline.py</span> (hoặc Makefile) —
               <strong>một lệnh</strong> chạy từ raw đến mọi kết quả.</li>
             <li>☐ <span class="inline-code">configs/</span> — thành phố + snapshot nằm trong config,
               không hard-code.</li>
-            <li>☐ <span class="inline-code">README.md</span> — cài đặt, cách chạy,
-              <em>cách chấm lại</em>; <span class="inline-code">requirements.txt</span> đúng và đủ.</li>
+            <li>☐ <span class="inline-code">README.md</span> — cài đặt, cách chạy, <em>cách chấm lại</em>;
+              <span class="inline-code">requirements.txt</span> đúng và đủ.</li>
+            <li>☐ Cache LLM đầy đủ để <span class="inline-code">--skip-llm</span> chạy
+              <strong>không cần API key</strong>.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>1.1. Checklist repo (b) — dữ liệu &amp; hồ sơ</h2>
+          <ul>
             <li>☐ <span class="inline-code">data/processed/</span> + <span
                 class="inline-code">data/samples/</span> (bộ ≥100 nhãn tay!); raw KHÔNG commit.</li>
             <li>☐ <span class="inline-code">figures/</span> sinh tự động; <span
                 class="inline-code">reports/</span> có PDF + qa_report.csv + slides.pdf.</li>
-            <li>☐ <span class="inline-code">AI_USAGE.md</span> — cập nhật lần cuối, có mục
-              "AI sai ở đâu" với ví dụ thật.</li>
-            <li>☐ Cache LLM đầy đủ để <span class="inline-code">--skip-llm</span> chạy
-              <strong>không cần API key</strong>.</li>
+            <li>☐ <span class="inline-code">AI_USAGE.md</span> — cập nhật lần cuối, mục
+              "AI sai ở đâu" có ví dụ thật.</li>
             <li>☐ Tag <span class="inline-code">final</span> + commit hash ghi trong báo cáo.</li>
           </ul>
         </section>
@@ -153,7 +159,6 @@
               Đổi ngưỡng thì KPI nào lung lay?"</li>
             <li>"Con số 426.230 ở trang 7 báo cáo — truy về dữ liệu gốc thế nào?"</li>
             <li>"Vì sao nhóm chọn median mà không phải mean cho KPI giá?"</li>
-            <li>"Bộ nhãn tay 100 review: quy trình gán? Bất đồng xử lý ra sao?"</li>
             <li>"Nếu snapshot mới thiếu cột <span class="inline-code">bedrooms</span>,
               pipeline sống không? Chỉ chỗ code xử lý."</li>
           </ul>
