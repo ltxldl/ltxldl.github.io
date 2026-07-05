@@ -38,7 +38,7 @@
 | 11. LLM & dữ liệu phi cấu trúc | ✅ | ✅ |
 | 12. Trực quan hoá cơ bản | ✅ | ✅ |
 | 13. Trực quan hoá nâng cao | ✅ | ✅ |
-| 14. Kể chuyện bằng dữ liệu | ⬜ | ⬜ |
+| 14. Kể chuyện bằng dữ liệu | ✅ | ✅ |
 | 15. Hướng dẫn vấn đáp BTL (deck) | ⬜ | — |
 
 ## 5. Rà soát toàn cục

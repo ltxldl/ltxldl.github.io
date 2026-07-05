@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Bài 14: Kể chuyện bằng dữ liệu &amp; audit phân tích AI</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+  <link rel="stylesheet" href="plugin/highlight/zenburn.css">
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ====== Mở bài ====== -->
+      <section>
+        <section>
+          <h1>Lập trình xử lý dữ liệu</h1>
+          <div>
+            <p><strong>Giảng viên:</strong> Nguyễn Tuấn Phong</p>
+            <p><strong>Trợ giảng:</strong> {{cập nhật sau}}</p>
+            <p><strong>Học kì:</strong> 1, năm học 2026–2027</p>
+            <p>Viện Trí tuệ nhân tạo, Trường ĐH Công nghệ, ĐHQGHN</p>
+          </div>
+        </section>
+
+        <section>
+          <h1>
+            <span class="text-light">Bài 14</span>
+            <br>
+            Kể chuyện bằng dữ liệu<br>&amp; audit phân tích AI
+          </h1>
+          <p class="text-light">Buổi nội dung cuối — nơi mọi buổi trước hợp lại.</p>
+        </section>
+
+        <section>
+          <h2>Hành trình đến đây</h2>
+          <div class="pipeline">
+            <div class="stage">
+              <div class="stage-title">Thu thập</div>
+              <div class="stage-desc">B6</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage">
+              <div class="stage-title">Làm sạch</div>
+              <div class="stage-desc">B7–10</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage">
+              <div class="stage-title">Làm giàu</div>
+              <div class="stage-desc">B11 (LLM)</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage">
+              <div class="stage-title">Trực quan</div>
+              <div class="stage-desc">B12–13</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage stage-highlight">
+              <div class="stage-title">Kể chuyện</div>
+              <div class="stage-desc">hôm nay</div>
+            </div>
+          </div>
+          <p style="margin-top:0.8em">Mắt xích cuối quyết định giá trị của cả chuỗi:
+            phân tích không ai hiểu = phân tích không tồn tại.</p>
+        </section>
+
+        <section>
+          <h2>Hôm nay</h2>
+          <ol>
+            <li>Từ phân tích đến câu chuyện</li>
+            <li>Kể chuyện đúng mực — các bẫy diễn giải</li>
+            <li>Audit một bản phân tích do AI viết</li>
+            <li>Làm với AI thì sao?</li>
+          </ol>
+        </section>
+      </section>
+
+      <!-- ====== Phần 1 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">1.</span><br>Từ phân tích<br>đến câu chuyện</h1>
+          <p class="text-light">Người đọc không cần 50 biểu đồ. Họ cần một câu trả lời có căn cứ.</p>
+        </section>
+
+        <section>
+          <h2>1.1. Kết luận trước, chi tiết sau</h2>
+          <div class="two-col">
+            <div>
+              <h4 class="text-red">Kể theo trình tự mình làm</h4>
+              <p class="text-light" style="font-size:0.85em">"Đầu tiên em tải dữ liệu… rồi em làm sạch…
+                rồi em thử X nhưng không được… cuối cùng em thấy Y."</p>
+            </div>
+            <div>
+              <h4 class="text-green">Kể theo nhu cầu người đọc</h4>
+              <p class="text-light" style="font-size:0.85em">"Y — vì ba bằng chứng sau. (Chi tiết
+                phương pháp ở phụ lục.)"</p>
+            </div>
+          </div>
+          <div class="key-box">
+            <span class="box-title">Điểm chốt</span>
+            Cấu trúc kim tự tháp: câu trả lời → bằng chứng → phương pháp.
+            Nhật ký hành trình của bạn là <em>phụ lục</em>, không phải cốt truyện.
+          </div>
+        </section>
+
+        <section>
+          <h2>1.2. Khung ba nhịp của một câu chuyện dữ liệu</h2>
+          <div class="pipeline">
+            <div class="stage">
+              <div class="stage-title">Bối cảnh</div>
+              <div class="stage-desc">ai hỏi, hỏi gì, vì sao lúc này</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage stage-highlight">
+              <div class="stage-title">Phát hiện</div>
+              <div class="stage-desc">dữ liệu nói gì — nhất là điều bất ngờ</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage">
+              <div class="stage-title">Hệ quả</div>
+              <div class="stage-desc">nên làm gì + giới hạn của kết luận</div>
+            </div>
+          </div>
+          <p style="margin-top:0.8em">Báo cáo BTL của bạn: mỗi mục lớn nên đi đủ ba nhịp này —
+            và tiêu đề mục là <strong>câu khẳng định</strong> (như title hình buổi 12).</p>
+        </section>
+
+        <section>
+          <h2>1.3. Số trong câu văn: làm tròn có chủ đích</h2>
+          <div class="two-col">
+            <div>
+              <h4 class="text-red">Khó nhớ</h4>
+              <ul>
+                <li>"Giá trung vị là 59.000 CLP, tại Las Condes là 97.460 CLP."</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-green">Dính vào đầu</h4>
+              <ul>
+                <li>"Las Condes đắt <strong>gấp rưỡi</strong> mặt bằng chung
+                  (97 vs 59 nghìn CLP/đêm)."</li>
+              </ul>
+            </div>
+          </div>
+          <p>Con số chính xác nằm trong bảng; câu văn mang <em>tỷ lệ so sánh</em> —
+            "gấp đôi", "1 trên 5", "chưa đến 1%".</p>
+        </section>
+
+        <section>
+          <h2>1.4. Giới hạn không phải điểm yếu — là điểm tin</h2>
+          <ul>
+            <li>Môn này đã trang bị cả kho: số review là <em>proxy</em> (B8), kỳ cụt (B8),
+              846 giá thiếu (B10), nhãn LLM sai ~10% (B11), bẫy diện tích (B13)…</li>
+            <li>Báo cáo nêu giới hạn <strong>trước khi</strong> người đọc kịp hỏi —
+              đó là dáng đứng của người làm nghề.</li>
+          </ul>
+          <div class="good-box">
+            <span class="box-title">Cách làm tốt</span>
+            Mỗi kết luận lớn kèm một dòng "độ tin": dữ liệu nào, bao nhiêu quan sát,
+            giả định gì, sai số kiểu gì.
+          </div>
+        </section>
+      </section>
+
+      <!-- ====== Phần 2 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">2.</span><br>Kể chuyện đúng mực</h1>
+          <p class="text-light">Bốn cách một câu chuyện dữ liệu "đúng số nhưng sai nghĩa".</p>
+        </section>
+
+        <section>
+          <h2>2.1. Tương quan ≠ nhân quả</h2>
+          <div class="question-box">
+            <div class="question-title">Nhớ buổi 7?</div>
+            <div class="question-content">
+              Phòng khoe "gần metro" rẻ hơn ~11%. Vậy <em>"gần metro làm giảm giá trị bất động
+              sản"</em>?
+            </div>
+          </div>
+          <p style="margin-top:0.7em">Không! Phòng nhỏ khu trung tâm hay khoe metro để bù lợi thế —
+            <strong>loại phòng</strong> là biến ẩn (confounder) đứng sau cả hai.
+            Dữ liệu quan sát chỉ cho phép nói "đi kèm", không cho phép nói "gây ra".</p>
+        </section>
+
+        <section>
+          <h2>2.2. Chọn mốc thời gian có lợi (cherry-picking)</h2>
+          <ul>
+            <li>"Review Santiago <strong>tăng 51 lần</strong> kể từ 2020!" — đúng số,
+              nhưng mốc là <em>đáy COVID</em>; so từ đáy thì cái gì chẳng "tăng vọt".</li>
+            <li>Cùng dữ liệu, mốc trung bình 2019: gấp ~8 lần — vẫn ấn tượng, và trung thực.</li>
+          </ul>
+          <div class="warn-box">
+            <span class="box-title">Cẩn thận</span>
+            Khi đọc (hoặc viết) "tăng X% so với…", câu hỏi đầu tiên: <em>vì sao chọn mốc đó?</em>
+            Mốc so sánh là quyết định biên tập — phải bảo vệ được.
+          </div>
+        </section>
+
+        <section>
+          <h2>2.3. Nghịch lý Simpson: tổng thể nói ngược từng phần</h2>
+          <table class="compact-table">
+            <thead>
+              <tr>
+                <th>Giá trung vị</th>
+                <th>T9/2025</th>
+                <th>T6/2026</th>
+                <th>Đổi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Nguyên căn</td>
+                <td>60k</td>
+                <td>66k</td>
+                <td class="text-green">+10%</td>
+              </tr>
+              <tr>
+                <td>Phòng riêng</td>
+                <td>30k</td>
+                <td>33k</td>
+                <td class="text-green">+10%</td>
+              </tr>
+              <tr>
+                <td><strong>Toàn thị trường</strong></td>
+                <td><strong>55k</strong></td>
+                <td><strong>52k</strong></td>
+                <td class="text-red"><strong>−5%?!</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top:0.5em">Cả hai phân khúc cùng tăng — nhưng tỷ trọng phòng riêng (rẻ)
+            phình ra kéo trung vị chung tụt. <em>Cơ cấu mẫu đổi</em> giữa hai snapshot:
+            luôn hỏi "mix có đổi không?" trước khi tin một con số gộp.
+            <span class="caption">(số minh hoạ)</span></p>
+        </section>
+
+        <section>
+          <h2>2.4. Lời phải vừa với số</h2>
+          <table class="compact-table">
+            <thead>
+              <tr>
+                <th>Số liệu</th>
+                <th>Lời quá cỡ</th>
+                <th>Lời vừa cỡ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>+3% YoY</td>
+                <td>"bùng nổ"</td>
+                <td>"nhích nhẹ"</td>
+              </tr>
+              <tr>
+                <td>r = 0.2</td>
+                <td>"liên hệ chặt chẽ"</td>
+                <td>"liên hệ yếu"</td>
+              </tr>
+              <tr>
+                <td>n = 30</td>
+                <td>"xu hướng rõ rệt"</td>
+                <td>"tín hiệu ban đầu, mẫu nhỏ"</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>Từ ngữ là một phần của phép đo. Style guide của môn từ buổi 1 vẫn thế:
+            <em>"thường", "có thể", "trong dữ liệu này"</em> — không phải yếu đuối, là chính xác.</p>
+        </section>
+      </section>
+
+      <!-- ====== Phần 3 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">3.</span><br>Audit một bản phân tích<br>do AI viết</h1>
+          <p class="text-light">Notebook hôm nay có một "báo cáo AI" 5 kết luận về Santiago.
+            Ta mổ ba kết luận ngay tại đây.</p>
+        </section>
+
+        <section>
+          <h2>3.1. Quy trình audit 4 bước</h2>
+          <div class="pipeline">
+            <div class="stage">
+              <div class="stage-title">1. Truy số</div>
+              <div class="stage-desc">tự tính lại từ dữ liệu gốc</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage">
+              <div class="stage-title">2. Kiểm phương pháp</div>
+              <div class="stage-desc">mean hay median? QA chưa? kỳ cụt?</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage">
+              <div class="stage-title">3. Kiểm diễn giải</div>
+              <div class="stage-desc">lời có vừa với số? nhân quả lậu?</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage stage-highlight">
+              <div class="stage-title">4. Phán quyết</div>
+              <div class="stage-desc">đúng / sai / không kiểm được</div>
+            </div>
+          </div>
+          <p style="margin-top:0.8em">Mỗi kết luận một phán quyết riêng — "báo cáo hay thế này chắc
+            đúng cả" không phải một phương pháp.</p>
+        </section>
+
+        <section>
+          <h2>3.2. Kết luận KL2 — "trung bình 118.200"</h2>
+          <div class="question-box">
+            <div class="question-title">Trích báo cáo AI</div>
+            <div class="question-content">
+              "Giá thuê trung bình ở Santiago là <strong>118.200 CLP/đêm</strong> (~3,3 triệu VND) —
+              du khách nên chuẩn bị ngân sách tương ứng."
+            </div>
+          </div>
+          <p style="margin-top:0.7em"><strong>Truy số:</strong> mean đúng là 118.200 ✓.
+            <strong>Kiểm phương pháp:</strong> nhưng buổi 10 đã chỉ ra: 177 outlier thổi mean
+            phồng 44%; nửa thị trường nằm dưới 59.000. <strong>Phán quyết:</strong>
+            số đúng, phương pháp sai cho mục đích "ngân sách du khách" — dùng median.</p>
+        </section>
+
+        <section>
+          <h2>3.3. Kết luận KL3 — "giảm 27%, hạ nhiệt"</h2>
+          <div class="question-box">
+            <div class="question-title">Trích báo cáo AI</div>
+            <div class="question-content">
+              "Số review tháng 6/2026 <strong>giảm 27%</strong> so với tháng 5 —
+              thị trường Santiago đang hạ nhiệt đáng lo ngại."
+            </div>
+          </div>
+          <p style="margin-top:0.7em"><strong>Truy số:</strong> −27% đúng ✓; nhưng so cùng kỳ
+            (buổi 8) lại <strong>+7%</strong>. <strong>Kiểm phương pháp — cú twist:</strong>
+            đối chiếu hai snapshot cho thấy <em>tháng cuối của mọi snapshot đều hụt</em>
+            (khách chưa kịp viết review: tháng 9/2025 "mọc thêm" 21% khi nhìn từ snapshot sau).
+            <strong>Phán quyết:</strong> không kiểm được từ một snapshot — trung thực nhất là
+            nói thế, kèm cách kiểm (chờ bản chụp sau).</p>
+        </section>
+
+        <section>
+          <h2>3.4. Kết luận KL4 — "metro làm giảm giá"</h2>
+          <div class="question-box">
+            <div class="question-title">Trích báo cáo AI</div>
+            <div class="question-content">
+              "Phòng gần metro rẻ hơn 11% — <strong>vị trí gần metro làm giảm giá trị</strong>
+              bất động sản cho thuê."
+            </div>
+          </div>
+          <p style="margin-top:0.7em"><strong>Truy số:</strong> chênh lệch có thật ✓ — và kiểm
+            confounder loại phòng thì chênh lệch <em>vẫn còn ~17%</em> trong từng loại (notebook).
+            <strong>Kiểm diễn giải:</strong> vẫn không ra nhân quả: "khoe metro trong tên" là
+            <em>tín hiệu marketing tự chọn</em> của phòng thiếu lợi thế khác, không phải thước đo
+            khoảng cách. <strong>Phán quyết:</strong> hạ cấp thành "đi kèm"; muốn nói vị trí
+            phải đo khoảng cách thật.</p>
+        </section>
+
+        <section>
+          <h2>3.5. Bảng phán quyết — sản phẩm của một cuộc audit</h2>
+          <table class="compact-table">
+            <thead>
+              <tr>
+                <th>Kết luận AI</th>
+                <th>Số</th>
+                <th>Phương pháp</th>
+                <th>Diễn giải</th>
+                <th>Phán quyết</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>KL2: mean 118k</td>
+                <td>✓</td>
+                <td>✗ (outlier)</td>
+                <td>✗</td>
+                <td class="text-red">sửa sang median</td>
+              </tr>
+              <tr>
+                <td>KL3: giảm 27%</td>
+                <td>✓</td>
+                <td>✗ (đuôi snapshot hụt)</td>
+                <td>✗</td>
+                <td class="text-orange"><strong>không kiểm được</strong> từ 1 snapshot</td>
+              </tr>
+              <tr>
+                <td>KL4: metro giảm giá</td>
+                <td>✓</td>
+                <td>△ (đo proxy)</td>
+                <td>✗ (nhân quả)</td>
+                <td class="text-red">hạ cấp thành "đi kèm"</td>
+              </tr>
+              <tr>
+                <td>KL1, KL5 (notebook)</td>
+                <td>✓</td>
+                <td>✓</td>
+                <td>✓</td>
+                <td class="text-green">giữ nguyên</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="key-box" style="margin-top:0.5em">
+            <span class="box-title">Điểm chốt</span>
+            Cả ba lỗi đều có <strong>số đúng</strong> — AI hiếm khi sai phép tính, nó sai ở
+            phương pháp và diễn giải. Audit vì thế không phải là "kiểm tra máy tính",
+            mà là việc của người hiểu dữ liệu. Và xác nhận #4, #5 đúng cũng là kết quả audit.
+          </div>
+        </section>
+
+        <section>
+          <h2>3.6. Đây chính là kỳ vấn đáp của bạn</h2>
+          <ul>
+            <li>Vấn đáp BTL = giảng viên <strong>audit</strong> sản phẩm của nhóm:
+              truy số, kiểm phương pháp, kiểm diễn giải — đúng 4 bước này.</li>
+            <li>Cách ôn tốt nhất: nhóm tự audit chéo báo cáo của nhau trước khi nộp
+              (và audit chính những gì AI đã viết hộ mình — <code>AI_USAGE.md</code>
+              mục "AI sai ở đâu" lấy nội dung từ đây).</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- ====== Kết ====== -->
+      <section>
+        <section>
+          <h2>Tổng kết</h2>
+          <ul>
+            <li>Kim tự tháp: kết luận → bằng chứng → phương pháp; tiêu đề là câu khẳng định.</li>
+            <li>Số trong văn: tỷ lệ so sánh dễ nhớ; giới hạn nêu trước khi bị hỏi.</li>
+            <li>Bốn bẫy diễn giải: nhân quả lậu, mốc so sánh có lợi, Simpson (mix đổi),
+              lời quá cỡ số.</li>
+            <li>Audit 4 bước: truy số → phương pháp → diễn giải → phán quyết từng kết luận.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Làm với AI thì sao?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <div class="good-box">
+            <span class="box-title">AI làm tốt</span>
+            Nháp cấu trúc báo cáo, gọt câu chữ, dịch thuật; đề xuất góc kể chuyện từ bảng KPI.
+          </div>
+          <div class="warn-box">
+            <span class="box-title">AI hay sai</span>
+            Đúng số – sai nghĩa (cả 3 ca hôm nay); lời mặc định "ấn tượng hoá";
+            bịa trích dẫn và bối cảnh khi được yêu cầu "viết cho hay".
+          </div>
+        </section>
+
+        <section>
+          <h2>Kiểm chứng thế nào?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <ul>
+            <li>Chạy <strong>audit 4 bước</strong> trên mọi đoạn văn AI viết về dữ liệu của bạn —
+              buổi hôm nay chính là quy trình đó.</li>
+            <li>Quy tắc cuối môn học: <em>bạn ký tên thì bạn chịu trách nhiệm</em> —
+              với từng con số, từng chữ "vì thế".</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Đọc thêm &amp; hẹn gặp</h2>
+          <ul>
+            <li>Cole Nussbaumer Knaflic, <em>Storytelling with Data</em> — ch. 1–2, 7.</li>
+            <li>Carl Bergstrom &amp; Jevin West, <em>Calling Bullshit</em> — ch. về Selection bias
+              và Data visualization.</li>
+            <li><strong>Buổi 15:</strong> vấn đáp BTL — deck hướng dẫn + checklist nộp bài
+              đã có trên website. Nộp bản cuối trước {{dd/mm}}. Chúc các nhóm về đích! 🏁</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        LTXLDL (2627-1) · Bài 14: Kể chuyện bằng dữ liệu &amp; audit phân tích AI
+      </div>
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>
