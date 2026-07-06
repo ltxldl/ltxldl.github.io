@@ -1,6 +1,20 @@
-# Tiến độ dựng học liệu 2627-1 — HOÀN THÀNH ĐỢT DỰNG (05/07/2026)
+# Tiến độ học liệu 2627-1
 
-> File này do Claude duy trì trong đợt dựng học liệu (07/2026). Toàn bộ deliverables của đợt đã xong và đã qua rà soát tự động; các mục "giảng viên cần làm" ở cuối file.
+> File này do Claude duy trì. Đợt 1 (dựng 15 deck + 13 notebook demo + đề BTL) đã xong 05/07/2026 — chi tiết giữ nguyên bên dưới. Đợt 2 (edit-pass văn phong + học liệu giờ thực hành, theo `STARTER-PROMPT-2627-1-DOT2.md`) bắt đầu 07/2026 — trạng thái ở mục ngay dưới đây.
+
+## Đợt 2 — sửa văn phong + học liệu giờ thực hành (đang làm)
+
+| Deliverable | Trạng thái |
+|---|---|
+| **Bộ mẫu tuần 2** (lab-02.ipynb + ta-guide-02 + micro-02) | ✅ 06/07 — chờ giảng viên duyệt; lab đã chạy end-to-end (bản điền đáp án, mọi assert qua trên snapshot thật) |
+| Việc A: `.pipeline` sửa gốc CSS + bỏ inline | ⬜ |
+| Việc A: edit-pass văn phong deck 2–15 + đo tràn | ⬜ |
+| Việc A: pass nhẹ markdown 13 notebook demo | ⬜ |
+| Việc B: lab + TA guide + micro các tuần còn lại | ⬜ (1/13 lab, 1/15 guide, 1/13 micro) |
+| Index học kỳ: link lab từng buổi | ⬜ |
+| Rà soát cuối (lab end-to-end, tràn 15 deck, private/ sạch) | ⬜ |
+
+**Lấy thư mục private/ (KHÔNG có trên git):** học liệu trợ giảng nằm ở `2627-1/private/` trên máy làm việc này — xem `2627-1/private/README.md` (có sẵn lệnh `scp`/`tar` và quy trình phát cho TA qua Canvas Portal).
 
 ## 1. Hạ tầng & khung — ✅
 

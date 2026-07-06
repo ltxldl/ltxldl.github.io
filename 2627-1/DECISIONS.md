@@ -18,6 +18,13 @@
 - **Buổi 14 — phát hiện khi kiểm chứng số liệu**: bảng `reviews` của một snapshot bị right-censoring ở đuôi (T9/2025 "mọc thêm" 21% khi nhìn từ snapshot 06/2026) và lịch sử co giãn vì listing rời sàn mang theo review (T8/2025 giảm 18% giữa 2 snapshot). Kịch bản audit KL3 đổi từ "sai mùa vụ" thành "không kiểm được từ 1 snapshot" — trung thực với dữ liệu và dạy thêm được loại phán quyết thứ ba.
 - **Rà soát render (Playwright, khung 960×700)**: đo scrollHeight/Width từng slide của cả 15 deck — 103 slide tràn do font gốc 40px của theme trắng quá lớn với tiếng Việt. Chỉnh hệ thiết kế trong `lecture-style.css` (font gốc 36px, hộp nhấn/pipeline/bảng gọn hơn) thay vì sửa lẻ từng slide; 6 slide còn lại sửa nội dung (tách checklist buổi 15 thành 2 slide, gọt chữ). Kết quả cuối: **0 slide tràn**, không ảnh hỏng, không lỗi JS.
 
+## Quyết định đợt 2 — học liệu giờ thực hành (07/2026)
+
+- **Dữ liệu lab tuần 2**: dùng bảng `visualisations/listings.csv` của Santiago snapshot 29/06/2026 (18.534 dòng, 19 cột, giá là số trần CLP, không nén) — Python thuần đọc trực tiếp được, khác bản `data/listings.csv.gz` (giá dạng `"$1,200.00"`) mà notebook demo dùng; hai bản bổ trợ nhau, lab các tuần pandas sẽ quay lại bản `data/` như demo. Các con số trong assert gắn với snapshot cố định này.
+- **Lab notebook ship dạng TODO chưa điền đáp án** (đáp án nằm trong `private/ta-guide-XX.md`); tiêu chí "chạy end-to-end trên Colab" được kiểm bằng **bản điền đáp án** (mọi cell chạy sạch, mọi assert qua). Cấu trúc ô: TODO + khối `# --- Ô kiểm tra ---` bằng assert ngay trong cùng cell.
+- **Micro-exercise tuần 2 làm trên giấy** (không máy) — dạng viết hàm ngắn/đoán output phù hợp giấy, chống AI tuyệt đối; các tuần sau chọn giấy/Colab theo kỹ năng của tuần, ghi rõ trong từng đề.
+- **`private/README.md`**: quy trình phát học liệu cho TA (gửi từng tuần qua Canvas Portal, không phát file đáp án cho sinh viên) + lệnh scp/tar cho giảng viên lấy thư mục.
+
 ## Quyết định của giảng viên (06/07/2026 — chốt sau đợt dựng)
 
 - **Bỏ toàn bộ thông tin cá nhân GV/TA khỏi học liệu**: xoá dòng Giảng viên/Trợ giảng ở title slide 15 deck + template; đề BTL không ghi tài khoản GitHub cá nhân — danh sách tài khoản công bố trên Canvas.
