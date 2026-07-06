@@ -10,7 +10,7 @@
 | Việc A: `.pipeline` sửa gốc CSS + bỏ inline | ✅ 06/07 — font-size 0.7em ở rule gốc, bỏ 2 inline buổi 1 |
 | Việc A: edit-pass văn phong deck 2–15 + đo tràn | ✅ 06/07 — 14 deck + template; đo từng deck sau sửa: **0 slide tràn trên cả 15 deck**; sửa thêm 2 tràn có sẵn (buổi 9, 13) + đồng bộ "trình bày 5'" ở buổi 15 (chi tiết: DECISIONS.md) |
 | Việc A: pass nhẹ markdown 13 notebook demo | ✅ 06/07 — 36 cell: BTL→bài tập lớn, nghi thức→thói quen, hôm nay→buổi này, bỏ 😉, nghĩa vụ→trách nhiệm |
-| Việc B: lab + TA guide + micro các tuần còn lại | ⬜ (1/13 lab, 1/15 guide, 1/13 micro) |
+| Việc B: lab + TA guide + micro các tuần còn lại | 🟨 tuần 1–8 xong (8/13 lab, 8/15 guide, 8/13 micro — mỗi lab đã chạy end-to-end bản solved); còn tuần 10–14 + guide 9/15 |
 | Index học kỳ: link lab từng buổi | ⬜ |
 | Rà soát cuối (lab end-to-end, tràn 15 deck, private/ sạch) | ⬜ |
 
