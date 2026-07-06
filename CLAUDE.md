@@ -26,7 +26,7 @@ File `UET_Đề cương học phần_*.docx` ở root là đề cương chính t
 
 - **Slide phải tuân thủ `SLIDE_STYLE_GUIDE.md` (root)** — tiêu chuẩn thiết kế/rà soát slide (ít chữ, mỗi slide một ý, rubric rà soát A–E), kèm ghi chú chuyển thể cho môn này ở đầu file (100 phút/buổi → 30–40 slide, quy ước thuật ngữ Anh–Việt, quy tắc slide code).
 - Tạo bài giảng mới: copy `lecture-template.html` → `lecture-XX-ten-bai.html`, cập nhật tiêu đề/ngày/nội dung, thêm dòng vào bảng lịch trong `index.html` của học kỳ.
-- Slide dùng heading có đánh số mục (`1. …`, `2.1. …`) và tiêu đề bài dạng `LTXLDL | <tên bài>`.
+- Slide: số mục chỉ dùng ở slide mở phần (`1.`, `2.` trong `<h1>`), **`<h2>` không đánh số tiểu mục**; tiêu đề bài dạng `LTXLDL | <tên bài>`. Văn phong slide theo **`2627-1/EDIT-PASS-NOTES.md`** — chuẩn giảng viên chốt sau lượt duyệt buổi 1 (07/2026); deck buổi 1 là mẫu đối chiếu, không sửa lại.
 - Dựng học kỳ mới: copy từ học kỳ gần nhất, cập nhật `index.html` root để thêm link (đổi nhãn "Hiện hành").
 
 ## Chính sách ngôn ngữ: Việt hoá toàn bộ (từ 2627-1)
@@ -75,7 +75,7 @@ Việc cần làm khi dựng `2627-1/`:
 
 1. **Chính sách AI 1 trang** (song ngữ nếu cần): công cụ được phép, nghĩa vụ khai báo, đâu là gian lận — đưa vào Buổi 1 và mọi đề bài.
 2. **Slides + notebook Colab cho từng buổi** theo khung 15 buổi ở trên, viết mới theo `SLIDE_STYLE_GUIDE.md`. Cập nhật trích dẫn: McKinney 3rd ed (2022, free tại wesmckinney.com/book), VanderPlas 2nd ed (2023). Giới thiệu DuckDB (khớp CLO4), Polars ở mức optional.
-3. **Bài thực hành** (đợt sau): dán nhãn từng bài 🚫 đóng / ✅ mở; điểm cá nhân dồn vào micro-exercise 15–20' trên lớp; bài về nhà chuyển dạng "AI là đề bài": debug lời giải AI có lỗi cài sẵn, kiểm chứng một kết luận, so sánh 2 lời giải AI, viết test cho code AI sinh.
+3. **Giờ thực hành (kế hoạch chốt 07/07/2026)**: mỗi tuần có **2 tiết thực hành riêng do trợ giảng dạy** (đề cương 30/30), tách khỏi 2 tiết lý thuyết. Nhịp: tuần 1–8 = lab kỹ năng ~80' + **micro-exercise 🔒 15–20'** (nguồn chính của 20% "điểm bài tập trên lớp"; quiz giờ lý thuyết chỉ còn điểm danh/tương tác); tuần 9 = chữa giữa kỳ; tuần 10–14 = lab ~50' + BTL clinic ~30' + micro 20'; tuần 15 = tổng duyệt vấn đáp ("máy sạch"). Học liệu: `notebooks/lab-XX.ipynb` **public** (tuần 1–8, 10–14; khác notebook demo bài giảng); đáp án lab + giáo án TA + đề micro-exercise **KHÔNG public** — để trong `2627-1/private/` (đã gitignore), gửi trợ giảng qua Canvas. Bài về nhà dạng "AI là đề bài" (debug lời giải AI cài lỗi, kiểm chứng kết luận, so sánh 2 lời giải, viết test cho code AI) vẫn thuộc đợt sau.
 4. **Bài tập lớn — 01 đề duy nhất: Inside Airbnb**: giữ khung thu thập → QA → KPI → trực quan hoá → báo cáo + repo GitHub private + vấn đáp; mỗi nhóm 1 thành phố chính + thành phố đối chứng (chống copy chéo); hợp phần LLM bắt buộc trên bảng `reviews` (trích xuất khía cạnh/cảm xúc bằng Gemini API, so với baseline không-LLM, đo chất lượng trên ≥100 mẫu gán nhãn tay); bớt liệt kê từng bước trong mục "Công việc" để nhóm tự đề xuất QA/KPI rồi bảo vệ; bắt buộc `AI_USAGE.md` (công cụ, prompt then chốt, AI sai ở đâu, kiểm chứng thế nào).
 5. **Chấm BTL**: pipeline phải chạy lại end-to-end bằng một lệnh và được chấm trên **snapshot giữ lại** (kỳ thu thập dữ liệu nhóm chưa xử lý); vấn đáp hỏi riêng từng thành viên + mở ngẫu nhiên code yêu cầu giải thích + live task nhỏ, điểm cá nhân được phép lệch nhau; dùng Claude Code quét từng repo trước buổi vấn đáp để kiểm deliverables và sinh 5 câu hỏi riêng theo code của nhóm (chạy local, repo private, người quyết định điểm).
 

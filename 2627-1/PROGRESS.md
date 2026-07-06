@@ -56,6 +56,6 @@ Mỗi deck nội dung kết bằng mục "Làm với AI thì sao?" (đã kiểm 
 
 1. **Công bố trên Canvas đầu kỳ**: spreadsheet phân công nhóm/thành phố, danh sách tài khoản GitHub của GV/TA (để nhóm mời vào repo), ngày cụ thể cho các mốc tuần 3/8/14/15 (khi có thời khoá biểu), lịch vấn đáp buổi 15.
 2. **Điền thời lượng & cấu trúc điểm giữa kỳ** vào deck buổi 9 (`{{cập nhật trước ngày thi}}`) — trước ngày thi.
-3. Soạn **bài tập về nhà hàng tuần + đề thi giữa kỳ** (đợt sau, theo kế hoạch)
+3. Soạn **bài tập về nhà hàng tuần + đề thi giữa kỳ** (đợt sau, theo kế hoạch). Riêng **học liệu giờ thực hành + edit-pass văn phong**: đã lên kế hoạch đợt 2 (07/07/2026) — xem `STARTER-PROMPT-2627-1-DOT2.md` ở root và `2627-1/EDIT-PASS-NOTES.md`
 4. Duyệt nội dung → merge `2627-1-draft` vào `main` để public + kích hoạt link Colab
 5. (Khuyến nghị) Trước học kỳ: xem lại quota free tier Gemini trong AI Studio và chạy notebook buổi 11 một lần với API key thật

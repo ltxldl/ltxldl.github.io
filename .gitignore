@@ -5,3 +5,9 @@ package-lock.json
 .idea/
 .conda/
 .claude/
+
+# Học liệu KHÔNG public: đáp án lab, giáo án trợ giảng, đề micro-exercise (gửi TA qua Canvas)
+2627-1/private/
+
+# Đề cương chính thức — KHÔNG public (có thông tin liên hệ cá nhân)
+/UET_*.docx
