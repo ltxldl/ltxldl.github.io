@@ -2,7 +2,9 @@
 
 > Claude ghi vào đây khi gặp việc vượt thẩm quyền (thay đổi khung buổi, cơ chế chấm, nguồn dữ liệu đáng ngờ...) rồi chuyển sang việc khác, không dừng chờ. Mỗi mục có bối cảnh + phương án đề xuất.
 
-## 1. BTL không còn thành phố châu Á nào — chấp nhận hay nới tiêu chí?
+## 1. BTL không còn thành phố châu Á nào — chấp nhận hay nới tiêu chí? ✅ ĐÃ QUYẾT
+
+**Quyết định của giảng viên (06/07/2026):** giữ nguyên 12 thành phố chính; thêm **Bangkok / Singapore / Taipei làm thành phố đối chứng tuỳ chọn** (chỉ đối chứng — so sánh chéo trên snapshot mới nhất, không làm thành phố chính). Đã cập nhật ghi chú dưới bảng thành phố trong `projects/project_airbnb.html`.
 
 **Bối cảnh (khảo sát 05/07/2026):** Inside Airbnb hiện chỉ còn giữ 2 snapshot trong 12 tháng gần nhất cho toàn bộ thành phố châu Á (Bangkok, Singapore, Taipei, Tokyo, Hong Kong: chỉ có bản 06/2026 + 09/2025) và cả nhiều thành phố lớn châu Âu (Paris, London, Berlin, Amsterdam, Rome). Tiêu chí trong yêu cầu đề ("≥3 snapshot trong ~12 tháng") loại hết các thành phố này. 12 thành phố được chọn vì vậy đều ở châu Âu (bán đảo Iberia) + châu Mỹ.
 

@@ -18,7 +18,7 @@
 - ✅ Khảo sát thật insideairbnb.com (05/07/2026): 12 thành phố đạt chuẩn ≥3 snapshot/12 tháng (Barcelona, Madrid, Lisbon, Porto, Montreal, Toronto, Vancouver, NYC, New Orleans, Buenos Aires, Santiago, Rio), ngày snapshot + dataRoot ghi trong đề; schema `reviews`/`listings`/`calendar` xác minh (phát hiện: schema drift 79→90 cột, `calendar` mất cột giá, `host_since` trống 100% ở bản 06/2026, giá chuỗi theo nội tệ)
 - ✅ `projects/project_airbnb.html`: nhóm tự đề xuất QA/KPI và bảo vệ; hợp phần LLM bắt buộc (Gemini structured output + baseline + ≥100 nhãn tay + chi phí + `--skip-llm`); `AI_USAGE.md`; chấm held-out snapshot; vấn đáp cá nhân; rubric 4 tiêu chí × 4 mức (30/25/25/20); placeholder deadline/phân công
 - ✅ `projects/index.html`
-- ⏸️ Xem QUESTIONS.md #1: không còn thành phố châu Á nào đủ chuẩn snapshot — cần thầy quyết có nới tiêu chí không
+- ✅ QUESTIONS.md #1 đã quyết (06/07/2026): giữ 12 thành phố chính; Bangkok/Singapore/Taipei thêm làm đối chứng tuỳ chọn
 
 ## 4. Slide + notebook từng buổi — ✅ 15/15 deck, 13/13 notebook
 
@@ -50,14 +50,12 @@ Mỗi deck nội dung kết bằng mục "Làm với AI thì sao?" (đã kiểm 
 - ✅ **Cấu trúc bắt buộc từng deck** (kiểm tự động): footer, title slide GV, agenda "Hôm nay", "Tổng kết", mục AI + badge, zenburn, `lang="vi"` — đủ 100%
 - ✅ Rubric A–E áp khi viết từng deck; mọi output code trong slide đối chiếu với kết quả chạy thật (nhiều số nháp đã bị thay bằng số thật trong quá trình kiểm)
 
-## Giảng viên cần làm (ngoài phạm vi đợt này)
+## Giảng viên cần làm (cập nhật 06/07/2026 — sau khi đã điền các quyết định)
 
-1. **Điền placeholder `{{...}}`** — vị trí đầy đủ:
-   - Mọi deck: `{{cập nhật sau}}` = tên trợ giảng ở title slide
-   - `index.html`, `projects/index.html`, `project_airbnb.html`: link spreadsheet phân công nhóm
-   - `project_airbnb.html`: 4 mốc deadline (tuần 3/8/14/15), cỡ nhóm, tài khoản GitHub trợ giảng
-   - Buổi 1: kênh liên lạc + cỡ nhóm · Buổi 9: thời lượng/cấu trúc điểm thi · Buổi 14: hạn nộp · Buổi 15: hạn nộp + lịch vấn đáp + thời lượng phiên
-2. **Trả lời QUESTIONS.md** (1 câu: thành phố châu Á cho BTL)
+> Các placeholder đã được xử lý ngày 06/07/2026 theo quyết định của giảng viên (xem cuối DECISIONS.md): bỏ thông tin GV/TA, kênh lớp = Canvas, nhóm 4–5 SV, mốc deadline theo tuần học, vấn đáp ~20'/nhóm, giữa kỳ viết giấy. Placeholder duy nhất còn lại: thời lượng & cấu trúc điểm giữa kỳ (deck buổi 9).
+
+1. **Công bố trên Canvas đầu kỳ**: spreadsheet phân công nhóm/thành phố, danh sách tài khoản GitHub của GV/TA (để nhóm mời vào repo), ngày cụ thể cho các mốc tuần 3/8/14/15 (khi có thời khoá biểu), lịch vấn đáp buổi 15.
+2. **Điền thời lượng & cấu trúc điểm giữa kỳ** vào deck buổi 9 (`{{cập nhật trước ngày thi}}`) — trước ngày thi.
 3. Soạn **bài tập về nhà hàng tuần + đề thi giữa kỳ** (đợt sau, theo kế hoạch)
 4. Duyệt nội dung → merge `2627-1-draft` vào `main` để public + kích hoạt link Colab
 5. (Khuyến nghị) Trước học kỳ: xem lại quota free tier Gemini trong AI Studio và chạy notebook buổi 11 một lần với API key thật

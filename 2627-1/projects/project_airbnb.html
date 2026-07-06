@@ -113,9 +113,9 @@
       </div>
 
       <div class="alert alert-info mb-2" role="alert">
-        <strong>Nhóm &amp; phân công thành phố:</strong> nhóm <span class="placeholder-chip">{{4–5 sinh viên}}</span>;
+        <strong>Nhóm &amp; phân công thành phố:</strong> nhóm <strong>4–5 sinh viên</strong>;
         danh sách nhóm và phân công thành phố xem tại spreadsheet
-        <span class="placeholder-chip">{{link spreadsheet — cần tài khoản VNU}}</span>.
+        công bố trên <strong>Canvas của lớp</strong> (cần tài khoản VNU).
         Mỗi nhóm phân tích <strong>một thành phố chính khác nhau</strong> — đề của các nhóm vì vậy không trùng nhau.
       </div>
 
@@ -124,8 +124,8 @@
         <ul class="mb-0">
           <li>Tạo repo <strong>private</strong> riêng cho nhóm, tên gợi ý
             <code>2627-LTXLDL-Airbnb-&lt;TenNhom&gt;</code>; mời mọi thành viên làm collaborator.</li>
-          <li>Chia sẻ quyền đọc cho giảng viên: <code>@tuanphong-uet</code>
-            <span class="placeholder-chip">{{+ tài khoản trợ giảng}}</span>, rồi điền link repo vào spreadsheet.</li>
+          <li>Chia sẻ quyền đọc (read) cho các tài khoản GitHub của giảng viên &amp; trợ giảng
+            (danh sách tài khoản công bố trên Canvas), rồi điền link repo vào spreadsheet.</li>
           <li>Toàn bộ tiến trình làm việc nằm trong lịch sử commit — <strong>commit đều tay từ đầu kỳ</strong>,
             không dồn một cục cuối kỳ. Lịch sử commit là một phần điểm làm việc nhóm.</li>
         </ul>
@@ -134,13 +134,13 @@
       <div class="alert alert-warning mb-2" role="alert">
         <strong>Các mốc thời gian</strong> (nộp bằng git tag, tính theo giờ hệ thống GitHub):
         <ul class="mb-0">
-          <li><span class="placeholder-chip">{{tuần 3 — dd/mm/yyyy}}</span>: lập nhóm, tạo repo, nhận thành phố.</li>
-          <li><span class="placeholder-chip">{{tuần 8 — dd/mm/yyyy}}</span>: nộp <strong>bản đề xuất</strong> (2–3
+          <li><strong>Tuần 3</strong> (23:59 Chủ nhật — ngày cụ thể: xem Canvas): lập nhóm, tạo repo, nhận thành phố.</li>
+          <li><strong>Tuần 8</strong> (23:59 Chủ nhật — ngày cụ thể: xem Canvas): nộp <strong>bản đề xuất</strong> (2–3
             trang): bên liên quan + câu hỏi phân tích, bộ quy tắc QA dự kiến, danh sách KPI dự kiến, kế hoạch hợp phần
             LLM. Giảng viên phản hồi, không chấm điểm.</li>
-          <li><span class="placeholder-chip">{{tuần 14 — dd/mm/yyyy}}</span>: nộp bản cuối (tag
+          <li><strong>Tuần 14</strong> (23:59 Chủ nhật — ngày cụ thể: xem Canvas): nộp bản cuối (tag
             <code>final</code>, ghi commit hash vào báo cáo).</li>
-          <li><span class="placeholder-chip">{{tuần 15 — dd/mm/yyyy}}</span>: vấn đáp từng nhóm, hỏi riêng từng
+          <li><strong>Tuần 15</strong> (theo lịch vấn đáp trên Canvas): vấn đáp từng nhóm ~20 phút, hỏi riêng từng
             thành viên.</li>
         </ul>
       </div>
@@ -296,6 +296,13 @@
         tháng gần nhất). Nửa nam bán cầu (Buenos Aires, Santiago, Rio) mùa du lịch ngược với nửa bắc — nhóm nào
         nhận các thành phố này nên khai thác điều đó. Nếu số nhóm vượt 12, giảng viên bổ sung thành phố từ danh
         sách dự phòng.
+      </p>
+      <p class="text-muted" style="font-size:0.9rem">
+        <strong>Thành phố đối chứng châu Á (tuỳ chọn):</strong> nhóm nào muốn bối cảnh gần gũi hơn có thể đăng ký
+        <strong>Bangkok</strong>, <strong>Singapore</strong> hoặc <strong>Taipei</strong> làm <em>một</em> trong các
+        thành phố đối chứng. Lưu ý: Inside Airbnb hiện chỉ giữ 2 snapshot trong ~12 tháng gần nhất cho các thành phố
+        châu Á, nên chúng <em>chỉ</em> được dùng làm đối chứng (so sánh chéo trên snapshot mới nhất) chứ không làm
+        thành phố chính; ngày snapshot cụ thể xem tại insideairbnb.com/get-the-data.
       </p>
     </section>
 
@@ -529,7 +536,7 @@ soạn văn bản, sinh ý tưởng QA/KPI...)
         <li><strong>Repo hoàn chỉnh</strong> theo cấu trúc trên, lịch sử commit đều, tag <code>final</code>.</li>
         <li><strong>Báo cáo kỹ thuật PDF</strong> (10–15 trang) trong <code>reports/</code>, ghi rõ commit hash.</li>
         <li><strong>Bộ đánh giá LLM</strong>: file nhãn tay ≥100 review + script tính điểm chất lượng.</li>
-        <li><strong>Slide vấn đáp</strong> (~10 phút trình bày) — nộp cùng repo, mục <code>reports/slides.pdf</code>.</li>
+        <li><strong>Slide vấn đáp</strong> (~5 phút trình bày trong phiên ~20 phút/nhóm) — nộp cùng repo, mục <code>reports/slides.pdf</code>.</li>
       </ol>
       <div class="alert alert-danger mb-0" role="alert">
         <strong>Bảo mật:</strong> không commit API key (dùng biến môi trường / Colab Secrets — người chấm sẽ dùng
