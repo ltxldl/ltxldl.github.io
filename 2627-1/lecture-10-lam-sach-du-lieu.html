@@ -21,9 +21,9 @@
       <!-- ====== Mở bài ====== -->
       <section>
         <section>
-          <h1>Lập trình xử lý dữ liệu</h1>
+          <h1>Lập trình <br /> xử lý dữ liệu</h1>
           <div>
-            <p><strong>Học kì:</strong> 1, năm học 2026–2027</p>
+            <p>Học kì 1, năm học 2026–2027</p>
             <p>Viện Trí tuệ nhân tạo, Trường ĐH Công nghệ, ĐHQGHN</p>
           </div>
         </section>
@@ -38,23 +38,23 @@
         </section>
 
         <section>
-          <h2>Tuần trước: thi giữa kỳ 🎉</h2>
+          <h2>Tuần trước: thi giữa kỳ</h2>
           <ul>
             <li>Nửa nền tảng đã xong: Python → NumPy → pandas → file/API/SQL → chuỗi → thời gian.</li>
             <li>Nửa sau của môn: dùng nền tảng đó để làm <strong>dữ liệu đáng tin</strong> —
-              bắt đầu từ buổi hôm nay, buổi "bẩn" nhất.</li>
+              bắt đầu từ buổi này, buổi "bẩn" nhất.</li>
           </ul>
         </section>
 
         <section>
-          <h2>Hôm nay</h2>
+          <h2>Tổng quan</h2>
           <ol>
             <li>Tư duy QA: gắn cờ, đừng xoá</li>
             <li>Giá trị thiếu (missing values)</li>
             <li>Ngoại lệ (outlier) &amp; sai miền</li>
             <li>Trùng lặp</li>
             <li>Đóng gói thành bộ quy tắc QA</li>
-            <li>Làm với AI thì sao?</li>
+            <li>Làm việc với AI thì sao?</li>
           </ol>
         </section>
       </section>
@@ -67,13 +67,13 @@
         </section>
 
         <section>
-          <h2>1.1. Ba họ lỗi — bản đồ buổi học</h2>
+          <h2>Ba họ lỗi — bản đồ buổi học</h2>
           <table class="compact-table">
             <thead>
               <tr>
                 <th>Họ lỗi</th>
-                <th>Ở Santiago hôm nay</th>
-                <th>Vũ khí</th>
+                <th>Ở dữ liệu Santiago</th>
+                <th>Công cụ</th>
               </tr>
             </thead>
             <tbody>
@@ -97,7 +97,7 @@
         </section>
 
         <section>
-          <h2>1.2. Nguyên tắc 1: gắn cờ, đừng xoá</h2>
+          <h2>Nguyên tắc 1: gắn cờ, đừng xoá</h2>
           <div class="two-col">
             <div>
               <h4 class="text-red">Xoá thẳng tay</h4>
@@ -115,15 +115,15 @@
             </div>
           </div>
           <div class="key-box">
-            <span class="box-title">Điểm chốt</span>
+            <span class="box-title">Quan trọng</span>
             Xoá là quyết định <em>một lần cho tất cả</em>; gắn cờ là quyết định
-            <em>từng phân tích một</em>. Đề BTL yêu cầu đúng chữ này: "ưu tiên gắn cờ".
+            <em>từng phân tích một</em>. Đề bài tập lớn yêu cầu đúng chữ này: "ưu tiên gắn cờ".
           </div>
         </section>
 
         <section>
-          <h2>1.3. Nguyên tắc 2: QA là quy tắc, không phải cảm hứng</h2>
-          <p>Một quy tắc QA tử tế có đủ bốn phần:</p>
+          <h2>Nguyên tắc 2: QA là quy tắc, không phải cảm hứng</h2>
+          <p>Một quy tắc QA hoàn chỉnh có đủ bốn phần:</p>
           <div class="pipeline">
             <div class="stage">
               <div class="stage-title">Tên</div>
@@ -154,11 +154,11 @@
       <section>
         <section>
           <h1><span class="text-light">2.</span><br>Giá trị thiếu</h1>
-          <p class="text-light">Ô trống cũng biết nói — nếu bạn chịu hỏi nó.</p>
+          <p class="text-light">Ô trống cũng mang thông tin — nếu bạn đặt đúng câu hỏi.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>2.1. Đo trước đã</h2>
+          <h2>Đo trước khi xử lý</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
 (df.isna().mean() * 100).round(1).sort_values(ascending=False).head(3)
@@ -169,11 +169,11 @@ bedrooms                12.6
 price_num                4.6
             </code></pre>
           </div>
-          <p>Ba cột, ba câu chuyện thiếu khác nhau — và ba cách xử khác nhau.</p>
+          <p>Ba cột, ba câu chuyện thiếu khác nhau — và ba cách xử lý khác nhau.</p>
         </section>
 
         <section>
-          <h2>2.2. Thiếu VÌ SAO quan trọng hơn thiếu BAO NHIÊU</h2>
+          <h2>Thiếu <em>vì sao</em> quan trọng hơn thiếu <em>bao nhiêu</em></h2>
           <ul>
             <li><span class="inline-code">review_scores</span>: phòng <em>chưa có review</em> —
               thiếu có hệ thống; điền 0 hay trung bình đều sai nghĩa.</li>
@@ -181,14 +181,14 @@ price_num                4.6
             <li><span class="inline-code">price</span>: có thể phòng ngừng cho thuê — thiếu mang thông tin.</li>
           </ul>
           <div class="key-box">
-            <span class="box-title">Điểm chốt</span>
+            <span class="box-title">Quan trọng</span>
             Trước khi điền/bỏ, trả lời: <em>cơ chế nào sinh ra ô trống này?</em>
-            Cách thiếu quyết định cách xử.
+            Cách thiếu quyết định cách xử lý.
           </div>
         </section>
 
         <section data-jp-reset>
-          <h2>2.3. dropna — được phép, khi nói rõ</h2>
+          <h2>dropna — được phép, khi nói rõ</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
 kpi_gia = df.dropna(subset=["price_num"])
@@ -204,7 +204,7 @@ len(df) - len(kpi_gia)
         </section>
 
         <section data-jp-reset>
-          <h2>2.4. fillna hằng số: rẻ mà thường đắt</h2>
+          <h2>fillna hằng số: tiện nhưng nhiều rủi ro</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
 df["bedrooms"].median()                 # 1.0
@@ -215,15 +215,15 @@ df["bedrooms"].fillna(df["bedrooms"].median()).mean().round(2)
             <span class="box-title">Cẩn thận</span>
             Điền median cả cột: 2.337 phòng bỗng "1 phòng ngủ" — phân phối bị bóp về giữa,
             phương sai giả tạo giảm. Điền để <em>pipeline chạy</em> thì được;
-            điền rồi <em>quên mất mình đã điền</em> mới là thảm hoạ.
+            điền rồi <em>quên mất mình đã điền</em> mới là vấn đề thật sự.
           </div>
         </section>
 
         <section data-jp-reset>
-          <h2>2.5. Điền theo nhóm + cắm cờ — combo tử tế</h2>
+          <h2>Điền theo nhóm + gắn cờ — cách làm chuẩn</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
-df["bedrooms_isna"] = df["bedrooms"].isna()          # cờ TRƯỚC
+df["bedrooms_isna"] = df["bedrooms"].isna()          # gắn cờ trước khi điền
 
 df["bedrooms"] = df["bedrooms"].fillna(
     df.groupby("room_type")["bedrooms"].transform("median"))
@@ -232,7 +232,7 @@ df["bedrooms"] = df["bedrooms"].fillna(
           <ul>
             <li>Điền theo median <em>của loại phòng đó</em> (transform buổi 5) —
               hợp lý hơn median toàn cục.</li>
-            <li>Cột cờ giữ ký ức: sau này muốn phân tích riêng nhóm "đã điền" vẫn còn đường.</li>
+            <li>Cột cờ lưu lại dấu vết: sau này vẫn phân tích riêng được nhóm "đã điền".</li>
           </ul>
         </section>
       </section>
@@ -245,7 +245,7 @@ df["bedrooms"] = df["bedrooms"].fillna(
         </section>
 
         <section data-jp-reset>
-          <h2>3.1. Sai miền: luật cứng, xử trước</h2>
+          <h2>Sai miền: quy tắc cứng, xử lý trước</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
 rules = {
@@ -266,7 +266,7 @@ rules = {
         </section>
 
         <section>
-          <h2>3.2. Outlier thống kê: nhìn phân phối trước</h2>
+          <h2>Outlier thống kê: nhìn phân phối trước</h2>
           <figure class="fig">
             <img src="img/lecture-10/phan-phoi-gia.png" alt="Phân phối giá thang thường và thang log"
               style="width:96%">
@@ -276,7 +276,7 @@ rules = {
         </section>
 
         <section data-jp-reset>
-          <h2>3.3. IQR trên phân phối lệch: quá tay</h2>
+          <h2>IQR trên phân phối lệch: gắn cờ quá rộng</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
 q1, q3 = gia.quantile([0.25, 0.75])
@@ -288,13 +288,13 @@ fence, (gia > fence).mean().round(3)
 (164784.0, 0.085)
             </code></pre>
           </div>
-          <p>Luật "1.5×IQR" gắn cờ <strong>8,5%</strong> thị trường — với phân phối giá lệch phải,
-            thế là vơ cả phân khúc cao cấp vào rọ. Thay thế: IQR trên
+          <p>Quy tắc "1.5×IQR" gắn cờ <strong>8,5%</strong> thị trường — với phân phối giá lệch phải,
+            nó gắn cờ nhầm cả phân khúc cao cấp. Thay thế: IQR trên
             <em>log(giá)</em>, hoặc ngưỡng percentile (P99: chỉ 177 phòng ≈ 1%).</p>
         </section>
 
         <section data-jp-reset>
-          <h2>3.4. Điều tra một nghi phạm</h2>
+          <h2>Điều tra một ca nghi vấn</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
 df.nlargest(1, "price_num")[["name", "minimum_nights",
@@ -311,7 +311,7 @@ df.nlargest(1, "price_num")[["name", "minimum_nights",
         </section>
 
         <section>
-          <h2>3.5. Bảng quyết định xử lý outlier</h2>
+          <h2>Bảng quyết định xử lý outlier</h2>
           <table class="compact-table">
             <thead>
               <tr>
@@ -342,11 +342,11 @@ df.nlargest(1, "price_num")[["name", "minimum_nights",
       <section>
         <section>
           <h1><span class="text-light">4.</span><br>Trùng lặp</h1>
-          <p class="text-light">Một bản ghi xuất hiện hai lần = mọi phép đếm sai một nửa… kiểu gì đó.</p>
+          <p class="text-light">Một bản ghi xuất hiện hai lần làm mọi phép đếm và phép cộng lệch theo.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>4.1. duplicated: toàn dòng và theo khoá</h2>
+          <h2>duplicated: toàn dòng và theo khoá</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
 df.duplicated().sum()            # dòng giống hệt nhau
@@ -356,13 +356,13 @@ df["id"].duplicated().sum()      # khoá chính lặp
 0
             </code></pre>
           </div>
-          <p>Santiago 06/2026 sạch trùng lặp <em>trong một snapshot</em> — nhưng đừng vội mừng:
-            kiểm khoá chính là nghi thức bắt buộc với <strong>mọi</strong> bảng mới,
+          <p>Santiago 06/2026 sạch trùng lặp <em>trong một snapshot</em> — nhưng đừng vội yên tâm:
+            kiểm tra khoá chính là thói quen bắt buộc với <strong>mọi</strong> bảng mới,
             nhất là sau merge/concat.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>4.2. "Trùng" giữa các snapshot: không phải lỗi!</h2>
+          <h2>"Trùng" giữa các snapshot: không phải lỗi!</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
 ca_hai = pd.concat([t9, t6])
@@ -373,23 +373,23 @@ ca_hai["id"].duplicated().sum()
             </code></pre>
           </div>
           <div class="key-box">
-            <span class="box-title">Điểm chốt</span>
+            <span class="box-title">Quan trọng</span>
             12.429 id có mặt ở cả hai snapshot = cùng một phòng được chụp hai thời điểm —
-            đó là <strong>dữ liệu panel</strong>, thứ quý nhất của BTL. Khoá đúng của bảng gộp là
+            đó là <strong>dữ liệu panel</strong>, thứ quý nhất của bài tập lớn. Khoá đúng của bảng gộp là
             <em>(id, snapshot)</em>, không phải id. Trùng hay không phụ thuộc vào
             <strong>khoá bạn định nghĩa</strong>.
           </div>
         </section>
 
         <section>
-          <h2>4.3. Trùng "mềm" — khi khoá không cứu được</h2>
+          <h2>Trùng "mềm" — khi khoá chính không đủ</h2>
           <div class="slide-badge-row"><span class="self-study-badge">📖 Tự học</span></div>
           <ul>
             <li>Cùng căn hộ, chủ đăng hai listing khác id (ảnh khác, tên hơi khác) —
-              khoá chính bó tay.</li>
+              khoá chính không nhận ra.</li>
             <li>Manh mối: trùng toạ độ (làm tròn 4 chữ số), cùng host_id, tên tương tự.</li>
             <li>Bài toán record linkage thực thụ — ngoài phạm vi môn, nhưng đáng biết là nó tồn tại
-              (và là một hướng "nâng cao" của BTL).</li>
+              (và là một hướng "nâng cao" của bài tập lớn).</li>
           </ul>
         </section>
       </section>
@@ -402,7 +402,7 @@ ca_hai["id"].duplicated().sum()
         </section>
 
         <section data-jp-reset>
-          <h2>5.1. Mỗi quy tắc một mặt nạ, gom vào một chỗ</h2>
+          <h2>Mỗi quy tắc một mặt nạ, gom vào một chỗ</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
 def qa_rules(df):
@@ -421,7 +421,7 @@ def qa_rules(df):
         </section>
 
         <section data-jp-reset>
-          <h2>5.2. Báo cáo tác động: qa_report</h2>
+          <h2>Báo cáo tác động: qa_report</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
 report = pd.DataFrame([
@@ -440,11 +440,11 @@ report
             </code></pre>
           </div>
           <p>Bảng này đi thẳng vào <span class="inline-code">reports/qa_report.csv</span>
-            của BTL — và vào báo cáo cuối: "QA của nhóm bắt được gì, ảnh hưởng bao nhiêu".</p>
+            của bài tập lớn — và vào báo cáo cuối: "QA của nhóm bắt được gì, ảnh hưởng bao nhiêu".</p>
         </section>
 
         <section>
-          <h2>5.3. Trước/sau QA: KPI đổi bao nhiêu?</h2>
+          <h2>Trước/sau QA: KPI đổi bao nhiêu?</h2>
           <table class="compact-table">
             <thead>
               <tr>
@@ -467,16 +467,16 @@ report
             </tbody>
           </table>
           <div class="key-box">
-            <span class="box-title">Điểm chốt</span>
-            177 dòng (chưa đến 1%) thổi mean phồng lên 44% — còn median gần như đứng im.
-            Báo cáo "trước/sau QA" chính là bằng chứng QA của bạn <em>đáng tiền</em>.
+            <span class="box-title">Quan trọng</span>
+            177 dòng (chưa đến 1%) đẩy mean tăng 44% — còn median gần như đứng im.
+            Báo cáo "trước/sau QA" chính là bằng chứng cho giá trị bộ QA của bạn.
           </div>
         </section>
 
         <section>
-          <h2>5.4. Và phải sống sót qua snapshot khác</h2>
+          <h2>Và phải sống sót qua snapshot khác</h2>
           <ul>
-            <li>Bộ QA của BTL sẽ chạy trên <strong>snapshot held-out</strong> khi chấm —
+            <li>Bộ QA của bài tập lớn sẽ chạy trên <strong>snapshot held-out</strong> khi chấm —
               cột có thể thêm/bớt (nhớ <code>host_since</code> trống 100% ở bản 06/2026?).</li>
             <li>Viết quy tắc phòng thủ: kiểm tra cột tồn tại trước khi dùng;
               ngưỡng percentile tính <em>trên snapshot đang xử lý</em>, không hard-code.</li>
@@ -499,8 +499,8 @@ report
         </section>
 
         <section>
-          <h2>Làm với AI thì sao?</h2>
-          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <h2>Làm việc với AI thì sao?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
           <div class="good-box">
             <span class="box-title">AI làm tốt</span>
             Gợi ý danh sách quy tắc QA cho một schema (brainstorm rất rộng); viết code
@@ -508,7 +508,7 @@ report
           </div>
           <div class="warn-box">
             <span class="box-title">AI hay sai</span>
-            Mặc định <code>dropna()</code> toàn bảng "cho sạch"; áp IQR mù quáng lên phân phối lệch;
+            Mặc định <code>dropna()</code> toàn bảng "cho sạch"; áp IQR máy móc lên phân phối lệch;
             đề xuất quy tắc nghe hợp lý nhưng <em>sai với thành phố của bạn</em> (ngưỡng giá Paris
             áp cho Santiago).
           </div>
@@ -516,7 +516,7 @@ report
 
         <section>
           <h2>Kiểm chứng thế nào?</h2>
-          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
           <ul>
             <li>Bắt mọi quy tắc AI đề xuất phải qua bảng 4 phần — không nêu được <em>lý do</em>
               thì loại.</li>
@@ -528,8 +528,9 @@ report
         <section>
           <h2>Đọc thêm</h2>
           <ul>
-            <li>McKinney, 3rd ed. — ch. 7 (Data Cleaning and Preparation).</li>
-            <li>Đề BTL — mục "Làm sạch &amp; QA": yêu cầu và tiêu chuẩn của bộ quy tắc nhóm
+            <li>McKinney, <em>Python for Data Analysis</em>, 3rd ed. — ch. 7 (Data Cleaning
+              and Preparation).</li>
+            <li>Đề bài tập lớn — mục "Làm sạch &amp; QA": yêu cầu và tiêu chuẩn của bộ quy tắc nhóm
               tự đề xuất.</li>
           </ul>
         </section>
