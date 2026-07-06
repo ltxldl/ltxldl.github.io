@@ -21,9 +21,9 @@
       <!-- ====== Mở bài ====== -->
       <section>
         <section>
-          <h1>Lập trình xử lý dữ liệu</h1>
+          <h1>Lập trình <br /> xử lý dữ liệu</h1>
           <div>
-            <p><strong>Học kì:</strong> 1, năm học 2026–2027</p>
+            <p>Học kì 1, năm học 2026–2027</p>
             <p>Viện Trí tuệ nhân tạo, Trường ĐH Công nghệ, ĐHQGHN</p>
           </div>
         </section>
@@ -32,12 +32,12 @@
           <h1>
             <span class="text-light">Bài 1</span>
             <br>
-            Tổng quan môn học, công cụ &amp; chính sách AI
+            Tổng quan môn học, công cụ &amp; <br /> chính sách AI
           </h1>
         </section>
 
         <section>
-          <h2>Hôm nay</h2>
+          <h2>Tổng quan</h2>
           <ol>
             <li>Môn này học gì?</li>
             <li>Công cụ làm việc</li>
@@ -51,12 +51,12 @@
       <section>
         <section>
           <h1><span class="text-light">1.</span><br>Môn này học gì?</h1>
-          <p class="text-light">Từ dữ liệu thô lộn xộn đến kết luận đáng tin.</p>
+          <p class="text-light">Dữ liệu thô → dữ liệu sạch → thông tin → quyết định.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>1.1. Dữ liệu thật trông như thế này</h2>
-          <p>Một mẩu dữ liệu Airbnb thật (chính là dữ liệu bài tập lớn của bạn):</p>
+          <h2>Dữ liệu thật nhìn thế nào?</h2>
+          <p>Một phần dữ liệu Airbnb thật (chính là dữ liệu bài tập lớn):</p>
           <div class="jp-cell">
             <pre class="jp-output" data-jp-n=" "><code class="language-text" data-trim>
 id,name,price,minimum_nights,review_scores_rating
@@ -68,12 +68,12 @@ id,name,price,minimum_nights,review_scores_rating
           <ul>
             <li>Giá là <em>chuỗi ký tự</em>, có ô bỏ trống, có giá $1 và yêu cầu ở 999 đêm.</li>
           </ul>
-          <p>Dữ liệu thật <strong>bẩn</strong> — và kết luận rút từ dữ liệu bẩn thì… cũng bẩn.</p>
+          <p>Dữ liệu thật <strong>bẩn</strong> → kết luận rút từ dữ liệu bẩn thì… cũng bẩn.</p>
         </section>
 
         <section>
-          <h2>1.2. "Xử lý dữ liệu" = con đường từ thô đến giá trị</h2>
-          <div class="pipeline">
+          <h2>"Xử lý dữ liệu" = quá trình từ dữ liệu thô đến quyết định</h2>
+          <div class="pipeline" style="font-size: 0.7em;">
             <div class="stage">
               <div class="stage-title">Thu thập</div>
               <div class="stage-desc">file, API, web, SQL</div>
@@ -99,36 +99,35 @@ id,name,price,minimum_nights,review_scores_rating
               <div class="stage-desc">báo cáo, quyết định</div>
             </div>
           </div>
-          <p style="margin-top:0.8em">Môn này dạy bạn <strong>tự tay xây cả con đường đó</strong> bằng Python —
-            và đến cuối kỳ, bạn xây nó thật với dữ liệu Airbnb của một thành phố.</p>
+          <p style="margin-top:0.8em">Môn này dạy bạn <strong>tự xây dựng quá trình đó</strong> bằng Python.</p>
         </section>
 
         <section>
-          <h2>1.3. Phần lớn thời gian không phải là "phân tích"</h2>
+          <h2>Phần lớn thời gian không phải là "phân tích dữ liệu"</h2>
           <ul>
             <li>Người làm dữ liệu thường dành <strong>phần lớn thời gian</strong> cho việc chuẩn bị:
-              gom, dọn, chuẩn hoá, kiểm tra.</li>
-            <li>Mô hình hoá/phân tích chỉ là phần nổi — và chỉ đáng tin khi phần chìm làm tử tế.</li>
+              thu thập, dọn dẹp, chuẩn hoá, kiểm tra.</li>
+            <li>Mô hình hoá/phân tích chỉ là phần nổi — và chỉ đáng tin khi phần chìm làm tốt.</li>
           </ul>
           <div class="key-box">
-            <span class="box-title">Điểm chốt</span>
+            <span class="box-title">Quan trọng</span>
             Kỹ năng "làm dữ liệu sạch và đúng" là kỹ năng đáng giá nhất môn này dạy bạn —
-            AI càng mạnh, kỹ năng này càng quan trọng chứ không kém đi.
+            AI càng mạnh, kỹ năng này càng quan trọng.
           </div>
         </section>
 
         <section>
-          <h2>1.4. Môn này đứng ở đâu?</h2>
+          <h2>Môn này đứng ở đâu?</h2>
           <ul>
-            <li><strong>Trước nó:</strong> Tư duy tính toán — bạn đã biết Python cơ bản.</li>
+            <li><strong>Tiên quyết:</strong> Tư duy tính toán — bạn đã biết Python cơ bản.</li>
             <li><strong>Môn này:</strong> làm chủ dữ liệu bằng NumPy, pandas, trực quan hoá, và LLM.</li>
-            <li><strong>Sau nó:</strong> Học máy, Khoa học dữ liệu — đều đứng trên vai kỹ năng xử lý
+            <li><strong>Sau môn này:</strong> Học máy, Khoa học dữ liệu — đều tận dụng kỹ năng xử lý
               dữ liệu.</li>
           </ul>
         </section>
 
         <section>
-          <h2>1.5. Lộ trình 15 buổi</h2>
+          <h2>Lộ trình 15 buổi</h2>
           <table class="compact-table">
             <thead>
               <tr>
@@ -167,44 +166,44 @@ id,name,price,minimum_nights,review_scores_rating
       <!-- ====== Phần 2: Công cụ ====== -->
       <section>
         <section>
-          <h1><span class="text-light">2.</span><br>Công cụ làm việc</h1>
+          <h1><span class="text-light">2.</span><br>Công cụ</h1>
           <p class="text-light">Python + notebook + môi trường tái lập được.</p>
         </section>
 
         <section>
-          <h2>2.1. Vì sao Python?</h2>
+          <h2>Vì sao dùng Python?</h2>
           <ul>
             <li>Hệ sinh thái dữ liệu mạnh nhất hiện nay: NumPy, pandas, matplotlib, DuckDB…</li>
-            <li>Một ngôn ngữ đi từ nháp phân tích đến pipeline chạy thật.</li>
-            <li>Là "tiếng mẹ đẻ" của cả AI: gọi LLM, viết mô hình đều bằng Python.</li>
+            <li>Một ngôn ngữ, đi từ phân tích nháp đến pipeline chạy thật.</li>
+            <li>Là ngôn ngữ chính của cả ngành AI: gọi LLM, viết mô hình đều bằng Python.</li>
           </ul>
         </section>
 
         <section>
-          <h2>2.2. Hai môi trường bạn sẽ dùng</h2>
+          <h2>Hai môi trường bạn sẽ dùng</h2>
           <div class="two-col">
             <div>
               <h4>Google Colab</h4>
               <ul>
-                <li>Notebook trên mây, <strong>không cần cài gì</strong>.</li>
+                <li>Notebook trên cloud, <strong>không cần cài gì</strong>.</li>
                 <li>Thư viện dữ liệu có sẵn; chia sẻ như Google Docs.</li>
-                <li>Dùng cho: bài giảng, bài tập tại lớp.</li>
+                <li>Dùng trong bài giảng, bài tập tại lớp.</li>
               </ul>
             </div>
             <div>
-              <h4>VS Code + venv (máy mình)</h4>
+              <h4>VS Code + venv (máy bạn)</h4>
               <ul>
-                <li>Kiểm soát đầy đủ, làm việc với repo Git.</li>
-                <li>Môi trường tự quản — cài gì, phiên bản nào.</li>
-                <li>Dùng cho: <strong>bài tập lớn</strong> (pipeline thật).</li>
+                <li>Tự kiểm soát, làm việc với repo Git.</li>
+                <li>Tự cài thư viện, tự chọn phiên bản.</li>
+                <li>Dùng trong <strong>bài tập lớn</strong> (pipeline thật).</li>
               </ul>
             </div>
           </div>
         </section>
 
         <section data-jp-reset>
-          <h2>2.3. Notebook: code + chữ + kết quả trong một chỗ</h2>
-          <p>Tài liệu sống, chạy từng ô (cell) một:</p>
+          <h2>Notebook: code + mô tả / hướng dẫn + kết quả cùng một nơi</h2>
+          <p>Notebook là một tài liệu sống, có thể chạy từng ô (cell) một:</p>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
 import pandas as pd
@@ -217,44 +216,46 @@ df.shape
 (344, 7)
             </code></pre>
           </div>
-          <p>Notebook hôm nay sẽ cho bạn chạy thử toàn bộ — kể cả khi chưa hiểu code, cứ bấm đã.</p>
+          <p>Notebook buổi này sẽ cho bạn chạy thử toàn bộ — kể cả khi chưa hiểu code cũng có thể chạy để xem kết quả.
+          </p>
         </section>
 
         <section data-jp-reset>
-          <h2>2.4. venv: mỗi dự án một "hộp" thư viện riêng</h2>
-          <p>Trên máy cá nhân, tách môi trường từng dự án để không giẫm chân nhau:</p>
+          <h2>venv: mỗi dự án đóng gói một bộ thư viện tách biệt</h2>
+          <p>Trên máy cá nhân, dùng <span class="inline-code">venv</span> để tách môi trường từng dự án, tránh giẫm chân
+            nhau (xung đột thư viện):</p>
           <div class="jp-cell jp-plain">
             <pre class="jp-input"><code class="language-bash" data-trim>
-python -m venv .venv                 # tạo hộp
-source .venv/bin/activate            # bước vào hộp (Windows: .venv\Scripts\activate)
-pip install pandas matplotlib        # cài vào hộp, không đụng máy chung
+python -m venv .venv          # tạo môi trường tại thư mục .venv
+source .venv/bin/activate     # đi vào môi trường (Windows: .venv\Scripts\activate)
+pip install pandas matplotlib # cài thư viện vào môi trường, không đụng máy chung
             </code></pre>
           </div>
           <p>Xoá thư mục <span class="inline-code">.venv</span> là sạch — máy không "rác" thư viện.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>2.5. requirements.txt: môi trường tái lập được</h2>
+          <h2>requirements.txt: môi trường có thể tái lập</h2>
           <div class="jp-cell jp-plain">
             <pre class="jp-input"><code class="language-bash" data-trim>
-pip freeze > requirements.txt        # chụp lại danh sách thư viện
-pip install -r requirements.txt      # máy khác dựng lại y hệt
+pip freeze > requirements.txt        # tạo bản chụp danh sách thư viện
+pip install -r requirements.txt      # máy khác có thể dựng lại y hệt
             </code></pre>
           </div>
           <div class="key-box">
-            <span class="box-title">Điểm chốt</span>
-            "Chạy trên máy em thì được mà!" không phải câu chấp nhận được trong môn này —
-            bài tập lớn sẽ được chấm bằng cách <em>chạy lại trên máy khác</em>.
+            <span class="box-title">Quan trọng</span>
+            Câu "Chạy trên máy em thì được mà!" không được chấp nhận trong môn này —
+            bài tập lớn sẽ được chấm bằng cách <em>chạy lại tự động trên một máy khác</em>.
           </div>
         </section>
 
         <section>
-          <h2>2.6. Git &amp; GitHub</h2>
+          <h2>Git &amp; GitHub</h2>
           <ul>
-            <li>Lịch sử mọi thay đổi của code — quay lại được, ai làm gì rõ ràng.</li>
+            <li>Git ghi lại lịch sử mọi thay đổi của code — có thể quay lại được, ai làm gì đều rõ ràng.</li>
             <li>Bài tập lớn nộp bằng <strong>repo GitHub private</strong> của nhóm; lịch sử commit
               là một phần điểm làm việc nhóm.</li>
-            <li>Chưa quen Git? Sẽ có hướng dẫn ngắn kèm đề bài tập lớn — bắt đầu dùng từ tuần 3.</li>
+            <li>Chưa quen với Git? Sẽ có hướng dẫn ngắn kèm đề bài tập lớn — bắt đầu dùng từ tuần 3.</li>
           </ul>
         </section>
       </section>
@@ -263,11 +264,11 @@ pip install -r requirements.txt      # máy khác dựng lại y hệt
       <section>
         <section>
           <h1><span class="text-light">3.</span><br>Học và làm việc với AI</h1>
-          <p class="text-light">Chuyện phải nói thẳng ngay buổi đầu.</p>
+          <p class="text-light">Minh bạch với AI: khai báo, hiểu, kiểm chứng.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>3.1. Sự thật: AI viết code dữ liệu rất khá</h2>
+          <h2>AI viết code dữ liệu rất tốt</h2>
           <p>Hỏi một chatbot: <em>"Tính giá trung bình theo loại phòng từ listings.csv"</em>:</p>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
@@ -277,13 +278,14 @@ df = pd.read_csv("listings.csv")
 df.groupby("room_type")["price"].mean()
             </code></pre>
           </div>
-          <p>Đúng cú pháp, chạy được, mất 3 giây. Vậy… môn này còn dạy gì?</p>
+          <p>Đúng cú pháp, chạy được, mất 3 giây. Vậy… môn này còn có thể dạy gì cho bạn?</p>
         </section>
 
         <section data-jp-reset>
-          <h2>3.2. Nhưng nhìn kỹ: nó vừa chọn hộ bạn một quy ước</h2>
-          <p>Cột <span class="inline-code">price</span> có ô trống. <code>mean()</code> lặng lẽ
-            <strong>bỏ qua</strong> chúng:</p>
+          <h2>Quan sát kỹ: AI vừa chọn thay bạn một quy ước</h2>
+          <p>Cột <span class="inline-code">price</span> có ô trống. Dùng <code>mean()</code> sẽ lặng lẽ
+            <strong>bỏ qua</strong> chúng:
+          </p>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
 prices = pd.Series([100, 200, None, None, 300])
@@ -294,26 +296,26 @@ prices.mean()          # bỏ ô trống: (100+200+300)/3
             </code></pre>
           </div>
           <p>Nếu ô trống nghĩa là "phòng ngừng cho thuê" thì bỏ qua là đúng; nếu là "quên khai giá"
-            thì con số này <strong>đánh lừa bạn</strong>. AI không hỏi — nó cứ chọn.</p>
+            thì con số này <strong>đánh lừa bạn</strong>. Trong trường hợp này, AI không hỏi — nó tự động chọn.</p>
         </section>
 
         <section>
-          <h2>3.3. Mục tiêu môn học, phiên bản 2026</h2>
+          <h2>Mục tiêu môn học, phiên bản 2026</h2>
           <div class="key-box">
-            <span class="box-title">Điểm chốt</span>
-            Mục tiêu không còn là "tự tay gõ mọi dòng code" — mà là <strong>chỉ đạo</strong> được công cụ
-            (kể cả AI) và <strong>kiểm chứng</strong> được kết quả. Muốn làm cả hai, bạn vẫn phải
+            <span class="box-title">Quan trọng</span>
+            Mục tiêu không còn là "tự tay gõ mọi dòng code" — mà là <strong>chỉ đạo</strong> được các bộ công cụ
+            (kể cả AI) và <strong>kiểm chứng</strong> được kết quả. Muốn làm được cả hai điều này, bạn vẫn phải
             <em>hiểu code đến từng dòng</em>.
           </div>
-          <p>Người không hiểu code sẽ không thấy cái <code>mean()</code> kia có vấn đề —
-            và ký tên vào một báo cáo sai.</p>
+          <p>Người không hiểu code sẽ không thấy hàm <code>mean()</code> vừa rồi có vấn đề —
+            và tạo ra (= chịu trách nhiệm với) một báo cáo sai.</p>
         </section>
 
         <section>
-          <h2>3.4. Hai chế độ đánh giá</h2>
+          <h2>Hai chế độ đánh giá</h2>
           <div class="two-col">
             <div>
-              <h4>🔒 Đóng — không AI</h4>
+              <h4>🔒 Đóng — không dùng AI</h4>
               <ul>
                 <li>Quiz trên lớp</li>
                 <li>Thi giữa kỳ (giám sát)</li>
@@ -322,7 +324,7 @@ prices.mean()          # bỏ ô trống: (100+200+300)/3
               <p class="text-light">Đo nền tảng của <em>chính bạn</em>.</p>
             </div>
             <div>
-              <h4>🔓 Mở — AI được phép</h4>
+              <h4>🔓 Mở — Được dùng AI</h4>
               <ul>
                 <li>Bài tập về nhà</li>
                 <li>Bài tập lớn (60%)</li>
@@ -334,19 +336,20 @@ prices.mean()          # bỏ ô trống: (100+200+300)/3
         </section>
 
         <section>
-          <h2>3.5. Dùng AI ở chế độ mở: 3 nghĩa vụ</h2>
+          <h2>3 trách nhiệm khi dùng AI ở chế độ mở</h2>
           <ul>
-            <li><strong>Khai báo</strong> — dùng gì, vào việc gì (bài tập lớn: file
-              <span class="inline-code">AI_USAGE.md</span>).</li>
+            <li><strong>Khai báo</strong> — dùng gì, vào việc gì (bài tập lớn: điền vào file
+              <span class="inline-code">AI_USAGE.md</span>).
+            </li>
             <li><strong>Hiểu</strong> — giải thích được mọi dòng mình nộp; vấn đáp sẽ hỏi từng người.</li>
             <li><strong>Kiểm chứng</strong> — tự chịu trách nhiệm về đúng/sai. "AI bảo thế" không phải
               câu trả lời.</li>
           </ul>
-          <p class="text-light">Khai báo đầy đủ không bị trừ điểm — giấu mới là vấn đề.</p>
+          <p class="text-light">Khai báo đầy đủ không bị trừ điểm — giấu diếm là vấn đề.</p>
         </section>
 
         <section>
-          <h2>3.6. Ranh giới gian lận — rõ ràng từ hôm nay</h2>
+          <h2>Minh bạch ranh giới gian lận</h2>
           <div class="warn-box">
             <span class="box-title">Gian lận</span>
             Dùng AI trong quiz / thi giữa kỳ / vấn đáp · khai man hoặc giấu việc dùng AI ·
@@ -361,11 +364,11 @@ prices.mean()          # bỏ ô trống: (100+200+300)/3
         </section>
 
         <section>
-          <h2>3.7. Quy trình làm việc có trách nhiệm với AI</h2>
-          <div class="pipeline">
+          <h2>Quy trình làm việc với AI có trách nhiệm</h2>
+          <div class="pipeline" style="font-size: 0.7em;">
             <div class="stage">
               <div class="stage-title">1. Tự phác</div>
-              <div class="stage-desc">định làm gì, mong đợi gì?</div>
+              <div class="stage-desc">định làm gì, mong đợi kết quả gì?</div>
             </div>
             <div class="arrow">→</div>
             <div class="stage">
@@ -375,25 +378,25 @@ prices.mean()          # bỏ ô trống: (100+200+300)/3
             <div class="arrow">→</div>
             <div class="stage">
               <div class="stage-title">3. Đọc hiểu</div>
-              <div class="stage-desc">từng dòng; lạ thì tra docs</div>
+              <div class="stage-desc">từng dòng; thấy lạ thì tra docs</div>
             </div>
             <div class="arrow">→</div>
             <div class="stage stage-highlight">
               <div class="stage-title">4. Kiểm chứng</div>
-              <div class="stage-desc">thử trên mẫu tự tính tay</div>
+              <div class="stage-desc">thử trên các mẫu tự tính tay</div>
             </div>
             <div class="arrow">→</div>
             <div class="stage">
               <div class="stage-title">5. Khai báo</div>
-              <div class="stage-desc">ghi vào AI_USAGE</div>
+              <div class="stage-desc">ghi vào AI_USAGE.md</div>
             </div>
           </div>
-          <p style="margin-top:0.6em">Bước 4 phân biệt người làm dữ liệu với người bấm nút —
-            mỗi buổi học đều kết bằng mục <strong>"Làm với AI thì sao?"</strong> cho đúng bước này.</p>
+          <p style="margin-top:0.6em">Bước 4 phân biệt người làm dữ liệu với người chỉ bấm nút AI —
+            mỗi buổi học sẽ đều có mục <strong>"Làm với AI thì sao?"</strong> để hướng dẫn bạn.</p>
         </section>
 
         <section>
-          <h2>3.8. Thử ngay trong notebook hôm nay</h2>
+          <h2>Thử ngay với notebook buổi này</h2>
           <div class="question-box">
             <div class="question-title">Bài tập tại lớp</div>
             <div class="question-content">
@@ -413,7 +416,7 @@ prices.mean()          # bỏ ô trống: (100+200+300)/3
         </section>
 
         <section>
-          <h2>4.1. Cơ cấu điểm</h2>
+          <h2>Cơ cấu điểm</h2>
           <table class="compact-table">
             <thead>
               <tr>
@@ -440,38 +443,40 @@ prices.mean()          # bỏ ô trống: (100+200+300)/3
               </tr>
             </tbody>
           </table>
-          <p>60% nằm ở bài tập lớn — môn này <strong>thắng thua ở sản phẩm</strong>, không ở học thuộc.</p>
+          <p>60% nằm ở bài tập lớn — thành công trong môn học này được <strong>quyết định bởi sản phẩm</strong>, không
+            phải học thuộc.</p>
         </section>
 
         <section>
-          <h2>4.2. Bài tập lớn: Inside Airbnb</h2>
+          <h2>Bài tập lớn: Inside Airbnb</h2>
           <ul>
             <li>Cả lớp <strong>một đề</strong>: phân tích thị trường Airbnb — nhưng mỗi nhóm
-              <strong>một thành phố riêng</strong> (Barcelona, Toronto, Rio…).</li>
+              <strong>một thành phố riêng</strong> (Barcelona, Toronto, Rio…).
+            </li>
             <li>Sản phẩm: pipeline chạy bằng 1 lệnh → QA → KPI → biểu đồ → báo cáo,
               kèm hợp phần LLM trên dữ liệu review.</li>
             <li>Chấm bằng cách <strong>chạy lại pipeline của bạn trên dữ liệu mới</strong> + vấn đáp
               từng thành viên.</li>
           </ul>
-          <p class="caption">Đề chi tiết đã có trên website môn — đọc dần, tuần 3 nhận thành phố.</p>
+          <p class="caption">Đề chi tiết đã có trên website môn học — đọc dần, tuần 3 nhận thành phố.</p>
         </section>
 
         <section>
-          <h2>4.3. Nhịp mỗi tuần</h2>
+          <h2>Kế hoạch mỗi tuần</h2>
           <ul>
-            <li><strong>Trên lớp (100'):</strong> giảng + thực hành notebook tại chỗ + quiz ngắn
-              (không báo trước 😉).</li>
+            <li><strong>Lý thuyết (2 tiết):</strong> bài giảng + thực hành notebook tại chỗ + quiz ngắn
+              (không báo trước).</li>
             <li><strong>Về nhà:</strong> bài tập nhỏ (nhãn 🔒/🔓 ghi trên đề) + tiến độ bài tập lớn
               theo nhóm.</li>
-            <li><strong>Hỏi đáp &amp; thông báo:</strong> hệ thống Canvas của trường.</li>
+            <li><strong>Hỏi đáp &amp; thông báo:</strong> hệ thống Canvas Portal của trường.</li>
           </ul>
         </section>
 
         <section>
-          <h2>4.4. Việc cần làm trước buổi 2</h2>
+          <h2>Việc cần làm trước buổi 2</h2>
           <ol>
             <li>Chạy hết notebook Bài 1 trên Colab (link ở website môn học).</li>
-            <li>Đọc trang <strong>Chính sách AI</strong> — buổi 2 có quiz 3 câu về nó.</li>
+            <li>Đọc trang <strong>Chính sách AI</strong> — buổi 2 có quiz kiểm tra.</li>
             <li>Cài Python + VS Code trên máy cá nhân (hướng dẫn trong notebook) — không bắt buộc
               nhưng nên làm sớm.</li>
             <li>Bắt đầu tìm nhóm bài tập lớn (4–5 người).</li>
@@ -484,36 +489,37 @@ prices.mean()          # bỏ ô trống: (100+200+300)/3
         <section>
           <h2>Tổng kết</h2>
           <ul>
-            <li>Môn này dạy xây <strong>pipeline dữ liệu</strong> hoàn chỉnh — thứ bạn sẽ làm thật
-              với Airbnb.</li>
+            <li>Môn này dạy bạn xây dựng <strong>pipeline dữ liệu</strong> hoàn chỉnh — bạn sẽ thực hành thật
+              với dữ liệu Airbnb.</li>
             <li>Công cụ: Colab để học, venv + Git để làm dự án <em>tái lập được</em>.</li>
-            <li>AI được chào đón ở chế độ mở — kèm 3 nghĩa vụ:
-              <strong>khai báo, hiểu, kiểm chứng</strong>.</li>
+            <li>AI được phép sử dụng ở chế độ mở — kèm theo 3 trách nhiệm:
+              <strong>khai báo, hiểu, kiểm chứng</strong>.
+            </li>
           </ul>
         </section>
 
         <section>
-          <h2>Làm với AI thì sao?</h2>
-          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <h2>Làm việc với AI thì sao?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
           <div class="good-box">
             <span class="box-title">AI làm tốt</span>
-            Giải thích khái niệm lạ ("venv là gì?"), gợi ý lệnh, viết code nháp cho thao tác chuẩn.
+            Giải thích khái niệm mà bạn thấy lạ ("venv là gì?"), gợi ý lệnh, viết code nháp cho thao tác chuẩn.
           </div>
           <div class="warn-box">
             <span class="box-title">AI hay sai</span>
-            Chọn hộ bạn quy ước mà không nói (như <code>mean()</code> bỏ NaN); bịa cú pháp cho
+            Chọn hộ bạn quy ước mà không nói (như sử dụng <code>mean()</code> bỏ NaN); bịa cú pháp cho
             thư viện phiên bản mới.
           </div>
         </section>
 
         <section>
           <h2>Kiểm chứng thế nào?</h2>
-          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
           <ul>
             <li>Chạy code AI trên <strong>mẫu nhỏ tự tính tay được</strong> trước khi tin.</li>
             <li>Gặp hàm lạ: đọc <strong>tài liệu chính thức</strong>, đừng hỏi lại chính AI đó.</li>
           </ul>
-          <p class="text-light">Thói quen này bắt đầu từ notebook hôm nay — và theo bạn đến hết kỳ.</p>
+          <p class="text-light">Thói quen này bắt đầu từ notebook buổi này — và sẽ theo bạn đến hết kỳ.</p>
         </section>
 
         <section>
@@ -521,7 +527,8 @@ prices.mean()          # bỏ ô trống: (100+200+300)/3
           <ul>
             <li>Trang Chính sách AI của môn (bắt buộc — có quiz).</li>
             <li>McKinney, <em>Python for Data Analysis</em>, 3rd ed. — ch. 1 (miễn phí:
-              <a href="https://wesmckinney.com/book/" target="_blank" rel="noopener">wesmckinney.com/book</a>).</li>
+              <a href="https://wesmckinney.com/book/" target="_blank" rel="noopener">wesmckinney.com/book</a>).
+            </li>
             <li>Đề bài tập lớn Inside Airbnb trên website môn học.</li>
           </ul>
         </section>
