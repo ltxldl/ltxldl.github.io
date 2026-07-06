@@ -280,24 +280,24 @@ yoy.loc["2026-06-30"].round(1)
         <section>
           <h2>Nhịp mùa vụ — đo, đừng đoán</h2>
           <figure class="fig">
-            <img src="img/lecture-08/mua-vu.png" alt="Chỉ số mùa vụ theo tháng" style="width:88%">
-            <figcaption class="caption">Chỉ số mùa vụ (100 = trung bình): đỉnh T1–T4, đáy T9 —
-              tính từ 2022 đến nay, đã loại kỳ cụt.</figcaption>
+            <img src="img/lecture-08/mua-vu.png?v=2" alt="Chỉ số mùa vụ theo tháng" style="width:88%">
+            <figcaption class="caption">Chỉ số mùa vụ (100 = trung bình, tính trên các năm trọn
+              2022–2025): đỉnh T7–T8 và T10–T11, đáy T2.</figcaption>
           </figure>
         </section>
 
         <section>
-          <h2>Vì sao đỉnh không nằm gọn ở "hè" T12–T2?</h2>
+          <h2>Bài học kép từ một lần đo lại</h2>
           <ul>
-            <li><strong>Review trễ hơn chuyến đi</strong>: khách ở tháng 1–2, viết review cuối kỳ nghỉ
-              hoặc sau đó — đỉnh dạt sang T3.</li>
-            <li><strong>T2 ngắn hơn 10%</strong> so với T1 (28 vs 31 ngày) — đếm theo tháng luôn
-              thiên vị tháng dài.</li>
+            <li><strong>Mùa vụ chỉ đo trên các năm trọn.</strong> Bản nháp đầu gộp cả nửa đầu 2026
+              (chỉ có T1–T6) — các tháng đầu năm bị thổi phồng thành "đỉnh T1–T4" ảo.</li>
+            <li><strong>Đô thị có mùa ngược điểm nghỉ dưỡng:</strong> đỉnh mùa đông T7–T8
+              (trượt tuyết, nghỉ đông) và xuân T10–T11; đáy T2 — giữa hè, dân thành phố đi nghỉ nơi khác.</li>
           </ul>
           <div class="key-box">
             <span class="box-title">Quan trọng</span>
-            Hai bài học một hình: (1) ngày ghi nhận ≠ ngày sự kiện; (2) độ dài kỳ ảnh hưởng
-            phép đếm. Trước khi diễn giải mùa vụ — kiểm tra cả hai.
+            "Đo, đừng đoán" chưa đủ — phải <strong>đo cho cân</strong>: mỗi tháng góp mặt
+            đủ số năm như nhau.
           </div>
         </section>
 
@@ -325,7 +325,7 @@ yoy.loc["2026-06-30"].round(1)
               <code>rolling</code> làm mượt.</li>
             <li>So sánh: <code>pct_change</code> kỳ trước, <code>shift(12)</code> cùng kỳ —
               dữ liệu mùa vụ dùng YoY.</li>
-            <li>Ba bẫy: kỳ cụt, ngày ghi nhận ≠ ngày sự kiện, tháng dài ngắn khác nhau.</li>
+            <li>Ba bẫy: kỳ cụt, mùa vụ đo trên năm không trọn, số review chỉ là proxy.</li>
           </ul>
         </section>
 

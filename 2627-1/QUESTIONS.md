@@ -2,7 +2,16 @@
 
 > Claude ghi vào đây khi gặp việc vượt thẩm quyền (thay đổi khung buổi, cơ chế chấm, nguồn dữ liệu đáng ngờ...) rồi chuyển sang việc khác, không dừng chờ. Mỗi mục có bối cảnh + phương án đề xuất.
 
-## 2. Deck buổi 8: chỉ số mùa vụ "đỉnh T1–T4, đáy T9" là artefact của cửa sổ dữ liệu lệch — cần sửa nội dung?
+## 2. Deck buổi 8: chỉ số mùa vụ "đỉnh T1–T4, đáy T9" là artefact của cửa sổ dữ liệu lệch ✅ ĐÃ QUYẾT
+
+**Quyết định của giảng viên (06/07/2026):** thực hiện đúng đề xuất. **Đã sửa xong cùng ngày:**
+`gen_figures.py` tính chỉ số trên các năm trọn 2022–2025 và chạy lại `mua-vu.png` (đỉnh T7–T8 &
+T10–T11 tô cam, đáy T2); caption hình + slide giải thích của deck 8 đổi thành **"Bài học kép từ
+một lần đo lại"** (đo mùa vụ phải dùng năm trọn — bản nháp sai được kể thẳng làm ví dụ; đô thị
+ngược mùa điểm nghỉ dưỡng) + cập nhật dòng "ba bẫy" ở Tổng kết; 4 cell tương ứng trong
+`notebooks/lecture-08.ipynb` (code lọc năm trọn, diễn giải, thử thách Rio, tóm tắt); đính chính
+mục mùa vụ đợt 1 trong DECISIONS.md. Sau sửa: deck 8 đo lại **0/26 slide tràn**, notebook 8
+chạy end-to-end sạch; giáo án TA tuần 3 & 8 đã cập nhật theo.
 
 **Phát hiện (06/07/2026, trong đợt 2 khi tính số liệu cho lab tuần 8):** hình `img/lecture-08/mua-vu.png` và slide "Nhịp mùa vụ — đo, đừng đoán" (+ slide giải thích "Vì sao đỉnh không nằm gọn ở hè T12–T2") dựa trên chỉ số tính từ cửa sổ **2022-01 → 2026-06**. Vì nửa đầu 2026 là nửa năm lớn nhất lịch sử và **chỉ góp mặt cho T1–T6**, các tháng đầu năm bị thổi phồng → "đỉnh T1–T4" (script: `gen_figures.py`, phần seasonality profile).
 

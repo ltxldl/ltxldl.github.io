@@ -38,18 +38,21 @@ plt.close(fig)
 print("reviews-theo-thang.png done")
 
 # ------------------------------------------------ seasonality profile
-thang_tb = (rv.loc[rv["date"] >= "2022-01-01"]
-              .groupby(rv["date"].dt.month).size())
+# CHỈ dùng các năm trọn vẹn (2022–2025): nếu gộp cả nửa đầu 2026 — nửa năm lớn nhất,
+# chỉ góp mặt cho T1–T6 — các tháng đầu năm bị thổi phồng thành "đỉnh T1–T4" ảo
+# (lỗi của bản nháp đầu, đính chính 06/07/2026 — xem DECISIONS.md).
+tron_nam = rv.loc[(rv["date"] >= "2022-01-01") & (rv["date"] <= "2025-12-31")]
+thang_tb = tron_nam.groupby(tron_nam["date"].dt.month).size()
 thang_tb = thang_tb / thang_tb.mean() * 100
 
 fig, ax = plt.subplots(figsize=(8.6, 3.8))
-colors = [ORANGE if m in (1, 3, 4) else BLUE for m in thang_tb.index]
+colors = [ORANGE if m in (7, 8, 10, 11) else BLUE for m in thang_tb.index]
 ax.bar(thang_tb.index, thang_tb.values, color=colors)
 ax.axhline(100, color="#555", lw=1, ls="--")
 ax.set_xticks(range(1, 13), [f"T{m}" for m in range(1, 13)])
 ax.set_ylabel("chỉ số mùa vụ (100 = TB năm)")
-ax.set_ylim(0, 132)
-ax.set_title("Đỉnh review rơi vào T1–T4, đáy vào T9", fontweight="bold")
+ax.set_ylim(0, 140)
+ax.set_title("Đỉnh review rơi vào T7–T8 và T10–T11, đáy vào T2", fontweight="bold")
 ax.spines[["top", "right"]].set_visible(False)
 fig.tight_layout()
 fig.savefig(OUT / "mua-vu.png", dpi=150)
