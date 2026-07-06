@@ -29,6 +29,8 @@
 - **Buổi 15 — đồng bộ thời lượng trình bày**: deck còn ghi "Trình bày 10 phút / ~8 slide / chạy thử 10'" trong khi giảng viên đã chốt vấn đáp 20'/nhóm với trình bày ~5' (bảng timeline cùng deck + đề BTL đã sửa) → đổi thành "5 phút / ~4–5 slide" ở cả 3 chỗ.
 - **`lecture-template.html`**: áp cùng bộ quy ước máy móc (Quan trọng, Làm việc với AI, Tổng quan, title slide…) để deck mới sinh ra đã đúng chuẩn — template không thuộc phạm vi 14 deck nhưng là nguồn copy.
 - **Tràn khung có sẵn phát hiện trong đợt 2** (không do edit-pass): buổi 9 slide "Thông tin kỳ thi" 742px (sau lần giảng viên sửa nội dung 06/07) — gọt "trên lớp,"/"lập biên bản"; buổi 13 slide "Hình C" 701px (chớm tràn từ đợt 1) — gọt câu + ảnh 82%→78%.
+- **Link lab trong index**: thêm thẻ `lab-XX.ipynb` ngay cạnh `lecture-XX.ipynb` trong cùng ô Notebook (cùng class `notebook-tag`) — không thêm cột mới để bảng không rộng ra; ghi chú dưới bảng phân biệt notebook lý thuyết vs lab; tuần 9/15 không có lab (giữ "—").
+- **Thiết kế lab đợt 2 — điểm chung**: mỗi lab dùng dữ liệu Santiago thật với bài tập KHÁC notebook demo (đối chiếu từng demo trước khi soạn); mọi con số trong assert lấy từ chạy thật trên snapshot 2026-06-29; các "phát hiện thật" đưa vào bài (204 review sau mốc danh nghĩa, LTM lệch 665 do định nghĩa mốc, corr thời tiết ~0.08, phân phối availability hai bướu, false positive "cerca de todo", ngày kỷ lục 16/03/2026); lab 11 cố ý offline (Pydantic + output mô phỏng ghi rõ là mô phỏng) để không phụ thuộc API key trong giờ học; tuần 10–14 lab có mục "🧭 BTL clinic" bám mốc đề; hình trong lab 12–13 được assert bằng thuộc tính (title/ylim/số patch/file).
 
 ## Quyết định của giảng viên (06/07/2026 — chốt sau đợt dựng)
 
