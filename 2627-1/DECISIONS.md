@@ -27,3 +27,4 @@
 - **Deadline**: chưa có thời khoá biểu → mọi mốc ghi theo tuần học ("23:59 Chủ nhật tuần X — ngày cụ thể: xem Canvas").
 - **Giữa kỳ**: viết trên giấy, có giám sát; thời lượng & cấu trúc điểm để placeholder, quyết trước ngày thi.
 - **Vấn đáp BTL**: ~20 phút/nhóm — trình bày + demo pipeline ~5' · hỏi riêng từng thành viên ~10' (2–3'/người) · live task ~5'.
+- **Trang đề BTL tái thiết kế (06/07/2026, theo yêu cầu GV)**: bỏ Bootstrap, dùng chung `index-pages.css` + khối style riêng cùng pattern với `ai-policy.html` (callout 6 màu, task-card, data-table cùng hệ với schedule-table); nội dung giữ nguyên; sửa nốt "trình bày ~10 phút" → "~5 phút" cho khớp phiên vấn đáp 20'.
