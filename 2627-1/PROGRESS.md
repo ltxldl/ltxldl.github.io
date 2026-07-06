@@ -11,7 +11,7 @@
 | Việc A: edit-pass văn phong deck 2–15 + đo tràn | ✅ 14 deck + template theo EDIT-PASS-NOTES; đo từng deck sau sửa và đo chốt cả 15 deck: **0/443 slide tràn 960×700**; sửa thêm 2 tràn có sẵn (buổi 9, 13) + đồng bộ "trình bày 5 phút" buổi 15 (chi tiết: DECISIONS.md) |
 | Việc A: pass nhẹ markdown 13 notebook demo | ✅ 36 cell (BTL→bài tập lớn, nghi thức→thói quen, hôm nay→buổi này, bỏ 😉, nghĩa vụ→trách nhiệm, Tang vật→Hình lỗi khớp deck 13) |
 | Việc B: **13 lab notebook** (tuần 1–8, 10–14) | ✅ public, cấu trúc mục tiêu → warm-up → hướng dẫn (TODO + assert số thật) → tự làm 🔓; tuần 10–14 kèm mục 🧭 BTL clinic; **mỗi lab chạy end-to-end bằng bản điền đáp án** (kiểm 2 lần: khi dựng + lượt chốt cuối) |
-| Việc B: **15 giáo án TA + 13 đề micro (2 biến thể A/B + đáp án + thang 10)** | ✅ trong `2627-1/private/` — KHÔNG lên git (đã kiểm: 0 file private được track) |
+| Việc B: **15 giáo án TA + 13 đề luyện (2 biến thể A/B + đáp án + thang 10)** | ✅ trong `2627-1/private/` — KHÔNG lên git (đã kiểm: 0 file private được track). *06/07: đề micro đổi vai trò thành đề luyện tự học không chấm — điểm 20% chuyển sang 5 bài kiểm tra giấy đầu giờ lý thuyết (xem DECISIONS)* |
 | Index học kỳ: link lab từng buổi | ✅ thẻ lab-XX.ipynb cạnh notebook demo + ghi chú (link Colab hoạt động sau khi merge `main`) |
 | Rà soát cuối | ✅ 15 deck 0 tràn · 26 notebook JSON hợp lệ · 13 lab đủ cấu trúc bắt buộc · link nội bộ index không hỏng · `git status`/`git ls-files` sạch private/ |
 
@@ -24,7 +24,9 @@ scp -r <user>@<máy-này>:~/teaching/programming-for-data-processing/2627-1/priv
 # hoặc: tar czf private-2627-1.tar.gz -C 2627-1 private/
 ```
 
-Nội dung private/: `ta-guide-01..15.md` (mục tiêu, timeline 100', đáp án đầy đủ + số thật, lỗi SV hay gặp, cách chấm micro) và `micro-01..08,10..14.md` (đề 🔒 hai biến thể + đáp án + thang điểm 10). Gửi TA qua Canvas Portal **theo từng tuần** (xem private/README.md).
+Nội dung private/: `ta-guide-01..15.md` (mục tiêu, timeline 100', đáp án đầy đủ + số thật, lỗi SV hay gặp) và `micro-01..08,10..14.md` — **đề luyện tự học** (hai biến thể + đáp án + thang điểm 10; từ 06/07 KHÔNG lấy điểm, GV/TA phát qua Canvas Portal tuỳ ý). Gửi giáo án cho TA qua Canvas Portal **theo từng tuần** (xem private/README.md).
+
+**Việc giảng viên cần làm cho cơ chế điểm mới:** sinh **5 đề kiểm tra giấy 15 phút** từ IAI Assessment Hub trước các tuần **3, 5, 7, 11, 13** (phạm vi mỗi đề: đến hết tuần liền trước; chế độ 🔒).
 
 ## 1. Hạ tầng & khung — ✅
 

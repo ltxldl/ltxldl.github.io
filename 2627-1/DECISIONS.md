@@ -33,6 +33,13 @@
 - **Một chỗ "Làm với AI" còn lại trong buổi 1** (dòng body "mỗi buổi học sẽ đều có mục "Làm với AI thì sao?"", slide Quy trình 5 bước): buổi 1 thuộc diện không-đụng nên Claude không sửa; sau edit-pass, mục đó ở mọi deck đã tên "Làm việc với AI thì sao?" — giảng viên đổi nốt 1 từ này nếu muốn đồng bộ tuyệt đối.
 - **Thiết kế lab đợt 2 — điểm chung**: mỗi lab dùng dữ liệu Santiago thật với bài tập KHÁC notebook demo (đối chiếu từng demo trước khi soạn); mọi con số trong assert lấy từ chạy thật trên snapshot 2026-06-29; các "phát hiện thật" đưa vào bài (204 review sau mốc danh nghĩa, LTM lệch 665 do định nghĩa mốc, corr thời tiết ~0.08, phân phối availability hai bướu, false positive "cerca de todo", ngày kỷ lục 16/03/2026); lab 11 cố ý offline (Pydantic + output mô phỏng ghi rõ là mô phỏng) để không phụ thuộc API key trong giờ học; tuần 10–14 lab có mục "🧭 BTL clinic" bám mốc đề; hình trong lab 12–13 được assert bằng thuộc tính (title/ylim/số patch/file).
 
+## Quyết định của giảng viên (06/07/2026 — cơ chế điểm 20% "bài tập trên lớp")
+
+- **Thay micro-exercise bằng 5 bài kiểm tra giấy 15 phút ĐẦU GIỜ LÝ THUYẾT các tuần 3, 5, 7, 11, 13** (chế độ 🔒 đóng, phạm vi đến hết tuần trước). Đề do giảng viên sinh từ hệ thống ngân hàng câu hỏi riêng (IAI Assessment Hub), **ngoài repo** — lý do giảng viên chọn phương án này.
+- Micro-exercise **không còn lấy điểm** và bỏ hẳn khỏi timeline giờ thực hành — lab dùng trọn ~100 phút. 13 file `micro-XX.md` giữ trong `private/` nhưng đổi vai trò thành **đề luyện tự học** (GV/TA phát qua Canvas Portal tuỳ ý, không chấm).
+- Đã cập nhật theo: deck buổi 1 (bảng Cơ cấu điểm + slide Kế hoạch mỗi tuần — 2 chỗ duy nhất được đụng), `ai-policy.html`, cell "Cách làm việc" của 13 lab notebook, ghi chú dưới bảng lịch `index.html`, CLAUDE.md mục Giờ thực hành, 15 giáo án TA + README + 13 đề luyện trong private/.
+- *Quyết định nhỏ của Claude khi giãn timeline giáo án TA* (giảng viên đảo lại được): tuần 1–8 — khối micro (80→96/97/98) nhập vào phần bài tự làm 🔓 tại lớp (đến phút 95, TA đi vòng hỗ trợ), chốt 95–100; tuần 10–14 — BTL clinic kéo dài đến phút 90 + 5 phút chữa chung vấn đề nổi bật, chốt 95–100; các guide tuần 2/4/6/10/12 thêm lời nhắc cuối giờ "tuần sau có bài kiểm tra 15 phút đầu giờ lý thuyết".
+
 ## Quyết định của giảng viên (06/07/2026 — chốt sau đợt dựng)
 
 - **Bỏ toàn bộ thông tin cá nhân GV/TA khỏi học liệu**: xoá dòng Giảng viên/Trợ giảng ở title slide 15 deck + template; đề BTL không ghi tài khoản GitHub cá nhân — danh sách tài khoản công bố trên Canvas.
