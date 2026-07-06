@@ -322,6 +322,7 @@
     gap: 0.4em;
     margin-top: 0.7em;
     flex-wrap: wrap;
+    font-size: 0.7em;
 }
 
 .reveal .pipeline .stage {
@@ -365,10 +366,6 @@
 
 /* Responsive: stack nicely on narrow displays */
 @media (max-width: 900px) {
-    .reveal .pipeline {
-        font-size: 0.8em;
-    }
-
     .reveal .stage {
         width: 160px;
     }
