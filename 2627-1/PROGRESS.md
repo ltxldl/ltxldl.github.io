@@ -2,19 +2,29 @@
 
 > File này do Claude duy trì. Đợt 1 (dựng 15 deck + 13 notebook demo + đề BTL) đã xong 05/07/2026 — chi tiết giữ nguyên bên dưới. Đợt 2 (edit-pass văn phong + học liệu giờ thực hành, theo `STARTER-PROMPT-2627-1-DOT2.md`) bắt đầu 07/2026 — trạng thái ở mục ngay dưới đây.
 
-## Đợt 2 — sửa văn phong + học liệu giờ thực hành (đang làm)
+## Đợt 2 — sửa văn phong + học liệu giờ thực hành — ✅ HOÀN THÀNH (06/07/2026)
 
 | Deliverable | Trạng thái |
 |---|---|
-| **Bộ mẫu tuần 2** (lab-02.ipynb + ta-guide-02 + micro-02) | ✅ 06/07 — chờ giảng viên duyệt; lab đã chạy end-to-end (bản điền đáp án, mọi assert qua trên snapshot thật) |
-| Việc A: `.pipeline` sửa gốc CSS + bỏ inline | ✅ 06/07 — font-size 0.7em ở rule gốc, bỏ 2 inline buổi 1 |
-| Việc A: edit-pass văn phong deck 2–15 + đo tràn | ✅ 06/07 — 14 deck + template; đo từng deck sau sửa: **0 slide tràn trên cả 15 deck**; sửa thêm 2 tràn có sẵn (buổi 9, 13) + đồng bộ "trình bày 5'" ở buổi 15 (chi tiết: DECISIONS.md) |
-| Việc A: pass nhẹ markdown 13 notebook demo | ✅ 06/07 — 36 cell: BTL→bài tập lớn, nghi thức→thói quen, hôm nay→buổi này, bỏ 😉, nghĩa vụ→trách nhiệm |
-| Việc B: lab + TA guide + micro các tuần còn lại | 🟨 tuần 1–8 xong (8/13 lab, 8/15 guide, 8/13 micro — mỗi lab đã chạy end-to-end bản solved); còn tuần 10–14 + guide 9/15 |
-| Index học kỳ: link lab từng buổi | ⬜ |
-| Rà soát cuối (lab end-to-end, tràn 15 deck, private/ sạch) | ⬜ |
+| **Bộ mẫu tuần 2** (lab-02.ipynb + ta-guide-02 + micro-02) | ✅ commit đầu tiên của đợt — chờ giảng viên duyệt mẫu |
+| Việc A: `.pipeline` sửa gốc CSS + bỏ inline | ✅ font-size 0.7em ở rule gốc, bỏ 2 inline buổi 1 |
+| Việc A: edit-pass văn phong deck 2–15 + đo tràn | ✅ 14 deck + template theo EDIT-PASS-NOTES; đo từng deck sau sửa và đo chốt cả 15 deck: **0/443 slide tràn 960×700**; sửa thêm 2 tràn có sẵn (buổi 9, 13) + đồng bộ "trình bày 5 phút" buổi 15 (chi tiết: DECISIONS.md) |
+| Việc A: pass nhẹ markdown 13 notebook demo | ✅ 36 cell (BTL→bài tập lớn, nghi thức→thói quen, hôm nay→buổi này, bỏ 😉, nghĩa vụ→trách nhiệm, Tang vật→Hình lỗi khớp deck 13) |
+| Việc B: **13 lab notebook** (tuần 1–8, 10–14) | ✅ public, cấu trúc mục tiêu → warm-up → hướng dẫn (TODO + assert số thật) → tự làm 🔓; tuần 10–14 kèm mục 🧭 BTL clinic; **mỗi lab chạy end-to-end bằng bản điền đáp án** (kiểm 2 lần: khi dựng + lượt chốt cuối) |
+| Việc B: **15 giáo án TA + 13 đề micro (2 biến thể A/B + đáp án + thang 10)** | ✅ trong `2627-1/private/` — KHÔNG lên git (đã kiểm: 0 file private được track) |
+| Index học kỳ: link lab từng buổi | ✅ thẻ lab-XX.ipynb cạnh notebook demo + ghi chú (link Colab hoạt động sau khi merge `main`) |
+| Rà soát cuối | ✅ 15 deck 0 tràn · 26 notebook JSON hợp lệ · 13 lab đủ cấu trúc bắt buộc · link nội bộ index không hỏng · `git status`/`git ls-files` sạch private/ |
 
-**Lấy thư mục private/ (KHÔNG có trên git):** học liệu trợ giảng nằm ở `2627-1/private/` trên máy làm việc này — xem `2627-1/private/README.md` (có sẵn lệnh `scp`/`tar` và quy trình phát cho TA qua Canvas Portal).
+**Phát hiện cần giảng viên quyết:** QUESTIONS.md **mục 2** — hình "chỉ số mùa vụ đỉnh T1–T4" của deck buổi 8 là artefact cửa sổ dữ liệu lệch (kèm số kiểm chứng + đề xuất sửa); lab/TA guide đợt này đã viết trung lập để không lan truyền con số sai.
+
+**Lấy thư mục private/ (KHÔNG có trên git):** học liệu trợ giảng nằm ở `2627-1/private/` trên máy làm việc này — xem `2627-1/private/README.md`:
+
+```bash
+scp -r <user>@<máy-này>:~/teaching/programming-for-data-processing/2627-1/private/ ./2627-1-private/
+# hoặc: tar czf private-2627-1.tar.gz -C 2627-1 private/
+```
+
+Nội dung private/: `ta-guide-01..15.md` (mục tiêu, timeline 100', đáp án đầy đủ + số thật, lỗi SV hay gặp, cách chấm micro) và `micro-01..08,10..14.md` (đề 🔒 hai biến thể + đáp án + thang điểm 10). Gửi TA qua Canvas Portal **theo từng tuần** (xem private/README.md).
 
 ## 1. Hạ tầng & khung — ✅
 
