@@ -21,9 +21,9 @@
       <!-- ====== Mở ====== -->
       <section>
         <section>
-          <h1>Lập trình xử lý dữ liệu</h1>
+          <h1>Lập trình <br /> xử lý dữ liệu</h1>
           <div>
-            <p><strong>Học kì:</strong> 1, năm học 2026–2027</p>
+            <p>Học kì 1, năm học 2026–2027</p>
             <p>Viện Trí tuệ nhân tạo, Trường ĐH Công nghệ, ĐHQGHN</p>
           </div>
         </section>
@@ -40,7 +40,7 @@
         <section>
           <h2>Thông tin kỳ thi 🔒</h2>
           <ul>
-            <li><strong>Hình thức:</strong> viết trên giấy, trên lớp, có giám sát, chế độ 🔒 <strong>đóng</strong> —
+            <li><strong>Hình thức:</strong> viết trên giấy, có giám sát, chế độ 🔒 <strong>đóng</strong> —
               không AI, không tra cứu (trừ khi đề ghi khác). Trọng số <strong>20%</strong>.</li>
             <li><strong>Phạm vi:</strong> buổi 1–8 (Python → NumPy → pandas → dữ liệu ngoài →
               chuỗi → thời gian).</li>
@@ -50,8 +50,8 @@
           </ul>
           <div class="warn-box">
             <span class="box-title">Nhắc từ chính sách AI</span>
-            Dùng AI hoặc bất kỳ trợ giúp nào trong giờ thi = gian lận thi cử — 0 điểm đầu điểm,
-            lập biên bản theo quy chế.
+            Dùng AI hoặc bất kỳ trợ giúp nào trong giờ thi = gian lận thi cử —
+            0 điểm đầu điểm, xử lý theo quy chế.
           </div>
         </section>
       </section>
@@ -61,7 +61,7 @@
         <section>
           <h1><span class="text-light">1.</span><br>Bản đồ 8 buổi</h1>
           <p class="text-light">Với mỗi buổi: câu chốt cần nhớ + 3 câu tự kiểm.
-            Trả lời trôi cả 3 → yên tâm chuyển buổi tiếp.</p>
+            Trả lời được cả 3 → yên tâm chuyển sang buổi tiếp theo.</p>
         </section>
 
         <section>
@@ -97,7 +97,7 @@
           <h2>Buổi 4 — pandas làm quen</h2>
           <div class="key-box">
             <span class="box-title">Câu chốt</span>
-            Nghi thức 5 bước với dataset lạ: shape → sample → info → describe → value_counts;
+            Thói quen 5 bước với dataset lạ: shape → sample → info → describe → value_counts;
             lọc bool + <code>loc[hàng, cột]</code>; median cho phân phối lệch.
           </div>
           <ol>
@@ -125,11 +125,11 @@
           <h2>Buổi 6 — Dữ liệu ngoài</h2>
           <div class="key-box">
             <span class="box-title">Câu chốt</span>
-            Raw bất khả xâm phạm; usecols/parse_dates/na_values; Parquet giữ dtype;
+            Giữ nguyên dữ liệu raw; usecols/parse_dates/na_values; Parquet giữ dtype;
             API cần timeout + raise_for_status + lưu raw; DuckDB query thẳng file.
           </div>
           <ol>
-            <li>CSV và Parquet: cái nào giữ kiểu dữ liệu, vì sao đáng tiền?</li>
+            <li>CSV và Parquet: cái nào giữ kiểu dữ liệu, vì sao điều đó quan trọng?</li>
             <li>Ba "phép lịch sự" khi gọi API trong vòng lặp?</li>
             <li>Viết truy vấn DuckDB đếm dòng theo room_type trực tiếp trên file CSV?</li>
           </ol>
@@ -153,7 +153,7 @@
           <h2>Buổi 8 — Thời gian</h2>
           <div class="key-box">
             <span class="box-title">Câu chốt</span>
-            parse_dates trước đã (cẩn thận dd/mm); resample = groupby theo lịch;
+            parse_dates trước tiên (cẩn thận dd/mm); resample = groupby theo lịch;
             <strong>cắt kỳ cụt</strong>; dữ liệu mùa vụ so <strong>cùng kỳ</strong> (shift 12).
           </div>
           <ol>
@@ -182,7 +182,7 @@ t = pd.Series([1, 2], index=["c", "a"])
           </div>
           <p>Nghĩ đủ ba nhịp: alignment ghép nhãn nào với nhãn nào? None lan truyền ra sao?
             Nhãn "b" có mặt ở mấy bên?</p>
-          <p class="text-light">(Tự tính rồi kiểm tra trong notebook — đáp án không in ở đây 😉)</p>
+          <p class="text-light">(Tự tính rồi kiểm tra trong notebook — đáp án không in ở đây.)</p>
         </section>
 
         <section data-jp-reset>
@@ -195,7 +195,7 @@ t = pd.Series([1, 2], index=["c", "a"])
               và <code>so_dem_toi_thieu ≤ 365</code>, chỉ hiện quận có ≥ 100 dòng hợp lệ.
             </div>
           </div>
-          <p style="margin-top:0.6em">Chấm điểm nhìn vào: mặt nạ lọc đúng &amp; đủ,
+          <p style="margin-top:0.6em">Điểm chấm nằm ở: mặt nạ lọc đúng và đủ,
             groupby + agg kèm cỡ nhóm, lọc cỡ nhóm sau tổng hợp.</p>
         </section>
       </section>
