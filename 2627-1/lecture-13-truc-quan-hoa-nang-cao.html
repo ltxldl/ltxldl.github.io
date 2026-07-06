@@ -21,9 +21,9 @@
       <!-- ====== Mở bài ====== -->
       <section>
         <section>
-          <h1>Lập trình xử lý dữ liệu</h1>
+          <h1>Lập trình <br /> xử lý dữ liệu</h1>
           <div>
-            <p><strong>Học kì:</strong> 1, năm học 2026–2027</p>
+            <p>Học kì 1, năm học 2026–2027</p>
             <p>Viện Trí tuệ nhân tạo, Trường ĐH Công nghệ, ĐHQGHN</p>
           </div>
         </section>
@@ -34,26 +34,26 @@
             <br>
             Trực quan hoá nâng cao<br>&amp; phê bình biểu đồ
           </h1>
-          <p class="text-light">seaborn, bản đồ, tương tác — và mắt thẩm định hình do AI sinh.</p>
+          <p class="text-light">seaborn, bản đồ, tương tác — và kỹ năng thẩm định hình do AI sinh.</p>
         </section>
 
         <section>
           <h2>Buổi trước</h2>
           <ul>
-            <li>Bộ tứ line/bar/hist/scatter; hình tự đứng được; trung thực thị giác.</li>
-            <li>Hôm nay lên tầng trên: hình <strong>thống kê nhiều chiều</strong>,
-              <strong>bản đồ thật</strong> — và học cách <strong>chê</strong> cho đúng chỗ.</li>
+            <li>Bộ tứ line/bar/hist/scatter; hình tự giải thích được; trung thực thị giác.</li>
+            <li>Buổi này nâng cấp: hình <strong>thống kê nhiều chiều</strong>,
+              <strong>bản đồ thật</strong> — và học cách <strong>phê bình</strong> đúng chỗ.</li>
           </ul>
         </section>
 
         <section>
-          <h2>Hôm nay</h2>
+          <h2>Tổng quan</h2>
           <ol>
             <li>seaborn: hình thống kê cấp cao</li>
             <li>Bản đồ choropleth với GeoJSON</li>
-            <li>Biểu đồ tương tác (nếm thử)</li>
+            <li>Biểu đồ tương tác (giới thiệu)</li>
             <li>Phê bình biểu đồ — bộ ba hình AI lỗi</li>
-            <li>Làm với AI thì sao?</li>
+            <li>Làm việc với AI thì sao?</li>
           </ol>
         </section>
       </section>
@@ -66,7 +66,7 @@
         </section>
 
         <section data-jp-reset>
-          <h2>1.1. Một import, một set_theme</h2>
+          <h2>Một import, một set_theme</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
 import seaborn as sns
@@ -82,7 +82,7 @@ sns.boxplot(data=df, x="price", y="room_type")
         </section>
 
         <section>
-          <h2>1.2. boxplot: so phân phối giữa nhóm trong một hình</h2>
+          <h2>boxplot: so phân phối giữa nhóm trong một hình</h2>
           <figure class="fig">
             <img src="img/lecture-13/box-gia-loai.png" alt="Boxplot giá theo loại phòng" style="width:92%">
             <figcaption class="caption">Một hộp = median + IQR của một nhóm (thang log). So được 4 phân phối
@@ -91,7 +91,7 @@ sns.boxplot(data=df, x="price", y="room_type")
         </section>
 
         <section data-jp-reset>
-          <h2>1.3. hue: chiều thứ ba bằng màu</h2>
+          <h2>hue: chiều thứ ba bằng màu</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
 sns.histplot(data=df[df["neighbourhood"].isin(top2_quan)],
@@ -106,7 +106,7 @@ sns.histplot(data=df[df["neighbourhood"].isin(top2_quan)],
         </section>
 
         <section>
-          <h2>1.4. heatmap: bảng pivot thành màu</h2>
+          <h2>heatmap: bảng pivot thành màu</h2>
           <figure class="fig">
             <img src="img/lecture-13/heatmap-quan-loai.png" alt="Heatmap giá theo quận và loại phòng"
               style="width:78%">
@@ -116,7 +116,7 @@ sns.histplot(data=df[df["neighbourhood"].isin(top2_quan)],
         </section>
 
         <section data-jp-reset>
-          <h2>1.5. Dữ liệu dạng dài — khẩu vị của seaborn</h2>
+          <h2>Dữ liệu dạng dài — định dạng seaborn ưa dùng</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
 # rộng -> dài: mỗi dòng = (quận, loại phòng, giá trung vị)
@@ -130,7 +130,7 @@ dai = pivot.reset_index().melt(
         </section>
 
         <section>
-          <h2>1.6. FacetGrid: small multiples</h2>
+          <h2>FacetGrid: small multiples</h2>
           <div class="slide-badge-row"><span class="self-study-badge">📖 Tự học</span></div>
           <ul>
             <li><span class="inline-code">sns.relplot(..., col="snapshot")</span> — một hình nhỏ
@@ -149,7 +149,7 @@ dai = pivot.reset_index().melt(
         </section>
 
         <section data-jp-reset>
-          <h2>2.1. GeoJSON + geopandas + merge</h2>
+          <h2>GeoJSON + geopandas + merge</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
 import geopandas as gpd
@@ -166,7 +166,7 @@ ban_do.plot(column="price", cmap="Blues", legend=True)
         </section>
 
         <section>
-          <h2>2.2. Kết quả — và một cái bẫy to đùng</h2>
+          <h2>Kết quả — và một cái bẫy lớn</h2>
           <figure class="fig">
             <img src="img/lecture-13/choropleth-gia.png" alt="Choropleth giá trung vị Santiago"
               style="width:74%">
@@ -176,11 +176,11 @@ ban_do.plot(column="price", cmap="Blues", legend=True)
         </section>
 
         <section>
-          <h2>2.3. Choropleth: diện tích ≠ tầm quan trọng</h2>
+          <h2>Choropleth: diện tích ≠ tầm quan trọng</h2>
           <div class="warn-box">
             <span class="box-title">Cẩn thận</span>
             Mắt người cân theo <strong>diện tích</strong>: quận núi non rộng lớn "hét to" hơn
-            quận trung tâm nhỏ xíu — dù trung tâm nhiều listing gấp chục lần. Choropleth cho
+            quận trung tâm nhỏ — dù trung tâm nhiều listing gấp chục lần. Choropleth cho
             <em>giá trị theo vùng</em>, không cho <em>khối lượng</em>.
           </div>
           <ul>
@@ -195,11 +195,11 @@ ban_do.plot(column="price", cmap="Blues", legend=True)
       <section>
         <section>
           <h1><span class="text-light">3.</span><br>Biểu đồ tương tác</h1>
-          <p class="text-light">Nếm thử — đủ để biết khi nào cần đến.</p>
+          <p class="text-light">Giới thiệu nhanh — đủ để biết khi nào cần đến.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>3.1. plotly express: hover miễn phí</h2>
+          <h2>plotly express: hover miễn phí</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
 import plotly.express as px
@@ -214,7 +214,7 @@ px.scatter(s, x="longitude", y="latitude",
         </section>
 
         <section>
-          <h2>3.2. Tĩnh hay tương tác?</h2>
+          <h2>Tĩnh hay tương tác?</h2>
           <table class="compact-table">
             <thead>
               <tr>
@@ -228,12 +228,12 @@ px.scatter(s, x="longitude", y="latitude",
                 <td><strong>tương tác</strong> (plotly, hover là công cụ soi)</td>
               </tr>
               <tr>
-                <td>Báo cáo PDF, slide, in ấn — như BTL</td>
+                <td>Báo cáo PDF, slide, in ấn — như bài tập lớn</td>
                 <td><strong>tĩnh</strong> (matplotlib/seaborn) — annotation thay hover</td>
               </tr>
             </tbody>
           </table>
-          <p class="caption">Nâng cao của BTL có thể nộp thêm dashboard HTML
+          <p class="caption">Nâng cao của bài tập lớn có thể nộp thêm dashboard HTML
             (<span class="inline-code">fig.write_html</span>) — điểm thưởng, không thay thế hình tĩnh.</p>
         </section>
       </section>
@@ -242,12 +242,12 @@ px.scatter(s, x="longitude", y="latitude",
       <section>
         <section>
           <h1><span class="text-light">4.</span><br>Phê bình biểu đồ:<br>bộ ba hình AI lỗi</h1>
-          <p class="text-light">AI sinh hình rất nhanh — kể cả hình sai. Ba "tang vật" sau đều là
+          <p class="text-light">AI sinh hình rất nhanh — kể cả hình sai. Ba hình sau đều là
             kiểu hình AI đưa ra hằng ngày.</p>
         </section>
 
         <section>
-          <h2>4.1. Tang vật A</h2>
+          <h2>Hình AI lỗi A</h2>
           <figure class="fig">
             <img src="img/lecture-13/ai-loi-truc-kep.png" alt="Biểu đồ trục kép" style="width:88%">
           </figure>
@@ -258,11 +258,11 @@ px.scatter(s, x="longitude", y="latitude",
         </section>
 
         <section>
-          <h2>4.1. Tang vật A — hồ sơ lỗi: trục kép</h2>
+          <h2>Hình A — hồ sơ lỗi: trục kép</h2>
           <ul>
             <li>Hai trục y khác thang: muốn hai đường "quấn" nhau kiểu gì cũng được —
               chỉ cần chỉnh <span class="inline-code">ylim</span>. Tương quan là <em>ảo giác dàn dựng</em>.</li>
-            <li>Trục phải bị nén (54–63) — biến động 5% trông như sóng thần.</li>
+            <li>Trục phải bị nén (54–63) — biến động 5% trông rất kịch tính.</li>
           </ul>
           <div class="good-box">
             <span class="box-title">Sửa</span>
@@ -272,7 +272,7 @@ px.scatter(s, x="longitude", y="latitude",
         </section>
 
         <section>
-          <h2>4.2. Tang vật B</h2>
+          <h2>Hình AI lỗi B</h2>
           <figure class="fig">
             <img src="img/lecture-13/ai-loi-pie.png" alt="Pie chart 12 lát" style="width:58%">
           </figure>
@@ -283,21 +283,21 @@ px.scatter(s, x="longitude", y="latitude",
         </section>
 
         <section>
-          <h2>4.2. Tang vật B — hồ sơ lỗi: pie 12 lát</h2>
+          <h2>Hình B — hồ sơ lỗi: pie 12 lát</h2>
           <ul>
-            <li>Mắt người so <em>góc</em> rất tệ — 12 lát cầu vồng, nhãn giẫm nhau,
-              các lát nhỏ không phân biệt nổi.</li>
-            <li>Màu sắc không mang nghĩa gì — 12 hue chỉ để… có màu.</li>
+            <li>Mắt người so <em>góc</em> rất tệ — 12 lát cầu vồng, nhãn chồng lấn,
+              các lát nhỏ không phân biệt được.</li>
+            <li>Màu sắc không mang nghĩa gì — 12 hue chỉ để trang trí.</li>
           </ul>
           <div class="good-box">
             <span class="box-title">Sửa</span>
             Bar ngang xếp hạng (buổi 12) — thẳng hàng, so sánh bằng độ dài, đủ chỗ cho nhãn.
-            Pie chỉ nên sống khi ≤ 3 phần và thông điệp là "chiếm gần hết / một nửa".
+            Pie chỉ nên dùng khi ≤ 3 phần và thông điệp là "chiếm gần hết / một nửa".
           </div>
         </section>
 
         <section>
-          <h2>4.3. Tang vật C</h2>
+          <h2>Hình AI lỗi C</h2>
           <figure class="fig">
             <img src="img/lecture-13/ai-loi-hai-tien-te.png" alt="Hai thành phố hai tiền tệ một trục"
               style="width:88%">
@@ -309,18 +309,18 @@ px.scatter(s, x="longitude", y="latitude",
         </section>
 
         <section>
-          <h2>4.3. Tang vật C — hồ sơ lỗi &amp; bản sửa</h2>
-          <p>CLP và BRL trên cùng một trục — so số tuyệt đối giữa hai tiền tệ là vô nghĩa
-            (cái bẫy ghi ngay trong đề BTL!). Bản sửa: quy cả hai về <strong>chỉ số, tháng đầu = 100</strong>:</p>
+          <h2>Hình C — hồ sơ lỗi &amp; bản sửa</h2>
+          <p>CLP và BRL trên cùng một trục — so số tuyệt đối giữa hai tiền tệ là vô nghĩa.
+            Bản sửa: quy về <strong>chỉ số, tháng đầu = 100</strong>:</p>
           <figure class="fig">
-            <img src="img/lecture-13/sua-index-100.png" alt="Index hoá về 100" style="width:82%">
+            <img src="img/lecture-13/sua-index-100.png" alt="Index hoá về 100" style="width:78%">
             <figcaption class="caption">Cùng mốc 100: giờ mới so được nhịp tăng — câu chuyện thật
-              hiện ra thay cho trò đùa đơn vị.</figcaption>
+              hiện ra thay cho phép so sánh sai đơn vị.</figcaption>
           </figure>
         </section>
 
         <section>
-          <h2>4.4. Checklist phê bình một biểu đồ</h2>
+          <h2>Checklist phê bình một biểu đồ</h2>
           <div class="key-box">
             <span class="box-title">Năm câu hỏi trước khi tin (hoặc nộp) một hình</span>
             <ol style="margin:0.2em 0 0 1em">
@@ -342,7 +342,7 @@ px.scatter(s, x="longitude", y="latitude",
           <h2>Tổng kết</h2>
           <ul>
             <li>seaborn: DataFrame + tên cột; box/hist-hue/heatmap phủ nhu cầu "so phân phối
-              giữa nhóm"; dữ liệu dạng dài là khẩu vị của nó.</li>
+              giữa nhóm"; dữ liệu dạng dài là định dạng nó ưa dùng.</li>
             <li>Choropleth = geo + KPI + merge; nhớ bẫy diện tích và luôn kèm n.</li>
             <li>Tương tác để khám phá; tĩnh để xuất bản.</li>
             <li>Phê bình bằng checklist 5 câu — trục, đơn vị, n, dạng hình, lời diễn giải.</li>
@@ -350,24 +350,24 @@ px.scatter(s, x="longitude", y="latitude",
         </section>
 
         <section>
-          <h2>Làm với AI thì sao?</h2>
-          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <h2>Làm việc với AI thì sao?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
           <div class="good-box">
             <span class="box-title">AI làm tốt</span>
             Code seaborn/plotly theo mô tả; gợi ý dạng hình cho câu hỏi; sửa lỗi cú pháp geopandas.
           </div>
           <div class="warn-box">
             <span class="box-title">AI hay sai</span>
-            Rất khoái trục kép và pie nhiều lát; ghép hai đơn vị một trục không chớp mắt;
-            title nghe kêu nhưng vượt quá dữ liệu.
+            Rất hay dùng trục kép và pie nhiều lát; ghép hai đơn vị vào một trục mà không cảnh báo;
+            title nghe hấp dẫn nhưng vượt quá dữ liệu.
           </div>
         </section>
 
         <section>
           <h2>Kiểm chứng thế nào?</h2>
-          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
           <ul>
-            <li>Mọi hình AI sinh: chạy <strong>checklist 5 câu</strong> ở 4.4 — mỗi câu 5 giây.</li>
+            <li>Mọi hình AI sinh: chạy <strong>checklist 5 câu</strong> ở phần 4 — mỗi câu 5 giây.</li>
             <li>Hình "đẹp bất ngờ" càng phải nghi: tự tính lại một con số nó vẽ.</li>
           </ul>
         </section>
@@ -375,10 +375,10 @@ px.scatter(s, x="longitude", y="latitude",
         <section>
           <h2>Đọc thêm</h2>
           <ul>
-            <li>VanderPlas, <em>PDSH</em>, 2nd ed. — mục Seaborn.</li>
+            <li>VanderPlas, <em>Python Data Science Handbook</em>, 2nd ed. — mục Seaborn.</li>
             <li>seaborn docs — <em>tutorial gallery</em> (chọn hình theo bài toán).</li>
             <li>📖 Tự học: Financial Times, <em>Visual Vocabulary</em> — bản đồ chọn dạng hình
-              treo tường huyền thoại.</li>
+              kinh điển.</li>
           </ul>
         </section>
       </section>
