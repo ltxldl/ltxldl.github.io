@@ -24,6 +24,8 @@
 - **Lab notebook ship dạng TODO chưa điền đáp án** (đáp án nằm trong `private/ta-guide-XX.md`); tiêu chí "chạy end-to-end trên Colab" được kiểm bằng **bản điền đáp án** (mọi cell chạy sạch, mọi assert qua). Cấu trúc ô: TODO + khối `# --- Ô kiểm tra ---` bằng assert ngay trong cùng cell.
 - **Micro-exercise tuần 2 làm trên giấy** (không máy) — dạng viết hàm ngắn/đoán output phù hợp giấy, chống AI tuyệt đối; các tuần sau chọn giấy/Colab theo kỹ năng của tuần, ghi rõ trong từng đề.
 - **`private/README.md`**: quy trình phát học liệu cho TA (gửi từng tuần qua Canvas Portal, không phát file đáp án cho sinh viên) + lệnh scp/tar cho giảng viên lấy thư mục.
+- **Edit-pass — "nhịp tuần" (EDIT-PASS mục 6.2)**: đã grep toàn bộ deck 2–15 (`2 tiết`, `quiz`, `thực hành`, `Kế hoạch mỗi tuần`) — **không deck nào nhắc nhịp tuần lớp học** ngoài buổi 1 (giảng viên đã tự cập nhật 2 LT + 2 TH). Ghi chú trong starter "lecture-08 có chỗ nhắc nhịp tuần" không khớp hiện trạng; buổi 8 chỉ có "tuần" theo nghĩa tần suất resample (`"W"`). Không sửa gì thêm.
+- **Edit-pass — sửa nhất quán nhỏ ngoài danh mục notes** (cùng tinh thần văn phong): "BTL" viết đầy đủ "bài tập lớn"; "PDSH"/"McKinney, 3rd ed." → tên sách đầy đủ; "Nghi thức 5 bước" (buổi 4) đổi thành "Thói quen 5 bước" và cập nhật các tham chiếu ở buổi 5; sửa tham chiếu chéo sai "(hình ở slide 4.1)" ở buổi 8 (đánh số cũ đã bỏ); tổng kết buổi 6 liệt kê đúng 5 tham số read_csv đã dạy (bỏ `nrows` chưa dạy); "tuần sau thấy pandas" ở buổi 2 sửa thành "buổi 4" cho đúng lịch.
 
 ## Quyết định của giảng viên (06/07/2026 — chốt sau đợt dựng)
 
