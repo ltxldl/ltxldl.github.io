@@ -21,9 +21,9 @@
       <!-- ====== Mở bài ====== -->
       <section>
         <section>
-          <h1>Lập trình xử lý dữ liệu</h1>
+          <h1>Lập trình <br /> xử lý dữ liệu</h1>
           <div>
-            <p><strong>Học kì:</strong> 1, năm học 2026–2027</p>
+            <p>Học kì 1, năm học 2026–2027</p>
             <p>Viện Trí tuệ nhân tạo, Trường ĐH Công nghệ, ĐHQGHN</p>
           </div>
         </section>
@@ -34,7 +34,7 @@
             <br>
             Python cơ bản cho xử lý dữ liệu
           </h1>
-          <p class="text-light">Ôn nhanh có chủ đích — nhìn mọi thứ qua lăng kính dữ liệu.</p>
+          <p class="text-light">Ôn nhanh có chủ đích: nhìn lại Python bằng con mắt của người làm dữ liệu.</p>
         </section>
 
         <section>
@@ -43,18 +43,18 @@
             <li>Bức tranh môn học: pipeline từ dữ liệu thô đến kết luận.</li>
             <li>Chính sách AI: 🔒 đóng / 🔓 mở, ba nghĩa vụ khi dùng AI.</li>
           </ul>
-          <p class="text-light">Các bạn đã học Python ở <em>Tư duy tính toán</em> — hôm nay không học lại,
-            mà xem <strong>phần nào của Python gánh việc dữ liệu</strong>.</p>
+          <p class="text-light">Bạn đã học Python ở <em>Tư duy tính toán</em> — buổi này không học lại,
+            mà xem <strong>phần nào của Python phục vụ trực tiếp việc xử lý dữ liệu</strong>.</p>
         </section>
 
         <section>
-          <h2>Hôm nay</h2>
+          <h2>Tổng quan</h2>
           <ol>
             <li>Kiểu dữ liệu — nhìn lại bằng mắt người làm dữ liệu</li>
             <li>Vòng lặp &amp; comprehension</li>
             <li>Hàm — đơn vị của pipeline</li>
             <li>Đọc &amp; ghi file</li>
-            <li>Làm với AI thì sao?</li>
+            <li>Làm việc với AI thì sao?</li>
           </ol>
         </section>
       </section>
@@ -68,7 +68,7 @@
         </section>
 
         <section data-jp-reset>
-          <h2>1.1. Số và chuỗi: chuyện định dạng</h2>
+          <h2>Số và chuỗi: chuyện định dạng</h2>
           <p>Người đọc báo cáo cần số <em>đọc được</em> — f-string là công cụ hằng ngày:</p>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
@@ -81,12 +81,12 @@ f"Giá TB: {gia_tb:,.0f} đ — tỷ lệ trống: {ty_le:.1%}"
 'Giá TB: 1,834,568 đ — tỷ lệ trống: 7.3%'
             </code></pre>
           </div>
-          <p>Nhớ hai đuôi: <span class="inline-code">:,.0f</span> (phân cách nghìn) và
+          <p>Hai đuôi định dạng đáng nhớ: <span class="inline-code">:,.0f</span> (phân cách nghìn) và
             <span class="inline-code">:.1%</span> (phần trăm).</p>
         </section>
 
         <section data-jp-reset>
-          <h2>1.2. None: "không có dữ liệu" là một giá trị</h2>
+          <h2>None: "không có dữ liệu" là một giá trị</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
 gia = [1200000, None, 950000]     # phòng thứ 2 không khai giá
@@ -98,14 +98,14 @@ sum(x for x in gia if x is not None) / 2
             </code></pre>
           </div>
           <div class="key-box">
-            <span class="box-title">Điểm chốt</span>
+            <span class="box-title">Quan trọng</span>
             <code>None</code> ≠ <code>0</code> ≠ <code>""</code>. "Thiếu" là thông tin, không phải số không.
-            Toàn bộ buổi 10 (missing values) đứng trên phân biệt này.
+            Toàn bộ buổi 10 (missing values) dựa trên phân biệt này.
           </div>
         </section>
 
         <section data-jp-reset>
-          <h2>1.3. list: dãy có thứ tự — và slicing</h2>
+          <h2>list: dãy có thứ tự — và slicing</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
 doanh_thu = [5, 8, 6, 9, 12, 11, 7]   # 7 ngày
@@ -118,11 +118,11 @@ doanh_thu[1:4]                        # lát cắt: phần tử 1,2,3
             </code></pre>
           </div>
           <p>Cú pháp lát cắt <span class="inline-code">[bắt_đầu:kết_thúc]</span> (nửa hở) sẽ theo bạn
-            sang NumPy và pandas — thuộc nó ở đây cho rẻ.</p>
+            sang NumPy và pandas — thuộc từ bây giờ, dùng đến hết môn.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>1.4. dict: một "dòng dữ liệu" tự nhiên</h2>
+          <h2>dict: một "dòng dữ liệu" tự nhiên</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
 phong = {"id": 52811, "gia": 1200000, "loai": "Entire home"}
@@ -134,12 +134,12 @@ phong.get("diem", "chưa có")     # khoá không tồn tại? có phương án 
 'chưa có'
             </code></pre>
           </div>
-          <p>Một bảng dữ liệu, phiên bản Python thuần = <strong>list các dict</strong>.
-            Tuần sau bạn sẽ thấy pandas sinh ra để thay thế đúng cấu trúc này.</p>
+          <p>Một bảng dữ liệu trong Python thuần chính là một <strong>list các dict</strong>.
+            Đến buổi 4, bạn sẽ thấy pandas sinh ra để thay thế đúng cấu trúc này.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>1.5. set: khử trùng lặp và so khớp</h2>
+          <h2>set: khử trùng lặp và so khớp</h2>
           <p>Hai snapshot dữ liệu — phòng nào biến mất?</p>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="5"><code class="language-python" data-trim>
@@ -153,11 +153,11 @@ thang_9 - thang_12               # có ở T9, mất ở T12
             </code></pre>
           </div>
           <p>Phép trừ, giao (<span class="inline-code">&amp;</span>), hợp (<span class="inline-code">|</span>)
-            trên set: cách nhanh nhất để so hai danh sách ID.</p>
+            trên set là cách nhanh nhất để so hai danh sách ID.</p>
         </section>
 
         <section>
-          <h2>1.6. Chọn cấu trúc nào?</h2>
+          <h2>Chọn cấu trúc nào?</h2>
           <table class="compact-table">
             <thead>
               <tr>
@@ -196,11 +196,11 @@ thang_9 - thang_12               # có ở T9, mất ở T12
       <section>
         <section>
           <h1><span class="text-light">2.</span><br>Vòng lặp &amp; comprehension</h1>
-          <p class="text-light">Tư duy "biến đổi cả dãy" — bước đệm sang NumPy.</p>
+          <p class="text-light">Tư duy "biến đổi cả dãy" là bước đệm sang NumPy.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>2.1. for + if: máy lọc dữ liệu thủ công</h2>
+          <h2>for + if: máy lọc dữ liệu thủ công</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
 gia_tho = [1200000, -5, 950000, 0, 2400000]
@@ -219,7 +219,7 @@ gia_sach
         </section>
 
         <section data-jp-reset>
-          <h2>2.2. Comprehension: cùng việc, một dòng</h2>
+          <h2>Comprehension: cùng việc, một dòng</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
 gia_sach = [g for g in gia_tho if g > 0]
@@ -231,12 +231,12 @@ gia_trieu
 [1.2, 0.95, 2.4]
             </code></pre>
           </div>
-          <p>Đọc là hiểu: "<em>lấy g cho mỗi g trong dãy, nếu…</em>". Ngắn hơn, ít chỗ sai hơn —
-            và là cách nghĩ của NumPy: <strong>thao tác trên cả dãy, không trên từng phần tử</strong>.</p>
+          <p>Cách đọc: "<em>lấy g cho mỗi g trong dãy, nếu…</em>". Câu lệnh ngắn hơn, ít chỗ sai hơn —
+            và đúng cách nghĩ của NumPy: <strong>thao tác trên cả dãy, không trên từng phần tử</strong>.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>2.3. dict comprehension &amp; zip</h2>
+          <h2>dict comprehension &amp; zip</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
 ten = ["Adelie", "Gentoo", "Chinstrap"]
@@ -249,11 +249,11 @@ so_luong = [152, 124, 68]
             </code></pre>
           </div>
           <p><span class="inline-code">zip</span> khâu hai dãy song song thành từng cặp —
-            gặp lại thường xuyên khi ghép cột.</p>
+            bạn sẽ gặp lại nó thường xuyên khi ghép cột.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>2.4. Cạm bẫy số 1: gán không phải là sao chép</h2>
+          <h2>Cạm bẫy số 1: gán không phải là sao chép</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
 goc = [1, 2, 3]
@@ -268,22 +268,22 @@ goc
           </div>
           <div class="warn-box">
             <span class="box-title">Cẩn thận</span>
-            Muốn bản sao thật: <code>ban_sao = goc.copy()</code>. Bug "sửa chỗ này hỏng chỗ kia"
+            Muốn có bản sao thật, dùng <code>ban_sao = goc.copy()</code>. Bug "sửa chỗ này hỏng chỗ kia"
             sẽ quay lại ở pandas dưới tên <em>view vs copy</em> — gốc rễ là ở đây.
           </div>
         </section>
 
         <section>
-          <h2>2.5. Khi nào dừng viết vòng lặp?</h2>
+          <h2>Khi nào dừng viết vòng lặp?</h2>
           <ul>
             <li>Lọc/biến đổi đơn giản → comprehension.</li>
-            <li>Dữ liệu <em>số, cùng kiểu, hàng nghìn dòng trở lên</em> → tuần sau: NumPy làm cả dãy
-              một lệnh, nhanh hơn hàng chục lần.</li>
+            <li>Dữ liệu <em>số, cùng kiểu, hàng nghìn dòng trở lên</em> → buổi sau: NumPy xử lý cả dãy
+              bằng một lệnh, nhanh hơn hàng chục lần.</li>
           </ul>
           <div class="key-box">
-            <span class="box-title">Điểm chốt</span>
-            Trong môn này, thấy mình viết <code>for</code> qua từng dòng dữ liệu là tín hiệu dừng lại
-            hỏi: "có công cụ cả-dãy nào làm việc này không?"
+            <span class="box-title">Quan trọng</span>
+            Trong môn này, thấy mình viết <code>for</code> qua từng dòng dữ liệu là tín hiệu để dừng lại
+            và hỏi: "có công cụ cả-dãy nào làm được việc này không?"
           </div>
         </section>
       </section>
@@ -296,8 +296,9 @@ goc
         </section>
 
         <section data-jp-reset>
-          <h2>3.1. Đóng gói một bước làm sạch</h2>
-          <p>Nhớ cột giá <span class="inline-code">"$45,647.00"</span> của Airbnb? Viết hàm dọn nó:</p>
+          <h2>Đóng gói một bước làm sạch</h2>
+          <p>Còn nhớ cột giá <span class="inline-code">"$45,647.00"</span> của Airbnb? Ta viết một hàm
+            để làm sạch nó:</p>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
 def clean_price(s):
@@ -313,11 +314,11 @@ clean_price("$45,647.00"), clean_price(None)
 (45647.0, None)
             </code></pre>
           </div>
-          <p>Hàm này sẽ theo bạn tới tận bài tập lớn — nghĩa đen.</p>
+          <p>Hàm này sẽ theo bạn tới tận bài tập lớn.</p>
         </section>
 
         <section>
-          <h2>3.2. Một hàm tốt trong pipeline dữ liệu</h2>
+          <h2>Một hàm tốt trong pipeline dữ liệu</h2>
           <ul>
             <li><strong>Một việc</strong>: tên hàm nói được việc đó (<code>clean_price</code>,
               không phải <code>xu_ly</code>).</li>
@@ -325,11 +326,11 @@ clean_price("$45,647.00"), clean_price(None)
             <li><strong>Chịu được dữ liệu bẩn</strong>: nói rõ gặp rác thì trả gì (None? lỗi?).</li>
           </ul>
           <p class="text-light">Docstring một dòng + type hint nhẹ (<span class="inline-code">def
-              clean_price(s) -&gt; float | None</span>) — đủ lịch sự, không cần tiểu thuyết.</p>
+              clean_price(s) -&gt; float | None</span>) là đủ cho môn này.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>3.3. try/except: dữ liệu bẩn ném lỗi</h2>
+          <h2>try/except: dữ liệu bẩn ném lỗi</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
 float("N/A")
@@ -347,7 +348,7 @@ ValueError: could not convert string to float: 'N/A'
         </section>
 
         <section data-jp-reset>
-          <h2>3.4. Hàm là giá trị: truyền được, xếp hàng được</h2>
+          <h2>Hàm là giá trị: truyền được như mọi dữ liệu khác</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
 gia_tho = ["$1,200.00", "N/A", "$950.00"]
@@ -358,12 +359,12 @@ list(map(clean_price, gia_tho))
 [1200.0, None, 950.0]
             </code></pre>
           </div>
-          <p>Truyền <em>hàm</em> vào hàm khác — tuần 5 bạn gặp lại đúng pattern này:
+          <p>Truyền <em>hàm</em> vào hàm khác — bạn sẽ gặp lại đúng pattern này ở buổi 5:
             <span class="inline-code">df["price"].map(clean_price)</span>.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>3.5. lambda: hàm nhỏ dùng một lần</h2>
+          <h2>lambda: hàm nhỏ dùng một lần</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
 phong = [{"id": 1, "gia": 1200}, {"id": 2, "gia": 950},
@@ -375,26 +376,27 @@ sorted(phong, key=lambda p: p["gia"], reverse=True)[0]
 {'id': 3, 'gia': 2400}
             </code></pre>
           </div>
-          <p>Quy ước ngầm: lambda vừa một dòng; dài hơn thì đặt tên tử tế bằng <code>def</code>.</p>
+          <p>Quy ước chung: lambda chỉ nên dài một dòng; dài hơn thì viết hàm có tên bằng <code>def</code>.</p>
         </section>
 
         <section>
-          <h2>3.6. Vì sao code dữ liệu đầy dấu chấm?</h2>
+          <h2>Vì sao code dữ liệu đầy dấu chấm?</h2>
           <ul>
             <li>Mọi giá trị Python là <strong>đối tượng</strong> — mang theo phương thức của nó:
               <span class="inline-code">"abc".upper()</span>, <span class="inline-code">[1,2].append(3)</span>.</li>
-            <li>Nên đọc <span class="inline-code">df.groupby("city").mean()</span> là:
-              gọi phương thức của đối tượng, nối nhau thành chuỗi.</li>
+            <li>Hãy đọc <span class="inline-code">df.groupby("city").mean()</span> như một chuỗi
+              lời gọi phương thức nối tiếp nhau.</li>
           </ul>
-          <p class="text-light">Đủ dùng cho môn này. Tự viết lớp (class/OOP) — xem mục Tự học cuối bài.</p>
+          <p class="text-light">Hiểu đến đây là đủ dùng cho môn này; cách tự viết lớp (class/OOP)
+            xem ở mục Tự học cuối bài.</p>
         </section>
 
         <section>
-          <h2>3.7. Module: xếp hàm vào ngăn kéo</h2>
+          <h2>Module: gom hàm để dùng lại</h2>
           <div class="slide-badge-row"><span class="self-study-badge">📖 Tự học</span></div>
           <ul>
             <li><span class="inline-code">import math</span> · <span class="inline-code">from pathlib import
-                Path</span> — dùng đồ có sẵn.</li>
+                Path</span> — dùng thư viện có sẵn.</li>
             <li>Tự viết <span class="inline-code">cleaning.py</span> chứa các hàm làm sạch →
               <span class="inline-code">from cleaning import clean_price</span> — cấu trúc
               <code>src/</code> của bài tập lớn đúng là như vậy.</li>
@@ -406,11 +408,11 @@ sorted(phong, key=lambda p: p["gia"], reverse=True)[0]
       <section>
         <section>
           <h1><span class="text-light">4.</span><br>Đọc &amp; ghi file</h1>
-          <p class="text-light">Dữ liệu không sống trong RAM — nó sống trong file.</p>
+          <p class="text-light">Dữ liệu không nằm sẵn trong RAM — nó nằm trong file, và pipeline phải tự đọc lấy.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>4.1. with open: đọc văn bản an toàn</h2>
+          <h2>with open: đọc văn bản an toàn</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
 with open("ghi_chu.txt", encoding="utf-8") as f:
@@ -418,14 +420,14 @@ with open("ghi_chu.txt", encoding="utf-8") as f:
             </code></pre>
           </div>
           <ul>
-            <li><span class="inline-code">with</span>: tự đóng file kể cả khi lỗi giữa chừng.</li>
-            <li><span class="inline-code">encoding="utf-8"</span>: <strong>luôn ghi rõ</strong> —
-              tiếng Việt vỡ chữ đa số là quên dòng này.</li>
+            <li><span class="inline-code">with</span> tự đóng file, kể cả khi có lỗi giữa chừng.</li>
+            <li><span class="inline-code">encoding="utf-8"</span> phải <strong>luôn ghi rõ</strong> —
+              tiếng Việt vỡ chữ đa số do quên tham số này.</li>
           </ul>
         </section>
 
         <section data-jp-reset>
-          <h2>4.2. CSV "bằng tay" — một lần để hiểu</h2>
+          <h2>CSV "bằng tay" — một lần để hiểu</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
 import csv
@@ -440,11 +442,11 @@ rows[0]
             </code></pre>
           </div>
           <p>Để ý: <strong>mọi thứ là chuỗi</strong>, kể cả id và giá. CSV không mang kiểu dữ liệu —
-            ai đọc người đó tự ép kiểu. Tuần 4, pandas sẽ đoán kiểu hộ (và đôi khi đoán sai).</p>
+            ai đọc người đó tự ép kiểu. Đến buổi 4, pandas sẽ đoán kiểu hộ bạn (và đôi khi đoán sai).</p>
         </section>
 
         <section data-jp-reset>
-          <h2>4.3. JSON: dict đi ra thế giới</h2>
+          <h2>JSON: trao đổi dict giữa các chương trình</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
 import json
@@ -459,11 +461,11 @@ json.loads('{"gia_tb": 45647.0}')["gia_tb"]
 45647.0
             </code></pre>
           </div>
-          <p>JSON ↔ dict/list gần như 1-1 — là "tiếng phổ thông" của API (buổi 6) và cache LLM (buổi 11).</p>
+          <p>JSON ↔ dict/list gần như 1-1 — là định dạng chung của API (buổi 6) và cache LLM (buổi 11).</p>
         </section>
 
         <section data-jp-reset>
-          <h2>4.4. pathlib: đường dẫn không đau khổ</h2>
+          <h2>pathlib: xử lý đường dẫn gọn gàng</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
 from pathlib import Path
@@ -476,7 +478,7 @@ sorted(DATA.parent.glob("*"))
 [PosixPath('data/raw/santiago')]
             </code></pre>
           </div>
-          <p>Nối bằng <span class="inline-code">/</span>, chạy đúng trên mọi hệ điều hành —
+          <p>Đường dẫn nối bằng <span class="inline-code">/</span> và chạy đúng trên mọi hệ điều hành —
             cấu trúc <code>data/raw/&lt;city&gt;/</code> của bài tập lớn viết bằng đúng công cụ này.</p>
         </section>
       </section>
@@ -487,29 +489,29 @@ sorted(DATA.parent.glob("*"))
           <h2>Tổng kết</h2>
           <ul>
             <li><code>None</code> là dữ liệu thiếu; list/dict/set — mỗi thứ một việc.</li>
-            <li>Comprehension = tư duy biến đổi <strong>cả dãy</strong> — cửa ngõ vào NumPy tuần sau.</li>
+            <li>Comprehension = tư duy biến đổi <strong>cả dãy</strong> — cửa ngõ vào NumPy buổi sau.</li>
             <li>Pipeline = chuỗi hàm nhỏ chịu được dữ liệu bẩn (try/except đúng loại lỗi).</li>
             <li>File: <code>with</code> + <code>encoding="utf-8"</code>; CSV không mang kiểu, JSON ↔ dict.</li>
           </ul>
         </section>
 
         <section>
-          <h2>Làm với AI thì sao?</h2>
-          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <h2>Làm việc với AI thì sao?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
           <div class="good-box">
             <span class="box-title">AI làm tốt</span>
-            Viết các hàm tiện ích kiểu <code>clean_price</code> — bài toán kinh điển, AI thuộc làu.
+            Viết các hàm tiện ích kiểu <code>clean_price</code> — bài toán kinh điển mà AI làm rất tốt.
           </div>
           <div class="warn-box">
             <span class="box-title">AI hay sai</span>
-            Ưa <code>except Exception: pass</code> cho "chạy được"; quên <code>encoding</code>;
-            trả code đúng với ví dụ của bạn nhưng gãy với ca lạ (giá âm, chuỗi rỗng…).
+            Hay dùng <code>except Exception: pass</code> để code "chạy được"; hay quên <code>encoding</code>;
+            code đúng với ví dụ bạn đưa nhưng sai với ca lạ (giá âm, chuỗi rỗng…).
           </div>
         </section>
 
         <section>
           <h2>Kiểm chứng thế nào?</h2>
-          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm với AI</span></div>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
           <ul>
             <li>Đưa hàm AI viết qua <strong>bộ ca thử tự nghĩ</strong>: giá trị bình thường, rỗng,
               <code>None</code>, âm, sai định dạng.</li>
