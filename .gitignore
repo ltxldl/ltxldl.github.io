@@ -5,6 +5,7 @@ package-lock.json
 .idea/
 .conda/
 .claude/
+.venv/
 
 # Học liệu KHÔNG public: đáp án lab, giáo án trợ giảng, đề micro-exercise (gửi TA qua Canvas)
 2627-1/private/
