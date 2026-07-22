@@ -96,7 +96,7 @@
           </div>
           <div class="key-box">
             <span class="box-title">Quan trọng</span>
-            Đổi tự do lấy tốc độ: mảng NumPy "cứng nhắc" hơn list — và chính vì thế mà nhanh.
+            Đổi sự tự do lấy tốc độ: mảng NumPy "cứng nhắc" hơn list — nhưng chính vì thế mà nó nhanh.
           </div>
         </section>
 
@@ -259,7 +259,7 @@ array([1200,  950, 2400])
             </code></pre>
           </div>
           <p>Bài 2 lọc bằng comprehension, buổi này lọc bằng <strong>mặt nạ bool</strong> —
-            nhanh hơn, và là cú pháp bạn dùng cả kỳ trong pandas.</p>
+            nhanh hơn, và là cú pháp bạn dùng trong pandas.</p>
         </section>
 
         <section data-jp-reset>
@@ -277,7 +277,7 @@ array([1200,  950])
             <span class="box-title">Cẩn thận</span>
             Với mảng phải dùng <code>&amp;</code>, <code>|</code>, <code>~</code> và
             <strong>ngoặc quanh từng vế</strong>. Viết <code>and</code>/<code>or</code> là
-            <code>ValueError</code> — lỗi kinh điển tuần đầu dùng pandas.
+            <code>ValueError</code> — lỗi kinh điển khi bắt đầu dùng pandas.
           </div>
         </section>
 
@@ -297,7 +297,7 @@ array(['cao', 'bình dân', 'cao', 'bình dân'], dtype='&lt;U8')
         </section>
 
         <section>
-          <h2>Broadcasting: mảng nhỏ tự "kéo giãn"</h2>
+          <h2>Broadcasting: mảng nhỏ tự kéo giãn</h2>
           <figure class="fig">
             <img src="img/lecture-03/broadcasting.svg" alt="Broadcasting ma trận (4,3) cộng vector (3,)"
               style="width:88%">
@@ -419,7 +419,7 @@ gia.mean(), np.nanmean(gia)
         </section>
 
         <section data-jp-reset>
-          <h2>percentile: thước đo không sợ outlier</h2>
+          <h2>Phân vị: thước đo không sợ ngoại lai</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="6"><code class="language-python" data-trim>
 gia = rng.lognormal(7, 0.5, size=10_000)   # phân phối giá "lệch phải"
@@ -430,7 +430,7 @@ np.percentile(gia, [50, 95, 99]).round()
 array([1089., 2493., 3561.])
             </code></pre>
           </div>
-          <p>"Giá vượt P99" là quy tắc gắn cờ outlier phổ biến — buổi 10 bạn sẽ tự đề xuất
+          <p>"Giá vượt P99" là quy tắc gắn cờ ngoại lai phổ biến — buổi 10 bạn sẽ tự đề xuất
             ngưỡng và bảo vệ nó.</p>
         </section>
       </section>
@@ -439,7 +439,7 @@ array([1089., 2493., 3561.])
       <section>
         <section>
           <h1><span class="text-light">5.</span><br>Lát cắt, view &amp; copy</h1>
-          <p class="text-light">Cạm bẫy bài 2 quay lại — phiên bản NumPy.</p>
+          <p class="text-light">Cạm bẫy bài 2 phiên bản NumPy.</p>
         </section>
 
         <section data-jp-reset>

@@ -79,6 +79,10 @@ Ngoài ra: component `.pipeline` đang quá khổ — GV phải chèn inline `st
 - Menu path rút gọn còn tên lệnh ("Runtime → Restart session and run all" → "Restart session and run all").
 - "sau notebook này, bạn:" → "…, bạn sẽ:" (đủ trợ động từ trước danh sách mục tiêu).
 
+## 9b. Thuật ngữ Việt hoá thêm (QĐ GV khi duyệt buổi 3, 22/07/2026)
+
+- **percentile → phân vị**, **outlier → ngoại lai** trong văn xuôi/tiêu đề; lần đầu xuất hiện trong mỗi tài liệu chú thích ngoặc "(percentile)"/"(outlier)". Tên API (`np.percentile`), tên biến, chuỗi trong output giữ nguyên. Lưu ý buổi 10 (làm sạch dữ liệu) dùng dày đặc hai từ này — khi duyệt đến buổi 10 phải áp đồng bộ.
+
 ## 10. Slide code & tiêu đề (nối dài mục 5)
 
 - Tiêu đề `<h2>` cắt từ đệm: "chuyện định dạng" → "định dạng"; "CSV 'bằng tay' — một lần để hiểu" → "CSV thủ công"; "Cạm bẫy số 1" → "Cạm bẫy 1"; "máy lọc dữ liệu thủ công" → "lọc dữ liệu thủ công".
