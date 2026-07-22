@@ -71,7 +71,7 @@ Nội dung private/: `ta-guide-01..15.md` (mục tiêu, timeline 100', đáp án
 | 11. LLM & phi cấu trúc | ✅ 40 | ✅ | Interactions API 2026 xác minh từ SDK; chạy trọn không cần key nhờ cache |
 | 12. Trực quan hoá cơ bản | ✅ 27 | ✅ | 7 hình sinh script từ dữ liệu thật |
 | 13. Trực quan hoá nâng cao | ✅ 30 | ✅ | choropleth geojson thật + 3 "hình AI lỗi" |
-| 14. Kể chuyện & audit AI | ✅ 25 | ✅ | audit 5 kết luận AI, số liệu thật 100% |
+| 14. Kể chuyện & thẩm định AI | ✅ 25 | ✅ | thẩm định 5 kết luận AI, số liệu thật 100% |
 | 15. Vấn đáp BTL | ✅ 16 | — | checklist nộp + kịch bản vấn đáp |
 
 Mỗi deck nội dung kết bằng mục "Làm với AI thì sao?" (đã kiểm tự động). Mọi hình đều có script tái sinh trong `img/lecture-XX/scripts/`.

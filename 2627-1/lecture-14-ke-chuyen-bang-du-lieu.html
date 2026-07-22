@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <title>LTXLDL | Bài 14: Kể chuyện bằng dữ liệu &amp; audit phân tích AI</title>
+  <title>LTXLDL | Bài 14: Kể chuyện bằng dữ liệu &amp; thẩm định phân tích AI</title>
 
   <link rel="stylesheet" href="revealjs/dist/reset.css">
   <link rel="stylesheet" href="revealjs/dist/reveal.css" />
@@ -32,7 +32,7 @@
           <h1>
             <span class="text-light">Bài 14</span>
             <br>
-            Kể chuyện bằng dữ liệu<br>&amp; audit phân tích AI
+            Kể chuyện bằng dữ liệu<br>&amp; thẩm định phân tích AI
           </h1>
           <p class="text-light">Buổi nội dung cuối — nơi mọi buổi trước hợp lại.</p>
         </section>
@@ -74,7 +74,7 @@
           <ol>
             <li>Từ phân tích đến câu chuyện</li>
             <li>Kể chuyện đúng mực — các bẫy diễn giải</li>
-            <li>Audit một bản phân tích do AI viết</li>
+            <li>Thẩm định (audit) một bản phân tích do AI viết</li>
             <li>Làm việc với AI thì sao?</li>
           </ol>
         </section>
@@ -276,13 +276,13 @@
       <!-- ====== Phần 3 ====== -->
       <section>
         <section>
-          <h1><span class="text-light">3.</span><br>Audit một bản phân tích<br>do AI viết</h1>
+          <h1><span class="text-light">3.</span><br>Thẩm định một bản phân tích<br>do AI viết</h1>
           <p class="text-light">Notebook buổi này có một "báo cáo AI" 5 kết luận về Santiago.
             Ta mổ xẻ ba kết luận ngay tại đây.</p>
         </section>
 
         <section>
-          <h2>Quy trình audit 4 bước</h2>
+          <h2>Quy trình thẩm định 4 bước</h2>
           <div class="pipeline">
             <div class="stage">
               <div class="stage-title">1. Truy số</div>
@@ -358,7 +358,7 @@
         </section>
 
         <section>
-          <h2>Bảng phán quyết — sản phẩm của một cuộc audit</h2>
+          <h2>Bảng phán quyết — đầu ra thẩm định</h2>
           <table class="compact-table">
             <thead>
               <tr>
@@ -403,18 +403,18 @@
           <div class="key-box" style="margin-top:0.5em">
             <span class="box-title">Quan trọng</span>
             Cả ba lỗi đều có <strong>số đúng</strong> — AI hiếm khi sai phép tính, nó sai ở
-            phương pháp và diễn giải. Audit vì thế không phải là "kiểm tra máy tính",
-            mà là việc của người hiểu dữ liệu. Và xác nhận KL1, KL5 đúng cũng là kết quả audit.
+            phương pháp và diễn giải. Thẩm định vì thế không phải là "kiểm tra máy tính",
+            mà là việc của người hiểu dữ liệu. Và xác nhận KL1, KL5 đúng cũng là kết quả thẩm định.
           </div>
         </section>
 
         <section>
           <h2>Đây chính là kỳ vấn đáp của bạn</h2>
           <ul>
-            <li>Vấn đáp BTL = giảng viên <strong>audit</strong> sản phẩm của nhóm:
+            <li>Vấn đáp BTL = giảng viên <strong>thẩm định</strong> sản phẩm của nhóm:
               truy số, kiểm phương pháp, kiểm diễn giải — đúng 4 bước này.</li>
-            <li>Cách ôn tốt nhất: nhóm tự audit chéo báo cáo của nhau trước khi nộp
-              (và audit chính những gì AI đã viết hộ mình — <code>AI_USAGE.md</code>
+            <li>Cách ôn tốt nhất: nhóm tự thẩm định chéo báo cáo của nhau trước khi nộp
+              (và thẩm định chính những gì AI đã viết hộ mình — <code>AI_USAGE.md</code>
               mục "AI sai ở đâu" lấy nội dung từ đây).</li>
           </ul>
         </section>
@@ -429,7 +429,7 @@
             <li>Số trong văn: tỷ lệ so sánh dễ nhớ; giới hạn nêu trước khi bị hỏi.</li>
             <li>Bốn bẫy diễn giải: suy nhân quả từ tương quan, mốc so sánh có lợi, Simpson (mix đổi),
               lời quá cỡ số.</li>
-            <li>Audit 4 bước: truy số → phương pháp → diễn giải → phán quyết từng kết luận.</li>
+            <li>Thẩm định 4 bước: truy số → phương pháp → diễn giải → phán quyết từng kết luận.</li>
           </ul>
         </section>
 
@@ -451,7 +451,7 @@
           <h2>Kiểm chứng thế nào?</h2>
           <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
           <ul>
-            <li>Chạy <strong>audit 4 bước</strong> trên mọi đoạn văn AI viết về dữ liệu của bạn —
+            <li>Chạy <strong>thẩm định 4 bước</strong> trên mọi đoạn văn AI viết về dữ liệu của bạn —
               buổi này chính là quy trình đó.</li>
             <li>Quy tắc cuối môn học: <em>bạn ký tên thì bạn chịu trách nhiệm</em> —
               với từng con số, từng chữ "vì thế".</li>
@@ -473,7 +473,7 @@
 
       <!-- Footer -->
       <div class="footer">
-        LTXLDL (2627-1) · Bài 14: Kể chuyện bằng dữ liệu &amp; audit phân tích AI
+        LTXLDL (2627-1) · Bài 14: Kể chuyện bằng dữ liệu &amp; thẩm định phân tích AI
       </div>
     </div>
   </div>

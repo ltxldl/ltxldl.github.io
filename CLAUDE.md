@@ -66,8 +66,8 @@ Bối cảnh: môn thiết kế "tiền-AI"; mọi bài code về nhà và cả 
 | 10 | Làm sạch dữ liệu có cấu trúc (missing/outlier/trùng lặp, bộ quy tắc QA) |
 | 11 | **Xử lý dữ liệu phi cấu trúc bằng LLM** (Gemini API, structured output, so với baseline regex, đánh giá trên mẫu gán nhãn tay, chi phí/batching/hallucination) |
 | 12 | Trực quan hoá cơ bản (matplotlib, pandas plot) |
-| 13 | Trực quan hoá nâng cao (seaborn, tương tác) + phê bình biểu đồ do AI sinh |
-| 14 | Kể chuyện bằng dữ liệu + audit một bản phân tích do AI tạo |
+| 13 | Trực quan hoá nâng cao (seaborn, tương tác) + phản biện biểu đồ do AI sinh |
+| 14 | Kể chuyện bằng dữ liệu + thẩm định một bản phân tích do AI tạo |
 | 15 | Trình bày BTL (deck hướng dẫn vấn đáp + checklist nộp bài) |
 
 Mỗi deck nội dung (trừ buổi 9, 15) kết bằng mục **"Làm với AI thì sao?"** (2–3 slide: AI làm tốt gì / hay sai gì ở chủ đề này / kiểm chứng thế nào).
