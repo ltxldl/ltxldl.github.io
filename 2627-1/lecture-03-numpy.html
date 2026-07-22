@@ -40,9 +40,9 @@
           <h2>Buổi trước</h2>
           <ul>
             <li>list/dict/set, comprehension, hàm làm sạch, file.</li>
-            <li>Lời hẹn buổi trước: "thấy mình <code>for</code> qua từng dòng dữ liệu — dừng lại".</li>
+            <li>Vấn đề buổi trước: "khi thấy mình đang <code>for</code> qua từng dòng dữ liệu — dừng lại".</li>
           </ul>
-          <p class="text-light">Buổi này thực hiện lời hẹn đó: công cụ thao tác <strong>cả triệu con số
+          <p class="text-light">Buổi này công cụ thao tác <strong>cả triệu con số
               bằng một lệnh</strong>.</p>
         </section>
 
@@ -63,13 +63,13 @@
       <section>
         <section>
           <h1><span class="text-light">1.</span><br>Vì sao cần NumPy?</h1>
-          <p class="text-light">Vòng for Python không sinh ra cho hàng triệu con số.</p>
+          <p class="text-light">Vòng for Python không được thiết kế cho hàng triệu con số.</p>
         </section>
 
         <section>
-          <h2>Cùng một việc, hai tốc độ</h2>
+          <h2>Cùng việc: tốc độ xử lý khác nhau</h2>
           <figure class="fig">
-            <img src="img/lecture-03/speed-comparison.png" alt="So sánh tốc độ vòng for và NumPy"
+            <img src="img/lecture-03/speed-comparison.svg" alt="So sánh tốc độ vòng for và NumPy"
               style="width:82%">
             <figcaption class="caption">Nhân 5 triệu số với 1.1 rồi cộng tổng: NumPy nhanh hơn cả chục lần —
               khoảng cách còn lớn hơn với phép toán phức tạp.</figcaption>
@@ -299,7 +299,7 @@ array(['cao', 'bình dân', 'cao', 'bình dân'], dtype='&lt;U8')
         <section>
           <h2>Broadcasting: mảng nhỏ tự "kéo giãn"</h2>
           <figure class="fig">
-            <img src="img/lecture-03/broadcasting.png" alt="Broadcasting ma trận (4,3) cộng vector (3,)"
+            <img src="img/lecture-03/broadcasting.svg" alt="Broadcasting ma trận (4,3) cộng vector (3,)"
               style="width:88%">
             <figcaption class="caption">Cộng ma trận (4,3) với vector (3,): NumPy tự áp vector lên từng hàng —
               không cần viết vòng lặp, không tốn thêm bộ nhớ.</figcaption>
@@ -353,7 +353,7 @@ gia.mean(), np.median(gia), gia.std().round(1)
         <section>
           <h2>axis: hướng của phép tổng hợp</h2>
           <figure class="fig">
-            <img src="img/lecture-03/axis.png" alt="mean theo axis 0 và axis 1" style="width:92%">
+            <img src="img/lecture-03/axis.svg" alt="mean theo axis 0 và axis 1" style="width:92%">
             <figcaption class="caption">axis=0 "nuốt" chiều hàng → một số mỗi cột; axis=1 "nuốt" chiều cột →
               một số mỗi hàng.</figcaption>
           </figure>
