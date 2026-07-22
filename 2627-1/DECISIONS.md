@@ -35,10 +35,10 @@
 
 ## Quyết định của giảng viên (06/07/2026 — cơ chế điểm 20% "bài tập trên lớp")
 
-- **Thay micro-exercise bằng 5 bài kiểm tra giấy 15 phút ĐẦU GIỜ LÝ THUYẾT các tuần 3, 5, 7, 11, 13** (chế độ 🔒 đóng, phạm vi đến hết tuần trước). Đề do giảng viên sinh từ hệ thống ngân hàng câu hỏi riêng (IAI Assessment Hub), **ngoài repo** — lý do giảng viên chọn phương án này.
+- **Thay micro-exercise bằng 5 bài kiểm tra giấy 15 phút ĐẦU GIỜ LÝ THUYẾT các tuần 3, 5, 7, 11, 13** (chế độ 🚫 đóng, phạm vi đến hết tuần trước). Đề do giảng viên sinh từ hệ thống ngân hàng câu hỏi riêng (IAI Assessment Hub), **ngoài repo** — lý do giảng viên chọn phương án này.
 - Micro-exercise **không còn lấy điểm** và bỏ hẳn khỏi timeline giờ thực hành — lab dùng trọn ~100 phút. 13 file `micro-XX.md` giữ trong `private/` nhưng đổi vai trò thành **đề luyện tự học** (GV/TA phát qua Canvas Portal tuỳ ý, không chấm).
 - Đã cập nhật theo: deck buổi 1 (bảng Cơ cấu điểm + slide Kế hoạch mỗi tuần — 2 chỗ duy nhất được đụng), `ai-policy.html`, cell "Cách làm việc" của 13 lab notebook, ghi chú dưới bảng lịch `index.html`, CLAUDE.md mục Giờ thực hành, 15 giáo án TA + README + 13 đề luyện trong private/.
-- *Quyết định nhỏ của Claude khi giãn timeline giáo án TA* (giảng viên đảo lại được): tuần 1–8 — khối micro (80→96/97/98) nhập vào phần bài tự làm 🔓 tại lớp (đến phút 95, TA đi vòng hỗ trợ), chốt 95–100; tuần 10–14 — BTL clinic kéo dài đến phút 90 + 5 phút chữa chung vấn đề nổi bật, chốt 95–100; các guide tuần 2/4/6/10/12 thêm lời nhắc cuối giờ "tuần sau có bài kiểm tra 15 phút đầu giờ lý thuyết".
+- *Quyết định nhỏ của Claude khi giãn timeline giáo án TA* (giảng viên đảo lại được): tuần 1–8 — khối micro (80→96/97/98) nhập vào phần bài tự làm ✅ mở tại lớp (đến phút 95, TA đi vòng hỗ trợ), chốt 95–100; tuần 10–14 — BTL clinic kéo dài đến phút 90 + 5 phút chữa chung vấn đề nổi bật, chốt 95–100; các guide tuần 2/4/6/10/12 thêm lời nhắc cuối giờ "tuần sau có bài kiểm tra 15 phút đầu giờ lý thuyết".
 
 ## Quyết định của giảng viên (06/07/2026 — chốt sau đợt dựng)
 
@@ -50,3 +50,9 @@
 - **Giữa kỳ**: viết trên giấy, có giám sát; thời lượng & cấu trúc điểm để placeholder, quyết trước ngày thi.
 - **Vấn đáp BTL**: ~20 phút/nhóm — trình bày + demo pipeline ~5' · hỏi riêng từng thành viên ~10' (2–3'/người) · live task ~5'.
 - **Trang đề BTL tái thiết kế (06/07/2026, theo yêu cầu GV)**: bỏ Bootstrap, dùng chung `index-pages.css` + khối style riêng cùng pattern với `ai-policy.html` (callout 6 màu, task-card, data-table cùng hệ với schedule-table); nội dung giữ nguyên; sửa nốt "trình bày ~10 phút" → "~5 phút" cho khớp phiên vấn đáp 20'.
+
+## Quyết định của giảng viên (22/07/2026 — ký hiệu chế độ & publish chọn lọc)
+
+- **Ký hiệu chế độ đánh giá: 🚫 đóng / ✅ mở** thay cặp khoá 🔒/🔓 — hai hình khoá quá giống nhau, bản in đen trắng (5 bài kiểm tra giấy) không phân biệt được. Thay toàn cục 37 file (slide, notebook demo, lab, ai-policy, index, đề BTL, private/); chỗ emoji đứng một mình được bổ sung chữ ("(🚫 đóng)", "✅ mở") để ✅ không bị đọc nhầm thành "đã xong". Quy ước từ nay: emoji chế độ luôn đi kèm chữ "đóng"/"mở".
+- Nhân tiện sửa nốt `private/micro-01.md` còn 2 chỗ nhắc micro-exercise như hoạt động lấy điểm (đã bỏ từ 06/07) — thay bằng "bài kiểm tra giấy 15 phút đầu giờ lý thuyết".
+- **Publish chọn lọc lên `main`**: giảng viên duyệt đến đâu public đến đó, không merge cả nhánh. Đợt 1 (22/07/2026): hạ tầng + index (root & học kỳ) + `ai-policy.html` + trọn bộ buổi 1–2 (slide, notebook demo, lab); index bản `main` chỉ link các buổi đã public. Quy trình chi tiết: CLAUDE.md mục "Quy trình publish chọn lọc".

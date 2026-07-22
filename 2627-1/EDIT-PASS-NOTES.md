@@ -22,7 +22,7 @@ Ngoài ra: component `.pipeline` đang quá khổ — GV phải chèn inline `st
 
 - **Bỏ ẩn dụ lạ**, gọi thẳng tên khái niệm: "con đường từ thô đến giá trị" → "quá trình từ dữ liệu thô đến quyết định"; "'tiếng mẹ đẻ' của cả AI" → "ngôn ngữ chính của cả ngành AI"; venv là "'hộp' thư viện" → "môi trường / bộ thư viện tách biệt" (sửa cả trong comment code: "tạo hộp" → "tạo môi trường tại thư mục .venv").
 - **Bỏ từ đệm giật tít** ở đầu tiêu đề/subtitle: "Sự thật: AI viết code rất khá" → "AI viết code dữ liệu rất tốt"; subtitle "Chuyện phải nói thẳng ngay buổi đầu." → câu nêu đúng nội dung ("Minh bạch với AI: khai báo, hiểu, kiểm chứng.").
-- **Bỏ emoji đùa** trong câu (😉); emoji chức năng (🔒 🔓 🤖 ⚠️ 📖) giữ nguyên.
+- **Bỏ emoji đùa** trong câu (😉); emoji chức năng (🚫 ✅ 🤖 ⚠️ 📖) giữ nguyên; cặp chế độ đánh giá là 🚫 đóng / ✅ mở — QĐ GV 22/07/2026 thay cặp khoá 🔒/🔓 cũ vì hai khoá quá giống nhau, in đen trắng không phân biệt được; emoji chế độ luôn đi kèm chữ "đóng"/"mở".
 - **Bớt khẩu ngữ ăn thua/suồng sã**: "thắng thua ở sản phẩm" → "được quyết định bởi sản phẩm"; "làm tử tế" → "làm tốt"; "cứ bấm đã" → "cũng có thể chạy để xem kết quả"; "AI được chào đón" → "AI được phép sử dụng"; "giấu mới là vấn đề" → "giấu diếm là vấn đề".
 - **Không triệt tiêu hết cá tính**: ví dụ sinh động được giữ ("dữ liệu bẩn → kết luận… cũng bẩn"); thành ngữ dễ hiểu giữ kèm chú giải trong ngoặc ("giẫm chân nhau (xung đột thư viện)").
 

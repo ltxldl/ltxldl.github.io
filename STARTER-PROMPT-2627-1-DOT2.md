@@ -19,7 +19,7 @@ Bạn đang ở repo học liệu môn Lập trình xử lý dữ liệu (UET.DS
 
 ## Việc B — Học liệu giờ thực hành
 
-Bối cảnh: mỗi tuần có 2 tiết thực hành (~100') do **trợ giảng** dạy, tách khỏi giờ lý thuyết. Nhịp đã chốt: tuần 1–8 = lab ~80' + micro-exercise 🔒 ~20'; tuần 9 = chữa giữa kỳ; tuần 10–14 = lab ~50' + BTL clinic ~30' + micro ~20'; tuần 15 = tổng duyệt vấn đáp.
+Bối cảnh: mỗi tuần có 2 tiết thực hành (~100') do **trợ giảng** dạy, tách khỏi giờ lý thuyết. Nhịp đã chốt: tuần 1–8 = lab ~80' + micro-exercise 🚫 ~20'; tuần 9 = chữa giữa kỳ; tuần 10–14 = lab ~50' + BTL clinic ~30' + micro ~20'; tuần 15 = tổng duyệt vấn đáp.
 
 **LÀM ĐẦU TIÊN — bộ mẫu tuần 2 để giảng viên duyệt sớm** (commit ngay khi xong, trước mọi việc khác):
 1. `2627-1/notebooks/lab-02.ipynb` — lab mẫu.
@@ -31,7 +31,7 @@ Sau khi có bộ mẫu → làm việc A → rồi quay lại nhân rộng việ
 ### Chuẩn lab notebook (`notebooks/lab-XX.ipynb`, public — tuần 1–8 và 10–14, tổng 13 file)
 
 - Tiếng Việt, theo văn phong `EDIT-PASS-NOTES.md`; chạy được trên Colab từ đầu đến cuối.
-- Cấu trúc: **mục tiêu** (bám deck tuần đó, 3–4 gạch đầu dòng) → **warm-up** ~10' (làm lại thao tác lõi của bài giảng) → **bài tập có hướng dẫn** (~60' tuần 1–8 / ~40' tuần 10–14; chia bước, có ô TODO + assert tự kiểm tra để sinh viên biết mình đúng/sai ngay) → **bài tự làm 🔓** (1–2 bài nâng cao cho sinh viên nhanh, được dùng AI kèm nhắc khai báo).
+- Cấu trúc: **mục tiêu** (bám deck tuần đó, 3–4 gạch đầu dòng) → **warm-up** ~10' (làm lại thao tác lõi của bài giảng) → **bài tập có hướng dẫn** (~60' tuần 1–8 / ~40' tuần 10–14; chia bước, có ô TODO + assert tự kiểm tra để sinh viên biết mình đúng/sai ngay) → **bài tự làm ✅ mở** (1–2 bài nâng cao cho sinh viên nhanh, được dùng AI kèm nhắc khai báo).
 - Dữ liệu: tái dùng bộ Airbnb Santiago của notebook demo (URL sẵn có) — nhưng **bài tập phải khác** bài trong notebook demo, không copy.
 - Lab KHÔNG chứa micro-exercise (đề đó phát tại chỗ, nằm trong `private/`).
 - Tuần 10–14: cuối lab thêm mục "BTL clinic" ngắn — checklist tự kiểm tra tiến độ nhóm tuần đó (bám mốc đề BTL) để trợ giảng đi từng nhóm.
@@ -43,7 +43,7 @@ Sau khi có bộ mẫu → làm việc A → rồi quay lại nhân rộng việ
 
 ### Chuẩn đề micro-exercise (`private/micro-XX.md`, tuần 1–8 và 10–14, 13 đề, KHÔNG public)
 
-- 15–20', chế độ 🔒 (không AI, trợ giảng giám sát), đo kỹ năng lõi của tuần; ghi rõ làm trên giấy hay Colab.
+- 15–20', chế độ 🚫 đóng (không AI, trợ giảng giám sát), đo kỹ năng lõi của tuần; ghi rõ làm trên giấy hay Colab.
 - Mỗi đề **2 biến thể** (A/B, đổi số liệu/cột) để hạn chế nhìn bài; kèm đáp án + thang điểm 10.
 - Đây là nguồn chính của 20% "điểm bài tập trên lớp" — độ khó vừa phải: sinh viên theo kịp lab phải làm được 7–8 điểm.
 
