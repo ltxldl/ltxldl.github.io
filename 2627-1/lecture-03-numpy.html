@@ -157,7 +157,7 @@ array([1076., 740., 1188., 1235., 512.])
         </section>
 
         <section data-jp-reset>
-          <h2>dtype không phải chuyện hình thức</h2>
+          <h2>dtype không chỉ là hình thức</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
 diem = np.array(["7.5", "8.0", "9.25"])   # đọc từ CSV: toàn chuỗi!
@@ -242,8 +242,8 @@ array([ True, False,  True, False])
 (2, 0.5)
             </code></pre>
           </div>
-          <p>Mẹo đáng nhớ: <code>sum</code> trên mảng bool = <em>đếm</em>;
-            <code>mean</code> = <em>tỷ lệ</em>. Một nửa số KPI của bài tập lớn quy về đúng thao tác này.</p>
+          <p>Ghi nhớ: <code>sum</code> trên mảng bool = <em>đếm</em>;
+            <code>mean</code> = <em>tỷ lệ</em>.</p>
         </section>
 
         <section data-jp-reset>
@@ -377,7 +377,7 @@ gia_4tp_3thang.mean(axis=1)   # giá TB mỗi THÀNH PHỐ (gộp 3 tháng)
 array([11. , 21.7, 31.3, 42. ])
             </code></pre>
           </div>
-          <p>Mẹo nhớ: <strong>axis nào bị nêu tên, chiều đó biến mất</strong> khỏi kết quả.</p>
+          <p>Ghi nhớ: <strong>axis nào bị nêu tên, chiều đó biến mất</strong> khỏi kết quả.</p>
         </section>
 
         <section data-jp-reset>
@@ -449,10 +449,20 @@ array([1089., 2493., 3561.])
 M = gia_4tp_3thang        # (4 thành phố × 3 tháng)
 
 M[0]        # hàng đầu (thành phố 1)
-M[:, 1]     # cột 1 (tháng thứ hai, mọi thành phố)
-M[1, 2]     # một ô
             </code></pre>
             <pre class="jp-output jp-compact" data-jp-n="1"><code class="language-text" data-trim>
+array([10, 12, 11])
+            </code></pre>
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+M[:, 1]     # cột 1 (tháng thứ hai, mọi thành phố)
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="2"><code class="language-text" data-trim>
+array([12, 21, 33, 44])
+            </code></pre>
+            <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
+M[1, 2]     # một ô
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="3"><code class="language-text" data-trim>
 24
             </code></pre>
           </div>
@@ -463,13 +473,13 @@ M[1, 2]     # một ô
         <section data-jp-reset>
           <h2>Lát cắt là view — sửa lát cắt là sửa mảng gốc</h2>
           <div class="jp-cell">
-            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+            <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
 hang_dau = M[0]          # view — nhìn chung khối nhớ với M
 hang_dau[0] = 999
 
 M[0]
             </code></pre>
-            <pre class="jp-output jp-compact" data-jp-n="2"><code class="language-text" data-trim>
+            <pre class="jp-output jp-compact" data-jp-n="4"><code class="language-text" data-trim>
 array([999,  12,  11])
             </code></pre>
           </div>
@@ -484,13 +494,13 @@ array([999,  12,  11])
         <section data-jp-reset>
           <h2>Fancy indexing: chọn theo danh sách vị trí</h2>
           <div class="jp-cell">
-            <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
+            <pre class="jp-input" data-jp-n="5"><code class="language-python" data-trim>
 gia = np.array([1200, 950, 2400, 610, 980])
 top2 = gia.argsort()[-2:][::-1]     # vị trí 2 giá cao nhất
 
 top2, gia[top2]
             </code></pre>
-            <pre class="jp-output jp-compact" data-jp-n="3"><code class="language-text" data-trim>
+            <pre class="jp-output jp-compact" data-jp-n="5"><code class="language-text" data-trim>
 (array([2, 0]), array([2400, 1200]))
             </code></pre>
           </div>

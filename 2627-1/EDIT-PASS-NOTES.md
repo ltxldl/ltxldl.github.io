@@ -50,3 +50,37 @@ Ngoài ra: component `.pipeline` đang quá khổ — GV phải chèn inline `st
 1. Sau khi sửa chữ, **chạy lại kiểm tra tràn khung 960×700** (Playwright, như đợt dựng) trên toàn bộ deck đã sửa — câu dài ra dễ gây tràn.
 2. Slide "Kế hoạch mỗi tuần" (mọi deck nào nhắc nhịp tuần): cập nhật theo cấu trúc **2 tiết lý thuyết + 2 tiết thực hành** — nội dung cụ thể theo kế hoạch giờ thực hành (xem CLAUDE.md khi đã chốt).
 3. Deck nào có mục tự đánh giá cấu trúc ("Hôm nay", badge…) thì cập nhật đồng bộ với quy ước mục 1.
+
+---
+
+# Bổ sung v2 — rút từ lượt duyệt buổi 1–2 + ai-policy của giảng viên (22/07/2026)
+
+> Nguồn: 7 commit `tune/update` của GV (`c9b841d`…`bb3cf31`). Áp cho pass duyệt-từng-buổi trước khi publish (buổi 3 trở đi). Các quy tắc v1 ở trên vẫn nguyên hiệu lực.
+
+## 7. Chi tiết dễ thay đổi → nói mềm, chỉ giữ ở một nơi chính tắc
+
+- Lịch kiểm tra cụ thể "tuần 3, 5, 7, 11, 13" → "**~5 tuần**" / "~5 bài kiểm tra giấy 15 phút" trong mọi học liệu hướng SV (con số tuần cụ thể chỉ nằm trong tài liệu nội bộ + công bố Canvas Portal khi có thời khoá biểu). Tương tự: bỏ "(buổi 9)", "(giám sát)"/"có giám sát".
+- Trọng số % chỉ xuất hiện trong **bảng Cơ cấu điểm** (deck 1); mọi chỗ khác nhắc đầu điểm thì không kèm %.
+- Nhãn đầu điểm theo tên đề cương: "Quiz trên lớp — ~5 bài kiểm tra giấy 15 phút".
+
+## 8. Chế độ đóng/mở gắn với *hoạt động*, không gắn với đầu điểm
+
+- "Bài tập lớn" trong danh sách chế độ mở → "**Làm bài tập lớn tại nhà**" (BTL tổng thể gồm cả vấn đáp đóng).
+- Nhãn mục tự làm trong lab: "(làm sớm tại lớp hoặc làm tại nhà)" — không dùng "(làm xong sớm / về nhà)".
+
+## 9. Giọng trung tính (nối dài mục 2) — danh sách thay cụ thể
+
+- "cho tử tế" → "một cách có trách nhiệm" · "đàng hoàng" → "đầy đủ" · "gây lú" → "gây nhầm lẫn" · "như bạn tưởng" → "như bạn nghĩ" · "Ngoài đời" → "Thực tế hiện nay" · "hai thứ" → "hai quy tắc".
+- "Quy tắc vàng" → "Quy tắc" · "Câu hỏi đáng ngẫm" → "Câu hỏi" hoặc "Câu hỏi tự học" · "Thử thách về nhà 🏆" → "Bài tập về nhà" (bỏ 🏆).
+- **Cắt lời rao lặp**: "— thành phố sẽ đi cùng lớp đến hết môn", "— đúng nguồn dữ liệu của bài tập lớn", "đúng các lỗi bạn sẽ gặp trong bài tập lớn", "Hàm này sẽ theo bạn tới tận bài tập lớn", "loại câu hỏi bạn sẽ gặp trong vấn đáp", "— thuộc từ bây giờ, dùng đến hết môn", "(là) đủ cho môn này" → mỗi kết nối BTL/xuyên-môn chỉ nói **một lần** trong cả bộ học liệu, các chỗ lặp cắt thẳng.
+- Xưng hô TA trong học liệu SV: "trợ giảng" → "**giảng viên thực hành**" (khi chỉ người dạy giờ thực hành; tên giờ học vẫn là "giờ thực hành").
+- Bài debug không mách trước chỗ lỗi (bỏ comment kiểu `# <-- có gì đó sai sai`).
+- Tên hình/caption ngắn gọn, không văn vẻ ("Chim to thì cánh dài — và mỗi loài một vùng riêng" → "Loài chim lớn thì cánh dài").
+- Menu path rút gọn còn tên lệnh ("Runtime → Restart session and run all" → "Restart session and run all").
+- "sau notebook này, bạn:" → "…, bạn sẽ:" (đủ trợ động từ trước danh sách mục tiêu).
+
+## 10. Slide code & tiêu đề (nối dài mục 5)
+
+- Tiêu đề `<h2>` cắt từ đệm: "chuyện định dạng" → "định dạng"; "CSV 'bằng tay' — một lần để hiểu" → "CSV thủ công"; "Cạm bẫy số 1" → "Cạm bẫy 1"; "máy lọc dữ liệu thủ công" → "lọc dữ liệu thủ công".
+- **Mỗi lệnh một cặp `jp-input`/`jp-output` riêng** — không gộp nhiều lệnh có output vào một cell; sau khi tách, đánh lại `data-jp-n` liên tục.
+- Thuật ngữ viết tắt lần đầu xuất hiện: chú thích trong ngoặc ("QA (quality assurance)").
