@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Repo học liệu môn **Lập trình xử lý dữ liệu** (UET.DSE2049), Viện Trí tuệ nhân tạo, Trường ĐH Công nghệ, ĐHQGHN. Giảng viên phụ trách: TS. Nguyễn Tuấn Phong. Giao tiếp với giảng viên bằng **tiếng Việt**.
 
-Nội dung là website tĩnh (không có bước build/test/lint cho học liệu): trang index + slide bài giảng Reveal.js + trang mô tả bài tập lớn. Deploy qua GitHub Pages từ nhánh `main` — **mọi thứ push lên `main` là public ngay lập tức**.
+Nội dung là website tĩnh (không có bước build/test/lint cho học liệu): trang index + slide bài giảng Reveal.js + trang mô tả bài tập lớn. Deploy qua GitHub Pages từ nhánh `main` — **mọi thứ push lên `main` là public ngay lập tức**. Site public: **https://courses.iaidev.com/programming-for-data-processing/** — domain `courses.iaidev.com` gắn org-wide trên repo `uet-iai-course.github.io` (22/07/2026, DNS CNAME tại Cloudflare, chế độ DNS only); URL `uet-iai-course.github.io/...` cũ tự 301 về domain mới.
 
 File `UET_Đề cương học phần_*.docx` ở root là đề cương chính thức (bản 06/2025) — nguồn chân lý về khung 15 buổi, CLO và trọng số đánh giá (20% quiz / 20% giữa kỳ / 60% bài tập lớn nhóm). Thay đổi CLO, khung rubric hoặc trọng số phải qua phê duyệt Viện/Trường; nội dung bài giảng, đề bài tập và cách tổ chức chấm thì giảng viên tự quyết được.
 
