@@ -228,6 +228,42 @@ a:hover {
     color: #fff;
 }
 
+/* Phân biệt học kỳ hiện hành và học kỳ đã kết thúc (trang index root) */
+.term-card--current {
+    border-color: rgba(217, 119, 6, 0.45);
+    box-shadow: 0 18px 40px rgba(217, 119, 6, 0.16);
+}
+
+.term-card--current .term-label {
+    background: var(--accent);
+    color: #fff;
+}
+
+.term-card--ended {
+    background: rgba(255, 255, 255, 0.6);
+    border-style: dashed;
+}
+
+.term-card--ended h2 {
+    color: rgba(44, 26, 6, 0.66);
+}
+
+.term-card--ended .term-label {
+    background: rgba(44, 26, 6, 0.07);
+    color: var(--muted);
+}
+
+.term-link--ghost {
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    color: var(--accent-dark);
+}
+
+.term-link--ghost:hover {
+    background: rgba(217, 119, 6, 0.1);
+    color: var(--accent-dark);
+}
+
 .panel {
     padding: 24px 24px 22px;
 }
