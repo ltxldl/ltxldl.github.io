@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Bài 4: Làm quen với pandas</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+  <link rel="stylesheet" href="plugin/highlight/zenburn.css">
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ====== Mở bài ====== -->
+      <section>
+        <section>
+          <h1>Lập trình <br /> xử lý dữ liệu</h1>
+          <div>
+            <p>Học kì 1, năm học 2026–2027</p>
+            <p>Viện Trí tuệ nhân tạo, Trường ĐH Công nghệ, ĐHQGHN</p>
+          </div>
+        </section>
+
+        <section>
+          <h1>
+            <span class="text-light">Bài 4</span>
+            <br>
+            Làm quen với pandas
+          </h1>
+        </section>
+
+        <section>
+          <h2>Buổi trước</h2>
+          <ul>
+            <li>NumPy: mảng cùng dtype, vector hoá, mặt nạ bool, axis.</li>
+            <li>Nhưng mảng chỉ có <em>vị trí</em> — cột 3 là "giá" hay "vĩ độ", tự bạn phải nhớ.</li>
+          </ul>
+          <p class="text-light">Buổi này: gắn <strong>tên</strong> cho dữ liệu — trở thành bảng.</p>
+        </section>
+
+        <section>
+          <h2>Tổng quan</h2>
+          <ol>
+            <li>Series &amp; DataFrame là gì?</li>
+            <li>Đọc dữ liệu thật &amp; nhìn tổng quan</li>
+            <li>Chọn cột, lọc hàng</li>
+            <li>Thống kê &amp; sắp xếp</li>
+            <li>Giá trị thiếu (giới thiệu) &amp; ghi file</li>
+            <li>Làm việc với AI thì sao?</li>
+          </ol>
+          <p class="text-light">Dữ liệu: 18.534 phòng Airbnb ở Santiago, Chile —
+            cùng nguồn dữ liệu với bài tập lớn.</p>
+        </section>
+      </section>
+
+      <!-- ====== Phần 1 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">1.</span><br>Series &amp; DataFrame</h1>
+          <p class="text-light">Mảng NumPy có thêm nhãn cho từng phần tử, từng cột.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>Series = mảng + index</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+import pandas as pd
+
+gia = pd.Series([45647, 19856, 46776],
+                index=["phong_A", "phong_B", "phong_C"])
+gia
+            </code></pre>
+            <pre class="jp-output" data-jp-n="1"><code class="language-text" data-trim>
+phong_A    45647
+phong_B    19856
+phong_C    46776
+dtype: int64
+            </code></pre>
+          </div>
+          <p>Bên trong vẫn là mảng NumPy (<span class="inline-code">gia.values</span>) —
+            nhưng giờ tra được theo <em>tên</em>: <span class="inline-code">gia["phong_B"]</span>.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>DataFrame = các Series chung một index</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+df = pd.DataFrame({
+    "gia":  [45647, 19856, 46776],
+    "loai": ["Private", "Private", "Entire home"],
+})
+df
+            </code></pre>
+            <pre class="jp-output" data-jp-n="2"><code class="language-text" data-trim>
+     gia         loai
+0  45647      Private
+1  19856      Private
+2  46776  Entire home
+            </code></pre>
+          </div>
+          <p>Mỗi cột một dtype riêng (số, chuỗi…) — chính là "bảng" mà buổi 2 ta phải giả lập
+            bằng list các dict.</p>
+        </section>
+
+        <section>
+          <h2>Từ ndarray đến DataFrame</h2>
+          <div class="pipeline">
+            <div class="stage">
+              <div class="stage-title">ndarray</div>
+              <div class="stage-desc">khối số<br>theo vị trí</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage">
+              <div class="stage-title">Series</div>
+              <div class="stage-desc">1 cột<br>có index</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="stage stage-highlight">
+              <div class="stage-title">DataFrame</div>
+              <div class="stage-desc">nhiều cột<br>chung index</div>
+            </div>
+          </div>
+          <div class="key-box" style="margin-top:0.9em">
+            <span class="box-title">Quan trọng</span>
+            Mọi kỹ năng NumPy buổi 3 (vector hoá, mặt nạ bool, thống kê) <strong>dùng lại nguyên vẹn</strong>
+            trên từng cột của DataFrame.
+          </div>
+        </section>
+      </section>
+
+      <!-- ====== Phần 2 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">2.</span><br>Đọc dữ liệu thật<br>&amp; nhìn tổng quan</h1>
+          <p class="text-light">5 phút đầu tiên với một dataset lạ.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>read_csv: một dòng, cả bảng</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+URL = ("https://data.insideairbnb.com/chile/rm/santiago/"
+       "2026-06-29/visualisations/listings.csv")
+df = pd.read_csv(URL)
+df.shape
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="1"><code class="language-text" data-trim>
+(18534, 19)
+            </code></pre>
+          </div>
+          <p>18.534 phòng × 19 cột — mini-pipeline buổi 2 (mở file, DictReader, ép kiểu…)
+            giờ là <strong>một dòng</strong>, kiểu dữ liệu được đoán sẵn.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>head / sample: xem trước vài dòng</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+df[["name", "room_type", "price"]].head(3)
+            </code></pre>
+            <pre class="jp-output" data-jp-n="2"><code class="language-text" data-trim>
+                                    name        room_type    price
+0           luminosa mansarda con balcón     Private room  45647.0
+1  Cómoda habitación bien ubicada con …     Private room  19856.0
+2     Cómodo departamento Cerca de Metro  Entire home/apt  46776.0
+            </code></pre>
+          </div>
+          <p><span class="inline-code">head</span> xem đầu, <span class="inline-code">sample(5)</span>
+            xem ngẫu nhiên.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>info: cấu trúc và mức thiếu của bảng</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
+df.info()
+            </code></pre>
+            <pre class="jp-output" data-jp-n="3"><code class="language-text" data-trim>
+RangeIndex: 18534 entries, 0 to 18533
+Data columns (total 19 columns):
+ #   Column               Non-Null Count  Dtype
+---  ------               --------------  -----
+ 10  price                17688 non-null  float64
+ 13  last_review          15243 non-null  str
+...
+            </code></pre>
+          </div>
+          <p>Đọc được ngay: cột nào, kiểu gì, <strong>thiếu bao nhiêu</strong>
+            (price: 18534 − 17688 = 846 ô trống).</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>describe: thống kê nhanh mọi cột số</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
+df["price"].describe().round()
+            </code></pre>
+            <pre class="jp-output" data-jp-n="4"><code class="language-text" data-trim>
+count       17688.0
+mean       118200.0
+std       1226089.0
+min           979.0
+50%         59000.0
+max      97000045.0
+            </code></pre>
+          </div>
+          <p>Trung bình 118 nghìn CLP nhưng trung vị 59 nghìn — và max <strong>97 triệu CLP/đêm</strong>
+            (~2,6 tỷ đồng). describe vừa chỉ ra cho bạn đúng loại vấn đề mà buổi 10 sẽ xử lý.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>value_counts: đếm nhóm của cột phân loại</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="5"><code class="language-python" data-trim>
+df["room_type"].value_counts()
+            </code></pre>
+            <pre class="jp-output" data-jp-n="5"><code class="language-text" data-trim>
+room_type
+Entire home/apt    15004
+Private room        3413
+Shared room           61
+Hotel room            56
+            </code></pre>
+          </div>
+          <p>81% nguyên căn — thị trường Santiago nghiêng hẳn về cho thuê cả nhà.
+            Thêm <span class="inline-code">normalize=True</span> để ra thẳng tỷ lệ.</p>
+        </section>
+
+        <section>
+          <h2>Thói quen 5 bước với dataset lạ</h2>
+          <ol>
+            <li><span class="inline-code">shape</span> — to cỡ nào?</li>
+            <li><span class="inline-code">head / sample</span> — trông ra sao?</li>
+            <li><span class="inline-code">info</span> — kiểu gì, thiếu đâu?</li>
+            <li><span class="inline-code">describe</span> — phân phối cột số có gì lạ?</li>
+            <li><span class="inline-code">value_counts</span> — cột phân loại gồm những nhóm nào?</li>
+          </ol>
+          <div class="good-box">
+            <span class="box-title">Cách làm tốt</span>
+            Làm đủ 5 bước này <em>trước khi</em> viết bất kỳ phân tích nào — nhất là khi
+            code phân tích do AI viết.
+          </div>
+        </section>
+      </section>
+
+      <!-- ====== Phần 3 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">3.</span><br>Chọn cột, lọc hàng</h1>
+          <p class="text-light">90% thao tác hằng ngày nằm ở đây.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>Chọn cột: một tên → Series, danh sách → DataFrame</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+df["price"]              # 1 tên  -> Series
+df[["name", "price"]]    # list   -> DataFrame (chú ý 2 lớp ngoặc!)
+            </code></pre>
+          </div>
+          <p>Quên lớp ngoặc thứ hai — <span class="inline-code">df["name", "price"]</span> —
+            là lỗi <code>KeyError</code> kinh điển của người mới dùng pandas.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>Lọc hàng bằng mặt nạ bool — như NumPy</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+re_va_nguyen_can = df[(df["room_type"] == "Entire home/apt")
+                      & (df["price"] < 50000)]
+len(re_va_nguyen_can)
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="2"><code class="language-text" data-trim>
+4273
+            </code></pre>
+          </div>
+          <p>Vẫn quy tắc của NumPy: <code>&amp;</code> <code>|</code> <code>~</code> + ngoặc quanh từng vế.
+            Kết quả: 4.273 căn nguyên căn dưới 50 nghìn CLP/đêm.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>isin: lọc theo danh sách giá trị</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
+khu_sang = df[df["neighbourhood"].isin(["Providencia", "Las Condes"])]
+len(khu_sang)
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="3"><code class="language-text" data-trim>
+5859
+            </code></pre>
+          </div>
+          <p>Gọn hơn hẳn chuỗi <code>==</code> nối bằng <code>|</code> —
+            và đọc lên thành câu: "neighbourhood nằm trong danh sách này".</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>loc: chọn hàng VÀ cột một lượt</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
+df.loc[df["price"] < 30000, ["neighbourhood", "price"]].head(3)
+            </code></pre>
+            <pre class="jp-output" data-jp-n="4"><code class="language-text" data-trim>
+  neighbourhood    price
+1      Recoleta  19856.0
+3      Recoleta  25572.0
+9         Maipú  24013.0
+            </code></pre>
+          </div>
+          <p>Cú pháp <span class="inline-code">df.loc[chọn_hàng, chọn_cột]</span> —
+            giống hệt <span class="inline-code">M[hàng, cột]</span> của NumPy, nhưng theo nhãn.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>iloc: khi cần đúng vị trí số</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="5"><code class="language-python" data-trim>
+df.iloc[0]          # dòng đầu tiên (Series)
+df.iloc[:3, :2]     # 3 dòng đầu, 2 cột đầu
+            </code></pre>
+          </div>
+          <ul>
+            <li><span class="inline-code">loc</span> = theo <strong>nhãn</strong> (tên cột, giá trị index).</li>
+            <li><span class="inline-code">iloc</span> = theo <strong>số thứ tự</strong>, luật lát cắt NumPy.</li>
+          </ul>
+          <p class="text-light">Buổi 5 sẽ học kỹ về bộ đôi này khi index không còn là 0,1,2,…</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>Thêm cột mới: công thức từ cột cũ</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="6"><code class="language-python" data-trim>
+df["price_trieu_vnd"] = df["price"] * 28 / 1e6   # 1 CLP ≈ 28 VND
+
+df["price_trieu_vnd"].median().round(2)
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="6"><code class="language-text" data-trim>
+1.65
+            </code></pre>
+          </div>
+          <p>Vector hoá buổi 3 nguyên vẹn: công thức viết một lần, chạy 18 nghìn dòng.
+            Trung vị ~1,65 triệu đồng/đêm.</p>
+        </section>
+      </section>
+
+      <!-- ====== Phần 4 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">4.</span><br>Thống kê &amp; sắp xếp</h1>
+          <p class="text-light">Trả lời câu hỏi thật bằng ba-bốn dòng.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>Thống kê trên cột — và trên bool</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+(df["room_type"] == "Entire home/apt").mean()
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="1"><code class="language-text" data-trim>
+0.81
+            </code></pre>
+          </div>
+          <p>Quy tắc bool của buổi 3 dùng nguyên được ở pandas: <em>tỷ lệ nguyên căn = 81%</em>.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>Giới thiệu nhanh groupby (nội dung chính của buổi 5)</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+df.groupby("room_type")["price"].median()
+            </code></pre>
+            <pre class="jp-output" data-jp-n="2"><code class="language-text" data-trim>
+room_type
+Entire home/apt     64900.0
+Hotel room         117138.5
+Private room        34235.0
+Shared room         20541.0
+            </code></pre>
+          </div>
+          <p>Đọc thành câu: <em>chia theo room_type, lấy cột price, tính trung vị mỗi nhóm</em>.
+            Một dòng — thay cả trang code buổi 2.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>sort_values &amp; nlargest</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
+df.nlargest(2, "price")[["name", "price"]]
+            </code></pre>
+            <pre class="jp-output" data-jp-n="3"><code class="language-text" data-trim>
+                                    name       price
+4485  Apartasuites EL CALEÑO 2 con e…  97000045.0
+513   Apartamentos totalmente equipa…  82566932.0
+            </code></pre>
+          </div>
+          <p>Hai "căn hộ" gần trăm triệu CLP/đêm — ngoại lai (outlier) có thật, không phải lý thuyết.
+            Dùng <span class="inline-code">sort_values("price", ascending=False)</span> khi cần cả bảng xếp hạng.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>Chuỗi thao tác đọc như câu văn</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
+(df[df["room_type"] == "Entire home/apt"]
+   .groupby("neighbourhood")["price"]
+   .median()
+   .nlargest(3))
+            </code></pre>
+            <pre class="jp-output" data-jp-n="4"><code class="language-text" data-trim>
+neighbourhood
+Lo Barnechea    441669.0
+Vitacura        148353.0
+La Granja       114118.0
+            </code></pre>
+          </div>
+          <p>Lọc → nhóm → trung vị → top 3. Mỗi dòng một động từ — phong cách "method chaining"
+            bạn nên tập từ giờ. (La Granja lọt top? Nhóm quá ít phòng — nghi vấn kiểu này sẽ được
+            xử lý ở buổi 5 và 10.)</p>
+        </section>
+      </section>
+
+      <!-- ====== Phần 5 ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">5.</span><br>Giá trị thiếu (giới thiệu)<br>&amp; ghi file</h1>
+          <p class="text-light">Buổi này nhận diện — buổi 10 xử lý.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>Đo mức thiếu của từng cột</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+df.isna().sum().sort_values(ascending=False).head(4)
+            </code></pre>
+            <pre class="jp-output" data-jp-n="1"><code class="language-text" data-trim>
+neighbourhood_group    18534
+license                18355
+reviews_per_month       3291
+price                    846
+            </code></pre>
+          </div>
+          <p><span class="inline-code">neighbourhood_group</span> trống <strong>100%</strong> —
+            cột "chết" ngay trong dữ liệu thật. NaN của NumPy chính là các ô này.</p>
+        </section>
+
+        <section>
+          <h2>Thiếu thì làm gì? Không vội xử lý!</h2>
+          <ul>
+            <li><span class="inline-code">dropna()</span> — bỏ dòng thiếu;
+              <span class="inline-code">fillna(x)</span> — điền giá trị thay thế.</li>
+            <li>Cả hai đều là <strong>quyết định phân tích</strong>, không phải thao tác kỹ thuật:
+              846 phòng không giá — bỏ hay giữ tuỳ <em>câu hỏi bạn đang trả lời</em>.</li>
+          </ul>
+          <div class="key-box">
+            <span class="box-title">Quan trọng</span>
+            Buổi này chỉ cần <strong>biết đo</strong> mức thiếu — khoan xử lý vội.
+            Buổi 10 dành riêng cho việc đó.
+          </div>
+        </section>
+
+        <section data-jp-reset>
+          <h2>Ghi kết quả ra file</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
+ket_qua = df.groupby("room_type")["price"].median()
+ket_qua.to_csv("gia_theo_loai.csv")
+
+df.to_parquet("listings.parquet")   # nhanh + giữ dtype (buổi 6)
+            </code></pre>
+          </div>
+          <p>Với DataFrame, thêm <span class="inline-code">index=False</span> khi index chỉ là 0,1,2…
+            — không sẽ dư một cột "Unnamed: 0" lúc đọc lại.</p>
+        </section>
+      </section>
+
+      <!-- ====== Kết ====== -->
+      <section>
+        <section>
+          <h2>Tổng kết</h2>
+          <ul>
+            <li>DataFrame = các Series chung index — kỹ năng NumPy dùng lại nguyên vẹn.</li>
+            <li>Thói quen 5 bước với dataset lạ: shape → head → info → describe → value_counts.</li>
+            <li>Lọc bool + <code>loc[hàng, cột]</code> + cột mới vector hoá = 90% việc hằng ngày.</li>
+            <li>Đo được giá trị thiếu (<code>isna().sum()</code>) — xử trí để dành buổi 10.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Làm việc với AI thì sao?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
+          <div class="good-box">
+            <span class="box-title">AI làm tốt</span>
+            Dịch câu hỏi thành chuỗi pandas ("median giá theo quận, chỉ nguyên căn") — cú pháp
+            pandas là thứ AI thành thạo nhất.
+          </div>
+          <div class="warn-box">
+            <span class="box-title">AI hay sai</span>
+            Bỏ qua 846 ô giá trống mà không nói với bạn; dùng <code>mean</code> nơi phân phối lệch cần
+            <code>median</code>; bịa tên cột không tồn tại trong dữ liệu <em>của bạn</em>.
+          </div>
+        </section>
+
+        <section>
+          <h2>Kiểm chứng thế nào?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
+          <ul>
+            <li>Chạy thói quen 5 bước <strong>trước</strong>, để biết cột nào có thật, thiếu bao nhiêu —
+              rồi mới đối chiếu code AI.</li>
+            <li>Với kết quả AI đưa ra: chọn một con số, tự tính lại bằng cách khác
+              (lọc tay + <code>describe</code>).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Đọc thêm</h2>
+          <ul>
+            <li>McKinney, <em>Python for Data Analysis</em>, 3rd ed. — ch. 5 (pandas Basics).</li>
+            <li>VanderPlas, <em>Python Data Science Handbook</em>, 2nd ed. — Part 3, các mục đầu.</li>
+            <li>📖 Tự học: <a href="https://pandas.pydata.org/docs/user_guide/10min.html" target="_blank"
+                rel="noopener">10 minutes to pandas</a> (pandas docs).</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        LTXLDL (2627-1) · Bài 4: Làm quen với pandas
+      </div>
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>
