@@ -56,7 +56,7 @@
             <li>Làm việc với AI thì sao?</li>
           </ol>
           <p class="text-light">Dữ liệu xuyên suốt: 18.534 phòng Airbnb ở Santiago, Chile —
-            chính là dữ liệu kiểu bài tập lớn.</p>
+            cùng nguồn dữ liệu với bài tập lớn.</p>
         </section>
       </section>
 
@@ -366,8 +366,7 @@ df["price_trieu_vnd"].median().round(2)
 0.81
             </code></pre>
           </div>
-          <p>Mẹo bool của buổi 3 dùng nguyên được ở pandas: <em>tỷ lệ nguyên căn = 81%</em>.
-            Mỗi KPI dạng "% listing thoả X" của bài tập lớn chỉ là một dòng như thế này.</p>
+          <p>Quy tắc bool của buổi 3 dùng nguyên được ở pandas: <em>tỷ lệ nguyên căn = 81%</em>.</p>
         </section>
 
         <section data-jp-reset>
@@ -400,7 +399,7 @@ df.nlargest(2, "price")[["name", "price"]]
 513   Apartamentos totalmente equipa…  82566932.0
             </code></pre>
           </div>
-          <p>Hai "căn hộ" gần trăm triệu CLP/đêm — outlier có thật, không phải lý thuyết.
+          <p>Hai "căn hộ" gần trăm triệu CLP/đêm — ngoại lai (outlier) có thật, không phải lý thuyết.
             Dùng <span class="inline-code">sort_values("price", ascending=False)</span> khi cần cả bảng xếp hạng.</p>
         </section>
 
