@@ -26,12 +26,13 @@
     margin-bottom: 0.35em;
 }
 
+/* Chrome điều hướng ăn theo màu accent của index-pages.css (#D97706) */
 .reveal .controls .controls-arrow {
-    color: #1E93AB;
+    color: #D97706;
 }
 
 .reveal .progress span {
-    background: #1E93AB;
+    background: #D97706;
 }
 
 .reveal .text-blue {
