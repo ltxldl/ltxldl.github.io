@@ -42,7 +42,7 @@
             <li>NumPy: mảng cùng dtype, vector hoá, mặt nạ bool, axis.</li>
             <li>Nhưng mảng chỉ có <em>vị trí</em> — cột 3 là "giá" hay "vĩ độ", tự bạn phải nhớ.</li>
           </ul>
-          <p class="text-light">Buổi này: gắn <strong>tên</strong> cho dữ liệu — mọi thứ trở thành bảng.</p>
+          <p class="text-light">Buổi này: gắn <strong>tên</strong> cho dữ liệu — trở thành bảng.</p>
         </section>
 
         <section>
@@ -55,7 +55,7 @@
             <li>Giá trị thiếu (giới thiệu) &amp; ghi file</li>
             <li>Làm việc với AI thì sao?</li>
           </ol>
-          <p class="text-light">Dữ liệu xuyên suốt: 18.534 phòng Airbnb ở Santiago, Chile —
+          <p class="text-light">Dữ liệu: 18.534 phòng Airbnb ở Santiago, Chile —
             cùng nguồn dữ liệu với bài tập lớn.</p>
         </section>
       </section>
@@ -160,7 +160,7 @@ df.shape
         </section>
 
         <section data-jp-reset>
-          <h2>head / sample: xem vài dòng trước tiên</h2>
+          <h2>head / sample: xem trước vài dòng</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
 df[["name", "room_type", "price"]].head(3)
@@ -173,7 +173,7 @@ df[["name", "room_type", "price"]].head(3)
             </code></pre>
           </div>
           <p><span class="inline-code">head</span> xem đầu, <span class="inline-code">sample(5)</span>
-            xem ngẫu nhiên — đầu file nhiều khi không đại diện.</p>
+            xem ngẫu nhiên.</p>
         </section>
 
         <section data-jp-reset>
@@ -244,7 +244,7 @@ Hotel room            56
           </ol>
           <div class="good-box">
             <span class="box-title">Cách làm tốt</span>
-            Làm đủ 5 bước này <em>trước khi</em> viết bất kỳ phân tích nào — kể cả khi (nhất là khi)
+            Làm đủ 5 bước này <em>trước khi</em> viết bất kỳ phân tích nào — nhất là khi
             code phân tích do AI viết.
           </div>
         </section>
@@ -329,7 +329,7 @@ df.iloc[:3, :2]     # 3 dòng đầu, 2 cột đầu
             <li><span class="inline-code">loc</span> = theo <strong>nhãn</strong> (tên cột, giá trị index).</li>
             <li><span class="inline-code">iloc</span> = theo <strong>số thứ tự</strong>, luật lát cắt NumPy.</li>
           </ul>
-          <p class="text-light">Buổi 5 sẽ đào sâu bộ đôi này khi index không còn là 0,1,2,…</p>
+          <p class="text-light">Buổi 5 sẽ học kỹ về bộ đôi này khi index không còn là 0,1,2,…</p>
         </section>
 
         <section data-jp-reset>
@@ -450,7 +450,7 @@ price                    846
         </section>
 
         <section>
-          <h2>Thiếu thì làm gì? Khoan vội xử lý</h2>
+          <h2>Thiếu thì làm gì? Không vội xử lý!</h2>
           <ul>
             <li><span class="inline-code">dropna()</span> — bỏ dòng thiếu;
               <span class="inline-code">fillna(x)</span> — điền giá trị thay thế.</li>
