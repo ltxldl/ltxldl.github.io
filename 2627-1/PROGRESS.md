@@ -7,8 +7,9 @@
 | Đợt | Ngày | Nội dung đã public |
 |---|---|---|
 | 1 | 22/07/2026 | Hạ tầng (`revealjs/`, `plugin/`, `lecture-style.css`, `package.json`/`gulpfile.js`) + index root & index học kỳ (buổi chưa duyệt không link) + `ai-policy.html` + **buổi 1–2 trọn bộ** (slide + notebook demo + lab) |
+| 2 | 23/07/2026 | **Buổi 3 trọn bộ** (slide + notebook demo + lab + 3 hình SVG + script sinh hình); index mở link buổi 3 |
 
-Chưa public: buổi 3–15, đề BTL, `lecture-template.html`. `2627-1-draft` là nguồn chân lý; publish = nhấc đích danh file đã duyệt (quy trình: CLAUDE.md).
+Chưa public: buổi 4–15, đề BTL, `lecture-template.html`. `2627-1-draft` là nguồn chân lý; publish = nhấc đích danh file đã duyệt (quy trình: CLAUDE.md).
 
 ## Đợt 2 — sửa văn phong + học liệu giờ thực hành — ✅ HOÀN THÀNH (06/07/2026)
 
