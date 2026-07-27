@@ -1,23 +1,41 @@
 #!/usr/bin/env python3
-"""Sinh hình cho Bài 5: split-apply-combine và các kiểu merge."""
+"""Sinh hình cho Bài 5: split-apply-combine và các kiểu merge.
+
+Xuất SVG, chữ vẽ bằng outline của Source Sans Pro (bản vendored trong revealjs/) —
+trùng font slide, nét ở mọi độ phóng. Không dùng svg.fonttype=none vì SVG nhúng qua
+<img> là tài liệu cô lập, không thấy font của trang.
+"""
 from pathlib import Path
 
 import matplotlib
 matplotlib.use("Agg")
+from matplotlib import font_manager
 import matplotlib.pyplot as plt
 
 OUT = Path(__file__).resolve().parent.parent
-plt.rcParams.update({"font.size": 13, "figure.facecolor": "white", "savefig.facecolor": "white"})
+FONT_DIR = OUT.parent.parent / "revealjs" / "dist" / "theme" / "fonts" / "source-sans-pro"
+for f in FONT_DIR.glob("*.ttf"):
+    font_manager.fontManager.addfont(str(f))
+
+INK, MUTED = "#333333", "#666666"
+plt.rcParams.update({
+    "font.family": "Source Sans Pro",
+    "font.size": 13,
+    "svg.fonttype": "path",            # chữ → outline: <img> không load được font ngoài
+    "figure.facecolor": "none",
+    "savefig.facecolor": "none",
+    "text.color": INK,
+})
 
 BLUE, ORANGE, GREEN = "#1E93AB", "#E8890C", "#2E8B57"
 COLS = {"A": "#dbeef3", "B": "#fdf0dd", "C": "#e3f2e9"}
-EDGE = "#444"
+EDGE = "#777"
 
 
 def cell(ax, x, y, w, h, text, fc="#f5f5f5", fontsize=12, bold=False):
     ax.add_patch(plt.Rectangle((x, y), w, h, facecolor=fc, edgecolor=EDGE, linewidth=1.1))
     ax.text(x + w / 2, y + h / 2, text, ha="center", va="center", fontsize=fontsize,
-            fontweight="bold" if bold else "normal")
+            fontweight="bold" if bold else "normal", color=INK)
 
 
 # ============================================================ split-apply-combine
@@ -73,9 +91,9 @@ ax.text(17.3, 6.6, 'df.groupby("khoá")["giá"].mean()', ha="center", fontsize=1
         family="monospace", fontweight="bold")
 
 fig.tight_layout()
-fig.savefig(OUT / "split-apply-combine.png", dpi=150)
+fig.savefig(OUT / "split-apply-combine.svg")
 plt.close(fig)
-print("split-apply-combine.png done")
+print("split-apply-combine.svg done")
 
 # ============================================================ merge how
 fig, axes = plt.subplots(1, 2, figsize=(10.2, 4.4))
@@ -115,9 +133,9 @@ for ax, how in zip(axes, ["inner", "left"]):
     title = ("inner: chỉ giữ khoá có ở CẢ HAI bảng\n(P03 Vitacura bị rơi)"
              if how == "inner" else
              "left: giữ đủ bảng trái\n(Vitacura không khớp → vùng = NaN)")
-    ax.set_title(title, fontsize=12.5)
+    ax.set_title(title, fontsize=12.5, color=INK)
 
 fig.tight_layout()
-fig.savefig(OUT / "merge-how.png", dpi=150)
+fig.savefig(OUT / "merge-how.svg")
 plt.close(fig)
-print("merge-how.png done")
+print("merge-how.svg done")

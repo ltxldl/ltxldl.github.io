@@ -235,7 +235,7 @@ gia_chuoi.map(clean_price)      # hàm buổi 2, chạy cả cột
 dtype: float64
             </code></pre>
           </div>
-          <p>Bảng <span class="inline-code">listings</span> đầy đủ của bài tập lớn có cột giá đúng dạng
+          <p>Bảng <span class="inline-code">listings</span> đầy đủ (bản chưa rút gọn) có cột giá đúng dạng
             chuỗi này — hàm bạn viết ở buổi 2 dùng lại nguyên vẹn.</p>
         </section>
 
@@ -271,7 +271,7 @@ df["hap_dan"] = df.apply(diem_hap_dan, axis=1)
         <section>
           <h2>Cơ chế split–apply–combine</h2>
           <figure class="fig">
-            <img src="img/lecture-05/split-apply-combine.png" alt="Sơ đồ split-apply-combine" style="width:95%">
+            <img src="img/lecture-05/split-apply-combine.svg" alt="Sơ đồ split-apply-combine" style="width:95%">
             <figcaption class="caption">groupby chia bảng theo khoá, áp phép tính cho từng nhóm, rồi ghép kết
               quả — bạn chỉ viết một dòng.</figcaption>
           </figure>
@@ -331,7 +331,7 @@ df[df["he_so_gia"] > 20].shape[0]    # đắt gấp hơn 20 lần trung vị qu�
           </div>
           <p><code>agg</code> trả một dòng mỗi nhóm; <code>transform</code> trả
             <strong>đúng độ dài bảng gốc</strong> — để so từng dòng với "chuẩn" của nhóm nó.
-            23 phòng kia là ứng viên outlier số một cho QA của bài tập lớn.</p>
+            23 phòng kia là ứng viên ngoại lai (outlier) số một khi làm QA.</p>
         </section>
 
         <section data-jp-reset>
@@ -360,7 +360,7 @@ Santiago               49352.0       31250.0
             <div class="question-content">
               Nghe thấy <em>"…theo từng quận / mỗi loại phòng / hàng tháng…"</em> —
               hãy nghĩ ngay đến <span class="inline-code">groupby(khoá)[cột].phép_tính()</span>.
-              Khoảng 80% KPI của bài tập lớn là câu dạng này.
+              Phần lớn KPI bạn cần tính đều là câu dạng này.
             </div>
           </div>
         </section>
@@ -389,14 +389,14 @@ snapshot
 2026-06    18534
             </code></pre>
           </div>
-          <p>Mẫu chuẩn của bài tập lớn: <em>thêm cột <code>snapshot</code> trước, concat sau</em> —
+          <p>Mẫu chuẩn khi gộp nhiều snapshot của bài tập lớn: <em>thêm cột <code>snapshot</code> trước, concat sau</em> —
             rồi mọi so sánh theo thời gian chỉ là groupby thêm một khoá.</p>
         </section>
 
         <section>
           <h2>merge: ghép NGANG theo khoá chung</h2>
           <figure class="fig">
-            <img src="img/lecture-05/merge-how.png" alt="inner join và left join" style="width:96%">
+            <img src="img/lecture-05/merge-how.svg" alt="inner join và left join" style="width:96%">
             <figcaption class="caption">inner làm rơi dòng không khớp; left giữ đủ bảng trái và điền NaN —
               chọn <code>how</code> là quyết định giữ hay bỏ các dòng không khớp.</figcaption>
           </figure>

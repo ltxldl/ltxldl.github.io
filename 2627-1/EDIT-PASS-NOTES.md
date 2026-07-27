@@ -88,3 +88,21 @@ Ngoài ra: component `.pipeline` đang quá khổ — GV phải chèn inline `st
 - Tiêu đề `<h2>` cắt từ đệm: "chuyện định dạng" → "định dạng"; "CSV 'bằng tay' — một lần để hiểu" → "CSV thủ công"; "Cạm bẫy số 1" → "Cạm bẫy 1"; "máy lọc dữ liệu thủ công" → "lọc dữ liệu thủ công".
 - **Mỗi lệnh một cặp `jp-input`/`jp-output` riêng** — không gộp nhiều lệnh có output vào một cell; sau khi tách, đánh lại `data-jp-n` liên tục.
 - Thuật ngữ viết tắt lần đầu xuất hiện: chú thích trong ngoặc ("QA (quality assurance)").
+
+## 11. Hình minh hoạ: SVG, không PNG (QĐ GV 22/07/2026)
+
+Mọi hình sinh bằng matplotlib phải xuất **SVG** (không PNG) với cấu hình chuẩn trong `img/lecture-XX/scripts/gen_figures.py`:
+
+```python
+FONT_DIR = OUT.parent.parent / "revealjs" / "dist" / "theme" / "fonts" / "source-sans-pro"
+for f in FONT_DIR.glob("*.ttf"):
+    font_manager.fontManager.addfont(str(f))
+INK, MUTED = "#333333", "#666666"
+plt.rcParams.update({"font.family": "Source Sans Pro", "svg.fonttype": "path",
+                     "figure.facecolor": "none", "savefig.facecolor": "none", "text.color": INK})
+```
+
+- `svg.fonttype="path"` (chữ → outline) là **bắt buộc**: SVG nhúng qua `<img>` là tài liệu cô lập, không thấy font của trang → để `none` thì chữ rơi về serif.
+- Nền trong suốt (`facecolor="none"`); viền/nhãn dùng `#333` (mực) và `#666`/`#777` (phụ) thay vì đen tuyền; màu nhấn lấy từ `lecture-style.css` (`#1E93AB`, `#E8890C`, `#2E8B57`).
+- Sau khi sinh: đổi `src` trong deck sang `.svg`, `git rm` file PNG cũ, mở deck kiểm hình load được (`img.complete && naturalWidth > 0`) rồi đo tràn.
+- **Đã áp**: buổi 3, 5. **Còn PNG, phải chuyển khi duyệt tới**: buổi 8 (2 hình), 10 (1), 12 (7), 13 (7).
