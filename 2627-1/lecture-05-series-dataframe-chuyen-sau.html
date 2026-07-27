@@ -34,39 +34,39 @@
             <br>
             Series &amp; DataFrame chuyên sâu
           </h1>
-          <p class="text-light">Index, apply, groupby — và ghép nhiều bảng.</p>
+          <p class="text-light">Index, apply, groupby, ghép nhiều bảng.</p>
         </section>
 
         <section>
           <h2>Buổi trước</h2>
           <ul>
             <li>Thói quen 5 bước, lọc bool, <code>loc</code>, cột mới, thống kê cơ bản.</li>
-            <li>Đã gặp nhanh <code>groupby</code> — buổi này học trọn vẹn.</li>
+            <li>Đã giới thiệu nhanh <code>groupby</code>, buổi này sẽ học kỹ.</li>
           </ul>
         </section>
 
         <section>
           <h2>Tổng quan</h2>
           <ol>
-            <li>Index thật sự là gì?</li>
+            <li>Index là gì?</li>
             <li>Biến đổi giá trị: map &amp; apply</li>
             <li>groupby — chia để trị</li>
             <li>Ghép bảng: concat &amp; merge</li>
             <li>Làm việc với AI thì sao?</li>
           </ol>
-          <p class="text-light">Vẫn dữ liệu Santiago 18.534 phòng — cộng thêm vài bảng phụ.</p>
+          <p class="text-light">Dữ liệu Santiago 18.534 phòng, cộng thêm vài bảng phụ.</p>
         </section>
       </section>
 
       <!-- ====== Phần 1: Index ====== -->
       <section>
         <section>
-          <h1><span class="text-light">1.</span><br>Index thật sự là gì?</h1>
+          <h1><span class="text-light">1.</span><br>Index là gì?</h1>
           <p class="text-light">Không phải "số thứ tự" — mà là danh tính của từng dòng.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>set_index: cho dòng một cái tên</h2>
+          <h2>set_index: gán tên cho dòng</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
 d = df.set_index("id")
@@ -79,6 +79,8 @@ price            45647.0
             </code></pre>
           </div>
           <p>Index = khoá tra cứu: hỏi thẳng "phòng số X" thay vì phải nhớ nó nằm ở dòng thứ mấy.</p>
+          <p class="text-light">Id Airbnb đời mới (từ 2022) dài 18–19 chữ số — 82% listing Santiago
+            thuộc dạng này; số cũ chỉ 5–8 chữ số.</p>
         </section>
 
         <section data-jp-reset>
