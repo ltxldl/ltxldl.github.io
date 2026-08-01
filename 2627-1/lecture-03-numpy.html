@@ -42,8 +42,8 @@
             <li>list/dict/set, comprehension, hàm làm sạch, file.</li>
             <li>Vấn đề buổi trước: "khi thấy mình đang <code>for</code> qua từng dòng dữ liệu — dừng lại".</li>
           </ul>
-          <p class="text-light">Buổi này công cụ thao tác <strong>cả triệu con số
-              bằng một lệnh</strong>.</p>
+          <p class="text-light">Buổi này giới thiệu công cụ thao tác đồng thời trên
+            số lượng lớn giá trị.</p>
         </section>
 
         <section>
@@ -67,7 +67,7 @@
         </section>
 
         <section>
-          <h2>Cùng việc: tốc độ xử lý khác nhau</h2>
+          <h2>Cùng một phép tính, thời gian xử lý khác nhau</h2>
           <figure class="fig">
             <img src="img/lecture-03/speed-comparison.svg" alt="So sánh tốc độ vòng for và NumPy"
               style="width:82%">
@@ -96,7 +96,8 @@
           </div>
           <div class="key-box">
             <span class="box-title">Quan trọng</span>
-            Đổi sự tự do lấy tốc độ: mảng NumPy "cứng nhắc" hơn list — nhưng chính vì thế mà nó nhanh.
+            Mảng NumPy yêu cầu các phần tử có cùng dtype và cấu trúc xác định;
+            nhờ đó các phép toán có thể được thực hiện nhanh hơn list Python.
           </div>
         </section>
 
@@ -113,7 +114,7 @@ gia.dtype, gia.shape, gia.ndim
 (dtype('int64'), (4,), 1)
             </code></pre>
           </div>
-          <p>Ba thuộc tính định danh một mảng: <strong>dtype</strong> (kiểu chung),
+          <p>Ba thuộc tính mô tả một mảng: <strong>dtype</strong> (kiểu chung),
             <strong>shape</strong> (kích thước từng chiều), <strong>ndim</strong> (số chiều).</p>
         </section>
       </section>
@@ -142,7 +143,7 @@ np.zeros((3, 4))                        # khung rỗng chờ điền
           <h2>Số ngẫu nhiên: sinh dữ liệu thử</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
-rng = np.random.default_rng(seed=42)     # seed = tái lập được!
+rng = np.random.default_rng(seed=42)     # đặt seed để tái lập kết quả
 
 gia_gia_lap = rng.normal(1000, 250, size=5).round()
 gia_gia_lap
@@ -151,9 +152,8 @@ gia_gia_lap
 array([1076., 740., 1188., 1235., 512.])
             </code></pre>
           </div>
-          <p>Khi chưa có dữ liệu thật, bạn có thể sinh dữ liệu giả để thử pipeline — và
-            <strong>ghim seed</strong> để ai chạy cũng ra đúng những con số ấy (yêu cầu tái lập
-            của bài tập lớn).</p>
+          <p>Khi chưa có dữ liệu thật, bạn có thể sinh dữ liệu giả để thử pipeline.
+            <strong>Đặt seed</strong> giúp các lần chạy tạo ra cùng một dãy số ngẫu nhiên.</p>
         </section>
 
         <section data-jp-reset>
@@ -180,7 +180,7 @@ diem.astype(float).mean()
         </section>
 
         <section data-jp-reset>
-          <h2>reshape: cùng dữ liệu, khác khung nhìn</h2>
+          <h2>reshape: cùng dữ liệu, hình dạng khác</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="5"><code class="language-python" data-trim>
 doanh_thu_12_thang = np.arange(1, 13)
@@ -277,7 +277,7 @@ array([1200,  950])
             <span class="box-title">Cẩn thận</span>
             Với mảng phải dùng <code>&amp;</code>, <code>|</code>, <code>~</code> và
             <strong>ngoặc quanh từng vế</strong>. Viết <code>and</code>/<code>or</code> là
-            <code>ValueError</code> — lỗi kinh điển khi bắt đầu dùng pandas.
+            <code>ValueError</code> — lỗi thường gặp khi bắt đầu dùng pandas.
           </div>
         </section>
 
@@ -293,11 +293,11 @@ array(['cao', 'bình dân', 'cao', 'bình dân'], dtype='&lt;U8')
             </code></pre>
           </div>
           <p>Một dòng thay cho cả vòng <code>for</code> + <code>if</code>/<code>else</code> —
-            gán nhãn phân khúc hay gắn cờ QA đều dùng đúng pattern này.</p>
+            gán nhãn phân khúc hay gắn cờ QA đều có thể dùng mẫu này.</p>
         </section>
 
         <section>
-          <h2>Broadcasting: mảng nhỏ tự kéo giãn</h2>
+          <h2>Broadcasting: tự động mở rộng mảng nhỏ</h2>
           <figure class="fig">
             <img src="img/lecture-03/broadcasting.svg" alt="Broadcasting ma trận (4,3) cộng vector (3,)"
               style="width:88%">
@@ -346,8 +346,8 @@ gia.mean(), np.median(gia), gia.std().round(1)
 (1228.0, 980.0, 615.6)
             </code></pre>
           </div>
-          <p>mean ≫ median là dấu vết của giá trị kéo đuôi (căn hộ 2400) — hiện tượng quen thuộc
-            của dữ liệu giá; buổi 10 sẽ khai thác kỹ.</p>
+          <p><code>mean</code> lớn hơn đáng kể so với <code>median</code> cho thấy phân phối bị kéo lệch
+            bởi giá trị lớn (2400). Buổi 10 sẽ phân tích hiện tượng này kỹ hơn.</p>
         </section>
 
         <section>
@@ -394,7 +394,8 @@ thang[gia_tb_thang.argmax()]
             </code></pre>
           </div>
           <p><code>max</code> trả <em>giá trị</em>; <code>argmax</code> trả <em>vị trí</em> —
-            rồi dùng vị trí đó tra ngược sang mảng khác. Cặp bài trùng khi trả lời "tháng nào, phòng nào".</p>
+            rồi dùng vị trí đó tra sang mảng khác. Cặp hàm này hữu ích khi trả lời
+            các câu hỏi như "tháng nào" hoặc "phòng nào".</p>
         </section>
 
         <section data-jp-reset>
@@ -410,8 +411,8 @@ gia.mean(), np.nanmean(gia)
             </code></pre>
           </div>
           <ul>
-            <li>NaN "lây": dính một phép toán là kết quả thành NaN — <code>mean()</code> trả NaN
-              chính là tín hiệu cảnh báo.</li>
+            <li>NaN có thể lan truyền qua phép toán; <code>mean()</code> trả NaN là một tín hiệu
+              cần kiểm tra dữ liệu thiếu.</li>
             <li><code>nanmean</code> chủ động bỏ qua — <em>bạn</em> quyết định, không phải ngẫu nhiên.</li>
           </ul>
           <p class="text-light"><code>None</code> (bài 2) → <code>np.nan</code> (bài này) →
@@ -419,7 +420,7 @@ gia.mean(), np.nanmean(gia)
         </section>
 
         <section data-jp-reset>
-          <h2>Phân vị: thước đo không sợ ngoại lai</h2>
+          <h2>Phân vị: thước đo ít nhạy với ngoại lai</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="6"><code class="language-python" data-trim>
 gia = rng.lognormal(7, 0.5, size=10_000)   # phân phối giá "lệch phải"
@@ -485,8 +486,8 @@ array([999,  12,  11])
           </div>
           <div class="warn-box">
             <span class="box-title">Cẩn thận</span>
-            Muốn có bản độc lập thật, dùng <code>M[0].copy()</code>. Triệu chứng "dữ liệu gốc tự nhiên đổi"
-            gần như luôn do view — pandas sẽ còn cảnh báo bạn về nó
+            Muốn có bản độc lập, dùng <code>M[0].copy()</code>. Dữ liệu gốc thay đổi ngoài ý muốn
+            có thể do view; pandas cũng có cảnh báo liên quan
             (<em>SettingWithCopyWarning</em>).
           </div>
         </section>
@@ -528,8 +529,8 @@ top2, gia[top2]
           <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
           <div class="good-box">
             <span class="box-title">AI làm tốt</span>
-            Yêu cầu "vector hoá đoạn for này" — AI chuyển vòng lặp sang NumPy thành thạo; giải thích
-            lỗi shape mismatch cũng tốt.
+            AI thường có thể chuyển một vòng lặp sang phép toán NumPy và giải thích
+            lỗi không khớp shape.
           </div>
           <div class="warn-box">
             <span class="box-title">AI hay sai</span>
@@ -544,7 +545,8 @@ top2, gia[top2]
           <ul>
             <li>Thử code AI trên <strong>mảng 3×2 nhỏ tự tạo, tự tính tay được</strong> trước khi
               cho chạy dữ liệu thật.</li>
-            <li>Kiểm tra <code>shape</code> của kết quả: đúng chiều mong đợi chưa? Sai chiều = sai nghĩa.</li>
+            <li>Kiểm tra <code>shape</code> của kết quả: kết quả đã có đúng chiều mong đợi chưa?
+              Sai chiều thường dẫn đến diễn giải sai.</li>
           </ul>
         </section>
 

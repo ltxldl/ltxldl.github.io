@@ -42,7 +42,7 @@
             <li>NumPy: mảng cùng dtype, vector hoá, mặt nạ bool, axis.</li>
             <li>Nhưng mảng chỉ có <em>vị trí</em> — cột 3 là "giá" hay "vĩ độ", tự bạn phải nhớ.</li>
           </ul>
-          <p class="text-light">Buổi này: gắn <strong>tên</strong> cho dữ liệu — trở thành bảng.</p>
+          <p class="text-light">Buổi này bổ sung nhãn cho dữ liệu và làm việc với dữ liệu dạng bảng.</p>
         </section>
 
         <section>
@@ -55,8 +55,7 @@
             <li>Giá trị thiếu (giới thiệu) &amp; ghi file</li>
             <li>Làm việc với AI thì sao?</li>
           </ol>
-          <p class="text-light">Dữ liệu: 18.534 phòng Airbnb ở Santiago, Chile —
-            cùng nguồn dữ liệu với bài tập lớn.</p>
+          <p class="text-light">Dữ liệu: 18.534 phòng Airbnb ở Santiago, Chile.</p>
         </section>
       </section>
 
@@ -105,8 +104,8 @@ df
 2  46776  Entire home
             </code></pre>
           </div>
-          <p>Mỗi cột một dtype riêng (số, chuỗi…) — chính là "bảng" mà buổi 2 ta phải giả lập
-            bằng list các dict.</p>
+          <p>Mỗi cột có một dtype riêng (số, chuỗi…). DataFrame biểu diễn và xử lý bảng dữ liệu
+            thuận tiện hơn cấu trúc list các dict ở buổi 2.</p>
         </section>
 
         <section>
@@ -129,8 +128,8 @@ df
           </div>
           <div class="key-box" style="margin-top:0.9em">
             <span class="box-title">Quan trọng</span>
-            Mọi kỹ năng NumPy buổi 3 (vector hoá, mặt nạ bool, thống kê) <strong>dùng lại nguyên vẹn</strong>
-            trên từng cột của DataFrame.
+            Phần lớn kỹ năng NumPy ở buổi 3 (vector hoá, mặt nạ bool, thống kê)
+            có thể áp dụng trực tiếp trên từng cột của DataFrame.
           </div>
         </section>
       </section>
@@ -139,7 +138,7 @@ df
       <section>
         <section>
           <h1><span class="text-light">2.</span><br>Đọc dữ liệu thật<br>&amp; nhìn tổng quan</h1>
-          <p class="text-light">5 phút đầu tiên với một dataset lạ.</p>
+          <p class="text-light">Các bước đầu tiên khi làm việc với một dataset mới.</p>
         </section>
 
         <section data-jp-reset>
@@ -155,8 +154,8 @@ df.shape
 (18534, 19)
             </code></pre>
           </div>
-          <p>18.534 phòng × 19 cột — mini-pipeline buổi 2 (mở file, DictReader, ép kiểu…)
-            giờ là <strong>một dòng</strong>, kiểu dữ liệu được đoán sẵn.</p>
+          <p><code>read_csv</code> đọc 18.534 dòng × 19 cột bằng một lệnh và tự suy luận
+            kiểu dữ liệu cho từng cột.</p>
         </section>
 
         <section data-jp-reset>
@@ -212,7 +211,8 @@ max      97000045.0
             </code></pre>
           </div>
           <p>Trung bình 118 nghìn CLP nhưng trung vị 59 nghìn — và max <strong>97 triệu CLP/đêm</strong>
-            (~2,6 tỷ đồng). describe vừa chỉ ra cho bạn đúng loại vấn đề mà buổi 10 sẽ xử lý.</p>
+            (~2,6 tỷ đồng). Chênh lệch này cho thấy phân phối lệch và có giá trị cần kiểm tra;
+            buổi 10 sẽ trình bày cách xử lý.</p>
         </section>
 
         <section data-jp-reset>
@@ -229,8 +229,8 @@ Shared room           61
 Hotel room            56
             </code></pre>
           </div>
-          <p>81% nguyên căn — thị trường Santiago nghiêng hẳn về cho thuê cả nhà.
-            Thêm <span class="inline-code">normalize=True</span> để ra thẳng tỷ lệ.</p>
+          <p>81% listing là nguyên căn, cho thấy loại hình này chiếm phần lớn thị trường Santiago.
+            Thêm <span class="inline-code">normalize=True</span> để tính trực tiếp tỷ lệ.</p>
         </section>
 
         <section>
@@ -254,7 +254,7 @@ Hotel room            56
       <section>
         <section>
           <h1><span class="text-light">3.</span><br>Chọn cột, lọc hàng</h1>
-          <p class="text-light">90% thao tác hằng ngày nằm ở đây.</p>
+          <p class="text-light">Đây là nhóm thao tác thường dùng khi xử lý DataFrame.</p>
         </section>
 
         <section data-jp-reset>
@@ -266,7 +266,7 @@ df[["name", "price"]]    # list   -> DataFrame (chú ý 2 lớp ngoặc!)
             </code></pre>
           </div>
           <p>Quên lớp ngoặc thứ hai — <span class="inline-code">df["name", "price"]</span> —
-            là lỗi <code>KeyError</code> kinh điển của người mới dùng pandas.</p>
+            thường gây lỗi <code>KeyError</code>.</p>
         </section>
 
         <section data-jp-reset>
@@ -296,7 +296,7 @@ len(khu_sang)
 5859
             </code></pre>
           </div>
-          <p>Gọn hơn hẳn chuỗi <code>==</code> nối bằng <code>|</code> —
+          <p>Ngắn hơn chuỗi điều kiện <code>==</code> nối bằng <code>|</code> —
             và đọc lên thành câu: "neighbourhood nằm trong danh sách này".</p>
         </section>
 
@@ -313,8 +313,8 @@ df.loc[df["price"] < 30000, ["neighbourhood", "price"]].head(3)
 9         Maipú  24013.0
             </code></pre>
           </div>
-          <p>Cú pháp <span class="inline-code">df.loc[chọn_hàng, chọn_cột]</span> —
-            giống hệt <span class="inline-code">M[hàng, cột]</span> của NumPy, nhưng theo nhãn.</p>
+          <p>Cú pháp <span class="inline-code">df.loc[chọn_hàng, chọn_cột]</span> tương tự
+            <span class="inline-code">M[hàng, cột]</span> của NumPy, nhưng sử dụng nhãn.</p>
         </section>
 
         <section data-jp-reset>
@@ -344,8 +344,8 @@ df["price_trieu_vnd"].median().round(2)
 1.65
             </code></pre>
           </div>
-          <p>Vector hoá buổi 3 nguyên vẹn: công thức viết một lần, chạy 18 nghìn dòng.
-            Trung vị ~1,65 triệu đồng/đêm.</p>
+          <p>Phép toán vector hoá ở buổi 3 được áp dụng trực tiếp: công thức viết một lần
+            và chạy trên 18 nghìn dòng. Trung vị ~1,65 triệu đồng/đêm.</p>
         </section>
       </section>
 
@@ -384,7 +384,7 @@ Shared room         20541.0
             </code></pre>
           </div>
           <p>Đọc thành câu: <em>chia theo room_type, lấy cột price, tính trung vị mỗi nhóm</em>.
-            Một dòng — thay cả trang code buổi 2.</p>
+            Một chuỗi thao tác thay cho vòng lặp và dict cộng dồn viết thủ công.</p>
         </section>
 
         <section data-jp-reset>
@@ -399,7 +399,7 @@ df.nlargest(2, "price")[["name", "price"]]
 513   Apartamentos totalmente equipa…  82566932.0
             </code></pre>
           </div>
-          <p>Hai "căn hộ" gần trăm triệu CLP/đêm — ngoại lai (outlier) có thật, không phải lý thuyết.
+          <p>Hai "căn hộ" gần trăm triệu CLP/đêm là ví dụ về ngoại lai (outlier) trong dữ liệu thực.
             Dùng <span class="inline-code">sort_values("price", ascending=False)</span> khi cần cả bảng xếp hạng.</p>
         </section>
 
@@ -419,9 +419,9 @@ Vitacura        148353.0
 La Granja       114118.0
             </code></pre>
           </div>
-          <p>Lọc → nhóm → trung vị → top 3. Mỗi dòng một động từ — phong cách "method chaining"
-            bạn nên tập từ giờ. (La Granja lọt top? Nhóm quá ít phòng — nghi vấn kiểu này sẽ được
-            xử lý ở buổi 5 và 10.)</p>
+          <p>Lọc → nhóm → trung vị → top 3. Mỗi dòng tương ứng với một thao tác trong chuỗi.
+            Kết quả của La Granja cần được kiểm tra vì nhóm có ít phòng; buổi 5 và 10
+            sẽ trình bày cách đánh giá trường hợp này.</p>
         </section>
       </section>
 
@@ -445,12 +445,12 @@ reviews_per_month       3291
 price                    846
             </code></pre>
           </div>
-          <p><span class="inline-code">neighbourhood_group</span> trống <strong>100%</strong> —
-            cột "chết" ngay trong dữ liệu thật. NaN của NumPy chính là các ô này.</p>
+          <p><span class="inline-code">neighbourhood_group</span> trống <strong>100%</strong>, nên cột này
+            không cung cấp thông tin trong snapshot hiện tại. NaN của NumPy chính là các ô này.</p>
         </section>
 
         <section>
-          <h2>Thiếu thì làm gì? Không vội xử lý!</h2>
+          <h2>Chưa xử lý giá trị thiếu ngay</h2>
           <ul>
             <li><span class="inline-code">dropna()</span> — bỏ dòng thiếu;
               <span class="inline-code">fillna(x)</span> — điền giá trị thay thế.</li>
@@ -459,8 +459,7 @@ price                    846
           </ul>
           <div class="key-box">
             <span class="box-title">Quan trọng</span>
-            Buổi này chỉ cần <strong>biết đo</strong> mức thiếu — khoan xử lý vội.
-            Buổi 10 dành riêng cho việc đó.
+            Buổi này chỉ cần <strong>biết đo</strong> mức thiếu; buổi 10 sẽ trình bày cách xử lý.
           </div>
         </section>
 
@@ -474,8 +473,8 @@ ket_qua.to_csv("gia_theo_loai.csv")
 df.to_parquet("listings.parquet")   # nhanh + giữ dtype (buổi 6)
             </code></pre>
           </div>
-          <p>Với DataFrame, thêm <span class="inline-code">index=False</span> khi index chỉ là 0,1,2…
-            — không sẽ dư một cột "Unnamed: 0" lúc đọc lại.</p>
+          <p>Với DataFrame, thêm <span class="inline-code">index=False</span> khi index chỉ là 0,1,2…;
+            nếu không, khi đọc lại có thể xuất hiện thêm cột "Unnamed: 0".</p>
         </section>
       </section>
 
@@ -484,9 +483,9 @@ df.to_parquet("listings.parquet")   # nhanh + giữ dtype (buổi 6)
         <section>
           <h2>Tổng kết</h2>
           <ul>
-            <li>DataFrame = các Series chung index — kỹ năng NumPy dùng lại nguyên vẹn.</li>
+            <li>DataFrame = các Series chung index; nhiều thao tác NumPy vẫn áp dụng được.</li>
             <li>Thói quen 5 bước với dataset lạ: shape → head → info → describe → value_counts.</li>
-            <li>Lọc bool + <code>loc[hàng, cột]</code> + cột mới vector hoá = 90% việc hằng ngày.</li>
+            <li>Lọc bool, <code>loc[hàng, cột]</code> và cột mới vector hoá là các thao tác thường dùng.</li>
             <li>Đo được giá trị thiếu (<code>isna().sum()</code>) — xử trí để dành buổi 10.</li>
           </ul>
         </section>
@@ -496,13 +495,13 @@ df.to_parquet("listings.parquet")   # nhanh + giữ dtype (buổi 6)
           <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
           <div class="good-box">
             <span class="box-title">AI làm tốt</span>
-            Dịch câu hỏi thành chuỗi pandas ("median giá theo quận, chỉ nguyên căn") — cú pháp
-            pandas là thứ AI thành thạo nhất.
+            AI thường có thể chuyển câu hỏi thành chuỗi thao tác pandas
+            ("median giá theo quận, chỉ nguyên căn").
           </div>
           <div class="warn-box">
             <span class="box-title">AI hay sai</span>
-            Bỏ qua 846 ô giá trống mà không nói với bạn; dùng <code>mean</code> nơi phân phối lệch cần
-            <code>median</code>; bịa tên cột không tồn tại trong dữ liệu <em>của bạn</em>.
+            Bỏ qua 846 ô giá trống mà không nêu rõ; dùng <code>mean</code> khi phân phối lệch phù hợp hơn
+            với <code>median</code>; sử dụng tên cột không tồn tại trong dữ liệu <em>của bạn</em>.
           </div>
         </section>
 
@@ -513,7 +512,7 @@ df.to_parquet("listings.parquet")   # nhanh + giữ dtype (buổi 6)
             <li>Chạy thói quen 5 bước <strong>trước</strong>, để biết cột nào có thật, thiếu bao nhiêu —
               rồi mới đối chiếu code AI.</li>
             <li>Với kết quả AI đưa ra: chọn một con số, tự tính lại bằng cách khác
-              (lọc tay + <code>describe</code>).</li>
+              (lọc trực tiếp + <code>describe</code>).</li>
           </ul>
         </section>
 
