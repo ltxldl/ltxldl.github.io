@@ -34,7 +34,7 @@
             <br>
             Python cơ bản <br /> cho xử lý dữ liệu
           </h1>
-          <p class="text-light">Ôn nhanh: nhìn lại Python bằng con mắt của người làm dữ liệu.</p>
+          <p class="text-light">Ôn nhanh Python theo nhu cầu xử lý dữ liệu.</p>
         </section>
 
         <section>
@@ -50,7 +50,7 @@
         <section>
           <h2>Tổng quan</h2>
           <ol>
-            <li>Kiểu dữ liệu — nhìn lại bằng mắt người làm dữ liệu</li>
+            <li>Kiểu dữ liệu trong xử lý dữ liệu</li>
             <li>Vòng lặp &amp; comprehension</li>
             <li>Hàm — đơn vị của pipeline</li>
             <li>Đọc &amp; ghi file</li>
@@ -122,8 +122,8 @@ doanh_thu[1:4]                        # lát cắt: phần tử 1,2,3
 [8, 6, 9]
             </code></pre>
           </div>
-          <p>Cú pháp lát cắt <span class="inline-code">[bắt_đầu:kết_thúc]</span> sẽ theo bạn
-            sang NumPy và pandas.</p>
+          <p>Cú pháp lát cắt <span class="inline-code">[bắt_đầu:kết_thúc]</span> cũng được dùng
+            trong NumPy và pandas.</p>
         </section>
 
         <section data-jp-reset>
@@ -144,8 +144,8 @@ phong.get("diem", "chưa có")     # khoá không tồn tại? có phương án 
 'chưa có'
             </code></pre>
           </div>
-          <p>Một bảng dữ liệu trong Python thuần chính là một <strong>list các dict</strong>.
-            Đến buổi 4, bạn sẽ thấy pandas sinh ra để thay thế đúng cấu trúc này.</p>
+          <p>Trong Python thuần, một bảng dữ liệu có thể được biểu diễn bằng một
+            <strong>list các dict</strong>. Từ buổi 4, DataFrame sẽ cung cấp các thao tác thuận tiện hơn.</p>
         </section>
 
         <section data-jp-reset>
@@ -163,7 +163,7 @@ thang_9 - thang_12               # có ở T9, mất ở T12
             </code></pre>
           </div>
           <p>Phép trừ, giao (<span class="inline-code">&amp;</span>), hợp (<span class="inline-code">|</span>)
-            trên set là cách nhanh nhất để so hai danh sách ID.</p>
+            trên set là cách trực tiếp để so sánh hai danh sách ID.</p>
         </section>
 
         <section>
@@ -258,7 +258,8 @@ so_luong = [152, 124, 68]
 {'Adelie': 152, 'Gentoo': 124, 'Chinstrap': 68}
             </code></pre>
           </div>
-          <p><span class="inline-code">zip</span> khâu hai dãy song song thành từng cặp — sẽ gặp thường xuyên khi ghép cột.</p>
+          <p><span class="inline-code">zip</span> ghép hai dãy song song thành từng cặp;
+            thao tác này thường được dùng khi ghép cột.</p>
         </section>
 
         <section data-jp-reset>
@@ -277,8 +278,8 @@ goc
           </div>
           <div class="warn-box">
             <span class="box-title">Cẩn thận</span>
-            Muốn có bản sao thật, dùng <code>ban_sao = goc.copy()</code>. Bug "sửa chỗ này hỏng chỗ kia"
-            sẽ quay lại ở pandas dưới tên <em>view vs copy</em> — gốc rễ là ở đây.
+            Muốn có bản sao độc lập, dùng <code>ban_sao = goc.copy()</code>. Lỗi một biến thay đổi
+            ngoài ý muốn có cùng nguyên nhân với vấn đề <em>view vs copy</em> trong pandas.
           </div>
         </section>
 
@@ -331,14 +332,15 @@ clean_price("$45,647.00"), clean_price(None)
             <li><strong>Chỉ làm một việc</strong>: thể hiện trực tiếp trong tên hàm (<code>clean_price</code>,
               không phải <code>xu_ly</code>).</li>
             <li><strong>Đoán được</strong>: cùng đầu vào → cùng đầu ra; không sửa lén biến ngoài.</li>
-            <li><strong>Chịu được dữ liệu bẩn</strong>: nói rõ gặp rác thì trả gì (None? lỗi?).</li>
+            <li><strong>Chịu được dữ liệu bẩn</strong>: nói rõ dữ liệu không hợp lệ sẽ trả về gì
+              (<code>None</code> hay phát sinh lỗi).</li>
           </ul>
           <p class="text-light">Docstring một dòng + type hint nhẹ (<span class="inline-code">def
               clean_price(s) -&gt; float | None</span>) là đủ.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>try/except: dữ liệu bẩn ném lỗi</h2>
+          <h2>try/except: dữ liệu không hợp lệ phát sinh lỗi</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
 float("N/A")
@@ -350,8 +352,8 @@ ValueError: could not convert string to float: 'N/A'
           <div class="warn-box">
             <span class="box-title">Cẩn thận</span>
             Bắt <em>đúng loại lỗi</em> (<code>except ValueError</code>). Kiểu
-            <code>except Exception: pass</code> nuốt chửng mọi thứ — kể cả bug thật của bạn —
-            và pipeline "chạy êm" ra kết quả sai.
+            <code>except Exception: pass</code> che khuất mọi loại lỗi, kể cả lỗi lập trình,
+            nên pipeline có thể trả kết quả sai mà không báo lỗi.
           </div>
         </section>
 
@@ -367,7 +369,7 @@ list(map(clean_price, gia_tho))
 [1200.0, None, 950.0]
             </code></pre>
           </div>
-          <p>Truyền <em>hàm</em> vào hàm khác — bạn sẽ gặp lại đúng pattern này ở buổi 5:
+          <p>Truyền <em>hàm</em> vào hàm khác — mẫu này sẽ xuất hiện lại ở buổi 5:
             <span class="inline-code">df["price"].map(clean_price)</span>.</p>
         </section>
 
@@ -416,7 +418,7 @@ sorted(phong, key=lambda p: p["gia"], reverse=True)[0]
       <section>
         <section>
           <h1><span class="text-light">4.</span><br>Đọc &amp; ghi file</h1>
-          <p class="text-light">Dữ liệu thướng nằm trong file, pipeline phải tự đọc.</p>
+          <p class="text-light">Dữ liệu thường nằm trong file và pipeline phải tự đọc dữ liệu đầu vào.</p>
         </section>
 
         <section data-jp-reset>
@@ -449,8 +451,9 @@ rows[0]
 {'id': '52811', 'gia': '$1,200.00', 'loai': 'Entire home'}
             </code></pre>
           </div>
-          <p>Để ý: <strong>mọi thứ là chuỗi</strong>, kể cả id và giá. CSV không mang kiểu dữ liệu —
-            ai đọc người đó tự ép kiểu. Đến buổi 4, pandas sẽ đoán kiểu hộ bạn (và đôi khi đoán sai).</p>
+          <p>Để ý: <strong>mọi giá trị đều là chuỗi</strong>, kể cả id và giá. CSV không lưu kiểu dữ liệu;
+            chương trình đọc phải tự chuyển kiểu. Từ buổi 4, pandas sẽ tự suy luận kiểu dữ liệu
+            và đôi khi có thể suy luận sai.</p>
         </section>
 
         <section data-jp-reset>
@@ -469,11 +472,12 @@ json.loads('{"gia_tb": 45647.0}')["gia_tb"]
 45647.0
             </code></pre>
           </div>
-          <p>JSON ↔ dict/list gần như 1-1 — là định dạng chung của API (buổi 6) và cache LLM (buổi 11).</p>
+          <p>JSON và dict/list có cấu trúc tương ứng gần như trực tiếp. JSON là định dạng thường dùng
+            cho API (buổi 6) và dữ liệu lưu tạm của LLM (buổi 11).</p>
         </section>
 
         <section data-jp-reset>
-          <h2>pathlib: xử lý đường dẫn gọn gàng</h2>
+          <h2>pathlib: xử lý đường dẫn</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
 from pathlib import Path
@@ -486,8 +490,9 @@ sorted(DATA.parent.glob("*"))
 [PosixPath('data/raw/santiago')]
             </code></pre>
           </div>
-          <p>Đường dẫn nối bằng <span class="inline-code">/</span> và chạy đúng trên mọi hệ điều hành —
-            cấu trúc <code>data/raw/&lt;city&gt;/</code> của bài tập lớn viết bằng đúng công cụ này.</p>
+          <p>Đường dẫn được nối bằng <span class="inline-code">/</span> và hoạt động nhất quán trên
+            các hệ điều hành phổ biến. Có thể dùng công cụ này để tạo cấu trúc
+            <code>data/raw/&lt;city&gt;/</code>.</p>
         </section>
       </section>
 
@@ -508,7 +513,7 @@ sorted(DATA.parent.glob("*"))
           <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
           <div class="good-box">
             <span class="box-title">AI làm tốt</span>
-            Viết các hàm tiện ích kiểu <code>clean_price</code> — bài toán kinh điển mà AI làm rất tốt.
+            Tạo nhanh các hàm tiện ích cho thao tác chuẩn, chẳng hạn <code>clean_price</code>.
           </div>
           <div class="warn-box">
             <span class="box-title">AI hay sai</span>
@@ -523,7 +528,7 @@ sorted(DATA.parent.glob("*"))
           <ul>
             <li>Đưa hàm AI viết qua <strong>bộ ca thử tự nghĩ</strong>: giá trị bình thường, rỗng,
               <code>None</code>, âm, sai định dạng.</li>
-            <li>Hỏi ngược AI: "hàm này hỏng với đầu vào nào?" — rồi tự kiểm tra câu trả lời.</li>
+            <li>Yêu cầu AI liệt kê các đầu vào có thể làm hàm sai, sau đó tự kiểm tra từng trường hợp.</li>
           </ul>
         </section>
 
