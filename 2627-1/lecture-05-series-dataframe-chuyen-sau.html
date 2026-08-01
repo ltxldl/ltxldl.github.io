@@ -54,7 +54,7 @@
             <li>Ghép bảng: concat &amp; merge</li>
             <li>Làm việc với AI thì sao?</li>
           </ol>
-          <p class="text-light">Dữ liệu Santiago 18.534 phòng, cộng thêm vài bảng phụ.</p>
+          <p class="text-light">Dữ liệu gồm 18.534 phòng tại Santiago và một số bảng phụ.</p>
         </section>
       </section>
 
@@ -62,11 +62,11 @@
       <section>
         <section>
           <h1><span class="text-light">1.</span><br>Index là gì?</h1>
-          <p class="text-light">Không phải "số thứ tự" — mà là danh tính của từng dòng.</p>
+          <p class="text-light">Index xác định danh tính của từng dòng, không phải số thứ tự.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>set_index: gán tên cho dòng</h2>
+          <h2>set_index: dùng một cột làm index</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
 d = df.set_index("id")
@@ -78,9 +78,9 @@ neighbourhood      Ñuñoa
 price            45647.0
             </code></pre>
           </div>
-          <p>Index = khoá tra cứu: hỏi thẳng "phòng số X" thay vì phải nhớ nó nằm ở dòng thứ mấy.</p>
-          <p class="text-light">Id Airbnb đời mới (từ 2022) dài 18–19 chữ số — 82% listing Santiago
-            thuộc dạng này; số cũ chỉ 5–8 chữ số.</p>
+          <p>Index là khoá tra cứu: tìm phòng theo ID thay vì nhớ vị trí của dòng.</p>
+          <p class="text-light">ID Airbnb từ năm 2022 dài 18–19 chữ số — 82% listing Santiago
+            thuộc dạng này; ID cũ chỉ có 5–8 chữ số.</p>
         </section>
 
         <section data-jp-reset>
@@ -97,7 +97,7 @@ s.loc[2], s.iloc[2]
           </div>
           <p><span class="inline-code">loc[2]</span> = dòng <em>mang nhãn</em> 2;
             <span class="inline-code">iloc[2]</span> = dòng <em>thứ ba</em>.
-            Khi index là số nhưng không phải 0,1,2… — phân biệt được hai câu này mới đọc đúng dữ liệu.</p>
+            Khi index là số nhưng không phải 0, 1, 2, …, cần phân biệt hai cách truy cập này.</p>
         </section>
 
         <section data-jp-reset>
@@ -117,7 +117,7 @@ Vitacura     NaN
 Ñuñoa       10.0
             </code></pre>
           </div>
-          <p>pandas tự ghép <em>Centro với Centro, Ñuñoa với Ñuñoa</em> — không phải theo vị trí!</p>
+          <p>pandas ghép <em>Centro với Centro, Ñuñoa với Ñuñoa</em> theo nhãn, không theo vị trí.</p>
         </section>
 
         <section>
@@ -126,20 +126,20 @@ Vitacura     NaN
             <div>
               <h4 class="text-green">Lợi</h4>
               <ul>
-                <li>Không bao giờ trừ nhầm quận này cho quận kia vì lệch thứ tự dòng.</li>
+                <li>Các giá trị cùng nhãn được ghép với nhau dù thứ tự dòng khác nhau.</li>
               </ul>
             </div>
             <div>
               <h4 class="text-red">Bẫy</h4>
               <ul>
-                <li>Nhãn chỉ có một bên → kết quả <code>NaN</code> <em>(âm thầm, không báo lỗi)</em>
+                <li>Nhãn chỉ có ở một Series → kết quả <code>NaN</code> mà không báo lỗi
                   (Vitacura, La Reina ở slide trước).</li>
               </ul>
             </div>
           </div>
           <div class="key-box">
             <span class="box-title">Quan trọng</span>
-            Sau mọi phép toán giữa hai Series/DataFrame: đếm <code>isna()</code>.
+            Sau mỗi phép toán giữa hai Series/DataFrame, hãy đếm <code>isna()</code>.
             NaN mới xuất hiện = có nhãn không khớp.
           </div>
         </section>
@@ -157,8 +157,8 @@ gia_quan.reset_index().head(2)
 1   Cerro Navia  36992.0
             </code></pre>
           </div>
-          <p>groupby trả kết quả với khoá nằm ở index — <span class="inline-code">reset_index()</span>
-            khi bạn muốn nó quay lại làm cột (để merge, để vẽ, để ghi file).</p>
+          <p>groupby trả kết quả với khoá nằm ở index. Dùng <span class="inline-code">reset_index()</span>
+            để đưa khoá về lại thành cột khi cần merge, vẽ hoặc ghi file.</p>
         </section>
       </section>
 
@@ -166,11 +166,11 @@ gia_quan.reset_index().head(2)
       <section>
         <section>
           <h1><span class="text-light">2.</span><br>Biến đổi giá trị:<br>map &amp; apply</h1>
-          <p class="text-light">Khi công thức vector hoá có sẵn không đủ.</p>
+          <p class="text-light">Dùng map hoặc apply khi phép toán vector hoá không diễn đạt được yêu cầu.</p>
         </section>
 
         <section>
-          <h2>Ba nấc biến đổi một cột</h2>
+          <h2>Ba cách biến đổi một cột</h2>
           <table class="compact-table">
             <thead>
               <tr>
@@ -197,8 +197,8 @@ gia_quan.reset_index().head(2)
               </tr>
             </tbody>
           </table>
-          <p>Nguyên tắc: <strong>thử nấc 1 trước</strong>; chỉ xuống nấc sau khi nấc trên
-            không diễn đạt được.</p>
+          <p>Ưu tiên <strong>phép toán vector hoá có sẵn</strong>; chỉ dùng map hoặc apply khi
+            phép toán đó không diễn đạt được yêu cầu.</p>
         </section>
 
         <section data-jp-reset>
@@ -218,8 +218,8 @@ Nguyên căn     15004
 Phòng riêng     3413
             </code></pre>
           </div>
-          <p>Chuẩn hoá nhãn, gom nhóm giá trị — <code>map</code> + dict là công cụ mặc định.
-            Giá trị ngoài dict → <code>NaN</code> (dấu hiệu để kiểm tra lại ngay).</p>
+          <p><code>map</code> với dict thường dùng để chuẩn hoá nhãn hoặc gom nhóm giá trị.
+            Giá trị ngoài dict trở thành <code>NaN</code> và cần được kiểm tra.</p>
         </section>
 
         <section data-jp-reset>
@@ -237,8 +237,8 @@ gia_chuoi.map(clean_price)      # hàm buổi 2, chạy cả cột
 dtype: float64
             </code></pre>
           </div>
-          <p>Bảng <span class="inline-code">listings</span> đầy đủ (bản chưa rút gọn) có cột giá đúng dạng
-            chuỗi này — hàm bạn viết ở buổi 2 dùng lại nguyên vẹn.</p>
+          <p>Bảng <span class="inline-code">listings</span> đầy đủ có cột giá ở dạng chuỗi này;
+            hàm <code>clean_price</code> từ buổi 2 có thể được dùng lại.</p>
         </section>
 
         <section data-jp-reset>
@@ -255,10 +255,10 @@ df["hap_dan"] = df.apply(diem_hap_dan, axis=1)
           </div>
           <div class="warn-box">
             <span class="box-title">Cẩn thận</span>
-            <code>apply(axis=1)</code> chạy hàm Python <em>từng dòng</em> — chậm gấp trăm lần vector hoá.
-            Ví dụ trên viết được thành một dòng vector:
-            <code>df["number_of_reviews_ltm"] / df["price"] * 1e4</code>. Dùng apply khi logic
-            thật sự phức tạp — không phải vì thấy tiện.
+            <code>apply(axis=1)</code> gọi hàm Python cho <em>từng dòng</em> nên chậm hơn vector hoá.
+            Ví dụ trên có thể viết thành một biểu thức vector:
+            <code>df["number_of_reviews_ltm"] / df["price"] * 1e4</code>. Chỉ dùng apply khi
+            logic không thể biểu diễn rõ ràng bằng phép toán vector hoá.
           </div>
         </section>
       </section>
@@ -267,15 +267,15 @@ df["hap_dan"] = df.apply(diem_hap_dan, axis=1)
       <section>
         <section>
           <h1><span class="text-light">3.</span><br>groupby — chia để trị</h1>
-          <p class="text-light">Một câu hỏi "theo từng nhóm" = một dòng groupby.</p>
+          <p class="text-light">Các câu hỏi "theo từng nhóm" thường được biểu diễn bằng groupby.</p>
         </section>
 
         <section>
           <h2>Cơ chế split–apply–combine</h2>
           <figure class="fig">
             <img src="img/lecture-05/split-apply-combine.svg" alt="Sơ đồ split-apply-combine" style="width:95%">
-            <figcaption class="caption">groupby chia bảng theo khoá, áp phép tính cho từng nhóm, rồi ghép kết
-              quả, chỉ một dòng.</figcaption>
+            <figcaption class="caption">groupby chia bảng theo khoá, áp phép tính cho từng nhóm rồi ghép kết quả.
+              Toàn bộ thao tác được biểu diễn trong một câu lệnh.</figcaption>
           </figure>
         </section>
 
@@ -293,8 +293,8 @@ Cerrillos      Entire home/apt    52116.0
 Cerro Navia    Entire home/apt    51261.0
             </code></pre>
           </div>
-          <p>Kết quả mang <strong>MultiIndex</strong> (nhãn hai tầng) — có thể dùng
-            <span class="inline-code">reset_index()</span> nếu thấy thao tác dễ dàng hơn.</p>
+          <p>Kết quả mang <strong>MultiIndex</strong> (nhãn hai tầng). Có thể dùng
+            <span class="inline-code">reset_index()</span> nếu muốn thao tác với các khoá như cột thông thường.</p>
         </section>
 
         <section data-jp-reset>
@@ -314,8 +314,8 @@ Las Condes      97460.0      2862
 Providencia     72845.0      2997
             </code></pre>
           </div>
-          <p>Bài học từ buổi 4: lọc <em>cỡ nhóm ≥ 500</em> trước khi xếp hạng —
-            loại hẳn kiểu top-1 chỉ nhờ 5 phòng.</p>
+          <p>Bài học từ buổi 4: lọc <em>cỡ nhóm ≥ 500</em> trước khi xếp hạng để tránh
+            kết luận dựa trên nhóm chỉ có vài phòng.</p>
         </section>
 
         <section data-jp-reset>
@@ -333,7 +333,7 @@ df[df["he_so_gia"] > 20].shape[0]    # đắt gấp hơn 20 lần trung vị qu�
           </div>
           <p><code>agg</code> trả một dòng mỗi nhóm; <code>transform</code> trả
             <strong>đúng độ dài bảng gốc</strong> — để so từng dòng với "chuẩn" của nhóm nó.
-            23 phòng kia là ứng viên ngoại lai (outlier) số một khi làm QA.</p>
+            23 phòng có hệ số lớn hơn 20 là các ứng viên ngoại lai (outlier) cần kiểm tra.</p>
         </section>
 
         <section data-jp-reset>
@@ -352,7 +352,7 @@ Santiago               49352.0       31250.0
             </code></pre>
           </div>
           <p>pivot_table = groupby hai khoá + trải một khoá ra thành cột. Bảng "quận × loại phòng"
-            dễ đọc, phổ biến trong báo cáo thực tế.</p>
+            là định dạng phổ biến trong báo cáo.</p>
         </section>
 
         <section>
@@ -360,8 +360,8 @@ Santiago               49352.0       31250.0
           <div class="question-box">
             <div class="question-title">Hiểu yêu cầu, nhận dạng</div>
             <div class="question-content">
-              Khi được yêu cầu <em>"…theo từng quận / mỗi loại phòng / hàng tháng…"</em> —
-              nghĩ ngay đến <span class="inline-code">groupby(khoá)[cột].phép_tính()</span>.
+              Khi yêu cầu có dạng <em>"…theo từng quận / mỗi loại phòng / hàng tháng…"</em>,
+              hãy nghĩ đến <span class="inline-code">groupby(khoá)[cột].phép_tính()</span>.
             </div>
           </div>
         </section>
@@ -371,14 +371,14 @@ Santiago               49352.0       31250.0
       <section>
         <section>
           <h1><span class="text-light">4.</span><br>Ghép bảng:<br>concat &amp; merge</h1>
-          <p class="text-light">Dữ liệu thật hiếm khi nằm gọn trong một bảng.</p>
+          <p class="text-light">Dữ liệu thực tế thường được phân tách thành nhiều bảng.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>concat: chồng các snapshot lên nhau</h2>
+          <h2>concat: ghép các snapshot theo chiều dọc</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
-t9["snapshot"] = "2025-09"        # mỗi bảng tự khai nguồn gốc
+t9["snapshot"] = "2025-09"        # thêm nguồn gốc cho từng bảng
 t6["snapshot"] = "2026-06"
 
 ca_hai = pd.concat([t9, t6], ignore_index=True)
@@ -390,13 +390,15 @@ snapshot
 2026-06    18534
             </code></pre>
           </div>
+          <p>Thêm cột <code>snapshot</code> trước khi concat để giữ nguồn gốc của từng dòng;
+            sau đó có thể so sánh theo thời gian bằng groupby.</p>
         </section>
 
         <section>
           <h2>merge: ghép NGANG theo khoá chung</h2>
           <figure class="fig">
             <img src="img/lecture-05/merge-how.svg" alt="inner join và left join" style="width:96%">
-            <figcaption class="caption">inner bỏ rơi dòng không khớp; left giữ đủ bảng trái và điền NaN —
+            <figcaption class="caption">inner loại các dòng không khớp; left giữ đủ bảng trái và điền NaN —
               chọn <code>how</code> là quyết định giữ hay bỏ các dòng không khớp.</figcaption>
           </figure>
         </section>
@@ -419,12 +421,12 @@ Trung tâm    47755.0
 Đông         76628.5
             </code></pre>
           </div>
-          <p>Phân tích theo tầng mới
-            (vùng) mà dữ liệu gốc không có.</p>
+          <p>Merge bổ sung cột <code>vung</code>; nhờ đó có thể phân tích giá theo vùng dù
+            dữ liệu gốc chưa có thông tin này.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>Sau merge: luôn kiểm tra số dòng và độ khớp</h2>
+          <h2>Sau merge: kiểm tra số dòng và độ khớp</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
 len(df), len(m), m["vung"].isna().sum()
@@ -434,25 +436,25 @@ len(df), len(m), m["vung"].isna().sum()
             </code></pre>
           </div>
           <ul>
-            <li>Số dòng <strong>tăng</strong> sau merge? — khoá bên phải bị trùng, dòng bị nhân bản.</li>
-            <li>3.680 dòng <code>vung</code> = NaN — các quận chưa có trong bảng tra cứu.</li>
+            <li>Nếu số dòng <strong>tăng</strong>, khoá bên phải có thể bị trùng và làm nhân bản dòng.</li>
+            <li>Có 3.680 giá trị <code>vung</code> = NaN: các quận này chưa có trong bảng tra cứu.</li>
           </ul>
         </section>
 
         <section data-jp-reset>
-          <h2>validate: chốt cửa chống nhân bản dòng</h2>
+          <h2>validate: kiểm tra quan hệ giữa hai bảng</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="4"><code class="language-python" data-trim>
 m = df.merge(vung, on="neighbourhood",
              how="left", validate="m:1")
 # nhiều listing (m) ứng với đúng 1 dòng vùng (1)
-# vi phạm -> MergeError ngay, không âm thầm sai
+# vi phạm -> phát sinh MergeError
             </code></pre>
           </div>
           <div class="key-box">
             <span class="box-title">Quan trọng</span>
-            Lỗi merge nguy hiểm vì <em>không có thông báo lỗi</em> — chỉ có kết quả sai.
-            <code>validate=</code> + kiểm tra số dòng để tránh các lỗi không mong muốn.
+            Merge có thể tạo kết quả sai mà không báo lỗi. Dùng <code>validate=</code> và kiểm tra
+            số dòng để phát hiện khoá trùng hoặc quan hệ ghép không đúng.
           </div>
         </section>
       </section>
@@ -462,12 +464,13 @@ m = df.merge(vung, on="neighbourhood",
         <section>
           <h2>Tổng kết</h2>
           <ul>
-            <li>Index là danh tính dòng: <code>loc</code> theo nhãn, <code>iloc</code> theo vị trí,
-              phép toán tự <strong>align</strong>.</li>
-            <li>Biến đổi: vector hoá → <code>map</code> → <code>apply</code> — theo đúng thứ tự đó.</li>
-            <li><code>groupby</code>: agg đặt tên (kèm cỡ nhóm!), <code>transform</code> để so
+            <li>Index là danh tính dòng: <code>loc</code> theo nhãn, <code>iloc</code> theo vị trí;
+              phép toán tự căn chỉnh (<strong>align</strong>) theo index.</li>
+            <li>Biến đổi: ưu tiên vector hoá, sau đó đến <code>map</code> và <code>apply</code>.</li>
+            <li><code>groupby</code>: agg đặt tên kèm cỡ nhóm, <code>transform</code> để so
               từng dòng với nhóm, <code>pivot_table</code> cho bảng chéo.</li>
-            <li>concat chồng dọc theo snapshot; merge ghép ngang — kiểm số dòng + <code>validate</code>.</li>
+            <li>concat ghép dọc theo snapshot; merge ghép ngang. Sau merge, kiểm tra số dòng và
+              dùng <code>validate</code>.</li>
           </ul>
         </section>
 
@@ -476,12 +479,12 @@ m = df.merge(vung, on="neighbourhood",
           <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
           <div class="good-box">
             <span class="box-title">AI làm tốt</span>
-            Viết chuỗi groupby/pivot phức tạp từ mô tả tiếng Việt; giải mã lỗi MultiIndex rối rắm.
+            Viết biểu thức groupby/pivot từ mô tả tiếng Việt; giải thích lỗi liên quan đến MultiIndex.
           </div>
           <div class="warn-box">
             <span class="box-title">AI hay sai</span>
-            Chọn <code>how</code> tuỳ tiện (inner âm thầm làm rơi dòng);
-            quên rằng merge có thể nhân bản dòng; dùng apply(axis=1) cho việc vector hoá được.
+            Chọn <code>how</code> không dựa trên yêu cầu; không kiểm tra dòng bị loại hoặc nhân bản;
+            dùng apply(axis=1) cho phép tính có thể vector hoá.
           </div>
         </section>
 
@@ -489,8 +492,8 @@ m = df.merge(vung, on="neighbourhood",
           <h2>Kiểm chứng thế nào?</h2>
           <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
           <ul>
-            <li>Trước/sau mỗi merge do AI viết: in <code>len()</code> hai bảng và đếm NaN cột mới.</li>
-            <li>groupby phức tạp: lấy <strong>một nhóm</strong> nhỏ, tự lọc tay và tính lại một con số.</li>
+            <li>Trước và sau mỗi merge do AI viết, in <code>len()</code> hai bảng và đếm NaN ở cột mới.</li>
+            <li>Với groupby phức tạp, lấy <strong>một nhóm</strong> nhỏ, lọc thủ công và tính lại một kết quả.</li>
           </ul>
         </section>
 
