@@ -97,7 +97,7 @@ s.loc[2], s.iloc[2]
           </div>
           <p><span class="inline-code">loc[2]</span> = dòng <em>mang nhãn</em> 2;
             <span class="inline-code">iloc[2]</span> = dòng <em>thứ ba</em>.
-            Khi index là số nhưng không phải 0,1,2… — chỉ ai phân biệt được hai câu này mới đọc đúng dữ liệu.</p>
+            Khi index là số nhưng không phải 0,1,2… — phân biệt được hai câu này mới đọc đúng dữ liệu.</p>
         </section>
 
         <section data-jp-reset>
@@ -132,7 +132,7 @@ Vitacura     NaN
             <div>
               <h4 class="text-red">Bẫy</h4>
               <ul>
-                <li>Nhãn chỉ có một bên → kết quả <code>NaN</code> <em>lặng lẽ</em>
+                <li>Nhãn chỉ có một bên → kết quả <code>NaN</code> <em>(âm thầm, không báo lỗi)</em>
                   (Vitacura, La Reina ở slide trước).</li>
               </ul>
             </div>
@@ -218,12 +218,12 @@ Nguyên căn     15004
 Phòng riêng     3413
             </code></pre>
           </div>
-          <p>Chuẩn hoá nhãn, gom nhóm giá trị — <code>map</code> + dict là công cụ số một.
+          <p>Chuẩn hoá nhãn, gom nhóm giá trị — <code>map</code> + dict là công cụ mặc định.
             Giá trị ngoài dict → <code>NaN</code> (dấu hiệu để kiểm tra lại ngay).</p>
         </section>
 
         <section data-jp-reset>
-          <h2>map với hàm: clean_price quay lại</h2>
+          <h2>map với hàm</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
 gia_chuoi = pd.Series(["$45,647.00", "N/A", "$19,856.00"])
@@ -242,7 +242,7 @@ dtype: float64
         </section>
 
         <section data-jp-reset>
-          <h2>apply theo hàng: nhiều cột vào một công thức</h2>
+          <h2>apply theo hàng</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
 def diem_hap_dan(r):
@@ -275,12 +275,12 @@ df["hap_dan"] = df.apply(diem_hap_dan, axis=1)
           <figure class="fig">
             <img src="img/lecture-05/split-apply-combine.svg" alt="Sơ đồ split-apply-combine" style="width:95%">
             <figcaption class="caption">groupby chia bảng theo khoá, áp phép tính cho từng nhóm, rồi ghép kết
-              quả — bạn chỉ viết một dòng.</figcaption>
+              quả, chỉ một dòng.</figcaption>
           </figure>
         </section>
 
         <section data-jp-reset>
-          <h2>Nhiều khoá: nhóm trong nhóm</h2>
+          <h2>Nhiều khoá: nhóm lồng nhau</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
 df.groupby(["neighbourhood", "room_type"])["price"].median().head(4)
@@ -293,8 +293,8 @@ Cerrillos      Entire home/apt    52116.0
 Cerro Navia    Entire home/apt    51261.0
             </code></pre>
           </div>
-          <p>Kết quả mang <strong>MultiIndex</strong> (nhãn hai tầng) — dùng
-            <span class="inline-code">reset_index()</span> nếu thấy khó thao tác.</p>
+          <p>Kết quả mang <strong>MultiIndex</strong> (nhãn hai tầng) — có thể dùng
+            <span class="inline-code">reset_index()</span> nếu thấy thao tác dễ dàng hơn.</p>
         </section>
 
         <section data-jp-reset>
@@ -314,8 +314,8 @@ Las Condes      97460.0      2862
 Providencia     72845.0      2997
             </code></pre>
           </div>
-          <p>Bài học buổi 4 thành code: lọc <em>cỡ nhóm ≥ 500</em> trước khi xếp hạng —
-            loại hẳn kiểu "quán quân nhờ 5 phòng".</p>
+          <p>Bài học từ buổi 4: lọc <em>cỡ nhóm ≥ 500</em> trước khi xếp hạng —
+            loại hẳn kiểu top-1 chỉ nhờ 5 phòng.</p>
         </section>
 
         <section data-jp-reset>
@@ -352,17 +352,16 @@ Santiago               49352.0       31250.0
             </code></pre>
           </div>
           <p>pivot_table = groupby hai khoá + trải một khoá ra thành cột. Bảng "quận × loại phòng"
-            đọc được ngay — định dạng quen thuộc của báo cáo.</p>
+            dễ đọc, phổ biến trong báo cáo thực tế.</p>
         </section>
 
         <section>
-          <h2>groupby trong đầu bạn</h2>
+          <h2>Khi nào dùng groupby?</h2>
           <div class="question-box">
-            <div class="question-title">Đọc đề, nhận dạng</div>
+            <div class="question-title">Hiểu yêu cầu, nhận dạng</div>
             <div class="question-content">
-              Nghe thấy <em>"…theo từng quận / mỗi loại phòng / hàng tháng…"</em> —
-              hãy nghĩ ngay đến <span class="inline-code">groupby(khoá)[cột].phép_tính()</span>.
-              Phần lớn KPI bạn cần tính đều là câu dạng này.
+              Khi được yêu cầu <em>"…theo từng quận / mỗi loại phòng / hàng tháng…"</em> —
+              nghĩ ngay đến <span class="inline-code">groupby(khoá)[cột].phép_tính()</span>.
             </div>
           </div>
         </section>
@@ -391,21 +390,19 @@ snapshot
 2026-06    18534
             </code></pre>
           </div>
-          <p>Mẫu chuẩn khi gộp nhiều snapshot của bài tập lớn: <em>thêm cột <code>snapshot</code> trước, concat sau</em> —
-            rồi mọi so sánh theo thời gian chỉ là groupby thêm một khoá.</p>
         </section>
 
         <section>
           <h2>merge: ghép NGANG theo khoá chung</h2>
           <figure class="fig">
             <img src="img/lecture-05/merge-how.svg" alt="inner join và left join" style="width:96%">
-            <figcaption class="caption">inner làm rơi dòng không khớp; left giữ đủ bảng trái và điền NaN —
+            <figcaption class="caption">inner bỏ rơi dòng không khớp; left giữ đủ bảng trái và điền NaN —
               chọn <code>how</code> là quyết định giữ hay bỏ các dòng không khớp.</figcaption>
           </figure>
         </section>
 
         <section data-jp-reset>
-          <h2>merge trong code</h2>
+          <h2>Cách viết merge</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
 vung = pd.DataFrame({
@@ -422,7 +419,7 @@ Trung tâm    47755.0
 Đông         76628.5
             </code></pre>
           </div>
-          <p>Bảng tra cứu 4 dòng "nâng cấp" cả bảng 18 nghìn dòng — phân tích theo tầng mới
+          <p>Phân tích theo tầng mới
             (vùng) mà dữ liệu gốc không có.</p>
         </section>
 
@@ -455,7 +452,7 @@ m = df.merge(vung, on="neighbourhood",
           <div class="key-box">
             <span class="box-title">Quan trọng</span>
             Lỗi merge nguy hiểm vì <em>không có thông báo lỗi</em> — chỉ có kết quả sai.
-            <code>validate=</code> + kiểm số dòng là dây an toàn rẻ nhất bạn có.
+            <code>validate=</code> + kiểm tra số dòng để tránh các lỗi không mong muốn.
           </div>
         </section>
       </section>
