@@ -336,6 +336,10 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.reveal .pipeline.pipeline-wide .stage {
+    width: 160px;
+}
+
 .reveal .pipeline .stage.stage-highlight {
     border-color: #E8890C;
     background: #FDF3E3;
