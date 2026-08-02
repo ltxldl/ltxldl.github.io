@@ -11,8 +11,9 @@
 | 3 | 23/07/2026 | **Buổi 4 trọn bộ** (slide + notebook demo + lab); index mở link buổi 4. Kèm đợt này: `lecture-style.css` đổi màu điều hướng theo accent index |
 | 4 | 01/08/2026 | **Buổi 5 trọn bộ** (slide + notebook demo + lab + 2 hình SVG + script sinh hình); cập nhật bản biên tập buổi 1–4, index và chính sách AI; index mở link buổi 5 |
 | 5 | 02/08/2026 | **Buổi 6 trọn bộ** (slide + notebook demo + lab); cập nhật `lecture-style.css` cho pipeline ba bước; index mở link buổi 6 |
+| 6 | 02/08/2026 | **Buổi 7 trọn bộ** (slide + notebook demo + lab); index mở link buổi 7 |
 
-Chưa public: buổi 7–15, đề BTL, `lecture-template.html`. `2627-1-draft` là nguồn chân lý; publish = nhấc đích danh file đã duyệt (quy trình: CLAUDE.md).
+Chưa public: buổi 8–15, đề BTL, `lecture-template.html`. `2627-1-draft` là nguồn chân lý; publish = nhấc đích danh file đã duyệt (quy trình: CLAUDE.md).
 
 ## Đợt 2 — sửa văn phong + học liệu giờ thực hành — ✅ HOÀN THÀNH (06/07/2026)
 
