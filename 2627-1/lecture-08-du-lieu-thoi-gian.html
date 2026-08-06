@@ -233,12 +233,30 @@ muot = thang_day_du.rolling(6, center=True).mean()
         </section>
 
         <section data-jp-reset>
-          <h2>So với kỳ liền trước</h2>
+          <h2>shift: dịch dữ liệu để so le kỳ</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="5"><code class="language-python" data-trim>
+s = pd.Series([10, 12, 15], index=["T1", "T2", "T3"])
+s.shift(1)          # mỗi ô lấy giá trị của kỳ liền trước
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="5"><code class="language-text" data-trim>
+T1     NaN
+T2    10.0
+T3    12.0
+            </code></pre>
+          </div>
+          <p><code>shift(1)</code> đẩy mỗi giá trị xuống một dòng, sinh <code>NaN</code> ở đầu.
+            Nhờ đó <code>s / s.shift(1)</code> so mỗi tháng với <strong>tháng trước</strong>,
+            còn <code>shift(12)</code> so với <strong>cùng tháng năm trước</strong>.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>So với kỳ liền trước</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="6"><code class="language-python" data-trim>
 (thang_day_du.pct_change() * 100).loc["2026-05-31"].round(1)
             </code></pre>
-            <pre class="jp-output" data-jp-n="5"><code class="language-text" data-trim>
+            <pre class="jp-output" data-jp-n="6"><code class="language-text" data-trim>
 3.0
             </code></pre>
           </div>
@@ -250,12 +268,12 @@ muot = thang_day_du.rolling(6, center=True).mean()
         <section data-jp-reset>
           <h2>So cùng kỳ bằng cách dịch chuỗi 12 tháng</h2>
           <div class="jp-cell">
-            <pre class="jp-input" data-jp-n="6"><code class="language-python" data-trim>
+            <pre class="jp-input" data-jp-n="7"><code class="language-python" data-trim>
 yoy = (thang_day_du / thang_day_du.shift(12) - 1) * 100
 
 yoy.loc["2026-05-31"].round(1)
             </code></pre>
-            <pre class="jp-output jp-compact" data-jp-n="6"><code class="language-text" data-trim>
+            <pre class="jp-output jp-compact" data-jp-n="7"><code class="language-text" data-trim>
 53.7
             </code></pre>
           </div>
