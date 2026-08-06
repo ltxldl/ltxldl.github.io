@@ -285,6 +285,24 @@ yoy.loc["2026-05-31"].round(1)
           </figure>
         </section>
 
+        <section data-jp-reset>
+          <h2>Chỉ số mùa vụ: cách tính</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+tron = r.loc["2022":"2025"]                  # chỉ các năm trọn
+thang = tron.groupby(tron.index.month).size()
+
+chi_so = thang / thang.mean() * 100          # 100 = tháng trung bình
+chi_so.round().astype(int).tolist()
+            </code></pre>
+            <pre class="jp-output jp-compact" data-jp-n="1"><code class="language-text" data-trim>
+[81, 67, 90, 84, 81, 85, 119, 125, 104, 118, 133, 112]
+            </code></pre>
+          </div>
+          <p>Đếm số đánh giá theo tháng-lịch rồi chia cho mức trung bình 12 tháng.
+            Chỉ số <strong>100 = tháng trung bình</strong>; T11 = 133 tức cao hơn 33%.</p>
+        </section>
+
         <section>
           <h2>Chỉ số mùa vụ theo tháng</h2>
           <figure class="fig">
