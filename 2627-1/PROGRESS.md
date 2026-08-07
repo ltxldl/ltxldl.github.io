@@ -12,8 +12,9 @@
 | 4 | 01/08/2026 | **Buổi 5 trọn bộ** (slide + notebook demo + lab + 2 hình SVG + script sinh hình); cập nhật bản biên tập buổi 1–4, index và chính sách AI; index mở link buổi 5 |
 | 5 | 02/08/2026 | **Buổi 6 trọn bộ** (slide + notebook demo + lab); cập nhật `lecture-style.css` cho pipeline ba bước; index mở link buổi 6 |
 | 6 | 02/08/2026 | **Buổi 7 trọn bộ** (slide + notebook demo + lab); index mở link buổi 7 |
+| 7 | 06/08/2026 | **Buổi 8 trọn bộ** (slide + notebook demo + lab + 2 hình SVG); index mở link buổi 8. Buổi 8 có 4 vòng sửa do GV phát hiện: lỗi tham chiếu slide "Kiểm tra mốc cuối", thêm slide công thức mùa vụ + slide shift, chuẩn hoá "204 dòng" |
 
-Chưa public: buổi 8–15, đề BTL, `lecture-template.html`. `2627-1-draft` là nguồn chân lý; publish = nhấc đích danh file đã duyệt (quy trình: CLAUDE.md).
+Chưa public: buổi 9–15, đề BTL, `lecture-template.html`. `2627-1-draft` là nguồn chân lý; publish = nhấc đích danh file đã duyệt (quy trình: CLAUDE.md).
 
 ## Đợt 2 — sửa văn phong + học liệu giờ thực hành — ✅ HOÀN THÀNH (06/07/2026)
 
