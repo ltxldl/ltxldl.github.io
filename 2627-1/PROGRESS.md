@@ -14,6 +14,7 @@
 | 6 | 02/08/2026 | **Buổi 7 trọn bộ** (slide + notebook demo + lab); index mở link buổi 7 |
 | 7 | 06/08/2026 | **Buổi 8 trọn bộ** (slide + notebook demo + lab + 2 hình SVG); index mở link buổi 8. Buổi 8 có 4 vòng sửa do GV phát hiện: lỗi tham chiếu slide "Kiểm tra mốc cuối", thêm slide công thức mùa vụ + slide shift, chuẩn hoá "204 dòng" |
 | 8 | 10/08/2026 | Không có học liệu mới. `README.md` root rút gọn (bỏ bảng năm học/cây thư mục phải bảo trì tay, lệnh preview bind `127.0.0.1`, link domain mới) + **gỡ `2526-1/README.md`** khỏi `main` (trùng nội dung; đã xoá trên draft từ trước mà vẫn public — lần đầu dùng bước `git rm` của quy trình) |
+| 9 | 10/08/2026 | **Buổi 10 trọn bộ** (slide + notebook demo + lab + hình SVG + script sinh hình); index mở link buổi 10. Duyệt phát hiện: `read_csv` dùng `usecols` cho khớp shape (18534,13), thêm slide điều tra `bedrooms` (56% phòng riêng) + slide "IQR là gì?", làm rõ slide điền theo nhóm (in mapping + trung thực mean 1,49→1,44), hình PNG→SVG kèm caption ngoại lai 97 triệu; tiện tay vá lỗi thiếu `</tr>` dòng buổi 9 trong `index.html` bản main |
 
 Chưa public: buổi 9–15, đề BTL, `lecture-template.html`. `2627-1-draft` là nguồn chân lý; publish = nhấc đích danh file đã duyệt (quy trình: CLAUDE.md).
 
