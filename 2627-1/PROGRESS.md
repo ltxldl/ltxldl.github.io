@@ -13,6 +13,7 @@
 | 5 | 02/08/2026 | **Buổi 6 trọn bộ** (slide + notebook demo + lab); cập nhật `lecture-style.css` cho pipeline ba bước; index mở link buổi 6 |
 | 6 | 02/08/2026 | **Buổi 7 trọn bộ** (slide + notebook demo + lab); index mở link buổi 7 |
 | 7 | 06/08/2026 | **Buổi 8 trọn bộ** (slide + notebook demo + lab + 2 hình SVG); index mở link buổi 8. Buổi 8 có 4 vòng sửa do GV phát hiện: lỗi tham chiếu slide "Kiểm tra mốc cuối", thêm slide công thức mùa vụ + slide shift, chuẩn hoá "204 dòng" |
+| 8 | 10/08/2026 | Không có học liệu mới. `README.md` root rút gọn (bỏ bảng năm học/cây thư mục phải bảo trì tay, lệnh preview bind `127.0.0.1`, link domain mới) + **gỡ `2526-1/README.md`** khỏi `main` (trùng nội dung; đã xoá trên draft từ trước mà vẫn public — lần đầu dùng bước `git rm` của quy trình) |
 
 Chưa public: buổi 9–15, đề BTL, `lecture-template.html`. `2627-1-draft` là nguồn chân lý; publish = nhấc đích danh file đã duyệt (quy trình: CLAUDE.md).
 
