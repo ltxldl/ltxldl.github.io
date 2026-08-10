@@ -1,6 +1,28 @@
-# CLAUDE.md
+# Hướng dẫn làm việc trong repo này
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+> **Dành cho mọi coding agent** (Claude Code, Codex, Cursor, Copilot, Gemini CLI, Zed…) **và cả người.** Đây là nguồn chân lý về quy ước của repo — đọc hết trước khi sửa bất kỳ file nào. Repo này có vài luật mà vi phạm thì tốn kém và không rút lại được (xem mục Tuyệt đối không).
+>
+> **Chỉ tồn tại MỘT bản nội dung.** File thật là `CLAUDE.md`; `AGENTS.md` là **symlink** trỏ vào nó — vì Claude Code chỉ đọc `CLAUDE.md`, còn `AGENTS.md` là quy ước chung mà Codex, Cursor, Copilot, Zed, Windsurf… đọc. Nếu công cụ của bạn đọc tên khác (`GEMINI.md`, `.github/copilot-instructions.md`…), hãy tạo thêm symlink: `ln -s CLAUDE.md <tên-đó>`. **Tuyệt đối không nhân bản nội dung sang file thứ hai** (kể cả bằng tìm-thay-thế tên tool): hai bản sẽ trôi lệch, agent đọc bản cũ sẽ làm sai mà vẫn tin là đúng. Trên Windows, symlink cần Developer Mode/Admin + `git config core.symlinks true`; nếu không được thì để file mới chứa đúng một dòng `Xem CLAUDE.md`.
+
+## Tuyệt đối không
+
+- **Không push thẳng lên `main`** khi chưa qua quy trình publish bên dưới — `main` deploy công khai tức thì, sai là không rút lại được (đã bị cache).
+- **Không `git add -A` / `git commit -a`** trong repo này: nhiều lần đã suýt/đã lôi nhầm file nội bộ và công việc dang dở của phiên khác. Luôn `git add` đích danh từng file mình sửa.
+- **Không sửa nội dung giảng dạy trong `2526-1/`** (archive học kỳ đã dạy) — chỉ đọc để tham khảo.
+- **Không commit dữ liệu sinh viên** (phân công nhóm, điểm, link repo SV) và **không commit `2627-1/private/`** (đáp án lab, giáo án trợ giảng).
+- **Không đụng file đang có thay đổi chưa commit của phiên/agent khác** — kiểm `git status` trước; nếu có, hỏi giảng viên thay vì commit gộp.
+
+## Bản đồ tài liệu — đọc gì trước khi làm gì
+
+| Bạn định làm gì | Đọc file nào |
+|---|---|
+| Bất cứ việc gì | File này (hết) |
+| Soạn/sửa slide | `SLIDE_STYLE_GUIDE.md` (thiết kế, rubric A–E) + `2627-1/EDIT-PASS-NOTES.md` (văn phong + quy ước bắt buộc: thuật ngữ, hình SVG, đo tràn) |
+| Biết đã duyệt/public tới buổi mấy | `2627-1/PROGRESS.md` (mục "Trạng thái publish") |
+| Hiểu vì sao một quyết định lại thế | `2627-1/DECISIONS.md` (nhật ký quyết định, có ngày) |
+| Đụng tới điểm số / khung chương trình | Mục "Kế hoạch 2627-1" bên dưới; thay đổi CLO–rubric–trọng số phải qua Viện/Trường |
+
+Nhịp làm việc hiện tại: **duyệt từng buổi một** — agent rà soát trước (văn phong, thuật ngữ, số liệu, hình, đo tràn), giảng viên duyệt bằng mắt, sửa tay nếu cần, rồi mới publish buổi đó lên `main`. Đừng làm nhảy cóc nhiều buổi cùng lúc.
 
 ## Tổng quan
 
@@ -14,13 +36,35 @@ File `UET_Đề cương học phần_*.docx` ở root là đề cương chính t
 
 - Mỗi học kỳ một thư mục: `2526-1/` = HK1 2025–2026 (đã dạy xong, coi như **archive — không sửa nội dung giảng dạy trong đó**, chỉ dùng làm nguồn copy). `2627-1/` = kỳ tới, đã dựng xong trên nhánh `2627-1-draft`, đang được giảng viên duyệt dần và public theo từng đợt (xem mục Quy trình publish).
 - `index.html` (root) — trang tổng liệt kê các học kỳ; `index-pages.css` — CSS chung cho các trang index.
-- Trong mỗi thư mục học kỳ: `index.html` (lịch giảng dạy, có cột link notebook Colab), `lecture-XX-ten-bai.html` (slide Reveal.js), `lecture-style.css` (CSS chung cho slide), `lecture-template.html` (template tạo bài mới), `projects/project_N.html` (đề bài tập lớn — chú ý tên dùng **gạch dưới**, README ghi `project-*.html` là sai), `img/lecture-XX/` (hình minh hoạ), và bản Reveal.js 5.2.1 vendored (`revealjs/dist/`, `plugin/`).
-- README ở root và trong `2526-1/` **hơi stale** (cấu trúc file, tên file project, số buổi) — khi mâu thuẫn, tin vào cây thư mục thực tế và file này.
+- Trong mỗi thư mục học kỳ: `index.html` (lịch giảng dạy, có cột link notebook Colab), `lecture-XX-ten-bai.html` (slide Reveal.js), `lecture-style.css` (CSS chung cho slide), `lecture-template.html` (template tạo bài mới), `projects/*.html` (đề bài tập lớn — tên dùng **gạch dưới**, không phải `project-*.html`; 2526-1: `project_1..4.html`, 2627-1: `project_airbnb.html` — 01 đề duy nhất) + `projects/index.html`, `img/lecture-XX/` (hình minh hoạ), và bản Reveal.js 5.2.1 vendored (`revealjs/dist/`, `plugin/`).
+- `README.md` (root) cố tình giữ **cực ngắn** (giới thiệu + link trang môn học + cách xem thử) để không phải bảo trì; mọi chi tiết vận hành nằm ở file này. Khi hai bên mâu thuẫn, tin vào cây thư mục thực tế rồi tới file này.
 
 ## Chạy preview
 
-- Cách chuẩn: preview server tên `slides` trong `.claude/launch.json` — serve **từ root repo** bằng Python (port 8765). Serve từ root là bắt buộc khi xem các trang index vì `2526-1/index.html` tham chiếu `../index-pages.css`.
-- `cd 2526-1 && npm install && npm start` (gulp serve, port 8000) — chỉ cần khi muốn speaker notes + livereload lúc trình chiếu/soạn slide; docroot là thư mục học kỳ nên trang index sẽ thiếu CSS (bình thường).
+Website tĩnh, không có bước build/test/lint. **Luôn serve từ root repo** — bắt buộc, vì `2526-1/index.html` tham chiếu `../index-pages.css`; serve từ bên trong thư mục học kỳ sẽ làm trang index mất CSS (lỗi này hay bị chẩn đoán nhầm thành lỗi HTML rồi đi "sửa" trang đang đúng).
+
+> ⚠️ **Bind 127.0.0.1, đừng bỏ.** Docroot là root repo nên preview phục vụ cả `2627-1/private/` (đáp án lab, giáo án) và `UET_*.docx` (có thông tin liên hệ cá nhân). Server mặc định lắng nghe mọi interface → cả mạng LAN tải được (đã kiểm chứng thật). Trên mạng trường/quán càng phải cẩn thận.
+
+- **Mặc định** (không cần Node, không cần mạng): `python3 -m http.server 8766 --bind 127.0.0.1` → <http://localhost:8766/>
+- Live-reload khi soạn slide (cần Node + tải được npm registry; sandbox không mạng thì bỏ qua, không phải lỗi cấu hình):
+  `npx -y browser-sync start --server --listen 127.0.0.1 --port 8765 --files "2627-1/**/*" --files "index.html" --files "index-pages.css" --no-open --no-ui --no-notify`
+  Kiểm cổng trống trước — `lsof -nP -iTCP:8765 -sTCP:LISTEN` — vì phiên khác có thể đang chiếm 8765; đang bận thì đổi `--port`, đừng giả định server ở 8765 là của mình.
+- Hai lệnh trên chính là 2 cấu hình `slides` (browser-sync, Node) và `slides-static` (Python) trong `.claude/launch.json` — định dạng riêng của Claude Code, lại nằm trong `.claude/` đã gitignore nên bản clone **không có** file này; công cụ khác cứ chạy thẳng lệnh shell ở trên.
+- `cd 2526-1 && npm install && npm start` (gulp serve, port 8000) — chỉ khi cần speaker notes lúc trình chiếu; docroot là thư mục học kỳ nên trang index sẽ thiếu CSS (bình thường).
+
+## Chạy code Python
+
+Dùng **`.venv/bin/python`** cho mọi script và notebook — đây là môi trường đã chốt số liệu (pandas 3.0.3). **Đừng dùng `python3` hệ thống** (pandas khác phiên bản → số lệch) và đừng dùng `.conda/bin/python3.11` (không có pandas). `.venv/` bị gitignore; máy mới tạo lại: `python3 -m venv .venv && .venv/bin/pip install pandas numpy matplotlib`.
+
+**Dữ liệu để kiểm chứng số liệu** — dùng **đúng mốc chụp đã chốt**, không bao giờ lấy snapshot mới nhất:
+
+- Santiago `2026-06-29` — `https://data.insideairbnb.com/chile/rm/santiago/2026-06-29/…`, hai bản khác nhau: `visualisations/listings.csv` (18.534×18, giá đã là số) và `data/listings.csv.gz` (18.534×91, giá là chuỗi `$1,234.00`), cộng `visualisations/reviews.csv` (690.112 dòng).
+- Rio `2026-06-24` cho phần đối chứng.
+- Dữ liệu **không nằm trong repo**; tải về `2627-1/notebooks/data/` (đã gitignore). Mọi `assert` trong `notebooks/lab-*.ipynb` gắn cứng vào mốc trên — dùng snapshot khác sẽ làm vỡ lab và khiến bạn "sửa" những con số đang đúng.
+
+## Kiểm slide sau khi sửa (bắt buộc)
+
+Mở deck ở khung **960×700** rồi đo tràn **từng slide lá** — slide lá là `section` không chứa `section` con (deck có `section` bọc ngoài cho vertical stack, đếm cả hai là sai). Slide tràn khi `scrollHeight > 700` hoặc `scrollWidth > 960`. Đoạn đo chuẩn (dán vào console trình duyệt, hoặc chạy qua công cụ điều khiển trình duyệt của bạn) nằm trong `2627-1/EDIT-PASS-NOTES.md` mục 6 — đo xong phải báo dạng `0/N slide tràn`.
 
 ## Quy ước soạn học liệu
 
@@ -34,7 +78,7 @@ File `UET_Đề cương học phần_*.docx` ở root là đề cương chính t
 
 Quyết định 07/2026: toàn bộ học liệu hướng tới sinh viên phải bằng **tiếng Việt**.
 
-- Hiện trạng: trang index, projects, README đã là tiếng Việt; **11 bộ slide của `2526-1` vẫn 100% tiếng Anh** — khi port sang `2627-1` phải dịch.
+- Hiện trạng: trang index, projects, README đã là tiếng Việt; **11 deck của `2526-1` là tiếng Anh** — chỉ dùng làm nguồn nội dung tham khảo; 15 deck của `2627-1` đã viết mới bằng tiếng Việt.
 - Quy ước dịch: dịch phần diễn giải/tiêu đề; **giữ nguyên** thuật ngữ kỹ thuật đã thông dụng và mọi tên API/code (`DataFrame`, `groupby`, `missing values`…), lần xuất hiện đầu có thể chú thích tiếng Việt trong ngoặc. Code, output, tên file giữ nguyên. Học liệu mới viết tiếng Việt ngay từ đầu.
 
 ## Kế hoạch 2627-1 (chốt 07/2026) — nâng cấp cho thời AI
@@ -70,27 +114,49 @@ Bối cảnh: môn thiết kế "tiền-AI"; mọi bài code về nhà và cả 
 | 14 | Kể chuyện bằng dữ liệu + thẩm định một bản phân tích do AI tạo |
 | 15 | Trình bày BTL (deck hướng dẫn vấn đáp + checklist nộp bài) |
 
-Mỗi deck nội dung (trừ buổi 9, 15) kết bằng mục **"Làm với AI thì sao?"** (2–3 slide: AI làm tốt gì / hay sai gì ở chủ đề này / kiểm chứng thế nào).
+Mỗi deck nội dung (trừ buổi 9, 15) kết bằng mục **"Làm việc với AI thì sao?"** (2–3 slide: AI làm tốt gì / hay sai gì ở chủ đề này / kiểm chứng thế nào).
 
-Việc cần làm khi dựng `2627-1/`:
+**Đặc tả học liệu 2627-1** (đã dựng xong 05/07/2026 — giữ để đối chiếu khi rà soát, KHÔNG phải danh sách việc còn tồn; trạng thái thật xem `2627-1/PROGRESS.md`):
 
 1. **Chính sách AI 1 trang** (song ngữ nếu cần): công cụ được phép, nghĩa vụ khai báo, đâu là gian lận — đưa vào Buổi 1 và mọi đề bài.
-2. **Slides + notebook Colab cho từng buổi** theo khung 15 buổi ở trên, viết mới theo `SLIDE_STYLE_GUIDE.md`. Cập nhật trích dẫn: McKinney 3rd ed (2022, free tại wesmckinney.com/book), VanderPlas 2nd ed (2023). Giới thiệu DuckDB (khớp CLO4), Polars ở mức optional.
+2. **Slides + notebook Colab cho từng buổi** theo khung 15 buổi ở trên, viết mới theo `SLIDE_STYLE_GUIDE.md`. Cập nhật trích dẫn: McKinney 3rd ed (2022, free tại wesmckinney.com/book), VanderPlas 2nd ed (2023). Giới thiệu DuckDB (khớp CLO4).
 3. **Giờ thực hành (cập nhật 06/07/2026)**: mỗi tuần có **2 tiết thực hành riêng do trợ giảng dạy** (đề cương 30/30), tách khỏi 2 tiết lý thuyết. Nhịp: tuần 1–8 = lab kỹ năng dùng **trọn ~100'**; tuần 9 = chữa giữa kỳ; tuần 10–14 = lab ~60' + BTL clinic ~35–40'; tuần 15 = tổng duyệt vấn đáp ("máy sạch"). **Điểm 20% "bài tập trên lớp" = 5 bài kiểm tra giấy 15 phút ĐẦU GIỜ LÝ THUYẾT các tuần 3, 5, 7, 11, 13** (phạm vi đến hết tuần trước; đề do GV sinh từ hệ thống ngân hàng câu hỏi riêng — IAI Assessment Hub, ngoài repo). Micro-exercise cũ **không còn lấy điểm** và đã bỏ khỏi timeline giờ thực hành; 13 file `micro-XX.md` trong private/ đổi vai trò thành **đề luyện tự học** (GV/TA phát qua Canvas tuỳ ý, không chấm). Học liệu: `notebooks/lab-XX.ipynb` **public** (tuần 1–8, 10–14; khác notebook demo bài giảng); đáp án lab + giáo án TA + đề luyện **KHÔNG public** — để trong `2627-1/private/` (đã gitignore), gửi trợ giảng qua Canvas. Bài về nhà dạng "AI là đề bài" (debug lời giải AI cài lỗi, kiểm chứng kết luận, so sánh 2 lời giải, viết test cho code AI) vẫn thuộc đợt sau.
 4. **Bài tập lớn — 01 đề duy nhất: Inside Airbnb**: giữ khung thu thập → QA → KPI → trực quan hoá → báo cáo + repo GitHub private + vấn đáp; mỗi nhóm 1 thành phố chính + thành phố đối chứng (chống copy chéo); hợp phần LLM bắt buộc trên bảng `reviews` (trích xuất khía cạnh/cảm xúc bằng Gemini API, so với baseline không-LLM, đo chất lượng trên ≥100 mẫu gán nhãn tay); bớt liệt kê từng bước trong mục "Công việc" để nhóm tự đề xuất QA/KPI rồi bảo vệ; bắt buộc `AI_USAGE.md` (công cụ, prompt then chốt, AI sai ở đâu, kiểm chứng thế nào).
-5. **Chấm BTL**: pipeline phải chạy lại end-to-end bằng một lệnh và được chấm trên **snapshot giữ lại** (kỳ thu thập dữ liệu nhóm chưa xử lý); vấn đáp hỏi riêng từng thành viên + mở ngẫu nhiên code yêu cầu giải thích + live task nhỏ, điểm cá nhân được phép lệch nhau; dùng Claude Code quét từng repo trước buổi vấn đáp để kiểm deliverables và sinh 5 câu hỏi riêng theo code của nhóm (chạy local, repo private, người quyết định điểm).
+5. **Chấm BTL**: pipeline phải chạy lại end-to-end bằng một lệnh và được chấm trên **snapshot giữ lại** (kỳ thu thập dữ liệu nhóm chưa xử lý); vấn đáp hỏi riêng từng thành viên + mở ngẫu nhiên code yêu cầu giải thích + live task nhỏ, điểm cá nhân được phép lệch nhau; dùng **một coding agent chạy local trên máy GV** (tool nào cũng được) quét từng repo trước buổi vấn đáp để kiểm deliverables và sinh 5 câu hỏi riêng theo code của nhóm. Ràng buộc: repo SV là private, không đẩy code/dữ liệu SV lên dịch vụ bên thứ ba, và **người quyết định điểm luôn là giảng viên**.
 
 ## Quy trình publish chọn lọc lên `main` (từ 22/07/2026)
 
 `main` (public, GitHub Pages) chỉ chứa học liệu **giảng viên đã duyệt**; `2627-1-draft` là nguồn chân lý đầy đủ. Không bao giờ merge nhánh — mỗi đợt publish là "nhấc file đã duyệt":
 
-1. Làm trên worktree riêng của `main` (`git worktree add … main`), rồi `git checkout 2627-1-draft -- <đích danh từng file đã duyệt>`. **Cấm `git add -A`** và cấm checkout cả thư mục lớn — add/checkout đích danh để không lôi nhầm file chưa duyệt.
-2. Sửa `2627-1/index.html` **bản trên `main`**: chỉ các buổi đã public có link (slide + notebook + lab); các buổi còn lại để chữ thường kèm ghi chú "công bố dần"; link đề BTL chỉ bật khi đề đã public. Bản index trên draft luôn đầy đủ link — hai bản lệch nhau là chủ đích.
-3. Commit + push `main`; kiểm tra lại `git ls-tree origin/main` không chứa file chưa duyệt, và trang Pages sau deploy.
+1. Tạo worktree riêng cho `main` — `git worktree add ../ptdp-main main` (môi trường không ghi được ngoài repo thì `git worktree add .worktrees/main main`, nhớ thêm `.worktrees/` vào `.gitignore`). Không `git switch main` ngay trên cây làm việc chính (đang giữ công việc dở của `2627-1-draft`).
+   ⚠️ **Worktree `main` KHÔNG chứa file hướng dẫn này** (nó cố tình không được publish) — nếu `cd` vào đó, công cụ của bạn mất sạch luật đúng lúc nguy hiểm nhất. Cách an toàn: đứng nguyên ở cây draft và thao tác bằng `git -C ../ptdp-main …`.
+2. `git -C ../ptdp-main checkout 2627-1-draft -- <đích danh từng file đã duyệt>`. **Cấm `git add -A`**, cấm checkout cả thư mục lớn — đích danh từng file để không lôi nhầm file chưa duyệt.
+   File đã duyệt bị **xoá/đổi tên** trên draft thì phải gỡ khỏi `main` bằng lệnh riêng: `git -C ../ptdp-main rm <đường-dẫn>` — bước "nhấc file" không tự gỡ, quên là file cũ vẫn còn public.
+3. Sửa `2627-1/index.html` **bản trên `main`**: chỉ các buổi đã public mới có link (slide + notebook + lab); các buổi chưa public để **dạng văn bản thường, không bọc thẻ `<a>`**, kèm ghi chú "công bố dần"; link đề BTL chỉ bật khi đề đã public. Bản index trên draft luôn đầy đủ link — hai bản lệch nhau là chủ đích.
+4. **Chốt chặn trước khi push** — chạy trên cây sắp push, không phải trên `origin/main`:
 
-Trạng thái publish ghi trong `2627-1/PROGRESS.md` (mục "Trạng thái publish"). File **không bao giờ** publish lên `main`: `CLAUDE.md`, `STARTER-PROMPT-*.md`, `2627-1/{QUESTIONS,DECISIONS,PROGRESS,EDIT-PASS-NOTES}.md`, `2627-1/private/` (đã gitignore), file đề cương `UET_*.docx`.
+   ```bash
+   # (a) commit sắp push có lôi nhầm tài liệu nội bộ không? — không ra gì là ĐÚNG (grep trả exit 1, đừng nối bằng &&)
+   git -C ../ptdp-main ls-tree -r --name-only HEAD | grep -iE 'claude|agents|codex|cursor|gemini|starter|prompt|decisions|progress|edit-pass|questions|private|\.docx'
+   # (b) đợt này thêm đúng những file nào?
+   git -C ../ptdp-main diff --name-only --diff-filter=A origin/main..HEAD
+   # (c) học liệu đang public tới buổi mấy? — đối chiếu bảng "Trạng thái publish" trong PROGRESS.md
+   git -C ../ptdp-main ls-tree -r --name-only HEAD | grep -E '2627-1/(lecture-|notebooks/|projects/)' | sort
+   ```
+
+   `git ls-tree` **phải có `-r`** — thiếu nó chỉ liệt kê 7 mục ở cấp gốc và không bao giờ thấy file trong `2627-1/`. Và phải kiểm `HEAD` chứ **không phải `origin/main`**: `origin/main` là ref remote-tracking, chưa chứa commit bạn sắp push nên luôn "sạch" một cách giả tạo.
+5. Push `main`, đợi Pages deploy rồi kiểm bằng `curl` vài URL vừa mở.
+6. Quay lại nhánh `2627-1-draft`, thêm một dòng vào bảng **"Trạng thái publish"** của `2627-1/PROGRESS.md` (đợt, ngày, nội dung) và commit riêng — mọi phiên sau tra trạng thái ở đó, không cập nhật là hỏng nguồn tra cứu.
+
+File **không bao giờ** publish lên `main` — chặn theo *loại*, không theo tên:
+
+- **Mọi file hướng dẫn/khởi động agent ở root**: `CLAUDE.md`, `AGENTS.md` và mọi symlink trỏ vào nó, `STARTER-PROMPT-*.md`… — bất kể tên tool.
+- **Tài liệu vận hành nội bộ**: `2627-1/{DECISIONS,PROGRESS,EDIT-PASS-NOTES}.md`.
+- **Học liệu không công khai**: `2627-1/private/` (đã gitignore).
+- **Đề cương gốc**: `UET_*.docx` (có thông tin liên hệ cá nhân, đã gitignore).
 
 ## Lưu ý khác
 
-- `.claude/`, `.conda/`, `node_modules/` đã gitignore.
+- `.gitignore` hiện có: `node_modules/`, `package-lock.json`, `.DS_Store`, `.vscode/`, `.idea/`, `.conda/`, `.claude/`, `.venv/`, `2627-1/private/`, `/UET_*.docx`. **Thư mục cấu hình của agent phải được ignore trước khi commit** — mới chỉ có `.claude/`; nếu bạn dùng công cụ khác (`.codex/`, `.cursor/`, `.gemini/`, `.aider*`…), thêm dòng tương ứng ngay, đừng để log phiên/khoá API lọt lên repo public.
 - Không commit dữ liệu sinh viên (bảng phân công nhóm, điểm, link repo SV) vào repo public này — các thứ đó để ở spreadsheet VNU như hiện tại.
+- Báo cáo trung thực: đo được gì nói nấy, chưa kiểm thì nói rõ là chưa kiểm. **Mọi con số đưa vào học liệu phải kiểm chứng bằng dữ liệu thật** (tải snapshot Inside Airbnb rồi chạy lại), không ước lượng, không chép từ trí nhớ — đây là môn dạy sinh viên kiểm chứng số liệu.

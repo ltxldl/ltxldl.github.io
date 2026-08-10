@@ -1,10 +1,10 @@
 # Quyết định nhỏ trong đợt dựng học liệu 2627-1
 
-> Các quyết định Claude tự đưa ra theo hướng hợp lý (giảng viên có thể đảo lại). Câu hỏi lớn nằm ở QUESTIONS.md.
+> Các quyết định agent tự đưa ra theo hướng hợp lý (giảng viên có thể đảo lại).
 
 - **Highlight theme**: chuẩn hoá `zenburn.css` cho mọi deck (các deck mới nhất 2526-1 đều dùng zenburn; template cũ ghi monokai là sót).
 - **Tên file deck**: `lecture-XX-<ten-khong-dau>.html`, ví dụ `lecture-11-llm-du-lieu-phi-cau-truc.html` (giữ convention gạch ngang của 2526-1, chuyển sang tiếng Việt không dấu).
-- **Link notebook trong index**: trỏ thẳng Colab qua `colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/...` — chỉ hoạt động sau khi merge vào `main`; trong thời gian draft sẽ 404 (chấp nhận được).
+- **Link notebook trong index**: trỏ thẳng Colab qua `colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/...` — chỉ hoạt động sau khi file được publish lên `main`; trong thời gian draft sẽ 404 (chấp nhận được).
 - **Title slide**: ~~ghi tên giảng viên, trợ giảng để placeholder~~ — hủy theo quyết định giảng viên 06/07/2026 (xem mục cuối): bỏ toàn bộ thông tin cá nhân GV/TA khỏi học liệu.
 - **Hệ màu hộp nhấn** (theo style guide): cam `#E8890C` = điểm chốt, đỏ `#E62727` = cảnh báo/lỗi, xanh lá `#2E8B57` = khuyến nghị/ví dụ tốt, xanh lam `#1E93AB` = cấu trúc/định nghĩa/câu hỏi. Badge 🤖 "Làm với AI" dùng tím `#7A4CB0` để tách khỏi 4 màu nội dung.
 - **Copy `package.json` + `gulpfile.js`** từ 2526-1 sang để giữ workflow `npm start` (speaker notes + livereload) cho ai cần.
@@ -14,7 +14,7 @@
 - **BTL — trọng số rubric**: A pipeline 30% / B dữ liệu (QA+KPI+LLM) 25% / C trực quan hoá & insight 25% / D nhóm & minh bạch AI 20%; thưởng tối đa +10%.
 - **BTL — held-out**: chấm bằng snapshot phát hành trong kỳ (~09–12/2026) hoặc bản monthly không nằm trong danh sách bắt buộc; ghi rõ trong đề để nhóm thiết kế pipeline chịu được schema drift.
 - **BTL — mốc nộp trung gian**: thêm mốc "bản đề xuất tuần 8" (QA/KPI/LLM dự kiến, GV phản hồi không chấm điểm) — để cứu các nhóm chọn sai hướng sớm.
-- **Dữ liệu thật phát hiện khi soạn bài 8**: cột `host_since` trong snapshot Santiago 06/2026 trống 100% (Inside Airbnb thay bằng `hosts_time_as_*`); học liệu dùng `first_review` cho demo Timedelta. Mùa vụ review Santiago: **⚠️ đính chính 06/07/2026 (đợt 2, giảng viên duyệt)** — kết luận ban đầu "đỉnh T1–T4 do review trễ + T2 ngắn" là artefact của cửa sổ lệch (chỉ số gộp cả nửa đầu 2026, nửa năm lớn nhất, chỉ góp mặt cho T1–T6); tính trên các năm trọn 2022–2025, mùa vụ thật **đỉnh T7–T8 & T10–T11, đáy T2** (đô thị ngược mùa điểm nghỉ dưỡng). Đã sửa `gen_figures.py` + `mua-vu.png` + 2 slide + notebook buổi 8 — chi tiết: QUESTIONS.md mục 2.
+- **Dữ liệu thật phát hiện khi soạn bài 8**: cột `host_since` trong snapshot Santiago 06/2026 trống 100% (Inside Airbnb thay bằng `hosts_time_as_*`); học liệu dùng `first_review` cho demo Timedelta. Mùa vụ review Santiago: **⚠️ đính chính 06/07/2026 (đợt 2, giảng viên duyệt)** — kết luận ban đầu "đỉnh T1–T4 do review trễ + T2 ngắn" là artefact của cửa sổ lệch (chỉ số gộp cả nửa đầu 2026, nửa năm lớn nhất, chỉ góp mặt cho T1–T6); tính trên các năm trọn 2022–2025, mùa vụ thật **đỉnh T7–T8 & T10–T11, đáy T2** (đô thị ngược mùa điểm nghỉ dưỡng). Đã sửa `gen_figures.py` + `mua-vu.svg` + 2 slide + notebook buổi 8 — số liệu kiểm chứng đầy đủ nằm trong lịch sử git (file QUESTIONS.md cũ, đã bỏ sau khi cả hai câu hỏi được quyết).
 - **Buổi 14 — phát hiện khi kiểm chứng số liệu**: bảng `reviews` của một snapshot bị right-censoring ở đuôi (T9/2025 "mọc thêm" 21% khi nhìn từ snapshot 06/2026) và lịch sử co giãn vì listing rời sàn mang theo review (T8/2025 giảm 18% giữa 2 snapshot). Kịch bản thẩm định KL3 đổi từ "sai mùa vụ" thành "không kiểm được từ 1 snapshot" — trung thực với dữ liệu và dạy thêm được loại phán quyết thứ ba.
 - **Rà soát render (Playwright, khung 960×700)**: đo scrollHeight/Width từng slide của cả 15 deck — 103 slide tràn do font gốc 40px của theme trắng quá lớn với tiếng Việt. Chỉnh hệ thiết kế trong `lecture-style.css` (font gốc 36px, hộp nhấn/pipeline/bảng gọn hơn) thay vì sửa lẻ từng slide; 6 slide còn lại sửa nội dung (tách checklist buổi 15 thành 2 slide, gọt chữ). Kết quả cuối: **0 slide tràn**, không ảnh hỏng, không lỗi JS.
 
@@ -30,7 +30,7 @@
 - **`lecture-template.html`**: áp cùng bộ quy ước máy móc (Quan trọng, Làm việc với AI, Tổng quan, title slide…) để deck mới sinh ra đã đúng chuẩn — template không thuộc phạm vi 14 deck nhưng là nguồn copy.
 - **Tràn khung có sẵn phát hiện trong đợt 2** (không do edit-pass): buổi 9 slide "Thông tin kỳ thi" 742px (sau lần giảng viên sửa nội dung 06/07) — gọt "trên lớp,"/"lập biên bản"; buổi 13 slide "Hình C" 701px (chớm tràn từ đợt 1) — gọt câu + ảnh 82%→78%.
 - **Link lab trong index**: thêm thẻ `lab-XX.ipynb` ngay cạnh `lecture-XX.ipynb` trong cùng ô Notebook (cùng class `notebook-tag`) — không thêm cột mới để bảng không rộng ra; ghi chú dưới bảng phân biệt notebook lý thuyết vs lab; tuần 9/15 không có lab (giữ "—").
-- **Một chỗ "Làm với AI" còn lại trong buổi 1** (dòng body "mỗi buổi học sẽ đều có mục "Làm với AI thì sao?"", slide Quy trình 5 bước): buổi 1 thuộc diện không-đụng nên Claude không sửa; sau edit-pass, mục đó ở mọi deck đã tên "Làm việc với AI thì sao?" — giảng viên đổi nốt 1 từ này nếu muốn đồng bộ tuyệt đối.
+- **Một chỗ "Làm với AI" còn lại trong buổi 1** (dòng body "mỗi buổi học sẽ đều có mục "Làm với AI thì sao?"", slide Quy trình 5 bước): buổi 1 thuộc diện không-đụng nên agent không sửa; sau edit-pass, mục đó ở mọi deck đã tên "Làm việc với AI thì sao?" — giảng viên đổi nốt 1 từ này nếu muốn đồng bộ tuyệt đối.
 - **Thiết kế lab đợt 2 — điểm chung**: mỗi lab dùng dữ liệu Santiago thật với bài tập KHÁC notebook demo (đối chiếu từng demo trước khi soạn); mọi con số trong assert lấy từ chạy thật trên snapshot 2026-06-29; các "phát hiện thật" đưa vào bài (204 review sau mốc danh nghĩa, LTM lệch 665 do định nghĩa mốc, corr thời tiết ~0.08, phân phối availability hai bướu, false positive "cerca de todo", ngày kỷ lục 16/03/2026); lab 11 cố ý offline (Pydantic + output mô phỏng ghi rõ là mô phỏng) để không phụ thuộc API key trong giờ học; tuần 10–14 lab có mục "🧭 BTL clinic" bám mốc đề; hình trong lab 12–13 được assert bằng thuộc tính (title/ylim/số patch/file).
 
 ## Quyết định của giảng viên (06/07/2026 — cơ chế điểm 20% "bài tập trên lớp")
@@ -38,14 +38,14 @@
 - **Thay micro-exercise bằng 5 bài kiểm tra giấy 15 phút ĐẦU GIỜ LÝ THUYẾT các tuần 3, 5, 7, 11, 13** (chế độ 🚫 đóng, phạm vi đến hết tuần trước). Đề do giảng viên sinh từ hệ thống ngân hàng câu hỏi riêng (IAI Assessment Hub), **ngoài repo** — lý do giảng viên chọn phương án này.
 - Micro-exercise **không còn lấy điểm** và bỏ hẳn khỏi timeline giờ thực hành — lab dùng trọn ~100 phút. 13 file `micro-XX.md` giữ trong `private/` nhưng đổi vai trò thành **đề luyện tự học** (GV/TA phát qua Canvas Portal tuỳ ý, không chấm).
 - Đã cập nhật theo: deck buổi 1 (bảng Cơ cấu điểm + slide Kế hoạch mỗi tuần — 2 chỗ duy nhất được đụng), `ai-policy.html`, cell "Cách làm việc" của 13 lab notebook, ghi chú dưới bảng lịch `index.html`, CLAUDE.md mục Giờ thực hành, 15 giáo án TA + README + 13 đề luyện trong private/.
-- *Quyết định nhỏ của Claude khi giãn timeline giáo án TA* (giảng viên đảo lại được): tuần 1–8 — khối micro (80→96/97/98) nhập vào phần bài tự làm ✅ mở tại lớp (đến phút 95, TA đi vòng hỗ trợ), chốt 95–100; tuần 10–14 — BTL clinic kéo dài đến phút 90 + 5 phút chữa chung vấn đề nổi bật, chốt 95–100; các guide tuần 2/4/6/10/12 thêm lời nhắc cuối giờ "tuần sau có bài kiểm tra 15 phút đầu giờ lý thuyết".
+- *Quyết định nhỏ của agent khi giãn timeline giáo án TA* (giảng viên đảo lại được): tuần 1–8 — khối micro (80→96/97/98) nhập vào phần bài tự làm ✅ mở tại lớp (đến phút 95, TA đi vòng hỗ trợ), chốt 95–100; tuần 10–14 — BTL clinic kéo dài đến phút 90 + 5 phút chữa chung vấn đề nổi bật, chốt 95–100; các guide tuần 2/4/6/10/12 thêm lời nhắc cuối giờ "tuần sau có bài kiểm tra 15 phút đầu giờ lý thuyết".
 
 ## Quyết định của giảng viên (06/07/2026 — chốt sau đợt dựng)
 
 - **Bỏ toàn bộ thông tin cá nhân GV/TA khỏi học liệu**: xoá dòng Giảng viên/Trợ giảng ở title slide 15 deck + template; đề BTL không ghi tài khoản GitHub cá nhân — danh sách tài khoản công bố trên Canvas.
 - **Kênh lớp**: hệ thống Canvas của trường (thông báo, spreadsheet phân công, danh sách tài khoản GitHub GV/TA, ngày deadline cụ thể, lịch vấn đáp).
 - **Cỡ nhóm BTL**: 4–5 sinh viên.
-- **Thành phố châu Á (QUESTIONS.md #1)**: giữ 12 thành phố chính Âu/Mỹ; thêm Bangkok/Singapore/Taipei làm **đối chứng tuỳ chọn** (2 snapshot → chỉ so sánh chéo trên snapshot mới nhất, không làm thành phố chính).
+- **Thành phố châu Á**: giữ 12 thành phố chính Âu/Mỹ; thêm Bangkok/Singapore/Taipei làm **đối chứng tuỳ chọn** (2 snapshot → chỉ so sánh chéo trên snapshot mới nhất, không làm thành phố chính).
 - **Deadline**: chưa có thời khoá biểu → mọi mốc ghi theo tuần học ("23:59 Chủ nhật tuần X — ngày cụ thể: xem Canvas").
 - **Giữa kỳ**: viết trên giấy, có giám sát; thời lượng & cấu trúc điểm để placeholder, quyết trước ngày thi.
 - **Vấn đáp BTL**: ~20 phút/nhóm — trình bày + demo pipeline ~5' · hỏi riêng từng thành viên ~10' (2–3'/người) · live task ~5'.

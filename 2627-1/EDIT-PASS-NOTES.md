@@ -1,6 +1,6 @@
 # Nguyên tắc sửa văn phong slide — rút từ lượt duyệt buổi 1 của giảng viên
 
-> **Mục đích:** chuẩn cho pass sửa văn phong **14 deck còn lại (buổi 2–15)**. Nguồn: diff giữa bản Claude dựng (commit `e0a577f`) và bản giảng viên duyệt buổi 1 (06–07/07/2026). Nhận xét chung của GV: *nội dung ổn, văn phong kém*.
+> **Mục đích:** chuẩn cho pass sửa văn phong **14 deck còn lại (buổi 2–15)**. Nguồn: diff giữa bản agent dựng (commit `e0a577f`) và bản giảng viên duyệt buổi 1 (06–07/07/2026). Nhận xét chung của GV: *nội dung ổn, văn phong kém*.
 >
 > **Phạm vi pass:** chỉ sửa văn phong + các quy ước liệt kê dưới đây. **Không** đổi cấu trúc slide, thứ tự nội dung, nội dung kỹ thuật, code/output — trừ comment tiếng Việt trong code khi dính quy tắc văn phong. Buổi 1 đã được GV sửa tay — không đụng nữa, chỉ dùng làm mẫu đối chiếu.
 
@@ -47,7 +47,26 @@ Ngoài ra: component `.pipeline` đang quá khổ — GV phải chèn inline `st
 
 ## 6. Việc kèm theo pass (bắt buộc)
 
-1. Sau khi sửa chữ, **chạy lại kiểm tra tràn khung 960×700** (Playwright, như đợt dựng) trên toàn bộ deck đã sửa — câu dài ra dễ gây tràn.
+1. Sau khi sửa chữ, **chạy lại kiểm tra tràn khung 960×700** trên toàn bộ deck đã sửa — câu dài ra dễ gây tràn. Serve repo (xem CLAUDE.md mục "Chạy preview"), mở deck ở viewport 960×700, rồi chạy đoạn dưới trong console trình duyệt (hoặc qua công cụ điều khiển trình duyệt). Nó đo **slide lá** — `section` không chứa `section` con; đếm cả `section` bọc vertical stack là sai — và bỏ qua `display:none` bằng cách hiện tạm từng slide:
+
+   ```js
+   (() => {
+     const leaves = [...document.querySelectorAll('.reveal .slides section')].filter(s => !s.querySelector('section'));
+     const bad = [];
+     leaves.forEach((el, i) => {
+       const chain = []; let n = el;
+       while (n && n.tagName === 'SECTION') { chain.push(n); n = n.parentElement.closest('section'); }
+       const saved = chain.map(c => c.style.cssText);
+       chain.forEach(c => { c.style.display = 'block'; c.style.visibility = 'hidden'; });
+       if (el.scrollHeight > 700 || el.scrollWidth > 960)
+         bad.push({ slide: i + 1, h: el.scrollHeight, t: (el.querySelector('h1,h2') || {}).textContent });
+       chain.forEach((c, k) => { c.style.cssText = saved[k]; });
+     });
+     return JSON.stringify({ total: leaves.length, overflow: bad });
+   })()
+   ```
+
+   Kết quả phải là `overflow: []`; báo cáo dạng `0/N slide tràn`. Kiểm luôn hình đã load: `[...document.querySelectorAll('.reveal img')].map(i => [i.getAttribute('src'), i.complete && i.naturalWidth > 0])`.
 2. Slide "Kế hoạch mỗi tuần" (mọi deck nào nhắc nhịp tuần): cập nhật theo cấu trúc **2 tiết lý thuyết + 2 tiết thực hành** — nội dung cụ thể theo kế hoạch giờ thực hành (xem CLAUDE.md khi đã chốt).
 3. Deck nào có mục tự đánh giá cấu trúc ("Hôm nay", badge…) thì cập nhật đồng bộ với quy ước mục 1.
 
