@@ -8,12 +8,22 @@ import sys
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib import font_manager
 import numpy as np
 import pandas as pd
 
 OUT = Path(__file__).resolve().parent.parent
+FONT_DIR = OUT.parent.parent / "revealjs" / "dist" / "theme" / "fonts" / "source-sans-pro"
+for font_file in FONT_DIR.glob("*.ttf"):
+    font_manager.fontManager.addfont(str(font_file))
+INK, MUTED = "#333333", "#666666"
 plt.rcParams.update({
-    "font.size": 13, "figure.facecolor": "white", "savefig.facecolor": "white",
+    "font.family": "Source Sans Pro", "font.size": 13,
+    "svg.fonttype": "path",                       # chữ thành path -> hiện đúng font khi nhúng <img>
+    "figure.facecolor": "none", "savefig.facecolor": "none",
+    "text.color": INK,
+    "axes.edgecolor": MUTED, "axes.labelcolor": MUTED,
+    "xtick.color": MUTED, "ytick.color": MUTED,
     "axes.spines.top": False, "axes.spines.right": False,
     "axes.grid": True, "grid.alpha": 0.25, "grid.linewidth": 0.7,
 })
@@ -43,20 +53,20 @@ for ax, (ten, (x, y)) in zip(axes, ans.items()):
     ax.plot(xs, a + b * xs, color=ORANGE, lw=1.8)
     ax.set_title(f"Bộ {ten}", fontsize=12)
     ax.set_xlim(2, 20)
-fig.suptitle("Bốn bộ dữ liệu — cùng mean, cùng phương sai, cùng đường hồi quy", fontweight="bold")
+fig.suptitle("Bốn bộ dữ liệu — cùng trung bình, phương sai và đường hồi quy", fontweight="bold")
 fig.tight_layout()
-fig.savefig(OUT / "anscombe.png", dpi=150)
+fig.savefig(OUT / "anscombe.svg", dpi=150)
 plt.close(fig)
-print("anscombe.png")
+print("anscombe.svg")
 
 # ---------------------------------------------------------------- anatomy
-thang_du = rv[rv["date"] < "2026-07-01"].set_index("date").resample("ME").size().loc["2023":]
+thang_du = rv[rv["date"] < "2026-06-01"].set_index("date").resample("ME").size().loc["2023":]
 fig, ax = plt.subplots(figsize=(9.6, 4.9))
 fig.subplots_adjust(top=0.80, bottom=0.20)
 ax.plot(thang_du.index, thang_du.values, color=BLUE, lw=2.2)
-ax.set_title("Review Airbnb ở Santiago tăng gấp ba trong ba năm", fontweight="bold", loc="left")
+ax.set_title("Số đánh giá Airbnb tại Santiago tăng gấp ba trong ba năm", fontweight="bold", loc="left")
 ax.set_xlabel("tháng")
-ax.set_ylabel("số review / tháng")
+ax.set_ylabel("số đánh giá / tháng")
 peak = thang_du.idxmax()
 ax.annotate(f"đỉnh {peak:%m/%Y}: {thang_du.max():,.0f}",
             xy=(peak, thang_du.max()), xytext=(-150, -6), textcoords="offset points",
@@ -64,31 +74,35 @@ ax.annotate(f"đỉnh {peak:%m/%Y}: {thang_du.max():,.0f}",
             arrowprops=dict(arrowstyle="->", color=ORANGE))
 RED = "#c0392b"
 # các chú thích "giải phẫu" đặt ngoài vùng vẽ
-ax.text(0.0, 1.22, "① title — nói THÔNG ĐIỆP, không nói 'biểu đồ của…'",
+ax.text(0.0, 1.22, "1) tiêu đề — nêu thông điệp, không chỉ gọi tên biểu đồ",
         transform=ax.transAxes, fontsize=11.5, color=RED, style="italic")
 ax.annotate("", xy=(0.02, 1.075), xytext=(0.035, 1.20), xycoords="axes fraction",
             arrowprops=dict(arrowstyle="->", color=RED))
-ax.text(0.42, 0.55, "② annotation — chỉ vào điểm đáng nói", transform=ax.transAxes,
-        fontsize=11.5, color=RED, style="italic", ha="left")
-ax.text(0.045, 0.35, "③ nhãn trục\n+ đơn vị", transform=ax.transAxes, fontsize=11.5,
-        color=RED, style="italic", ha="left")
-ax.text(0.30, -0.24, "④ nguồn dữ liệu →", transform=ax.transAxes, fontsize=11.5,
+ax.annotate("2) chú thích — chỉ vào điểm cần lưu ý",
+            xy=(0.60, 0.90), xytext=(0.30, 0.80), xycoords="axes fraction",
+            fontsize=11.5, color=RED, style="italic", ha="left", va="center",
+            arrowprops=dict(arrowstyle="->", color=RED))
+ax.annotate("3) nhãn trục + đơn vị",
+            xy=(-0.085, 0.5), xytext=(0.03, 0.46), xycoords="axes fraction",
+            fontsize=11.5, color=RED, style="italic", ha="left", va="center",
+            annotation_clip=False, arrowprops=dict(arrowstyle="->", color=RED))
+ax.text(0.53, -0.24, "4) nguồn dữ liệu →", transform=ax.transAxes, fontsize=11.5,
         color=RED, style="italic", ha="right")
-ax.text(1.0, -0.24, "Nguồn: Inside Airbnb, snapshot 29/06/2026", transform=ax.transAxes,
+ax.text(1.0, -0.24, "Nguồn: Inside Airbnb, mốc chụp 29/06/2026", transform=ax.transAxes,
         fontsize=10, color="#777", ha="right")
-fig.savefig(OUT / "anatomy.png", dpi=150)
+fig.savefig(OUT / "anatomy.svg", dpi=150)
 plt.close(fig)
-print("anatomy.png")
+print("anatomy.svg")
 
 # ---------------------------------------------------------------- line (clean)
 fig, ax = plt.subplots(figsize=(8.8, 3.6))
 ax.plot(thang_du.index, thang_du.values, color=BLUE, lw=2.2)
 ax.set_title("Thị trường Santiago phục hồi và tăng tốc sau 2023", fontweight="bold", loc="left")
-ax.set_ylabel("số review / tháng")
+ax.set_ylabel("số đánh giá / tháng")
 fig.tight_layout()
-fig.savefig(OUT / "line-reviews.png", dpi=150)
+fig.savefig(OUT / "line-reviews.svg", dpi=150)
 plt.close(fig)
-print("line-reviews.png")
+print("line-reviews.svg")
 
 # ---------------------------------------------------------------- barh ranking
 tk = df.groupby("neighbourhood")["price"].agg(median="median", n="size")
@@ -98,12 +112,12 @@ bars = ax.barh(top.index, top["median"], color=[ORANGE if i == len(top) - 1 else
                                                 for i in range(len(top))], height=0.62)
 ax.bar_label(bars, [f" {v/1000:,.0f}k" for v in top["median"]], fontsize=11)
 ax.set_title("Lo Barnechea bỏ xa phần còn lại về giá trung vị", fontweight="bold", loc="left")
-ax.set_xlabel("giá trung vị (CLP/đêm) — quận ≥ 500 listing")
+ax.set_xlabel("giá trung vị (CLP/đêm) — quận có ≥ 500 chỗ ở")
 ax.grid(axis="y", alpha=0)
 fig.tight_layout()
-fig.savefig(OUT / "barh-quan.png", dpi=150)
+fig.savefig(OUT / "barh-quan.svg", dpi=150)
 plt.close(fig)
-print("barh-quan.png")
+print("barh-quan.svg")
 
 # ---------------------------------------------------------------- hist
 gia = df.loc[df["price"] > 0, "price"]
@@ -112,14 +126,14 @@ ax.hist(np.log10(gia), bins=55, color=BLUE)
 ax.set_title("Phân phối giá (log10): một đỉnh quanh ~60k CLP, đuôi phải dài", fontweight="bold",
              loc="left")
 ax.set_xlabel("log10(giá CLP/đêm)")
-ax.set_ylabel("số listing")
+ax.set_ylabel("số chỗ ở")
 fig.tight_layout()
-fig.savefig(OUT / "hist-gia.png", dpi=150)
+fig.savefig(OUT / "hist-gia.svg", dpi=150)
 plt.close(fig)
-print("hist-gia.png")
+print("hist-gia.svg")
 
 # ---------------------------------------------------------------- scatter map
-s = df.dropna(subset=["price"]).sample(6000, random_state=1)
+s = df.dropna(subset=["price"])          # vẽ đủ ~18k điểm (PNG kham được)
 mau = np.where(s["price"] > s["price"].median(), ORANGE, BLUE)
 fig, ax = plt.subplots(figsize=(8.6, 4.6))
 ax.scatter(s["longitude"], s["latitude"], s=6, c=mau, alpha=0.45, linewidths=0)
@@ -152,6 +166,6 @@ for ax, (bat_dau, title, color) in zip(
     ax.set_ylabel("giá trung vị (nghìn CLP)")
     ax.grid(axis="x", alpha=0)
 fig.tight_layout()
-fig.savefig(OUT / "truc-y.png", dpi=150)
+fig.savefig(OUT / "truc-y.svg", dpi=150)
 plt.close(fig)
-print("truc-y.png")
+print("truc-y.svg")
