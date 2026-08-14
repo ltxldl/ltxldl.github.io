@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>LTXLDL | Bài 13: Trực quan hoá nâng cao &amp; phản biện biểu đồ</title>
+
+  <link rel="stylesheet" href="revealjs/dist/reset.css">
+  <link rel="stylesheet" href="revealjs/dist/reveal.css" />
+  <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
+  <link rel="stylesheet" href="plugin/highlight/zenburn.css">
+  <link rel="stylesheet" href="lecture-style.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ====== Mở bài ====== -->
+      <section>
+        <section>
+          <h1>Lập trình <br /> xử lý dữ liệu</h1>
+          <div>
+            <p>Học kì 1, năm học 2026–2027</p>
+            <p>Viện Trí tuệ nhân tạo, Trường ĐH Công nghệ, ĐHQGHN</p>
+          </div>
+        </section>
+
+        <section>
+          <h1>
+            <span class="text-light">Bài 13</span>
+            <br>
+            Trực quan hoá <br> nâng cao<br>&amp; phản biện biểu đồ
+          </h1>
+          <p class="text-light">seaborn, bản đồ, biểu đồ tương tác và cách thẩm định hình do AI sinh.</p>
+        </section>
+
+        <section>
+          <h2>Buổi trước</h2>
+          <ul>
+            <li>Buổi 12 giới thiệu bốn dạng biểu đồ cơ bản và các nguyên tắc trình bày trung thực.</li>
+            <li>Buổi này mở rộng sang biểu đồ <strong>thống kê nhiều chiều</strong>,
+              <strong>bản đồ theo vùng</strong> và cách <strong>phản biện</strong> biểu đồ.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Tổng quan</h2>
+          <ol>
+            <li>seaborn: hình thống kê cấp cao</li>
+            <li>Bản đồ choropleth với GeoJSON</li>
+            <li>Biểu đồ tương tác (giới thiệu)</li>
+            <li>Phản biện biểu đồ</li>
+            <li>Làm việc với AI thì sao?</li>
+          </ol>
+        </section>
+      </section>
+
+      <!-- ====== Phần 1: seaborn ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">1.</span><br>seaborn:<br>hình thống kê <br> cấp cao</h1>
+          <p class="text-light">Giao diện thống kê cấp cao được xây trên matplotlib.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2><code>set_theme</code>: thiết lập phong cách chung</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+import seaborn as sns
+sns.set_theme(style="whitegrid")
+
+sns.boxplot(data=df, x="price", y="room_type")
+            </code></pre>
+          </div>
+          <ul>
+            <li>seaborn nhận <strong>DataFrame và tên cột</strong>; nhiều biểu đồ không cần gộp nhóm trước.</li>
+            <li>seaborn vẫn dùng matplotlib và trả về <code>ax</code>, nên có thể chỉnh tiếp như ở buổi 12.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Boxplot: so sánh phân phối giữa các nhóm</h2>
+          <figure class="fig">
+            <img src="img/lecture-13/box-gia-loai.svg" alt="Boxplot giá theo loại phòng" style="width:92%">
+            <figcaption class="caption">Mỗi hộp thể hiện trung vị và khoảng tứ phân vị (IQR) của một nhóm
+              trên thang log. Hình cho thấy cả mức giá và độ chồng lấn giữa bốn phân phối.</figcaption>
+          </figure>
+        </section>
+
+        <section data-jp-reset>
+          <h2><code>hue</code>: thể hiện nhóm bằng màu</h2>
+          <div class="two-col two-col--wide-right">
+            <div>
+              <div class="jp-cell jp-plain">
+                <pre class="jp-input"><code class="language-python" data-trim>
+q = ["Santiago",
+     "Las Condes"]
+sns.histplot(
+    df[df.neighbourhood
+       .isin(q)],
+    x="price",
+    hue="neighbourhood",
+    log_scale=True,
+    element="step",
+    stat="density",
+    common_norm=False)
+                </code></pre>
+              </div>
+            </div>
+            <div>
+              <figure class="fig">
+                <img src="img/lecture-13/hist-hue-quan.svg" alt="Histogram giá hai quận theo hue">
+              </figure>
+            </div>
+          </div>
+          <p class="caption"><span class="inline-code">hue=</span> tách nhóm bằng màu ngay trong lệnh vẽ;
+            <span class="inline-code">common_norm=False</span> chuẩn hoá riêng từng nhóm để so
+            <em>hình dạng</em> thay vì quy mô.</p>
+        </section>
+
+        <section>
+          <h2>Heatmap: bảng pivot bằng màu</h2>
+          <figure class="fig">
+            <img src="img/lecture-13/heatmap-quan-loai.svg" alt="Heatmap giá theo quận và loại phòng"
+              style="width:78%">
+            <figcaption class="caption"><code>sns.heatmap(annot=True)</code> dùng màu để so sánh nhanh
+              các ô trong bảng pivot, đồng thời giữ lại giá trị ở từng ô.</figcaption>
+          </figure>
+        </section>
+
+        <section data-jp-reset>
+          <h2>Dữ liệu dạng dài phù hợp với seaborn</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="3"><code class="language-python" data-trim>
+# rộng -> dài: mỗi dòng = (quận, loại phòng, giá trung vị)
+dai = pivot.reset_index().melt(
+    id_vars="neighbourhood",
+    var_name="room_type", value_name="gia")
+            </code></pre>
+          </div>
+          <p>seaborn thường dùng dữ liệu có mỗi dòng là một quan sát và mỗi cột là một biến
+            (tidy data). <span class="inline-code">melt</span> chuyển bảng pivot từ dạng rộng sang dạng dài.</p>
+        </section>
+
+        <section>
+          <h2><code>FacetGrid</code>: lưới nhiều biểu đồ nhỏ</h2>
+          <div class="slide-badge-row"><span class="self-study-badge">📖 Tự học</span></div>
+          <div class="two-col two-col--wide-right">
+            <div>
+              <ul>
+                <li><span class="inline-code">sns.displot(..., col="snapshot")</span> tạo một biểu đồ
+                  nhỏ cho mỗi mốc chụp, dùng chung thang đo.</li>
+                <li>Nhiều khung nhỏ cùng khuôn thường dễ đọc hơn một biểu đồ nhồi nhiều đường màu.</li>
+              </ul>
+            </div>
+            <div>
+              <figure class="fig">
+                <img src="img/lecture-13/facet-snapshot.svg" alt="FacetGrid phân phối giá theo mốc chụp">
+              </figure>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ====== Phần 2: Bản đồ ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">2.</span><br>Bản đồ choropleth</h1>
+          <p class="text-light">Bổ sung ranh giới quận cho bản đồ điểm ở buổi 12.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>GeoJSON + geopandas + merge</h2>
+          <div class="jp-cell">
+            <pre class="jp-input" data-jp-n="1"><code class="language-python" data-trim>
+import geopandas as gpd
+
+geo = gpd.read_file(".../neighbourhoods.geojson")   # ranh giới quận
+kpi = df.groupby("neighbourhood")["price"].median().reset_index()
+
+ban_do = geo.merge(kpi, on="neighbourhood", how="left")
+ban_do.plot(column="price", cmap="Blues", legend=True)
+            </code></pre>
+          </div>
+          <p>Ba bước: đọc ranh giới → tính chỉ số theo quận → <code>merge</code> rồi
+            <code>plot(column=...)</code>. File GeoJSON có sẵn trong mỗi mốc chụp Inside Airbnb.</p>
+        </section>
+
+        <section>
+          <h2>Kết quả và bẫy diện tích</h2>
+          <figure class="fig">
+            <img src="img/lecture-13/choropleth-gia.svg" alt="Choropleth giá trung vị Santiago"
+              style="width:74%">
+            <figcaption class="caption">Giá trung vị cao hơn ở khu vực đông bắc Santiago.
+              Tuy nhiên, Lo Barnechea chiếm gần nửa diện tích bản đồ mà chỉ có 791 chỗ ở.</figcaption>
+          </figure>
+        </section>
+
+        <section>
+          <h2>Choropleth: diện tích ≠ tầm quan trọng</h2>
+          <div class="warn-box">
+            <span class="box-title">Cẩn thận</span>
+            Vùng có <strong>diện tích</strong> lớn thường thu hút sự chú ý hơn vùng nhỏ, ngay cả khi
+            có ít chỗ ở hơn. Choropleth thể hiện <em>giá trị theo vùng</em>, không thể hiện
+            <em>quy mô nguồn cung</em>.
+          </div>
+          <ul>
+            <li>Luôn kèm bảng hoặc chú thích <strong>cỡ mẫu n của mỗi quận</strong>, hoặc thêm bản đồ
+              thể hiện số chỗ ở.</li>
+            <li>Dùng một dải màu tuần tự từ nhạt đến đậm để thể hiện độ lớn.</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- ====== Phần 3: Tương tác ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">3.</span><br>Biểu đồ tương tác</h1>
+          <p class="text-light">Dùng khi cần khám phá chi tiết của từng điểm dữ liệu.</p>
+        </section>
+
+        <section data-jp-reset>
+          <h2>plotly express: xem chi tiết khi rê chuột</h2>
+          <div class="two-col two-col--wide-right">
+            <div>
+              <div class="jp-cell jp-plain">
+                <pre class="jp-input"><code class="language-python" data-trim>
+import plotly.express as px
+
+px.scatter(
+    s, x="longitude",
+    y="latitude",
+    color="room_type",
+    hover_name="name",
+    hover_data=["price",
+        "neighbourhood"])
+                </code></pre>
+              </div>
+            </div>
+            <div>
+              <figure class="fig">
+                <img src="img/lecture-13/plotly-hover.png" alt="Biểu đồ phân tán tương tác plotly">
+              </figure>
+            </div>
+          </div>
+          <p class="caption">Cú pháp tương tự seaborn; biểu đồ HTML cho phép rê chuột xem tên chỗ ở,
+            giá và quận của từng điểm (ảnh tĩnh minh hoạ nội dung hover).</p>
+        </section>
+
+        <section>
+          <h2>Biểu đồ tĩnh hay tương tác?</h2>
+          <table class="compact-table">
+            <thead>
+              <tr>
+                <th>Bối cảnh</th>
+                <th>Lựa chọn</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Khám phá dữ liệu, minh hoạ trên lớp, dashboard nội bộ</td>
+                <td>biểu đồ <strong>tương tác</strong> (plotly; xem chi tiết khi rê chuột)</td>
+              </tr>
+              <tr>
+                <td>Báo cáo PDF, slide và bản in</td>
+                <td>biểu đồ <strong>tĩnh</strong> (matplotlib/seaborn; dùng chú thích thay cho tương tác)</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+
+      <!-- ====== Phần 4: Phản biện ====== -->
+      <section>
+        <section>
+          <h1><span class="text-light">4.</span><br>Phản biện<br>ba biểu đồ lỗi</h1>
+          <p class="text-light">AI có thể tạo biểu đồ nhanh nhưng không bảo đảm cách trình bày đúng.
+            Ba ví dụ sau minh hoạ những lỗi thường gặp.</p>
+        </section>
+
+        <section>
+          <h2>Hình lỗi A</h2>
+          <figure class="fig">
+            <img src="img/lecture-13/ai-loi-truc-kep.svg" alt="Biểu đồ trục kép" style="width:82%">
+          </figure>
+          <div>Hình gợi ra kết luận gì? Dữ liệu có đủ căn cứ không?</div>
+        </section>
+
+        <section>
+          <h2>Hình A: trục kép</h2>
+          <div class="two-col">
+            <div>
+              <ul>
+                <li>Hai trục y có thang đo riêng. Điều chỉnh <span class="inline-code">ylim</span> có thể
+                  làm hai đường trông đồng biến dù hình chưa chứng minh được tương quan.</li>
+                <li>Trục bên phải chỉ chạy từ 54 đến 63, nên biến động khoảng 5% trông lớn hơn thực tế.</li>
+              </ul>
+            </div>
+            <div>
+              <figure class="fig">
+                <img src="img/lecture-13/sua-truc-kep.svg" alt="Bản sửa: hai khung chung trục thời gian">
+                <figcaption class="caption"><strong>Sửa:</strong> tách thành hai khung riêng, chung trục
+                  thời gian — không dựng tương quan giả.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Hình lỗi B</h2>
+          <figure class="fig">
+            <img src="img/lecture-13/ai-loi-pie.svg" alt="Biểu đồ tròn 12 lát" style="width:58%">
+          </figure>
+          <div>Đọc thử: Ñuñoa hơn hay kém La Florida bao nhiêu?</div>
+        </section>
+
+        <section>
+          <h2>Hình B: biểu đồ tròn 12 lát</h2>
+          <div class="two-col">
+            <div>
+              <ul>
+                <li>Biểu đồ có 12 lát và nhiều nhãn chồng lấn, nên khó so sánh chính xác các góc gần nhau.</li>
+                <li>Mười hai màu không mã hoá thêm thông tin và làm hình khó đọc hơn.</li>
+              </ul>
+            </div>
+            <div>
+              <figure class="fig">
+                <img src="img/lecture-13/sua-pie.svg" alt="Bản sửa: thanh ngang xếp hạng">
+                <figcaption class="caption"><strong>Sửa:</strong> thanh ngang xếp hạng — so bằng
+                  độ dài, đủ chỗ cho nhãn.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Hình lỗi C</h2>
+          <figure class="fig">
+            <img src="img/lecture-13/ai-loi-hai-tien-te.svg" alt="Hai thành phố hai tiền tệ một trục"
+              style="width:88%">
+          </figure>
+          <div>Có thể so trực tiếp CLP với BRL trên cùng một trục không?</div>
+        </section>
+
+        <section>
+          <h2>Hình C: hồ sơ lỗi và bản sửa</h2>
+          <p>CLP và BRL không thể so trực tiếp. Quy hai chuỗi về
+            <strong>chỉ số với tháng đầu = 100</strong> để so nhịp thay đổi:</p>
+          <figure class="fig">
+            <img src="img/lecture-13/sua-index-100.svg" alt="Quy hai chuỗi về chỉ số 100" style="width:78%">
+            <figcaption class="caption">Hai chuỗi minh hoạ đã được quy về cùng mốc 100.</figcaption>
+          </figure>
+        </section>
+
+        <section>
+          <h2>Năm câu hỏi để thẩm định một biểu đồ</h2>
+          <div class="key-box">
+            <span class="box-title">Kiểm tra trước khi dùng biểu đồ</span>
+            <ol style="margin:0.2em 0 0 1em">
+              <li>Trục: bắt đầu từ đâu, có bị nén/cắt không, có trục kép không?</li>
+              <li>Đơn vị và thang: các đại lượng trên cùng trục có cùng đơn vị không? Thang log hay thường?</li>
+              <li>Cỡ mẫu: nhóm được vẽ có bao nhiêu quan sát (n)?</li>
+              <li>Dạng hình có hợp câu hỏi không (pie 12 lát, 3D…)?</li>
+              <li>Tiêu đề và lời diễn giải có vượt quá điều dữ liệu cho phép không?</li>
+            </ol>
+          </div>
+        </section>
+      </section>
+
+      <!-- ====== Kết ====== -->
+      <section>
+        <section>
+          <h2>Tổng kết</h2>
+          <ul>
+            <li>seaborn dùng DataFrame và tên cột để so sánh phân phối giữa các nhóm.</li>
+            <li>Bản đồ choropleth cần dữ liệu vùng, chỉ số đã gộp và cỡ mẫu của từng vùng.</li>
+            <li>Biểu đồ tương tác phù hợp để khám phá; biểu đồ tĩnh phù hợp để xuất bản.</li>
+            <li>Năm điểm cần kiểm tra là trục, đơn vị, cỡ mẫu, dạng biểu đồ và lời diễn giải.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Làm việc với AI thì sao?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
+          <div class="good-box">
+            <span class="box-title">AI làm tốt</span>
+            Sinh mã nguồn seaborn hoặc plotly theo mô tả, gợi ý dạng biểu đồ và hỗ trợ sửa lỗi cú pháp geopandas.
+          </div>
+          <div class="warn-box">
+            <span class="box-title">AI hay sai</span>
+            Có thể dùng trục kép hoặc biểu đồ tròn quá nhiều lát, ghép hai đơn vị vào một trục,
+            hoặc đặt tiêu đề vượt quá điều dữ liệu cho phép.
+          </div>
+        </section>
+
+        <section>
+          <h2>Kiểm chứng thế nào?</h2>
+          <div class="slide-badge-row"><span class="ai-badge">🤖 Làm việc với AI</span></div>
+          <ul>
+            <li>Kiểm tra mọi hình do AI sinh bằng <strong>năm câu hỏi</strong> ở phần 4.</li>
+            <li>Tự tính lại ít nhất một giá trị trên hình và đối chiếu với dữ liệu nguồn.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Đọc thêm</h2>
+          <ul>
+            <li>VanderPlas, <em>Python Data Science Handbook</em>, 2nd ed. — mục Seaborn.</li>
+            <li>Tài liệu seaborn — <em>tutorial gallery</em> (chọn biểu đồ theo bài toán).</li>
+            <li>📖 Tự học: Financial Times, <em>Visual Vocabulary</em> — hướng dẫn chọn dạng biểu đồ.</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- Footer -->
+      <div class="footer">
+        LTXLDL (2627-1) · Bài 13: Trực quan hoá nâng cao &amp; phản biện biểu đồ
+      </div>
+    </div>
+  </div>
+  <script src="revealjs/dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      controlsLayout: "edges",
+      slideNumber: true,
+      hashOneBasedIndex: true,
+      hash: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+
+</html>
