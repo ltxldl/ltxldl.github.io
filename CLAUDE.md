@@ -58,7 +58,7 @@ Dùng **`.venv/bin/python`** cho mọi script và notebook — đây là môi tr
 
 **Dữ liệu để kiểm chứng số liệu** — dùng **đúng mốc chụp đã chốt**, không bao giờ lấy snapshot mới nhất:
 
-- Santiago `2026-06-29` — `https://data.insideairbnb.com/chile/rm/santiago/2026-06-29/…`, hai bản khác nhau: `visualisations/listings.csv` (18.534×18, giá đã là số) và `data/listings.csv.gz` (18.534×91, giá là chuỗi `$1,234.00`), cộng `visualisations/reviews.csv` (690.112 dòng).
+- Santiago `2026-06-29` — `https://data.insideairbnb.com/chile/rm/santiago/2026-06-29/…`, hai bản khác nhau: `visualisations/listings.csv` (18.534×19, giá đã là số) và `data/listings.csv.gz` (18.534×90, giá là chuỗi `$1,234.00`), cộng `visualisations/reviews.csv` (690.112 dòng).
 - Rio `2026-06-24` cho phần đối chứng.
 - Dữ liệu **không nằm trong repo**; tải về `2627-1/notebooks/data/` (đã gitignore). Mọi `assert` trong `notebooks/lab-*.ipynb` gắn cứng vào mốc trên — dùng snapshot khác sẽ làm vỡ lab và khiến bạn "sửa" những con số đang đúng.
 
