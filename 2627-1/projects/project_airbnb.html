@@ -656,7 +656,7 @@
           <h3>Nhóm và thành phố</h3>
           <p style="margin-bottom:0">
             Mỗi nhóm có <strong>4-5 sinh viên</strong> và một thành phố chính (không trùng với nhóm khác).
-            Một thành phố đối chứng (baseline city) — lấy từ cùng danh sách, chỉ <strong>khác thành phố chính của nhóm</strong> — cũng được giao <strong>ngay từ đầu kỳ</strong>; đối chứng có thể trùng giữa các nhóm.
+            Một thành phố đối chứng (baseline city), lấy từ cùng danh sách và chỉ <strong>khác thành phố chính của nhóm</strong>, cũng được giao <strong>ngay từ đầu kỳ</strong>; đối chứng có thể trùng giữa các nhóm.
             Phân công chính thức sẽ được đăng trên Canvas Portal.
           </p>
         </article>
@@ -1126,8 +1126,8 @@ https://data.insideairbnb.com/&lt;country&gt;/&lt;region&gt;/&lt;city&gt;/&lt;YY
       <div class="task-card">
         <h3>5) Trực quan hoá</h3>
         <ul>
-          <li>Phủ đủ <strong>bốn góc phân tích</strong> — không gian (bản đồ GeoJSON), thời gian (qua các mốc chụp),
-            so với thành phố đối chứng, và kết quả LLM — mỗi góc ít nhất một hình. Số hình do phân tích quyết định:
+          <li>Phủ đủ <strong>bốn góc phân tích</strong>: không gian (bản đồ GeoJSON), thời gian (qua các mốc chụp),
+            so với thành phố đối chứng, và kết quả LLM. Mỗi góc ít nhất một hình. Số hình do phân tích quyết định:
             <strong>không thêm hình cho đủ số</strong>, hình nào không phục vụ một kết luận thì bỏ.</li>
           <li>Tiêu đề nêu thông điệp. Trục có nhãn và đơn vị. Chân hình ghi nguồn và mốc. Phong cách nhất quán.</li>
           <li>Mỗi hình kèm 2-4 câu: hình cho thấy gì, bằng chứng đáng tin đến đâu, nhiễu nào đã xử lý, giới hạn còn lại.
@@ -1141,7 +1141,7 @@ https://data.insideairbnb.com/&lt;country&gt;/&lt;region&gt;/&lt;city&gt;/&lt;YY
         <p style="margin-bottom:0">
           PDF 10-15 trang trong <code>reports/</code>. <strong>Phải có</strong> đủ các mục: thông tin nhóm (thành phố,
           mốc chụp, mã commit); bên liên quan &amp; câu hỏi; dữ liệu &amp; QA; KPI; hợp phần LLM; kết quả &amp; so sánh;
-          <strong>giới hạn</strong>; tài liệu tham khảo. <strong>Thứ tự do nhóm tự sắp</strong> để kể tốt nhất — mở đầu
+          <strong>giới hạn</strong>; tài liệu tham khảo. <strong>Thứ tự do nhóm tự sắp</strong> để kể tốt nhất: mở đầu
           bằng kết luận, không kể theo trình tự mình làm (bài 14). Mỗi số có đơn vị; mỗi kết luận dẫn tới một hình hoặc một bảng.
         </p>
       </div>
@@ -1161,16 +1161,17 @@ https://data.insideairbnb.com/&lt;country&gt;/&lt;region&gt;/&lt;city&gt;/&lt;YY
           <li><strong>Công cụ:</strong> Gemini API gói miễn phí, với <strong>đầu ra có cấu trúc</strong> (schema và
             enum).
             Nhà cung cấp khác được phép nếu nhóm tự trả phí và ghi rõ trong <code>AI_USAGE.md</code>.</li>
-          <li><strong>Mẫu.</strong> Gói miễn phí có hạn mức, vì vậy hãy chọn một tập, ví dụ ít nhất 2.000 đánh giá gần
-            nhất
-            hoặc mẫu phân tầng theo khu vực. Báo cáo phải nêu cách chọn mẫu và thiên lệch có thể phát sinh.</li>
+          <li><strong>Mẫu.</strong> Cỡ mẫu do nhóm quyết định và <strong>giải thích</strong>: đủ để KPI/hình dùng LLM
+            có ý nghĩa (đủ đánh giá cho mỗi khu vực/thời kỳ cần so sánh) nhưng vừa <strong>hạn mức gói miễn phí</strong>.
+            Thực tế thường cỡ vài nghìn đánh giá. Nêu rõ cách chọn (gần nhất, phân tầng theo khu vực…) và thiên lệch có thể phát sinh.</li>
           <li><strong>Đối chứng không dùng LLM:</strong> biểu thức chính quy và từ khoá (bài 7) cùng từ điển cảm xúc
             (bài 11).
             Dùng để chỉ ra LLM hơn ở đâu và còn kém ở đâu.</li>
-          <li><strong>Ít nhất 100 nhãn tay</strong> do nhóm gán. Báo cáo mô tả hướng dẫn gán và cách xử lý bất đồng.
-            Thành phố không phải tiếng Anh: được lọc theo ngôn ngữ thành viên đọc được. Không dùng dịch máy để tạo nhãn
-            chuẩn.
-            Báo cáo độ chính xác hoặc F1 của LLM <em>và</em> của phương pháp đối chứng, kèm phân tích kiểu lỗi.</li>
+          <li><strong>Ít nhất 100 nhãn tay</strong> do nhóm gán làm chuẩn vàng (đủ để ước lượng accuracy/F1 có ý nghĩa).
+            Với thành phố có đánh giá không phải tiếng Anh, nhóm <strong>được dùng dịch máy để đọc hiểu khi gán</strong>:
+            con người vẫn quyết nhãn, không để máy tự sinh nhãn; báo cáo khai rõ và bàn ảnh hưởng của dịch máy tới độ tin
+            của nhãn chuẩn. Mô tả hướng dẫn gán và cách xử lý bất đồng. Báo cáo accuracy hoặc F1 của LLM <em>và</em> của
+            phương pháp đối chứng, kèm phân tích kiểu lỗi.</li>
           <li><strong>Chi phí:</strong> đếm số yêu cầu và token; ước tính chi phí nếu xử lý hết đánh giá của thành phố
             theo giá trả phí; mô tả xử lý theo lô, thử lại và bộ nhớ đệm. Cờ <code>--skip-llm</code> đọc kết quả đã lưu
             trong <code>data/processed/</code>, nên người chấm không cần khoá API.</li>
