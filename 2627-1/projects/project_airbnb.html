@@ -1235,6 +1235,31 @@ https://data.insideairbnb.com/&lt;country&gt;/&lt;region&gt;/&lt;city&gt;/&lt;YY
         <p class="fine-print" style="margin-top:10px"><code>run_pipeline.py</code> chạy các mô-đun theo thứ tự:
           <strong>tải → QA → KPI → LLM/đối chứng → đánh giá → hình</strong>. Cách chia mô-đun trên chỉ là gợi ý;
           nhóm tự thiết kế, miễn chạy bằng một lệnh và tái lập được.</p>
+        <h3 class="subhead">Ví dụ <code>configs/&lt;city&gt;.yaml</code></h3>
+        <p class="fine-print" style="margin-top:0">Giá trị dưới đây là minh hoạ; nhóm tự quyết.</p>
+        <pre><code>city: santiago
+data_root: chile/rm/santiago      # dựng URL: data.insideairbnb.com/&lt;data_root&gt;/&lt;mốc&gt;/...
+currency: CLP
+snapshots: [2025-09-27, 2025-12-29, 2026-03-30, 2026-06-29]
+
+control_city: rio-de-janeiro      # đối chứng (giảng viên giao)
+control_data_root: brazil/rj/rio-de-janeiro
+
+qa:
+  price_max_clp: 5000000          # ngưỡng ngoại lai giá
+  min_nights_cap: 365
+  dedupe_keys: [id, last_scraped]
+
+kpi:
+  area_col: neighbourhood_cleansed
+
+llm:
+  provider: gemini                # model tuỳ chọn
+  sample_size: 3000               # nhóm giải thích cỡ mẫu
+  aspects: [vị trí, sạch sẽ, chủ nhà, giá trị, tiện nghi, độ ồn, an toàn]
+  cache: data/processed/llm_cache.jsonl
+
+seed: 42</code></pre>
         <ol style="margin:14px 0 0; padding-left:20px; line-height:1.65">
           <li>GitHub repo hoàn chỉnh, commit đều, có tag <code>proposal</code> và <code>final</code>.</li>
           <li>Báo cáo PDF 10-15 trang trong <code>reports/</code>, ghi mã commit.</li>
