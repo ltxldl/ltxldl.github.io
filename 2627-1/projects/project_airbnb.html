@@ -656,8 +656,8 @@
           <h3>Nhóm và thành phố</h3>
           <p style="margin-bottom:0">
             Mỗi nhóm có <strong>4-5 sinh viên</strong> và một thành phố chính (không trùng với nhóm khác).
-            Thành phố đối chứng giao <strong>ngay từ đầu kỳ</strong> cùng thành phố chính, có thể trùng giữa các nhóm.
-            Phân công trên Canvas Portal.
+            Một thành phố đối chứng (baseline city) — lấy từ cùng danh sách, chỉ <strong>khác thành phố chính của nhóm</strong> — cũng được giao <strong>ngay từ đầu kỳ</strong>; đối chứng có thể trùng giữa các nhóm.
+            Phân công chính thức sẽ được đăng trên Canvas Portal.
           </p>
         </article>
         <article class="fact-card">
@@ -680,7 +680,7 @@
         <li>
           <div class="mark"><span class="n">Mốc 1</span></div>
           <p class="due">Không cần tag</p>
-          <p>Lập nhóm, tạo repo, nhận thành phố chính và đối chứng, điền liên kết vào bảng tính.</p>
+          <p>Lập nhóm, tạo repo, nhận thành phố chính và thành phố đối chứng, điền liên kết vào bảng tính.</p>
         </li>
         <li>
           <div class="mark"><span class="n">Mốc 2</span></div>
@@ -695,7 +695,7 @@
         <li>
           <div class="mark"><span class="n">Mốc 4</span></div>
           <p class="due">Lịch Canvas Portal</p>
-          <p>Vấn đáp khoảng 20 phút. Hỏi riêng từng người.</p>
+          <p>Vấn đáp khoảng 20 phút. Hỏi riêng từng thành viên trong nhóm.</p>
         </li>
       </ol>
 
@@ -707,7 +707,7 @@
             <a href="../ai-policy.html">chính sách AI của môn</a>). GitHub repo bắt buộc có <code>AI_USAGE.md</code>.
           </li>
           <li>
-            Vấn đáp theo chế độ 🚫 đóng: mỗi người phải giải thích được mã và số liệu của nhóm.</li>
+            Vấn đáp theo chế độ 🚫 đóng: mỗi thành viên phải tự giải thích được mã nguồn và số liệu mà nhóm mình đã nộp.</li>
           <li>
             Phần phân tích dùng LLM là bắt buộc.
           </li>
@@ -722,14 +722,14 @@
       <div class="panel prose">
         <p style="margin-top:0">
           Nguồn: <a href="https://insideairbnb.com/get-the-data/" target="_blank" rel="noopener">Inside Airbnb</a>,
-          giấy phép CC BY 4.0. Báo cáo phải ghi nguồn và ngày từng mốc chụp; không phát hành lại dữ liệu thô.
+          giấy phép CC BY 4.0. Báo cáo phải ghi nguồn và ngày của từng mốc chụp (snapshot); không commit dữ liệu thô lên Github.
           Dùng bảng đầy đủ trong <code>data/</code>. Bản đồ lấy ở <code>visualisations/</code>.
           Mốc cũ hiện khi bật <em>show archived data</em>.
         </p>
         <ul class="plain-list">
-          <li><code>data/listings.csv.gz</code>: chỗ ở (bản 06/2026 có 90 cột; giá là chuỗi).</li>
-          <li><code>data/calendar.csv.gz</code>: lịch trống hoặc kín khoảng 365 ngày
-            (<code>listing_id, date, available, minimum_nights, maximum_nights</code>).</li>
+          <li><code>data/listings.csv.gz</code>: chỗ ở (bản 06/2026 có 90 cột; giá ở dạng chuỗi).</li>
+          <li><code>data/calendar.csv.gz</code>: mỗi dòng là một ngày của một chỗ ở trong ~365 ngày tới,
+            cho biết ngày đó còn trống hay đã đặt (<code>listing_id, date, available, minimum_nights, maximum_nights</code>).</li>
           <li><code>data/reviews.csv.gz</code>: đánh giá văn bản tự do, đầu vào của phần phân tích dùng LLM.</li>
           <li><code>visualisations/neighbourhoods.geojson</code>: ranh giới khu vực. Tệp này <em>không</em> nằm trong
             <code>data/</code>.
@@ -745,7 +745,7 @@ https://data.insideairbnb.com/&lt;country&gt;/&lt;region&gt;/&lt;city&gt;/&lt;YY
         <ul>
           <li><strong>Hai bản <code>listings</code>.</strong> Trên lớp dùng <code>visualisations/</code>. Bài tập lớn dùng
             <code>data/listings.csv.gz</code>.</li>
-          <li><strong>Giá là chuỗi, theo nội tệ</strong>, không phải USD. Buenos Aires: đừng so giá danh nghĩa giữa các
+          <li><strong>Giá ở dạng chuỗi, đơn vị nội tệ</strong>, không phải USD. Buenos Aires: đừng so giá danh nghĩa giữa các
             mốc.</li>
           <li><strong>Lược đồ lệch:</strong> 79 cột (09/2025) → 90 cột (06/2026). <code>host_since</code> trống 100% ở bản
             06/2026.</li>
@@ -754,18 +754,18 @@ https://data.insideairbnb.com/&lt;country&gt;/&lt;region&gt;/&lt;city&gt;/&lt;YY
           <li>KPI và bản đồ: <code>neighbourhood_cleansed</code>, không phải <code>neighbourhood</code>.</li>
           <li><code>calendar</code> không còn cột giá. Lấy giá ở <code>listings</code>.</li>
           <li>URL có dấu: mã hoá URL, Unicode NFC.</li>
-          <li><code>reviews</code> nén có thể hơn 300 MB (Paris, Rome, London). Đọc thẳng <code>.gz</code>, trung gian để
+          <li><code>reviews</code> nén có thể hơn 300 MB (Paris, Rome, London). Có thể đọc thẳng <code>.gz</code>, trung gian để
             Parquet.</li>
-          <li>Đánh giá đa ngôn ngữ: đối chứng chỉ tiếng Anh sẽ lệch.</li>
+          <li>Đánh giá đa ngôn ngữ: phương pháp đối chứng chỉ dùng tiếng Anh sẽ bị lệch.</li>
         </ul>
       </div>
 
       <h3 class="subhead">Phân công thành phố</h3>
       <p>
-        Thành phố chính phân tích sâu. Thành phố đối chứng dùng cùng KPI, chỉ tổng hợp, giao cùng thành phố chính từ đầu kỳ.
+        Thành phố chính mà nhóm được giao sẽ cần phân tích sâu. Thành phố đối chứng dùng cùng KPI, chỉ tổng hợp.
       </p>
       <p>
-        Bốn mốc dưới đây là bắt buộc, cách nhau khoảng một quý. Thành phố thu thập hàng tháng được dùng thêm mốc khác,
+        Bốn mốc bản chụp dưới đây là bắt buộc sử dụng với thành phố tương ứng (các mốc cách nhau khoảng một quý). Thành phố thu thập hàng tháng được dùng thêm mốc khác,
         nhưng vẫn phải đủ bốn mốc này.
       </p>
 
@@ -1055,18 +1055,14 @@ https://data.insideairbnb.com/&lt;country&gt;/&lt;region&gt;/&lt;city&gt;/&lt;YY
           </article>
         </div>
       </div>
-
-      <p class="fine-print" style="margin-top:14px">
-        Muốn đối chứng Bangkok, Singapore, Taipei hoặc Tokyo: đăng ký trên Canvas Portal.
-      </p>
     </section>
 
     <!-- Công việc -->
     <section id="cong-viec" class="section-anchor">
       <h2 class="section-title">Công việc và tiêu chuẩn chất lượng</h2>
 
-      <p>Đề nêu <em>sản phẩm phải có</em>, không kê từng bước. Nhóm tự chọn QA, KPI và cách trình bày,
-        rồi <strong>bảo vệ các lựa chọn đó khi vấn đáp</strong>.</p>
+      <p>Đề bài chỉ nêu <em>sản phẩm phải nộp</em>. Nhóm tự lựa chọn QA, KPI và cách trình bày,
+        sau đó <strong>bảo vệ các lựa chọn đó khi vấn đáp</strong>.</p>
 
       <div class="task-card">
         <h3>1) Quy trình chạy bằng một lệnh</h3>
@@ -1074,12 +1070,12 @@ https://data.insideairbnb.com/&lt;country&gt;/&lt;region&gt;/&lt;city&gt;/&lt;YY
         <ul>
           <li>Thành phố và mốc chụp nằm trong <strong>tệp cấu hình</strong>, không ghi cứng trong mã.</li>
           <li>Chạy được trên máy sạch: <code>README.md</code> và <code>requirements.txt</code> đủ phiên bản.</li>
-          <li>Tải dữ liệu và gọi LLM phải có <strong>bộ nhớ đệm</strong>. Bước LLM có cờ <code>--skip-llm</code>.</li>
-          <li>Hai lần chạy cùng cấu hình phải ra cùng số. Nếu lấy mẫu thì cố định seed.</li>
+          <li>Tải dữ liệu và gọi LLM phải có <strong>bộ nhớ đệm (cache)</strong>. Bước LLM có cờ <code>--skip-llm</code>.</li>
+          <li>Hai lần chạy cùng cấu hình phải ra cùng kết quả. Nếu lấy mẫu thì cố định seed.</li>
         </ul>
         <div class="callout callout--warn">
-          <strong>Mốc chụp giữ lại (held-out).</strong> Giảng viên chạy lại quy trình trên một mốc trong kì
-          (khoảng 09-12/2026) hoặc một mốc nhóm chưa xử lý, chỉ sửa tệp cấu hình. Phần được kiểm là tải dữ liệu,
+          <strong>Mốc chụp kiểm chứng (held-out snapshot).</strong> Giảng viên chạy lại quy trình trên một mốc trong kì
+          (khoảng 09-12/2026) hoặc một mốc nhóm chưa xử lý, chỉ sửa tệp cấu hình. Các phần được kiểm chứng bao gồm: tải dữ liệu,
           QA, KPI và hình từ bảng. Phần phụ thuộc LLM phải <strong>bỏ qua đúng cách</strong> (báo "cần kết quả LLM")
           và các sản phẩm còn lại vẫn được tạo. Phần phân tích dùng LLM được chấm trên kết quả đã lưu cùng bộ nhãn tay.
           Giảng viên không gọi lại API.
@@ -1092,8 +1088,10 @@ https://data.insideairbnb.com/&lt;country&gt;/&lt;region&gt;/&lt;city&gt;/&lt;YY
           <li>Tự tải đủ bốn mốc (ba bảng trong <code>data/</code> và tệp GeoJSON) của thành phố chính.
             Thành phố đối chứng: tải sau khi được giao, cùng bốn loại tệp.
             Kiểm tệp tồn tại, có dòng và có cột khoá.</li>
-          <li>Thư mục <code>data/raw/&lt;city&gt;/&lt;snapshot_date&gt;/</code> và <code>data/processed/</code>.
-            <strong>Không commit dữ liệu thô</strong>. Dữ liệu đã xử lý chỉ commit nếu nhỏ hơn 50 MB.
+          <li><strong>Không commit dữ liệu thô</strong>: thư mục <code>data/raw/&lt;city&gt;/&lt;snapshot_date&gt;/</code>
+            do script tải tạo ra ngay trên máy và nằm trong <code>.gitignore</code> (dữ liệu thô nặng, tái tạo được bằng
+            cách chạy lại script tải). Chỉ dữ liệu đã xử lý trong <code>data/processed/</code> mới commit, và chỉ khi
+            nhỏ hơn 50 MB.
           </li>
           <li>Lập từ điển dữ liệu ngắn cho các cột thực sự dùng: tên, kiểu, đơn vị, khác biệt lược đồ giữa các mốc.</li>
         </ul>
@@ -1128,8 +1126,9 @@ https://data.insideairbnb.com/&lt;country&gt;/&lt;region&gt;/&lt;city&gt;/&lt;YY
       <div class="task-card">
         <h3>5) Trực quan hoá</h3>
         <ul>
-          <li>Ít nhất <strong>6 hình</strong>, gồm đủ bốn loại: bản đồ (GeoJSON), chuỗi thời gian qua các mốc chụp,
-            so sánh với thành phố đối chứng, kết quả LLM.</li>
+          <li>Phủ đủ <strong>bốn góc phân tích</strong> — không gian (bản đồ GeoJSON), thời gian (qua các mốc chụp),
+            so với thành phố đối chứng, và kết quả LLM — mỗi góc ít nhất một hình. Số hình do phân tích quyết định:
+            <strong>không thêm hình cho đủ số</strong>, hình nào không phục vụ một kết luận thì bỏ.</li>
           <li>Tiêu đề nêu thông điệp. Trục có nhãn và đơn vị. Chân hình ghi nguồn và mốc. Phong cách nhất quán.</li>
           <li>Mỗi hình kèm 2-4 câu: hình cho thấy gì, bằng chứng đáng tin đến đâu, nhiễu nào đã xử lý, giới hạn còn lại.
           </li>
@@ -1308,7 +1307,7 @@ https://data.insideairbnb.com/&lt;country&gt;/&lt;region&gt;/&lt;city&gt;/&lt;YY
           <dl>
             <div>
               <dt>Xuất sắc <span>85-100%</span></dt>
-              <dd>Ít nhất 6 hình, đủ 4 loại. Mỗi hình một thông điệp. Có 3-5 phát hiện kèm bằng chứng, nêu cả giới hạn.
+              <dd>Phủ đủ bốn góc phân tích; mỗi hình phục vụ một kết luận, không có hình thừa. Có 3-5 phát hiện kèm bằng chứng, nêu cả giới hạn.
               </dd>
             </div>
             <div>
@@ -1317,7 +1316,7 @@ https://data.insideairbnb.com/&lt;country&gt;/&lt;region&gt;/&lt;city&gt;/&lt;YY
             </div>
             <div>
               <dt>Đạt <span>55-69%</span></dt>
-              <dd>Đủ số hình nhưng thiếu đơn vị/chú giải hoặc trùng thông điệp; diễn giải chủ yếu mô tả lại hình.</dd>
+              <dd>Phủ được phần lớn bốn góc nhưng vài hình thiếu đơn vị/chú giải hoặc trùng thông điệp; diễn giải chủ yếu mô tả lại hình.</dd>
             </div>
             <div>
               <dt>Chưa đạt <span>&lt;55%</span></dt>
