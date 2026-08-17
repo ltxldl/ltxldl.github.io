@@ -82,3 +82,17 @@ Rà soát `projects/project_airbnb.html` trước public. GV chốt bốn điể
 - **Bỏ điểm thưởng +10%** khỏi đề. Phân tích nâng cao chỉ giúp lên ô Xuất sắc của đúng tiêu chí.
 
 Cùng lượt (không cần hỏi thêm): tách URL `data/*.csv.gz` và `visualisations/neighbourhoods.geojson` (HEAD `/data/…geojson` = 403); cảnh báo hai bản `listings`; sửa câu "dữ liệu nhóm không trùng"; thêm cạm bẫy đã kiểm (`host_since` trống, `id` float64, `neighbourhood` ≠ cleansed, lạm phát ARS, dung lượng reviews Rio/BA/NYC); ghi CC BY 4.0; hộp Git ngắn (buổi 1 đã hứa); `.gitignore` trong cây repo; KPI khu vực dùng `neighbourhood_cleansed`.
+
+## Quyết định của giảng viên (17/08/2026 — remap lịch 10 tuần + chuẩn hoá "Bài")
+
+Phòng đào tạo đổi lịch 2627-1: **10 tuần × 3 tiết/tuần** (thay 15 tuần × 2 tiết). GV chốt: chỉ nén lịch, không cắt nội dung; thực hành nén song song (mỗi tuần ~3 LT + 3 TH), tổng 60 tiết (30/30) giữ nguyên; CLO + trọng số 20/20/60 không đổi.
+
+- **Cách A — giữ 15 deck, gộp 4 cặp vào tuần dày** (không viết lại deck): T1=bài 1+2, T3=bài 4+5, T5=bài 7+8, T9=bài 12+13; tuần đơn T2=b3, T4=b6, T7=b10, T8=b11, T10=b14.
+- **Bài 9 = giữa kỳ (T6), chỉ thi** — bỏ deck ôn, gỡ link `lecture-09` khỏi bảng lịch (file vẫn còn, không lên lịch).
+- **Bài 15 = buổi riêng sau T10** (trình bày/vấn đáp BTL, theo lịch thi).
+- **Quiz: 5 → 4 bài**, T3/5/7/9 (đầu giờ lý thuyết).
+- **Đối chứng: công bố sớm ở T2** cùng thành phố chính (đảo quyết định 14/08 "giấu tới sau đề xuất" — lịch nén còn ~4 tuần nếu giấu; snapshot held-out vẫn lo tổng quát hoá). "Có thể trùng" giữ.
+- **Mốc BTL:** lập nhóm + nhận thành phố (chính + đối chứng) T2; `git tag proposal` T6; `git tag final` T10; vấn đáp sau T10.
+- **Chuẩn hoá "Bài" thay "Buổi"** cho đơn vị bài giảng trong học liệu SV: sweep `buổi N`→`bài N` (160 chỗ / 36 file); giữ "buổi học/này/trước" (nghĩa phiên) và "~N buổi" (số lần). Header lab = "Giờ thực hành · bài N" (đã gỡ số tuần cứng theo §7).
+- **Lịch chính tắc = `2627-1/index.html`**: bảng dựng lại 1 hàng/tuần (cột Tuần↔Bài, notebook ghép cặp lecture+lab, bỏ đuôi .ipynb), thêm icon nhận diện (📅📚📖🔗🎯), khối "Tài liệu học tập" compact (bỏ chữ nghiêng).
+- ⚠️ **Chưa publish** — sweep đụng nhiều file đã public trên main (toàn bộ deck + lab + notebook); phải rà + re-publish trọn bộ khi GV duyệt xong.

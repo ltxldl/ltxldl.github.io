@@ -105,7 +105,7 @@ df
             </code></pre>
           </div>
           <p>Mỗi cột có một dtype riêng (số, chuỗi…). DataFrame biểu diễn và xử lý bảng dữ liệu
-            thuận tiện hơn cấu trúc list các dict ở buổi 2.</p>
+            thuận tiện hơn cấu trúc list các dict ở bài 2.</p>
         </section>
 
         <section>
@@ -128,7 +128,7 @@ df
           </div>
           <div class="key-box" style="margin-top:0.9em">
             <span class="box-title">Quan trọng</span>
-            Phần lớn kỹ năng NumPy ở buổi 3 (vector hoá, mặt nạ bool, thống kê)
+            Phần lớn kỹ năng NumPy ở bài 3 (vector hoá, mặt nạ bool, thống kê)
             có thể áp dụng trực tiếp trên từng cột của DataFrame.
           </div>
         </section>
@@ -212,7 +212,7 @@ max      97000045.0
           </div>
           <p>Trung bình 118 nghìn CLP nhưng trung vị 59 nghìn — và max <strong>97 triệu CLP/đêm</strong>
             (~2,6 tỷ đồng). Chênh lệch này cho thấy phân phối lệch và có giá trị cần kiểm tra;
-            buổi 10 sẽ trình bày cách xử lý.</p>
+            bài 10 sẽ trình bày cách xử lý.</p>
         </section>
 
         <section data-jp-reset>
@@ -329,7 +329,7 @@ df.iloc[:3, :2]     # 3 dòng đầu, 2 cột đầu
             <li><span class="inline-code">loc</span> = theo <strong>nhãn</strong> (tên cột, giá trị index).</li>
             <li><span class="inline-code">iloc</span> = theo <strong>số thứ tự</strong>, luật lát cắt NumPy.</li>
           </ul>
-          <p class="text-light">Buổi 5 sẽ học kỹ về bộ đôi này khi index không còn là 0,1,2,…</p>
+          <p class="text-light">Bài 5 sẽ học kỹ về bộ đôi này khi index không còn là 0,1,2,…</p>
         </section>
 
         <section data-jp-reset>
@@ -344,7 +344,7 @@ df["price_trieu_vnd"].median().round(2)
 1.65
             </code></pre>
           </div>
-          <p>Phép toán vector hoá ở buổi 3 được áp dụng trực tiếp: công thức viết một lần
+          <p>Phép toán vector hoá ở bài 3 được áp dụng trực tiếp: công thức viết một lần
             và chạy trên 18 nghìn dòng. Trung vị ~1,65 triệu đồng/đêm.</p>
         </section>
       </section>
@@ -366,11 +366,11 @@ df["price_trieu_vnd"].median().round(2)
 0.81
             </code></pre>
           </div>
-          <p>Quy tắc bool của buổi 3 dùng nguyên được ở pandas: <em>tỷ lệ nguyên căn = 81%</em>.</p>
+          <p>Quy tắc bool của bài 3 dùng nguyên được ở pandas: <em>tỷ lệ nguyên căn = 81%</em>.</p>
         </section>
 
         <section data-jp-reset>
-          <h2>Giới thiệu nhanh groupby (nội dung chính của buổi 5)</h2>
+          <h2>Giới thiệu nhanh groupby (nội dung chính của bài 5)</h2>
           <div class="jp-cell">
             <pre class="jp-input" data-jp-n="2"><code class="language-python" data-trim>
 df.groupby("room_type")["price"].median()
@@ -420,7 +420,7 @@ La Granja       114118.0
             </code></pre>
           </div>
           <p>Lọc → nhóm → trung vị → top 3. Mỗi dòng tương ứng với một thao tác trong chuỗi.
-            Kết quả của La Granja cần được kiểm tra vì nhóm có ít phòng; buổi 5 và 10
+            Kết quả của La Granja cần được kiểm tra vì nhóm có ít phòng; bài 5 và 10
             sẽ trình bày cách đánh giá trường hợp này.</p>
         </section>
       </section>
@@ -429,7 +429,7 @@ La Granja       114118.0
       <section>
         <section>
           <h1><span class="text-light">5.</span><br>Giá trị thiếu (giới thiệu)<br>&amp; ghi file</h1>
-          <p class="text-light">Buổi này nhận diện — buổi 10 xử lý.</p>
+          <p class="text-light">Buổi này nhận diện — bài 10 xử lý.</p>
         </section>
 
         <section data-jp-reset>
@@ -459,7 +459,7 @@ price                    846
           </ul>
           <div class="key-box">
             <span class="box-title">Quan trọng</span>
-            Buổi này chỉ cần <strong>biết đo</strong> mức thiếu; buổi 10 sẽ trình bày cách xử lý.
+            Buổi này chỉ cần <strong>biết đo</strong> mức thiếu; bài 10 sẽ trình bày cách xử lý.
           </div>
         </section>
 
@@ -470,7 +470,7 @@ price                    846
 ket_qua = df.groupby("room_type")["price"].median()
 ket_qua.to_csv("gia_theo_loai.csv")
 
-df.to_parquet("listings.parquet")   # nhanh + giữ dtype (buổi 6)
+df.to_parquet("listings.parquet")   # nhanh + giữ dtype (bài 6)
             </code></pre>
           </div>
           <p>Với DataFrame, thêm <span class="inline-code">index=False</span> khi index chỉ là 0,1,2…;
@@ -486,7 +486,7 @@ df.to_parquet("listings.parquet")   # nhanh + giữ dtype (buổi 6)
             <li>DataFrame = các Series chung index; nhiều thao tác NumPy vẫn áp dụng được.</li>
             <li>Thói quen 5 bước với dataset lạ: shape → head → info → describe → value_counts.</li>
             <li>Lọc bool, <code>loc[hàng, cột]</code> và cột mới vector hoá là các thao tác thường dùng.</li>
-            <li>Đo được giá trị thiếu (<code>isna().sum()</code>) — xử trí để dành buổi 10.</li>
+            <li>Đo được giá trị thiếu (<code>isna().sum()</code>) — xử trí để dành bài 10.</li>
           </ul>
         </section>
 

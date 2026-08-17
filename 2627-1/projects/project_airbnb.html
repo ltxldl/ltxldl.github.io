@@ -656,7 +656,7 @@
           <h3>Nhóm và thành phố</h3>
           <p style="margin-bottom:0">
             Mỗi nhóm có <strong>4-5 sinh viên</strong> và một thành phố chính (không trùng với nhóm khác).
-            Thành phố đối chứng do giảng viên giao <strong>sau mốc đề xuất</strong>, có thể trùng.
+            Thành phố đối chứng giao <strong>ngay từ đầu kỳ</strong> cùng thành phố chính, có thể trùng giữa các nhóm.
             Phân công trên Canvas Portal.
           </p>
         </article>
@@ -680,13 +680,12 @@
         <li>
           <div class="mark"><span class="n">Mốc 1</span></div>
           <p class="due">Không cần tag</p>
-          <p>Lập nhóm, tạo repo, nhận thành phố chính, điền liên kết vào bảng tính.</p>
+          <p>Lập nhóm, tạo repo, nhận thành phố chính và đối chứng, điền liên kết vào bảng tính.</p>
         </li>
         <li>
           <div class="mark"><span class="n">Mốc 2</span></div>
           <p class="due"><code>git tag proposal</code></p>
-          <p>Nộp đề xuất 2-3 trang: bên đặt hàng, câu hỏi, QA, KPI, kế hoạch LLM. Giảng viên phản hồi, không chấm.
-            Sau mốc này mới giao thành phố đối chứng.</p>
+          <p>Nộp đề xuất 2-3 trang: bên đặt hàng, câu hỏi, QA, KPI, kế hoạch LLM. Giảng viên phản hồi, không chấm.</p>
         </li>
         <li>
           <div class="mark"><span class="n">Mốc 3</span></div>
@@ -763,7 +762,7 @@ https://data.insideairbnb.com/&lt;country&gt;/&lt;region&gt;/&lt;city&gt;/&lt;YY
 
       <h3 class="subhead">Phân công thành phố</h3>
       <p>
-        Thành phố chính phân tích sâu. Thành phố đối chứng dùng cùng KPI, chỉ tổng hợp, giao sau mốc đề xuất.
+        Thành phố chính phân tích sâu. Thành phố đối chứng dùng cùng KPI, chỉ tổng hợp, giao cùng thành phố chính từ đầu kỳ.
       </p>
       <p>
         Bốn mốc dưới đây là bắt buộc, cách nhau khoảng một quý. Thành phố thu thập hàng tháng được dùng thêm mốc khác,
@@ -1151,7 +1150,7 @@ https://data.insideairbnb.com/&lt;country&gt;/&lt;region&gt;/&lt;city&gt;/&lt;YY
     <section id="llm" class="section-anchor">
       <h2 class="section-title">Phần phân tích dùng LLM</h2>
       <p>Dùng LLM để biến một mẫu bảng <code>reviews</code> thành dữ liệu có cấu trúc, rồi đo độ tin cậy của kết quả.
-        Mã mẫu nằm trong notebook buổi 11.</p>
+        Mã mẫu nằm trong notebook bài 11.</p>
 
       <div class="task-card">
         <ul>
@@ -1164,8 +1163,8 @@ https://data.insideairbnb.com/&lt;country&gt;/&lt;region&gt;/&lt;city&gt;/&lt;YY
           <li><strong>Mẫu.</strong> Gói miễn phí có hạn mức, vì vậy hãy chọn một tập, ví dụ ít nhất 2.000 đánh giá gần
             nhất
             hoặc mẫu phân tầng theo khu vực. Báo cáo phải nêu cách chọn mẫu và thiên lệch có thể phát sinh.</li>
-          <li><strong>Đối chứng không dùng LLM:</strong> biểu thức chính quy và từ khoá (buổi 7) cùng từ điển cảm xúc
-            (buổi 11).
+          <li><strong>Đối chứng không dùng LLM:</strong> biểu thức chính quy và từ khoá (bài 7) cùng từ điển cảm xúc
+            (bài 11).
             Dùng để chỉ ra LLM hơn ở đâu và còn kém ở đâu.</li>
           <li><strong>Ít nhất 100 nhãn tay</strong> do nhóm gán. Báo cáo mô tả hướng dẫn gán và cách xử lý bất đồng.
             Thành phố không phải tiếng Anh: được lọc theo ngôn ngữ thành viên đọc được. Không dùng dịch máy để tạo nhãn
