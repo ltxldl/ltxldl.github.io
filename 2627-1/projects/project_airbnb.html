@@ -1209,20 +1209,32 @@ https://data.insideairbnb.com/&lt;country&gt;/&lt;region&gt;/&lt;city&gt;/&lt;YY
       <div class="panel">
         <h3 class="subhead" style="margin-top:0">Cấu trúc GitHub repo yêu cầu</h3>
         <pre><code>.
-├── configs/                  # cấu hình theo thành phố (city, danh sách mốc chụp, tham số)
+├── configs/
+│   └── &lt;city&gt;.yaml           # mỗi thành phố một tệp: dataRoot, danh sách mốc chụp, tham số QA/KPI/LLM
 ├── data/
-│   ├── raw/                  # dữ liệu thô: KHÔNG commit (gitignore), script tải tự động
-│   ├── processed/            # dữ liệu sạch, bảng KPI, kết quả LLM (commit nếu &lt;50 MB)
-│   └── samples/              # mẫu kiểm thử nhỏ và ít nhất 100 đánh giá gán nhãn tay
+│   ├── raw/                  # dữ liệu thô: KHÔNG commit (gitignore), do script tải sinh ra
+│   ├── processed/            # dữ liệu sạch, kpi_*.csv, kết quả LLM đã lưu (commit nếu &lt;50 MB)
+│   └── samples/              # mẫu nhỏ để test nhanh + tệp ≥100 nhãn tay (review_id, nhãn)
+├── src/                      # mã nguồn quy trình, tách mô-đun (gợi ý):
+│   ├── download.py           #   tải + kiểm toàn vẹn
+│   ├── qa.py                 #   làm sạch + bộ quy tắc QA, xuất qa_report.csv
+│   ├── kpi.py                #   tính KPI
+│   ├── llm.py                #   trích xuất bằng LLM (có cache, --skip-llm)
+│   ├── baseline.py           #   phương pháp đối chứng không LLM
+│   ├── evaluate.py           #   chấm LLM vs đối chứng trên nhãn tay
+│   └── viz.py                #   sinh hình vào figures/
 ├── figures/                  # hình sinh tự động từ quy trình
-├── reports/                  # báo cáo PDF và qa_report.csv
-├── src/                      # mã nguồn quy trình, chia thành các mô-đun
+├── reports/                  # report.pdf, slides.pdf, qa_report.csv, từ điển dữ liệu
 ├── notebooks/                # notebook khám phá (nếu có), không phải quy trình chính
-├── run_pipeline.py           # (hoặc Makefile) một lệnh chạy tất cả
-├── .gitignore                # phải loại data/raw/ và tệp chứa khoá API
+├── run_pipeline.py           # (hoặc Makefile) một lệnh gọi các mô-đun theo thứ tự
+├── .env.example              # tên biến môi trường cho khoá API (KHÔNG chứa khoá thật)
+├── .gitignore                # loại data/raw/, .env và mọi tệp chứa khoá
 ├── AI_USAGE.md               # khai báo AI (bắt buộc)
 ├── README.md                 # cài đặt, cách chạy, cách chấm lại
 └── requirements.txt          # thư viện và phiên bản</code></pre>
+        <p class="fine-print" style="margin-top:10px"><code>run_pipeline.py</code> chạy các mô-đun theo thứ tự:
+          <strong>tải → QA → KPI → LLM/đối chứng → đánh giá → hình</strong>. Cách chia mô-đun trên chỉ là gợi ý;
+          nhóm tự thiết kế, miễn chạy bằng một lệnh và tái lập được.</p>
         <ol style="margin:14px 0 0; padding-left:20px; line-height:1.65">
           <li>GitHub repo hoàn chỉnh, commit đều, có tag <code>proposal</code> và <code>final</code>.</li>
           <li>Báo cáo PDF 10-15 trang trong <code>reports/</code>, ghi mã commit.</li>
