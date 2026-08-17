@@ -59,3 +59,26 @@
 - **Dịch nốt 2 thuật ngữ tiêu đề (QĐ GV 22/07, sau khi xem site public)**: bài 13 "phê bình biểu đồ" → **"phản biện biểu đồ"** (tự nhiên hơn, gắn "tư duy phản biện"); bài 14 "audit" → **"thẩm định"** (đồng bộ ~64 chỗ ở index, deck 13/14/15, notebook, lab; giữ chú thích "(audit)" ở lần xuất hiện đầu trong deck 14 và notebook 14 theo quy ước thuật ngữ). Rút gọn 1 tiêu đề slide deck 14 ("Bảng phán quyết — đầu ra thẩm định") để hết tràn sau khi chữ dài ra; đo lại deck 13/14/15: 0 tràn.
 - **Buổi 5 — id Airbnb dài 18–19 chữ số (GV hỏi khi duyệt 27/07/2026)**: `978070332077815549` trong slide `set_index` là dữ liệu thật (dòng đầu snapshot Santiago 29/06/2026, Ñuñoa, 45.647 CLP). Kiểm chứng trên file thật: Airbnb đổi hệ id ~2022 — 15.178/18.534 listing (82%) có id 18–19 chữ số (review sớm nhất 2022-01-30), 3.356 (18%) còn id cũ 5–8 chữ số (review từ 2014). QĐ GV: **giữ id thật, thêm 1 câu chú thích** trên slide. *Ghi chú kỹ thuật để dành*: id 18 chữ số vượt độ chính xác float64 (`978070332077815549` → float → `...552`, lệch 3) — nếu cột id bị đọc thành float (chỉ cần có ô trống, hoặc mở bằng Excel) thì id sai âm thầm, merge theo id hỏng. Chưa đưa vào học liệu; ứng viên tốt cho buổi 6 (dtype khi đọc) hoặc buổi 10 (QA) nếu GV muốn.
 - **Buổi 8 — sửa lỗi tham chiếu "Nhìn lại slide trước" (GV phát hiện 06/08/2026)**: slide "Kiểm tra mốc cuối trước khi tổng hợp" nêu 204/155/49 trong hộp *"Nhìn lại slide trước"*, nhưng không slide nào trước đó có các số này — chúng nằm ở **notebook demo** (cell 1 + 11). Lỗi có từ commit dựng gốc `2c9de77`, không phải do edit-pass. Đã sửa: thay hộp bằng **một jp-cell tự dẫn ra số** (`rv_raw.loc[rv_raw["date"] > "2026-06-29", "date"].value_counts()` → 155 + 49) rồi diễn giải bằng văn xuôi; đánh lại `jp-n` phần 2 (rolling 3→4, so kỳ trước 4→5, so cùng kỳ 5→6). Số liệu kiểm chứng lại trên file thật (690.112 dòng): đúng 204 = 155 (30/06) + 49 (01/07). **Bài học chung cho pass duyệt**: mọi hộp "Nhìn lại slide trước" phải trỏ tới số có thật ở slide liền trước — mỗi con số trên slide cần có dòng code dẫn ra nó ngay tại chỗ.
+
+## 15/08/2026 — mở rộng bảng thành phố BTL
+
+- **12 → 26 thành phố.** HEAD `data/listings.csv.gz` trên 41 ứng viên (cửa sổ ±10 ngày quanh ngày-trong-tháng của mốc 06/2026, bốn quý 09/2025–06/2026). 32 thành phố đủ 4 quý. Không đủ trong cửa sổ đó: San Francisco, Los Angeles, Boston, Seattle, Portland, Dallas, Mexico City, São Paulo, Bogotá.
+- Danh sách chính: 12 thành phố cũ + Paris, London, Amsterdam, Berlin, Rome, Athens, Prague, Chicago, Cape Town, Melbourne, Bangkok, Singapore, Taipei, Tokyo. GeoJSON `visualisations/neighbourhoods.geojson` của mốc 06/2026: HEAD 200 cả 14 thành phố mới.
+- **Châu Á đủ 4 mốc** (khác khảo sát 05/07/2026, khi Bangkok/Singapore/Taipei mới có 2). Đưa vào danh sách chính, bỏ “chỉ so mốc mới nhất / không làm thành phố chính”. Nguyện vọng đối chứng Bangkok/Singapore/Taipei/Tokyo đăng ký trên Canvas; giao sau tuần 8.
+- Dự phòng đã đủ 4 quý: Austin, Hong Kong, Vienna, Budapest (còn Florence, Venice, Sydney, Brussels, Munich, Copenhagen… nếu cần).
+- Cỡ `reviews.csv.gz` mốc 06/2026 (Content-Length): Paris ~322 MB, Rome ~343 MB, London ~277 MB; Tokyo/Rio/BA/NYC ~120–170 MB. Đã ghi vào cạm bẫy trên đề.
+
+## Quyết định của giảng viên (15/08/2026 — gỡ mục lục BTL)
+
+- Kỳ này một đề duy nhất → không giữ trang `2627-1/projects/index.html` dạng danh sách. Link trên trang môn học trỏ thẳng `project_airbnb.html`. File `projects/index.html` chỉ còn redirect (tránh 404 nếu ai mở `/projects/`).
+
+## Quyết định của giảng viên (14/08/2026 — chốt khi rà đề BTL)
+
+Rà soát `projects/project_airbnb.html` trước public. GV chốt bốn điểm còn mở:
+
+- **Rubric giữ 30/25/25/20 và thang 85/70/55.** Đây là cách chấm chi tiết của học kỳ (GV được quyết *cách tổ chức chấm*). Bốn nhóm tiêu chí vẫn triển khai bốn tiêu chí đề cương; đề không còn viết "bám đề cương" như thể trọng số/thang mức trùng từng chữ. Không xin Viện đổi đề cương.
+- **Nộp tuần 3 / tuần 8:** tuần 3 chỉ mời GitHub + điền link repo vào bảng tính (không tag). Tuần 8: `git tag proposal` + PDF trong `reports/` + ghi link/commit vào bảng tính. Tuần 14 giữ `git tag final`.
+- **Đối chứng:** đúng **một** thành phố do GV phân. **Không công bố từ đầu** (coi như tập kiểm): tuần 3 chỉ giao thành phố chính; sau mốc đề xuất tuần 8 mới giao đối chứng. Châu Á (Bangkok/Singapore/Taipei/Tokyo) là nguyện vọng đăng ký trên Canvas, không thêm thành phố thứ ba.
+- **Bỏ điểm thưởng +10%** khỏi đề. Phân tích nâng cao chỉ giúp lên ô Xuất sắc của đúng tiêu chí.
+
+Cùng lượt (không cần hỏi thêm): tách URL `data/*.csv.gz` và `visualisations/neighbourhoods.geojson` (HEAD `/data/…geojson` = 403); cảnh báo hai bản `listings`; sửa câu "dữ liệu nhóm không trùng"; thêm cạm bẫy đã kiểm (`host_since` trống, `id` float64, `neighbourhood` ≠ cleansed, lạm phát ARS, dung lượng reviews Rio/BA/NYC); ghi CC BY 4.0; hộp Git ngắn (buổi 1 đã hứa); `.gitignore` trong cây repo; KPI khu vực dùng `neighbourhood_cleansed`.

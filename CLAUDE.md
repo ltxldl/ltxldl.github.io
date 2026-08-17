@@ -36,7 +36,7 @@ File `UET_Đề cương học phần_*.docx` ở root là đề cương chính t
 
 - Mỗi học kỳ một thư mục: `2526-1/` = HK1 2025–2026 (đã dạy xong, coi như **archive — không sửa nội dung giảng dạy trong đó**, chỉ dùng làm nguồn copy). `2627-1/` = kỳ tới, đã dựng xong trên nhánh `2627-1-draft`, đang được giảng viên duyệt dần và public theo từng đợt (xem mục Quy trình publish).
 - `index.html` (root) — trang tổng liệt kê các học kỳ; `index-pages.css` — CSS chung cho các trang index.
-- Trong mỗi thư mục học kỳ: `index.html` (lịch giảng dạy, có cột link notebook Colab), `lecture-XX-ten-bai.html` (slide Reveal.js), `lecture-style.css` (CSS chung cho slide), `lecture-template.html` (template tạo bài mới), `projects/*.html` (đề bài tập lớn — tên dùng **gạch dưới**, không phải `project-*.html`; 2526-1: `project_1..4.html`, 2627-1: `project_airbnb.html` — 01 đề duy nhất) + `projects/index.html`, `img/lecture-XX/` (hình minh hoạ), và bản Reveal.js 5.2.1 vendored (`revealjs/dist/`, `plugin/`).
+- Trong mỗi thư mục học kỳ: `index.html` (lịch giảng dạy, có cột link notebook Colab), `lecture-XX-ten-bai.html` (slide Reveal.js), `lecture-style.css` (CSS chung cho slide), `lecture-template.html` (template tạo bài mới), `projects/*.html` (đề bài tập lớn — tên dùng **gạch dưới**, không phải `project-*.html`; 2526-1: `project_1..4.html` + `projects/index.html`; 2627-1: chỉ `project_airbnb.html`, `projects/index.html` là redirect), `img/lecture-XX/` (hình minh hoạ), và bản Reveal.js 5.2.1 vendored (`revealjs/dist/`, `plugin/`).
 - `README.md` (root) cố tình giữ **cực ngắn** (giới thiệu + link trang môn học + cách xem thử) để không phải bảo trì; mọi chi tiết vận hành nằm ở file này. Khi hai bên mâu thuẫn, tin vào cây thư mục thực tế rồi tới file này.
 
 ## Chạy preview
