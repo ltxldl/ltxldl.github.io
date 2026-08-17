@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="IAI Courses">
+  <style>.navy{fill:#1e3a8a;stroke:#1e3a8a}@media (prefers-color-scheme:dark){.navy{fill:#ffffff;stroke:#ffffff}}</style>
+  <!-- vòng badge: copy shape từ iai-question-bank (2 cung hở, bo tròn) -->
+  <path class="navy" d="M 360.9 423.9 A 198 198 0 0 0 151.1 88.1" fill="none" stroke-width="46" stroke-linecap="round"/>
+  <path d="M 113.6 118.5 A 198 198 0 0 0 169.2 434.0" fill="none" stroke="#84b026" stroke-width="46" stroke-linecap="round"/>
+  <!-- mũ tốt nghiệp (thay cho dấu tick) -->
+  <g class="navy" stroke="none">
+    <path d="M256 206 L330 236 L256 266 L182 236 Z"/>
+    <path d="M216 250 L216 285 Q216 303 256 303 Q296 303 296 285 L296 250 L256 266 Z"/>
+  </g>
+  <path d="M330 236 L330 300" fill="none" stroke="#84b026" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="330" cy="310" r="10.5" fill="#84b026"/>
+</svg>
