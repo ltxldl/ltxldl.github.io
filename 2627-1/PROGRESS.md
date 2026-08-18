@@ -26,6 +26,8 @@
 
 | 18 | 18/08/2026 | Chỉnh index sau publish: **hero full-width toàn bộ trang index** (bỏ `max-width: 62ch` ở `.hero-text p` trong `index-pages.css` — file dùng chung 5 trang: root/2627-1/ai-policy/BTL/2526-1); rút gọn mô tả hero 2627-1; bỏ "— đọc miễn phí trực tuyến" ở tác giả McKinney/VanderPlas. 2 file (`2627-1/index.html` + `index-pages.css`); verify live OK. Ghi nhận: `lecture-15` có **WIP chưa commit của phiên/agent khác** trong working tree — KHÔNG đụng, KHÔNG publish (đúng luật). |
 
+| 19 | 18/08/2026 | Sửa 3 trang đã public: (1) **số quiz `~5 bài` → `4 bài`** ở `ai-policy.html` + `lecture-01` (số cũ lịch 15 tuần còn sót, mâu thuẫn QĐ 10 tuần T3/5/7/9; deck 1 vốn tự mâu thuẫn dòng 434 vs 473) + cập nhật `EDIT-PASS-NOTES.md` (nội bộ, chống tái phạm); (2) **mài chữ deck vấn đáp `lecture-15`** ("Live task"→"Live task (nếu có)", bỏ tiêu đề phụ "kim tự tháp, không nhật ký", "tự hào nhất"→"thú vị nhất", "câu hỏi thật"→"câu hỏi") — vốn là WIP chưa commit của phiên/agent khác trong working tree, GV chỉ đạo publish nên commit theo. Lift 3 file public (EDIT-PASS-NOTES nội bộ không lift), lecture-15 0/11 tràn, verify live OK. |
+
 Chưa public (còn lại trên draft): deck ôn buổi 9 `lecture-09-on-tap-giua-ky.html` (QĐ chỉ thi), `lecture-template.html`, và tài liệu nội bộ (`CLAUDE.md`/`AGENTS.md`/`SLIDE_STYLE_GUIDE.md`/`DECISIONS.md`/`PROGRESS.md`/`EDIT-PASS-NOTES.md`, `private/`). Toàn bộ học liệu hướng tới sinh viên đã public. `2627-1-draft` là nguồn chân lý; publish = nhấc đích danh file đã duyệt (quy trình: CLAUDE.md).
 
 ## Đợt 2 — sửa văn phong + học liệu giờ thực hành — ✅ HOÀN THÀNH (06/07/2026)
