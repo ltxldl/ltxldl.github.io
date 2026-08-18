@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="revealjs/dist/theme/white.css" />
   <link rel="stylesheet" href="plugin/highlight/zenburn.css">
   <link rel="stylesheet" href="lecture-style.css">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 </head>
 
 <body>
@@ -101,7 +101,7 @@ sum(x for x in gia if x is not None) / 2
           <div class="key-box">
             <span class="box-title">Quan trọng</span>
             <code>None</code> ≠ <code>0</code> ≠ <code>""</code>. <br /> "Thiếu" là thông tin, không phải số không.
-            Toàn bộ buổi 10 (missing values) sẽ dựa trên tính chất quan trọng này.
+            Toàn bộ bài 10 (missing values) sẽ dựa trên tính chất quan trọng này.
           </div>
         </section>
 
@@ -146,7 +146,7 @@ phong.get("diem", "chưa có")     # khoá không tồn tại? có phương án 
             </code></pre>
           </div>
           <p>Trong Python thuần, một bảng dữ liệu có thể được biểu diễn bằng một
-            <strong>list các dict</strong>. Từ buổi 4, DataFrame sẽ cung cấp các thao tác thuận tiện hơn.</p>
+            <strong>list các dict</strong>. Từ bài 4, DataFrame sẽ cung cấp các thao tác thuận tiện hơn.</p>
         </section>
 
         <section data-jp-reset>
@@ -370,7 +370,7 @@ list(map(clean_price, gia_tho))
 [1200.0, None, 950.0]
             </code></pre>
           </div>
-          <p>Truyền <em>hàm</em> vào hàm khác — mẫu này sẽ xuất hiện lại ở buổi 5:
+          <p>Truyền <em>hàm</em> vào hàm khác — mẫu này sẽ xuất hiện lại ở bài 5:
             <span class="inline-code">df["price"].map(clean_price)</span>.</p>
         </section>
 
@@ -453,7 +453,7 @@ rows[0]
             </code></pre>
           </div>
           <p>Để ý: <strong>mọi giá trị đều là chuỗi</strong>, kể cả id và giá. CSV không lưu kiểu dữ liệu;
-            chương trình đọc phải tự chuyển kiểu. Từ buổi 4, pandas sẽ tự suy luận kiểu dữ liệu
+            chương trình đọc phải tự chuyển kiểu. Từ bài 4, pandas sẽ tự suy luận kiểu dữ liệu
             và đôi khi có thể suy luận sai.</p>
         </section>
 
@@ -474,7 +474,7 @@ json.loads('{"gia_tb": 45647.0}')["gia_tb"]
             </code></pre>
           </div>
           <p>JSON và dict/list có cấu trúc tương ứng gần như trực tiếp. JSON là định dạng thường dùng
-            cho API (buổi 6) và dữ liệu lưu tạm của LLM (buổi 11).</p>
+            cho API (bài 6) và dữ liệu lưu tạm của LLM (bài 11).</p>
         </section>
 
         <section data-jp-reset>

@@ -8,7 +8,29 @@
   <title>Lập trình xử lý dữ liệu | Học kì 1, năm học 2026-2027</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../index-pages.css">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <style>
+    .sched { font-size: 0.9rem; }
+    .sched th, .sched td { padding: 6px 12px; }
+    .sched td { vertical-align: middle; }
+    .sched td.wk { text-align: center; font-weight: 800; font-size: 1.1rem; color: var(--accent-dark); white-space: nowrap; width: 3.5rem; }
+    .sched td.wk.wk-late { font-size: 0.76rem; font-weight: 700; line-height: 1.2; color: var(--muted); }
+    .sched td.lec a { display: block; font-weight: 600; }
+    .sched td.lec a + a { margin-top: 0.3rem; }
+    .sched .nb-row { display: flex; gap: 6px; }
+    .sched .nb-row + .nb-row { margin-top: 5px; }
+    .sched .notebook-tag { font-size: 0.76rem; padding: 2px 7px; white-space: nowrap; }
+    /* icon nhận diện + khối tài liệu compact */
+    .section-title .ic { margin-right: 0.45rem; font-size: 1.05em; vertical-align: -0.05em; }
+    .info-grid h3 { display: flex; align-items: center; gap: 0.5rem; font-size: 1.05rem; }
+    .info-grid .book-list { gap: 8px; }
+    .info-grid .book-item { padding: 9px 13px; border-radius: 12px; }
+    .info-grid .book-title { font-style: normal; font-weight: 600; font-size: 0.95rem; }
+    .info-grid .book-item a { text-decoration: none; }
+    .info-grid .book-author { margin-top: 2px; font-size: 0.84rem; }
+    .sched .notebook-tag .tag-ic { margin-right: 3px; }
+    .sched .nb-row { flex-wrap: wrap; }
+  </style>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 </head>
 
 <body>
@@ -30,227 +52,153 @@
           <span>Quay lại trang tổng</span>
         </a>
         <a class="secondary-link" href="ai-policy.html">
+          <span class="ic" aria-hidden="true">🤖</span>
           <span>Chính sách AI</span>
-          <span aria-hidden="true">→</span>
+        </a>
+        <a class="secondary-link" href="projects/project_airbnb.html">
+          <span class="ic" aria-hidden="true">🎯</span>
+          <span>Bài tập lớn</span>
         </a>
       </div>
     </section>
 
     <section>
-      <h2 class="section-title">Lịch giảng dạy</h2>
+      <h2 class="section-title"><span class="ic" aria-hidden="true">📅</span>Lịch giảng dạy</h2>
       <div class="panel">
         <div class="table-wrap">
-          <table class="schedule-table">
+          <table class="schedule-table sched">
             <thead>
               <tr>
-                <th>Buổi</th>
+                <th>Tuần</th>
                 <th>Bài giảng</th>
                 <th>Notebook</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>1</td>
-                <td><a href="lecture-01-tong-quan-va-chinh-sach-ai.html">Bài 1: Tổng quan môn học, công cụ &amp; chính
-                    sách AI</a></td>
+                <td class="wk">1</td>
+                <td class="lec">
+                  <a href="lecture-01-tong-quan-va-chinh-sach-ai.html">Bài 1: Tổng quan môn học, công cụ &amp; chính sách AI</a>
+                  <a href="lecture-02-python-co-ban.html">Bài 2: Python cơ bản cho xử lý dữ liệu</a>
+                </td>
                 <td>
-                  <div class="notebook-list">
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-01.ipynb"
-                      target="_blank" rel="noopener">lecture-01.ipynb</a>
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-01.ipynb"
-                      target="_blank" rel="noopener">lab-01.ipynb</a>
+                  <div class="nb-cell">
+                    <div class="nb-row"><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-01.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">📓</span>lecture-01</a><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-01.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">🧪</span>lab-01</a></div>
+                    <div class="nb-row"><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-02.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">📓</span>lecture-02</a><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-02.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">🧪</span>lab-02</a></div>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td>2</td>
-                <td><a href="lecture-02-python-co-ban.html">Bài 2: Python cơ bản cho xử lý dữ liệu</a></td>
+                <td class="wk">2</td>
+                <td class="lec">
+                  <a href="lecture-03-numpy.html">Bài 3: NumPy — mảng &amp; tính toán vector hoá</a>
+                </td>
                 <td>
-                  <div class="notebook-list">
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-02.ipynb"
-                      target="_blank" rel="noopener">lecture-02.ipynb</a>
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-02.ipynb"
-                      target="_blank" rel="noopener">lab-02.ipynb</a>
+                  <div class="nb-cell">
+                    <div class="nb-row"><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-03.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">📓</span>lecture-03</a><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-03.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">🧪</span>lab-03</a></div>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td>3</td>
-                <td><a href="lecture-03-numpy.html">Bài 3: NumPy — mảng &amp; tính toán vector hoá</a></td>
+                <td class="wk">3</td>
+                <td class="lec">
+                  <a href="lecture-04-lam-quen-pandas.html">Bài 4: Làm quen với pandas</a>
+                  <a href="lecture-05-series-dataframe-chuyen-sau.html">Bài 5: Series &amp; DataFrame chuyên sâu</a>
+                </td>
                 <td>
-                  <div class="notebook-list">
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-03.ipynb"
-                      target="_blank" rel="noopener">lecture-03.ipynb</a>
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-03.ipynb"
-                      target="_blank" rel="noopener">lab-03.ipynb</a>
+                  <div class="nb-cell">
+                    <div class="nb-row"><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-04.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">📓</span>lecture-04</a><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-04.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">🧪</span>lab-04</a></div>
+                    <div class="nb-row"><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-05.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">📓</span>lecture-05</a><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-05.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">🧪</span>lab-05</a></div>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td>4</td>
-                <td><a href="lecture-04-lam-quen-pandas.html">Bài 4: Làm quen với pandas</a></td>
+                <td class="wk">4</td>
+                <td class="lec">
+                  <a href="lecture-06-ket-noi-truy-xuat-du-lieu.html">Bài 6: Kết nối &amp; truy xuất dữ liệu ngoài</a>
+                </td>
                 <td>
-                  <div class="notebook-list">
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-04.ipynb"
-                      target="_blank" rel="noopener">lecture-04.ipynb</a>
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-04.ipynb"
-                      target="_blank" rel="noopener">lab-04.ipynb</a>
+                  <div class="nb-cell">
+                    <div class="nb-row"><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-06.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">📓</span>lecture-06</a><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-06.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">🧪</span>lab-06</a></div>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td>5</td>
-                <td><a href="lecture-05-series-dataframe-chuyen-sau.html">Bài 5: Series &amp; DataFrame chuyên sâu</a>
+                <td class="wk">5</td>
+                <td class="lec">
+                  <a href="lecture-07-xu-ly-chuoi.html">Bài 7: Xử lý dữ liệu chuỗi</a>
+                  <a href="lecture-08-du-lieu-thoi-gian.html">Bài 8: Xử lý dữ liệu thời gian</a>
                 </td>
                 <td>
-                  <div class="notebook-list">
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-05.ipynb"
-                      target="_blank" rel="noopener">lecture-05.ipynb</a>
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-05.ipynb"
-                      target="_blank" rel="noopener">lab-05.ipynb</a>
+                  <div class="nb-cell">
+                    <div class="nb-row"><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-07.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">📓</span>lecture-07</a><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-07.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">🧪</span>lab-07</a></div>
+                    <div class="nb-row"><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-08.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">📓</span>lecture-08</a><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-08.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">🧪</span>lab-08</a></div>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td>6</td>
-                <td><a href="lecture-06-ket-noi-truy-xuat-du-lieu.html">Bài 6: Kết nối &amp; truy xuất dữ liệu ngoài</a>
+                <td class="wk">6</td>
+                <td class="lec">
+                  <strong>Thi giữa kỳ</strong> (trên lớp)
                 </td>
                 <td>
-                  <div class="notebook-list">
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-06.ipynb"
-                      target="_blank" rel="noopener">lecture-06.ipynb</a>
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-06.ipynb"
-                      target="_blank" rel="noopener">lab-06.ipynb</a>
+                  <span class="muted-text">—</span>
+                </td>
+              </tr>
+              <tr>
+                <td class="wk">7</td>
+                <td class="lec">
+                  <a href="lecture-10-lam-sach-du-lieu.html">Bài 10: Làm sạch dữ liệu có cấu trúc</a>
+                </td>
+                <td>
+                  <div class="nb-cell">
+                    <div class="nb-row"><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-10.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">📓</span>lecture-10</a><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-10.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">🧪</span>lab-10</a></div>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td>7</td>
-                <td><a href="lecture-07-xu-ly-chuoi.html">Bài 7: Xử lý dữ liệu chuỗi</a></td>
+                <td class="wk">8</td>
+                <td class="lec">
+                  <a href="lecture-11-llm-du-lieu-phi-cau-truc.html">Bài 11: Xử lý dữ liệu phi cấu trúc bằng LLM</a>
+                </td>
                 <td>
-                  <div class="notebook-list">
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-07.ipynb"
-                      target="_blank" rel="noopener">lecture-07.ipynb</a>
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-07.ipynb"
-                      target="_blank" rel="noopener">lab-07.ipynb</a>
+                  <div class="nb-cell">
+                    <div class="nb-row"><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-11.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">📓</span>lecture-11</a><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-11.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">🧪</span>lab-11</a></div>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td>8</td>
-                <td><a href="lecture-08-du-lieu-thoi-gian.html">Bài 8: Xử lý dữ liệu thời gian</a></td>
+                <td class="wk">9</td>
+                <td class="lec">
+                  <a href="lecture-12-truc-quan-hoa-co-ban.html">Bài 12: Trực quan hoá cơ bản</a>
+                  <a href="lecture-13-truc-quan-hoa-nang-cao.html">Bài 13: Trực quan hoá nâng cao &amp; phản biện biểu đồ</a>
+                </td>
                 <td>
-                  <div class="notebook-list">
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-08.ipynb"
-                      target="_blank" rel="noopener">lecture-08.ipynb</a>
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-08.ipynb"
-                      target="_blank" rel="noopener">lab-08.ipynb</a>
+                  <div class="nb-cell">
+                    <div class="nb-row"><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-12.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">📓</span>lecture-12</a><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-12.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">🧪</span>lab-12</a></div>
+                    <div class="nb-row"><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-13.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">📓</span>lecture-13</a><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-13.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">🧪</span>lab-13</a></div>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td>9</td>
-                <td>
-                  <strong>Thi giữa kỳ</strong> (trên lớp)<br>
-                  <span class="muted-text">Deck ôn tập — công bố dần</span>
+                <td class="wk">10</td>
+                <td class="lec">
+                  <a href="lecture-14-ke-chuyen-bang-du-lieu.html">Bài 14: Kể chuyện bằng dữ liệu &amp; thẩm định phân tích AI</a>
                 </td>
-                <td><span class="muted-text">—</span></td>
-              </tr>
-              <tr>
-                <td>10</td>
-                <td><a href="lecture-10-lam-sach-du-lieu.html">Bài 10: Làm sạch dữ liệu có cấu trúc</a></td>
                 <td>
-                  <div class="notebook-list">
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-10.ipynb"
-                      target="_blank" rel="noopener">lecture-10.ipynb</a>
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-10.ipynb"
-                      target="_blank" rel="noopener">lab-10.ipynb</a>
+                  <div class="nb-cell">
+                    <div class="nb-row"><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-14.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">📓</span>lecture-14</a><a class="notebook-tag" href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-14.ipynb" target="_blank" rel="noopener"><span class="tag-ic" aria-hidden="true">🧪</span>lab-14</a></div>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td>11</td>
-                <td><a href="lecture-11-llm-du-lieu-phi-cau-truc.html">Bài 11: Xử lý dữ liệu phi cấu trúc bằng LLM</a></td>
-                <td>
-                  <div class="notebook-list">
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-11.ipynb"
-                      target="_blank" rel="noopener">lecture-11.ipynb</a>
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-11.ipynb"
-                      target="_blank" rel="noopener">lab-11.ipynb</a>
-                  </div>
+                <td class="wk wk-late">Sau<br>tuần 10</td>
+                <td class="lec">
+                  <a href="lecture-15-trinh-bay-btl.html">Trình bày &amp; vấn đáp BTL</a>
                 </td>
-              </tr>
-              <tr>
-                <td>12</td>
-                <td><a href="lecture-12-truc-quan-hoa-co-ban.html">Bài 12: Trực quan hoá cơ bản</a></td>
                 <td>
-                  <div class="notebook-list">
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-12.ipynb"
-                      target="_blank" rel="noopener">lecture-12.ipynb</a>
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-12.ipynb"
-                      target="_blank" rel="noopener">lab-12.ipynb</a>
-                  </div>
+                  <span class="muted-text">—</span>
                 </td>
-              </tr>
-              <tr>
-                <td>13</td>
-                <td><a href="lecture-13-truc-quan-hoa-nang-cao.html">Bài 13: Trực quan hoá nâng cao
-                    &amp; phản biện biểu đồ</a></td>
-                <td>
-                  <div class="notebook-list">
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-13.ipynb"
-                      target="_blank" rel="noopener">lecture-13.ipynb</a>
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-13.ipynb"
-                      target="_blank" rel="noopener">lab-13.ipynb</a>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>14</td>
-                <td><a href="lecture-14-ke-chuyen-bang-du-lieu.html">Bài 14: Kể chuyện bằng dữ liệu
-                    &amp; thẩm định phân tích do AI tạo</a></td>
-                <td>
-                  <div class="notebook-list">
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lecture-14.ipynb"
-                      target="_blank" rel="noopener">lecture-14.ipynb</a>
-                    <a class="notebook-tag"
-                      href="https://colab.research.google.com/github/uet-iai-course/programming-for-data-processing/blob/main/2627-1/notebooks/lab-14.ipynb"
-                      target="_blank" rel="noopener">lab-14.ipynb</a>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>15</td>
-                <td>
-                  <strong>Trình bày bài tập lớn</strong> (vấn đáp)<br>
-                  <span class="muted-text">Hướng dẫn vấn đáp &amp; checklist nộp bài — công bố dần</span>
-                </td>
-                <td><span class="muted-text">—</span></td>
               </tr>
             </tbody>
           </table>
@@ -259,10 +207,10 @@
     </section>
 
     <section>
-      <h2 class="section-title">Tài liệu học tập</h2>
+      <h2 class="section-title"><span class="ic" aria-hidden="true">📚</span>Tài liệu học tập</h2>
       <div class="info-grid">
         <article class="panel">
-          <h3>Giáo trình</h3>
+          <h3><span class="ic" aria-hidden="true">📖</span>Giáo trình</h3>
           <ul class="book-list">
             <li class="book-item">
               <span class="book-title"><a href="https://wesmckinney.com/book/" target="_blank" rel="noopener">Python
@@ -277,7 +225,7 @@
           </ul>
         </article>
         <article class="panel">
-          <h3>Tài liệu tham khảo</h3>
+          <h3><span class="ic" aria-hidden="true">🔗</span>Tài liệu tham khảo</h3>
           <ul class="book-list">
             <li class="book-item">
               <span class="book-title"><a href="https://docs.python.org/3/tutorial/index.html" target="_blank"
@@ -302,11 +250,11 @@
           </ul>
         </article>
         <article class="panel">
-          <h3>Bài tập lớn &amp; chính sách</h3>
+          <h3><span class="ic" aria-hidden="true">🎯</span>Bài tập lớn &amp; chính sách</h3>
           <ul class="book-list">
             <li class="book-item">
-              <span class="book-title">Bài tập lớn: Inside Airbnb</span>
-              <span class="book-author">Một đề duy nhất, làm theo nhóm — đề chi tiết công bố sau</span>
+              <span class="book-title"><a href="projects/project_airbnb.html">Bài tập lớn: Inside Airbnb</a></span>
+              <span class="book-author">Làm theo nhóm</span>
             </li>
             <li class="book-item">
               <span class="book-title"><a href="ai-policy.html">Chính sách AI của môn</a></span>

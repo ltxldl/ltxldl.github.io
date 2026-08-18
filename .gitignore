@@ -7,6 +7,9 @@ package-lock.json
 .claude/
 .venv/
 
+# Dữ liệu Inside Airbnb tải về (file lớn, tái tạo được từ URL trong CLAUDE.md)
+2627-1/notebooks/data/
+
 # Học liệu KHÔNG public: đáp án lab, giáo án trợ giảng, đề micro-exercise (gửi TA qua Canvas)
 2627-1/private/
 
