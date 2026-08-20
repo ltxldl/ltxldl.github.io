@@ -78,9 +78,9 @@ Ngoài ra: component `.pipeline` đang quá khổ — GV phải chèn inline `st
 
 ## 7. Chi tiết dễ thay đổi → nói mềm, chỉ giữ ở một nơi chính tắc
 
-- Lịch kiểm tra cụ thể "tuần 3, 5, 7, 9" (lịch 10 tuần) → "**4 bài kiểm tra giấy 15 phút**" trong mọi học liệu hướng SV (con số tuần cụ thể chỉ nằm trong tài liệu nội bộ + công bố Canvas Portal khi có thời khoá biểu). Tương tự: bỏ "(buổi 9)", "(giám sát)"/"có giám sát". *(Trước remap 10 tuần: 5 bài, tuần 3/5/7/11/13.)*
+- Lịch kiểm tra cụ thể "tuần 4, 9" (lịch 10 tuần) → "**2 bài kiểm tra giấy 15 phút**" trong mọi học liệu hướng SV (con số tuần cụ thể chỉ nằm trong tài liệu nội bộ + công bố Canvas Portal khi có thời khoá biểu). Tương tự: bỏ "(buổi 9)", "(giám sát)"/"có giám sát". *(Lịch sử: 4 bài T3/5/7/9; trước remap 10 tuần: 5 bài T3/5/7/11/13.)*
 - Trọng số % chỉ xuất hiện trong **bảng Cơ cấu điểm** (deck 1); mọi chỗ khác nhắc đầu điểm thì không kèm %.
-- Nhãn đầu điểm theo tên đề cương: "Quiz trên lớp — 4 bài kiểm tra giấy 15 phút".
+- Đầu điểm 20% "bài tập trên lớp" (đề cương) = **10% thực hành (nộp lab qua GitHub Classroom, ✅ mở) + 10% kiểm tra trên lớp/chuyên cần (2 bài giấy 15', 🚫 đóng)**. Bảng Cơ cấu điểm deck 1 để đủ 4 dòng: Thực hành 10 / Kiểm tra 10 / Giữa kỳ 20 / BTL 60 (QĐ 18/08, xem DECISIONS).
 
 ## 8. Chế độ đóng/mở gắn với *hoạt động*, không gắn với đầu điểm
 
