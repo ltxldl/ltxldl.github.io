@@ -30,6 +30,8 @@
 
 | 20 | 18/08/2026 | **Cơ cấu điểm mới (QĐ họp bộ môn 18/08)** — chia 20% "bài tập trên lớp" của đề cương thành **10% thực hành** (nộp bài lab qua GitHub Classroom, ✅ mở, thầy Đạt tổ chức) + **10% kiểm tra trên lớp/chuyên cần** (2 bài giấy 15', 🚫 đóng, tuần 4&9; giảm từ 4 bài). Tổng **20/20/60 không đổi** → không cần Viện duyệt (cách tổ chức chấm). Public: `lecture-01` (bảng Cơ cấu điểm 3→4 dòng + slide "Hai chế độ" thêm thực hành vào ✅ mở) + `ai-policy.html` (thêm thực hành vào ✅ mở + tóm tắt, quiz 4→2). lecture-01 **0/34 tràn**, verify live OK. Nội bộ (không lift): CLAUDE.md/DECISIONS.md/EDIT-PASS-NOTES.md. Convention §7 giữ: công khai chỉ "2 bài", mốc tuần 4/9 để nội bộ + Canvas. |
 
+| 21 | 25/08/2026 | Publish `SLIDE_STYLE_GUIDE.md` (rubric thiết kế slide — sạch, không mốc thi/đáp án) lên main. Kèm **viết lại `ai-policy.html`** thành văn bản quy định (điều khoản đánh số 1–6, bỏ emoji trang trí, thêm bảng cơ cấu điểm 10/10/20/60, "bạn"→"sinh viên"); đưa lên **cả draft** cho khỏi lệch nguồn. Giữ nội bộ: CLAUDE/AGENTS/DECISIONS/PROGRESS/EDIT-PASS-NOTES + bỏ `lecture-09` (QĐ chỉ thi) + `lecture-template`. Verify live sau deploy. |
+
 Chưa public (còn lại trên draft): deck ôn buổi 9 `lecture-09-on-tap-giua-ky.html` (QĐ chỉ thi), `lecture-template.html`, và tài liệu nội bộ (`CLAUDE.md`/`AGENTS.md`/`SLIDE_STYLE_GUIDE.md`/`DECISIONS.md`/`PROGRESS.md`/`EDIT-PASS-NOTES.md`, `private/`). Toàn bộ học liệu hướng tới sinh viên đã public. `2627-1-draft` là nguồn chân lý; publish = nhấc đích danh file đã duyệt (quy trình: CLAUDE.md).
 
 ## Đợt 2 — sửa văn phong + học liệu giờ thực hành — ✅ HOÀN THÀNH (06/07/2026)
