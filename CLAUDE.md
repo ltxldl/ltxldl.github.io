@@ -52,9 +52,26 @@ Website tĩnh, không có bước build/test/lint. **Luôn serve từ root repo*
 - Hai lệnh trên chính là 2 cấu hình `slides` (browser-sync, Node) và `slides-static` (Python) trong `.claude/launch.json` — định dạng riêng của Claude Code, lại nằm trong `.claude/` đã gitignore nên bản clone **không có** file này; công cụ khác cứ chạy thẳng lệnh shell ở trên.
 - `cd 2526-1 && npm install && npm start` (gulp serve, port 8000) — chỉ khi cần speaker notes lúc trình chiếu; docroot là thư mục học kỳ nên trang index sẽ thiếu CSS (bình thường).
 
+### Xem từ MacBook qua Tailscale (live-reload, always-on)
+
+Máy `dell-ts-01` chạy sẵn systemd `--user` service `preview-programming-for-data-processing`
+(live-server, bind `100.83.155.60:5500`, tự chạy khi boot, tự restart) để xem trực tiếp trên
+MacBook qua tailnet: mở <http://dell-ts-01.tail9c52ce.ts.net:5500/> (vd `.../2627-1/ai-policy.html`)
+— **không cần bind cổng ở Mac, không cần SSH tunnel**. Sửa file bất kỳ dưới root repo → trình duyệt tự reload.
+
+- Docroot là root repo nhưng launcher có **denylist** chặn `private/`, `*.docx`, `.git`, `.claude` → 403.
+  Vì bind ra tailnet (không phải `127.0.0.1`) nên các máy admin *tải được* → denylist giữ đúng tinh thần
+  luật '⚠️ Bind 127.0.0.1' ở trên. **Quan trọng khi cây làm việc đang ở nhánh draft** — lúc đó `private/`,
+  `.docx` có mặt trong cây và sẽ bị chặn ở tầng HTTP.
+- Quản lý: `systemctl --user {status,restart} preview-programming-for-data-processing`;
+  log + "Change detected": `journalctl --user -u preview-programming-for-data-processing -f`.
+- Hạ tầng đầy đủ (ACL Tailscale mở `tcp:3000-9999`, launcher `~/.config/iai-preview/…`, cách thêm app
+  khác) ở `courses/CLAUDE.md` (thư mục mẹ) → mục "Dev preview qua Tailscale". Launcher + unit nằm **ngoài
+  repo**, không commit.
+
 ## Chạy code Python
 
-Dùng **`.venv/bin/python`** cho mọi script và notebook — đây là môi trường đã chốt số liệu (pandas 3.0.3). **Đừng dùng `python3` hệ thống** (pandas khác phiên bản → số lệch) và đừng dùng `.conda/bin/python3.11` (không có pandas). `.venv/` bị gitignore; máy mới tạo lại: `python3 -m venv .venv && .venv/bin/pip install pandas numpy matplotlib`.
+Dùng **`.venv/bin/python`** cho mọi script và notebook — đây là môi trường đã chốt số liệu (pandas 3.0.3). **Đừng dùng `python3` hệ thống** (pandas khác phiên bản → số lệch) và đừng dùng `.conda/bin/python3.11` (không có pandas). `.venv/` bị gitignore; máy mới tạo lại từ **`requirements.txt`** (ghim `pandas==3.0.3` + numpy/matplotlib/seaborn/plotly/duckdb/requests/pydantic/geopandas/google-genai): `python3 -m venv .venv && .venv/bin/pip install -r requirements.txt` (hoặc `uv venv .venv && uv pip install -r requirements.txt`). Mở notebook ở local thì thêm `requirements-dev.txt` (jupyterlab, ipykernel) rồi đăng ký kernel `.venv/bin/python -m ipykernel install --user --name pfdp`.
 
 **Dữ liệu để kiểm chứng số liệu** — dùng **đúng mốc chụp đã chốt**, không bao giờ lấy snapshot mới nhất:
 
