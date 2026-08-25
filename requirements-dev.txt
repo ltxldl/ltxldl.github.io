@@ -1,0 +1,8 @@
+# Công cụ để mở/chạy notebook ở máy local (không cần cho việc chạy code thuần).
+#   .venv/bin/pip install -r requirements-dev.txt
+# Đăng ký kernel cho Jupyter:
+#   .venv/bin/python -m ipykernel install --user --name pfdp --display-name "Python (pfdp .venv)"
+-r requirements.txt
+
+jupyterlab==4.6.3
+ipykernel==7.3.0

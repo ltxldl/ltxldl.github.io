@@ -1,0 +1,19 @@
+# Runtime deps để chạy học liệu (notebooks/labs 2627-1) trên máy local bằng .venv.
+# Sinh viên chạy trên Colab (có %pip install trong notebook) — file này cho việc
+# kiểm chứng số liệu ở máy giảng viên. Tạo lại env:
+#   python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+# (hoặc: uv venv .venv && uv pip install -r requirements.txt)
+#
+# pandas GHIM CỨNG 3.0.3 — đây là bản đã "chốt số liệu"; đổi bản khác → số lệch,
+# vỡ assert trong lab. Xem CLAUDE.md > "Chạy code Python".
+
+pandas==3.0.3
+numpy==2.5.2
+matplotlib==3.11.1
+seaborn==0.13.2
+plotly==6.9.0
+duckdb==1.5.5          # lab-06
+requests==2.34.2       # tải dữ liệu Inside Airbnb
+pydantic==2.13.4       # lab-11, lecture-11
+geopandas==1.1.4       # lab-13
+google-genai==2.19.0   # lecture-11 (Gemini API): from google import genai
