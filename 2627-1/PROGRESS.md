@@ -32,6 +32,7 @@
 
 | 21 | 25/08/2026 | Publish `SLIDE_STYLE_GUIDE.md` (rubric thiết kế slide — sạch, không mốc thi/đáp án) lên main. Kèm **viết lại `ai-policy.html`** thành văn bản quy định (điều khoản đánh số 1–6, bỏ emoji trang trí, thêm bảng cơ cấu điểm 10/10/20/60, "bạn"→"sinh viên"); đưa lên **cả draft** cho khỏi lệch nguồn. Giữ nội bộ: CLAUDE/AGENTS/DECISIONS/PROGRESS/EDIT-PASS-NOTES + bỏ `lecture-09` (QĐ chỉ thi) + `lecture-template`. Verify live sau deploy. |
 | 22 | 04/09/2026 | **Banner "Lộ trình môn học"** trên `2627-1/index.html` (section riêng dưới hero, trước "Lịch giảng dạy"): SVG sơ đồ tàu điện 10 ga = 10 tuần, chặng tô màu, ga lớn giữa kỳ 20% / vấn đáp 60%, tuyến BTL (lập nhóm T2 · proposal T6 · final T10), đường lab T2→T11, dấu ✍️ kiểm tra **T3/T9** (đổi 4→3 ngày 04/09), thanh điểm 10/10/20/60. Sinh bằng `tools/roadmap/make_roadmap.py` (chỉ trên draft). Chỉ nhấc `index.html`; `tools/` không lên main. |
+| 23 | 04/09/2026 | Chỉnh bố cục banner: tiêu đề "🚇 Lộ trình môn học" ra ngoài box thành `section-title` (đồng bộ với Lịch giảng dạy / Tài liệu học tập); box chỉ còn hint + SVG. Chỉ nhấc `2627-1/index.html`. |
 
 Chưa public (còn lại trên draft): deck ôn buổi 9 `lecture-09-on-tap-giua-ky.html` (QĐ chỉ thi), `lecture-template.html`, và tài liệu nội bộ (`CLAUDE.md`/`AGENTS.md`/`SLIDE_STYLE_GUIDE.md`/`DECISIONS.md`/`PROGRESS.md`/`EDIT-PASS-NOTES.md`, `private/`). Toàn bộ học liệu hướng tới sinh viên đã public. `2627-1-draft` là nguồn chân lý; publish = nhấc đích danh file đã duyệt (quy trình: CLAUDE.md).
 
