@@ -30,11 +30,8 @@
     .sched .notebook-tag .tag-ic { margin-right: 3px; }
     .sched .nb-row { flex-wrap: wrap; }
     /* lộ trình môn học (SVG sinh bởi tools/roadmap/make_roadmap.py) */
-    .roadmap { margin-top: 28px; padding: 16px 22px 10px; }
-    .roadmap-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-    .roadmap-head h3 { margin: 0; font-size: 1rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); }
-    .roadmap-head h3 .ic { margin-right: 0.4rem; }
-    .roadmap-hint { font-size: 0.8rem; color: var(--muted); }
+    .roadmap { padding: 12px 22px 10px; }
+    .roadmap-hint { margin: 0 0 2px; text-align: right; font-size: 0.8rem; color: var(--muted); }
     .roadmap-wrap { overflow-x: auto; }
     .roadmap-svg { display: block; width: 100%; min-width: 760px; height: auto; }
   </style>
@@ -71,9 +68,10 @@
 
     <section>
 <!-- roadmap:start — sinh bởi tools/roadmap/make_roadmap.py, đừng sửa tay -->
-<div class="panel roadmap">
-  <div class="roadmap-head"><h3><span class="ic" aria-hidden="true">🚇</span>Lộ trình môn học</h3><span class="roadmap-hint">10 tuần · mỗi tuần 3 tiết lý thuyết + 3 tiết thực hành</span></div>
-  <div class="roadmap-wrap">
+      <h2 class="section-title"><span class="ic" aria-hidden="true">🚇</span>Lộ trình môn học</h2>
+      <div class="panel roadmap">
+        <p class="roadmap-hint">10 tuần · mỗi tuần 3 tiết lý thuyết + 3 tiết thực hành</p>
+        <div class="roadmap-wrap">
 <svg class="roadmap-svg" viewBox="0 0 1100 330" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,Roboto,Noto Sans,Helvetica Neue,Arial,sans-serif" role="img" aria-label="Lộ trình môn học: 10 tuần, thi giữa kỳ tuần 6, vấn đáp bài tập lớn sau tuần 10; điểm: thực hành 10%, kiểm tra 10%, giữa kỳ 20%, bài tập lớn 60%">
 <line x1="70" y1="100" x2="1030" y2="100" stroke="rgba(44,26,6,0.15)" stroke-width="10" stroke-linecap="round"/>
 <line x1="70" y1="100" x2="282" y2="100" stroke="#B45309" stroke-width="10" stroke-linecap="round"/>
@@ -156,8 +154,8 @@
 <text x="750" y="296.0" text-anchor="middle" fill="#fff" font-weight="800" font-size="16">🎯 60%</text>
 <text x="750" y="324" text-anchor="middle" fill="#7A5C30" font-size="11.5">Bài tập lớn + vấn đáp</text>
 </svg>
-  </div>
-</div>
+        </div>
+      </div>
 <!-- roadmap:end -->
     </section>
 
