@@ -92,10 +92,10 @@ def svg() -> str:
 
 def block() -> str:
     return ("<!-- roadmap:start — sinh bởi tools/roadmap/make_roadmap.py, đừng sửa tay -->\n"
-            '<div class="panel roadmap">\n'
-            '  <div class="roadmap-head"><h3><span class="ic" aria-hidden="true">🚇</span>Lộ trình môn học</h3>'
-            '<span class="roadmap-hint">10 tuần · mỗi tuần 3 tiết lý thuyết + 3 tiết thực hành</span></div>\n'
-            '  <div class="roadmap-wrap">\n' + svg() + "\n  </div>\n</div>\n"
+            '      <h2 class="section-title"><span class="ic" aria-hidden="true">🚇</span>Lộ trình môn học</h2>\n'
+            '      <div class="panel roadmap">\n'
+            '        <p class="roadmap-hint">10 tuần · mỗi tuần 3 tiết lý thuyết + 3 tiết thực hành</p>\n'
+            '        <div class="roadmap-wrap">\n' + svg() + "\n        </div>\n      </div>\n"
             "<!-- roadmap:end -->")
 
 
