@@ -35,5 +35,5 @@ không tạo Assignment để không sinh cột điểm thừa trong Gradebook.
 
 ## Không đưa vào gói (chủ đích)
 
-- Tuần kiểm tra giấy (4, 9) — quy ước công khai chỉ ghi "2 bài", mốc tuần thông báo riêng trên Canvas.
+- Tuần kiểm tra giấy (3, 9) — quy ước công khai chỉ ghi "2 bài", mốc tuần thông báo riêng trên Canvas.
 - Đáp án lab, giáo án TA (`2627-1/private/`) — gửi TA qua Canvas, không nằm trong template.

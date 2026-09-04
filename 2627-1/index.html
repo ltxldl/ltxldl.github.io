@@ -29,6 +29,14 @@
     .info-grid .book-author { margin-top: 2px; font-size: 0.84rem; }
     .sched .notebook-tag .tag-ic { margin-right: 3px; }
     .sched .nb-row { flex-wrap: wrap; }
+    /* lộ trình môn học (SVG sinh bởi tools/roadmap/make_roadmap.py) */
+    .roadmap { margin-top: 28px; padding: 16px 22px 10px; }
+    .roadmap-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    .roadmap-head h3 { margin: 0; font-size: 1rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-dark); }
+    .roadmap-head h3 .ic { margin-right: 0.4rem; }
+    .roadmap-hint { font-size: 0.8rem; color: var(--muted); }
+    .roadmap-wrap { overflow-x: auto; }
+    .roadmap-svg { display: block; width: 100%; min-width: 760px; height: auto; }
   </style>
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 </head>
@@ -59,6 +67,98 @@
           <span>Bài tập lớn</span>
         </a>
       </div>
+    </section>
+
+    <section>
+<!-- roadmap:start — sinh bởi tools/roadmap/make_roadmap.py, đừng sửa tay -->
+<div class="panel roadmap">
+  <div class="roadmap-head"><h3><span class="ic" aria-hidden="true">🚇</span>Lộ trình môn học</h3><span class="roadmap-hint">10 tuần · mỗi tuần 3 tiết lý thuyết + 3 tiết thực hành</span></div>
+  <div class="roadmap-wrap">
+<svg class="roadmap-svg" viewBox="0 0 1100 330" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,Segoe UI,Roboto,Noto Sans,Helvetica Neue,Arial,sans-serif" role="img" aria-label="Lộ trình môn học: 10 tuần, thi giữa kỳ tuần 6, vấn đáp bài tập lớn sau tuần 10; điểm: thực hành 10%, kiểm tra 10%, giữa kỳ 20%, bài tập lớn 60%">
+<line x1="70" y1="100" x2="1030" y2="100" stroke="rgba(44,26,6,0.15)" stroke-width="10" stroke-linecap="round"/>
+<line x1="70" y1="100" x2="282" y2="100" stroke="#B45309" stroke-width="10" stroke-linecap="round"/>
+<text x="166" y="38" text-anchor="middle" fill="#B45309" font-size="13" font-weight="800">🐼 Nền tảng</text>
+<line x1="338" y1="100" x2="474" y2="100" stroke="#D97706" stroke-width="10" stroke-linecap="round"/>
+<text x="406" y="38" text-anchor="middle" fill="#D97706" font-size="13" font-weight="800">🔌 Lấy dữ liệu</text>
+<line x1="626" y1="100" x2="762" y2="100" stroke="#F59E0B" stroke-width="10" stroke-linecap="round"/>
+<text x="694" y="38" text-anchor="middle" fill="#F59E0B" font-size="13" font-weight="800">🧹 Làm sạch · LLM</text>
+<line x1="818" y1="100" x2="954" y2="100" stroke="#7A5C30" stroke-width="10" stroke-linecap="round"/>
+<text x="886" y="38" text-anchor="middle" fill="#7A5C30" font-size="13" font-weight="800">📊 Trực quan hoá</text>
+<circle cx="70" cy="100" r="9" fill="#fff" stroke="#2C1A06" stroke-width="3"/>
+<text x="70" y="144" text-anchor="middle" fill="#2C1A06" font-size="15" font-weight="800">T1</text>
+<text x="70" y="160" text-anchor="middle" fill="#7A5C30" font-size="10.5">Bài 1–2</text>
+<circle cx="166" cy="100" r="9" fill="#fff" stroke="#2C1A06" stroke-width="3"/>
+<text x="166" y="144" text-anchor="middle" fill="#2C1A06" font-size="15" font-weight="800">T2</text>
+<text x="166" y="160" text-anchor="middle" fill="#7A5C30" font-size="10.5">Bài 3</text>
+<circle cx="262" cy="100" r="9" fill="#fff" stroke="#2C1A06" stroke-width="3"/>
+<line x1="262" y1="87" x2="262" y2="76" stroke="#2563EB" stroke-width="2"/>
+<circle cx="262" cy="64" r="12" fill="#2563EB"/>
+<text x="262" y="69" text-anchor="middle" font-size="13">✍️</text>
+<text x="262" y="144" text-anchor="middle" fill="#2C1A06" font-size="15" font-weight="800">T3</text>
+<text x="262" y="160" text-anchor="middle" fill="#7A5C30" font-size="10.5">Bài 4–5</text>
+<circle cx="358" cy="100" r="9" fill="#fff" stroke="#2C1A06" stroke-width="3"/>
+<text x="358" y="144" text-anchor="middle" fill="#2C1A06" font-size="15" font-weight="800">T4</text>
+<text x="358" y="160" text-anchor="middle" fill="#7A5C30" font-size="10.5">Bài 6</text>
+<circle cx="454" cy="100" r="9" fill="#fff" stroke="#2C1A06" stroke-width="3"/>
+<text x="454" y="144" text-anchor="middle" fill="#2C1A06" font-size="15" font-weight="800">T5</text>
+<text x="454" y="160" text-anchor="middle" fill="#7A5C30" font-size="10.5">Bài 7–8</text>
+<circle cx="550" cy="100" r="22" fill="rgba(77,124,15,0.12)" stroke="#4D7C0F" stroke-width="3.5"/>
+<text x="550" y="108" text-anchor="middle" font-size="22">📝</text>
+<rect x="528" y="48" width="44" height="20" rx="10" fill="#4D7C0F"/>
+<text x="550" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">20%</text>
+<text x="550" y="144" text-anchor="middle" fill="#2C1A06" font-size="15" font-weight="800">T6</text>
+<text x="550" y="160" text-anchor="middle" fill="#7A5C30" font-size="10.5">Giữa kỳ</text>
+<circle cx="646" cy="100" r="9" fill="#fff" stroke="#2C1A06" stroke-width="3"/>
+<text x="646" y="144" text-anchor="middle" fill="#2C1A06" font-size="15" font-weight="800">T7</text>
+<text x="646" y="160" text-anchor="middle" fill="#7A5C30" font-size="10.5">Bài 10</text>
+<circle cx="742" cy="100" r="9" fill="#fff" stroke="#2C1A06" stroke-width="3"/>
+<text x="742" y="144" text-anchor="middle" fill="#2C1A06" font-size="15" font-weight="800">T8</text>
+<text x="742" y="160" text-anchor="middle" fill="#7A5C30" font-size="10.5">Bài 11</text>
+<circle cx="838" cy="100" r="9" fill="#fff" stroke="#2C1A06" stroke-width="3"/>
+<line x1="838" y1="87" x2="838" y2="76" stroke="#2563EB" stroke-width="2"/>
+<circle cx="838" cy="64" r="12" fill="#2563EB"/>
+<text x="838" y="69" text-anchor="middle" font-size="13">✍️</text>
+<text x="838" y="144" text-anchor="middle" fill="#2C1A06" font-size="15" font-weight="800">T9</text>
+<text x="838" y="160" text-anchor="middle" fill="#7A5C30" font-size="10.5">Bài 12–13</text>
+<circle cx="934" cy="100" r="9" fill="#fff" stroke="#2C1A06" stroke-width="3"/>
+<text x="934" y="144" text-anchor="middle" fill="#2C1A06" font-size="15" font-weight="800">T10</text>
+<text x="934" y="160" text-anchor="middle" fill="#7A5C30" font-size="10.5">Bài 14</text>
+<circle cx="1030" cy="100" r="22" fill="rgba(157,23,77,0.12)" stroke="#9D174D" stroke-width="3.5"/>
+<text x="1030" y="108" text-anchor="middle" font-size="22">🎤</text>
+<rect x="1008" y="48" width="44" height="20" rx="10" fill="#9D174D"/>
+<text x="1030" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">60%</text>
+<text x="1030" y="144" text-anchor="middle" fill="#2C1A06" font-size="15" font-weight="800">sau T10</text>
+<text x="1030" y="160" text-anchor="middle" fill="#7A5C30" font-size="10.5">Vấn đáp</text>
+<line x1="166" y1="180" x2="1030" y2="180" stroke="#D97706" stroke-width="2.5" stroke-dasharray="2 6" stroke-linecap="round"/>
+<text x="152" y="184" text-anchor="end" fill="#D97706" font-size="11.5" font-weight="800">🧪 lab</text>
+<path d="M194 106 C218 130, 202 210, 234 210 L1030 210 C1088 210, 1088 100, 1074 100 L1070 100" fill="none" stroke="#9D174D" stroke-width="4" stroke-linecap="butt" opacity="0.85"/>
+<path d="M1055 100 L1072 91 L1072 109 Z" fill="#9D174D"/>
+<text x="194" y="214" text-anchor="end" fill="#9D174D" font-size="11.5" font-weight="800">🎯 BTL</text>
+<circle cx="250" cy="210" r="12" fill="#fff" stroke="#9D174D" stroke-width="2"/>
+<text x="250" y="215" text-anchor="middle" font-size="13">👥</text>
+<text x="250" y="238" text-anchor="middle" fill="#9D174D" font-size="10.5" font-family="ui-monospace,Menlo,Consolas,monospace">lập nhóm</text>
+<circle cx="550" cy="210" r="12" fill="#fff" stroke="#9D174D" stroke-width="2"/>
+<text x="550" y="215" text-anchor="middle" font-size="13">📄</text>
+<text x="550" y="238" text-anchor="middle" fill="#9D174D" font-size="10.5" font-family="ui-monospace,Menlo,Consolas,monospace">proposal</text>
+<circle cx="934" cy="210" r="12" fill="#fff" stroke="#9D174D" stroke-width="2"/>
+<text x="934" y="215" text-anchor="middle" font-size="13">🏁</text>
+<text x="934" y="238" text-anchor="middle" fill="#9D174D" font-size="10.5" font-family="ui-monospace,Menlo,Consolas,monospace">final</text>
+<rect x="50" y="272" width="98" height="36" rx="8" fill="#D97706"><title>Thực hành: 10%</title></rect>
+<text x="99" y="296.0" text-anchor="middle" fill="#fff" font-weight="800" font-size="16">🧪 10%</text>
+<text x="99" y="324" text-anchor="middle" fill="#7A5C30" font-size="11.5">Thực hành</text>
+<rect x="150" y="272" width="98" height="36" rx="8" fill="#2563EB"><title>Kiểm tra: 10%</title></rect>
+<text x="199" y="296.0" text-anchor="middle" fill="#fff" font-weight="800" font-size="16">✍️ 10%</text>
+<text x="199" y="324" text-anchor="middle" fill="#7A5C30" font-size="11.5">Kiểm tra</text>
+<rect x="250" y="272" width="198" height="36" rx="8" fill="#4D7C0F"><title>Thi giữa kỳ: 20%</title></rect>
+<text x="349" y="296.0" text-anchor="middle" fill="#fff" font-weight="800" font-size="16">📝 20%</text>
+<text x="349" y="324" text-anchor="middle" fill="#7A5C30" font-size="11.5">Thi giữa kỳ</text>
+<rect x="450" y="272" width="600" height="36" rx="8" fill="#9D174D"><title>Bài tập lớn + vấn đáp: 60%</title></rect>
+<text x="750" y="296.0" text-anchor="middle" fill="#fff" font-weight="800" font-size="16">🎯 60%</text>
+<text x="750" y="324" text-anchor="middle" fill="#7A5C30" font-size="11.5">Bài tập lớn + vấn đáp</text>
+</svg>
+  </div>
+</div>
+<!-- roadmap:end -->
     </section>
 
     <section>
