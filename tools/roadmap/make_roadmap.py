@@ -90,6 +90,19 @@ def svg() -> str:
     return "\n".join(o)
 
 
+def standalone_svg() -> str:
+    """SVG tự đứng: nền trắng, viền bo, tiêu đề + hint ở trên, hình bên dưới (viewBox 1100×390)."""
+    body = svg().replace('<svg class="roadmap-svg" viewBox="0 0 1100 330" xmlns="http://www.w3.org/2000/svg" ', "<g ", 1)
+    body = body.replace("</svg>", "</g>")
+    body = re.sub(r'<g (font-family="[^"]*") role="img" aria-label="[^"]*">', r'<g transform="translate(0,60)" \1>', body, count=1)
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 390" width="1100" height="390" {FONT}>\n'
+            '<rect x="0.5" y="0.5" width="1099" height="389" rx="24" fill="#FFFFFF" stroke="rgba(44,26,6,0.12)"/>\n'
+            f'<text x="36" y="42" fill="#B45309" font-size="17" font-weight="800" letter-spacing="1">🚇 LỘ TRÌNH MÔN HỌC · LẬP TRÌNH XỬ LÝ DỮ LIỆU</text>\n'
+            f'<text x="1064" y="42" text-anchor="end" fill="{MUTED}" font-size="12.5">10 tuần · mỗi tuần 3 tiết lý thuyết + 3 tiết thực hành</text>\n'
+            + body + "\n</svg>\n")
+
+
 def block() -> str:
     return ("<!-- roadmap:start — sinh bởi tools/roadmap/make_roadmap.py, đừng sửa tay -->\n"
             '      <h2 class="section-title"><span class="ic" aria-hidden="true">🚇</span>Lộ trình môn học</h2>\n'
@@ -103,9 +116,13 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--term", default="2627-1")
     ap.add_argument("--stdout", action="store_true", help="in khối HTML ra stdout thay vì chèn vào index")
+    ap.add_argument("--svg-out", metavar="FILE", help="ghi SVG độc lập (nền trắng, kèm tiêu đề) để upload Canvas / chèn slide")
     a = ap.parse_args()
     if a.stdout:
         print(block()); return
+    if a.svg_out:
+        out = Path(a.svg_out); out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(standalone_svg(), encoding="utf-8"); print(f"✔ {out}"); return
     idx = REPO / a.term / "index.html"
     s = idx.read_text(encoding="utf-8")
     pat = re.compile(r"<!-- roadmap:start.*?<!-- roadmap:end -->", re.S)

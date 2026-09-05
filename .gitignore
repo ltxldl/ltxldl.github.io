@@ -18,3 +18,6 @@ package-lock.json
 
 # Gói Canvas sinh ra từ tools/canvas/make_canvas_package.py — tái tạo được, không commit
 tools/canvas/dist/
+
+# Ảnh lộ trình xuất ra từ tools/roadmap/make_roadmap.py --svg-out — tái tạo được, không commit
+tools/roadmap/dist/
