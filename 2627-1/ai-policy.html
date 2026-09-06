@@ -145,6 +145,49 @@
       margin-bottom: 4px;
     }
 
+    .mode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin: 8px 0 16px;
+    }
+
+    .mode {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 14px 16px 12px;
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    .mode h3 {
+      margin: 0 0 4px;
+      font-size: 1rem;
+    }
+
+    .mode-closed h3 {
+      color: #8A4B1A;
+    }
+
+    .mode-open h3 {
+      color: #2F6B4B;
+    }
+
+    .mode .mode-desc {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .mode ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .mode li {
+      margin-bottom: 3px;
+      line-height: 1.55;
+    }
+
     .label {
       display: inline-block;
       padding: 1px 8px;
@@ -224,7 +267,8 @@
       }
 
       .hero,
-      .panel {
+      .panel,
+      .mode {
         box-shadow: none;
         background: #fff;
       }
@@ -287,16 +331,32 @@
 
       <section class="panel doc-section">
         <h2>Hai chế độ đánh giá</h2>
+        <div class="mode-grid">
+          <article class="mode mode-closed">
+            <h3>Chế độ đóng — không dùng AI</h3>
+            <p class="mode-desc">Đánh giá năng lực nền tảng của cá nhân.</p>
+            <ul>
+              <li>Kiểm tra trên lớp: 2 bài kiểm tra giấy 15 phút</li>
+              <li>Thi giữa kỳ (trên lớp)</li>
+              <li>Vấn đáp bài tập lớn: trả lời trực tiếp và làm bài thực hành tại chỗ</li>
+            </ul>
+          </article>
+          <article class="mode mode-open">
+            <h3>Chế độ mở — được dùng AI</h3>
+            <p class="mode-desc">Đánh giá khả năng chỉ đạo công cụ và kiểm chứng kết quả.</p>
+            <ul>
+              <li>Bài thực hành: nộp bài lab qua GitHub Classroom</li>
+              <li>Bài tập về nhà (trừ khi đề ghi rõ chế độ đóng)</li>
+              <li>Thực hiện bài tập lớn nhóm ngoài giờ lên lớp</li>
+            </ul>
+          </article>
+        </div>
         <ol class="clauses">
-          <li><strong>Chế độ đóng</strong> (không dùng AI) đánh giá năng lực nền tảng của cá nhân; áp dụng cho
-            kiểm tra trên lớp, thi giữa kỳ và vấn đáp bài tập lớn (trả lời trực tiếp và làm bài thực hành tại chỗ).
-            Ở chế độ này, sinh viên không được sử dụng công cụ AI dưới bất kì hình thức nào, không được nhận trợ giúp
-            của người khác; các tài liệu khác chỉ được sử dụng khi đề bài cho phép. Sử dụng AI ở chế độ đóng được coi
-            là gian lận thi cử.</li>
-          <li><strong>Chế độ mở</strong> (được dùng AI) đánh giá khả năng chỉ đạo công cụ và kiểm chứng kết quả; áp dụng
-            cho bài thực hành (nộp bài lab qua GitHub Classroom), bài tập về nhà (trừ khi đề ghi rõ chế độ đóng) và việc
-            thực hiện bài tập lớn nhóm ngoài giờ lên lớp. Ở chế độ này, sinh viên được sử dụng bất kì công cụ AI nào
-            theo quy định tại mục 3, với điều kiện khai báo theo mục 4, hiểu và kiểm chứng được nội dung mình nộp.</li>
+          <li>Ở <strong>chế độ đóng</strong>, sinh viên không được sử dụng công cụ AI dưới bất kì hình thức nào,
+            không được nhận trợ giúp của người khác; các tài liệu khác chỉ được sử dụng khi đề bài cho phép.
+            Sử dụng AI ở chế độ đóng được coi là gian lận thi cử.</li>
+          <li>Ở <strong>chế độ mở</strong>, sinh viên được sử dụng bất kì công cụ AI nào theo quy định tại mục 3,
+            với điều kiện khai báo theo mục 4, hiểu và kiểm chứng được nội dung mình nộp.</li>
           <li>Chế độ áp dụng cho từng đầu điểm:
             <table class="doc-table">
               <thead>
