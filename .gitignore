@@ -21,3 +21,6 @@ tools/canvas/dist/
 
 # Ảnh lộ trình xuất ra từ tools/roadmap/make_roadmap.py --svg-out — tái tạo được, không commit
 tools/roadmap/dist/
+
+# Ghi chú giảng dạy cá nhân — không commit
+2627-1/teaching-notes/
