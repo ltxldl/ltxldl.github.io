@@ -35,6 +35,7 @@
 | 23 | 04/09/2026 | Chỉnh bố cục banner: tiêu đề "🚇 Lộ trình môn học" ra ngoài box thành `section-title` (đồng bộ với Lịch giảng dạy / Tài liệu học tập); box chỉ còn hint + SVG. Chỉ nhấc `2627-1/index.html`. |
 | 24 | 06/09/2026 | Kiểm tra giấy chuyển sang giờ thực hành, **công khai chỉ ghi "kiểm tra trên lớp"** (bỏ "đầu giờ lý thuyết"): `ai-policy.html` (mục Chế độ đóng) + `lecture-01` (slide "Kế hoạch mỗi tuần", kiểm tra thành bullet riêng, 0/34 tràn). Kèm: hai box chế độ trong ai-policy bỏ viền màu bên trái. |
 | 25 | 06/09/2026 | `lecture-01` slide "Lộ trình 15 buổi" → **"Lộ trình 15 bài"** (cột Bài, caption "Mỗi bài"), theo chuẩn "Bài N"; 0/34 tràn. |
+| 26 | 06/09/2026 | **"buổi trước/này/sau/lab/học" → "bài …"** trong 13 deck (02–08, 10–14), 27 notebook (lecture + lab), đề BTL — 39 file, ~134 chỗ (lịch 10 tuần gộp hai bài một buổi nên "buổi trước" sai nghĩa). Không nhấc `lecture-09`, `lecture-template` (chưa từng lên main). Đo tràn 14 deck: 0. |
 
 Chưa public (còn lại trên draft): deck ôn buổi 9 `lecture-09-on-tap-giua-ky.html` (QĐ chỉ thi), `lecture-template.html`, và tài liệu nội bộ (`CLAUDE.md`/`AGENTS.md`/`SLIDE_STYLE_GUIDE.md`/`DECISIONS.md`/`PROGRESS.md`/`EDIT-PASS-NOTES.md`, `private/`). Toàn bộ học liệu hướng tới sinh viên đã public. `2627-1-draft` là nguồn chân lý; publish = nhấc đích danh file đã duyệt (quy trình: CLAUDE.md).
 
