@@ -107,3 +107,9 @@ Phòng đào tạo đổi lịch 2627-1: **10 tuần × 3 tiết/tuần** (thay 
 - **Lab chạy từ tuần 2 đến tuần 11** (lệch 1 tuần so với lý thuyết) — GV chốt khi duyệt hình; đường chấm lab vẽ T2 → ga cuối.
 - **Gói Canvas template** (`tools/canvas/make_canvas_package.py`, commit 2a35d02): Common Cartridge không gắn ngày, module/tuần + trang lịch + syllabus, dùng chung cho mọi lớp; GV đã import thành công.
 - **Kiểm tra giấy: tuần 4 → tuần 3** (GV chốt khi duyệt hình lộ trình, 04/09/2026). Hai bài giờ ở **T3 và T9**. Đã sửa: CLAUDE.md (mục Kế hoạch + Giờ thực hành), EDIT-PASS-NOTES §7, `tools/roadmap/make_roadmap.py` (QUIZ), `tools/canvas/README.md`. Dòng lịch sử 18/08 trong DECISIONS/PROGRESS giữ nguyên.
+
+## Quyết định của giảng viên (06/09/2026 — kiểm tra giấy chuyển sang giờ thực hành)
+
+- **2 bài kiểm tra giấy 15 phút làm trong GIỜ THỰC HÀNH** (tuần 3 và 9), không còn "đầu giờ lý thuyết". **Học liệu công khai chỉ ghi "kiểm tra trên lớp"**, không nói giờ nào (GV: "cứ ghi chung chung là thi trên lớp").
+- Đã rà toàn cây draft (`đầu giờ`, `kiểm tra giấy`, `quiz`, `15 phút`): sửa `ai-policy.html` (mục Chế độ đóng), `lecture-01` (slide "Kế hoạch mỗi tuần": tách kiểm tra thành bullet riêng, bỏ khỏi bullet Lý thuyết), CLAUDE.md (Giờ thực hành), EDIT-PASS-NOTES §7 (thêm luật không ghi giờ), comment `tools/roadmap/make_roadmap.py`. Dấu ✍️ trên hình lộ trình giữ ở ga T3/T9 (chỉ đánh dấu tuần). Dòng lịch sử trong DECISIONS/PROGRESS giữ nguyên. `private/` không có trong cây local — giáo án TA tuần 3/9 nếu ghi "đầu giờ lý thuyết" thì sửa khi phát.
+- **`ai-policy.html` mục 2: bỏ hai card "Chế độ đóng / Chế độ mở"** (GV: "nhìn claudish quá") — gộp mục đích + phạm vi áp dụng vào điều 2.1/2.2 dạng văn bản, giữ bảng 2.3; xoá CSS `.mode*`. Slide "Kế hoạch mỗi tuần" deck 1 đo lại: 0/34 tràn.

@@ -20,7 +20,7 @@ MID, ORAL = 5, 10                                   # chỉ số ga lớn
 PHASES = [(0, 2, "#B45309", "🐼 Nền tảng"), (3, 4, "#D97706", "🔌 Lấy dữ liệu"),
           (6, 7, "#F59E0B", "🧹 Làm sạch · LLM"), (8, 9, "#7A5C30", "📊 Trực quan hoá")]
 BTL = [(1, "👥", "lập nhóm"), (5, "📄", "proposal"), (9, "🏁", "final")]   # (ga, icon, nhãn)
-QUIZ = [2, 8]                                       # ga có kiểm tra giấy 15' đầu giờ (T3, T9 — đổi 4→3 ngày 04/09/2026)
+QUIZ = [2, 8]                                       # ga có kiểm tra giấy 15' (T3, T9; đổi 4→3 ngày 04/09/2026; làm trong giờ thực hành từ 06/09 — hình chỉ đánh dấu tuần)
 LAB = (1, 10)                                       # lab chạy từ ga T2 tới ga cuối (tuần 11)
 GRADES = [(10, "#D97706", "🧪", "Thực hành"), (10, "#2563EB", "✍️", "Kiểm tra"),
           (20, "#4D7C0F", "📝", "Thi giữa kỳ"), (60, "#9D174D", "🎯", "Bài tập lớn + vấn đáp")]
